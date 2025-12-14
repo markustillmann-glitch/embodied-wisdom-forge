@@ -80,10 +80,10 @@ const Index = () => {
             Ein Kompendium
           </motion.p>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium text-foreground leading-none mb-6">
-            Zustand vor
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight mb-6">
+            Beyond Bias
             <br />
-            <span className="text-accent">Strategie</span>
+            <span className="text-accent">through memories</span>
           </h1>
           
           <motion.p
@@ -92,9 +92,7 @@ const Index = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto mt-8 leading-relaxed"
           >
-            Neurosomatische Intelligenz, Führung und das Erbe in uns.
-            <br />
-            <span className="text-foreground/60 text-base">Memory, Epigenetik, IFS und NVC in der Praxis</span>
+            Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </motion.p>
 
           <motion.div
@@ -634,9 +632,9 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-16 mt-16 border-t border-chapter-divider">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="font-serif text-2xl text-foreground mb-2">Zustand vor Strategie</p>
+          <p className="font-serif text-2xl text-foreground mb-2">Beyond Bias through memories</p>
           <p className="text-muted-foreground text-sm">
-            Ein Kompendium zu neurosomatischer Intelligenz, Führung und dem Erbe in uns.
+            Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </p>
         </div>
       </footer>
