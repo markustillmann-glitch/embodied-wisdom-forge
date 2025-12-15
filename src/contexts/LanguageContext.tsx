@@ -6,6 +6,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  tArray: (key: string) => string[];
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -23,7 +24,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('language', language);
   }, [language]);
 
-  const t = (key: string): string => {
+  const getTranslation = (key: string): any => {
     const keys = key.split('.');
     let value: any = translations[language];
     
@@ -32,15 +33,25 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         value = value[k];
       } else {
         console.warn(`Translation missing for key: ${key}`);
-        return key;
+        return null;
       }
     }
     
+    return value;
+  };
+
+  const t = (key: string): string => {
+    const value = getTranslation(key);
     return typeof value === 'string' ? value : key;
   };
 
+  const tArray = (key: string): string[] => {
+    const value = getTranslation(key);
+    return Array.isArray(value) ? value : [];
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, tArray }}>
       {children}
     </LanguageContext.Provider>
   );
