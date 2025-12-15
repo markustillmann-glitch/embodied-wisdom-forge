@@ -58,6 +58,61 @@ const ChartContainer = React.forwardRef<
 });
 ChartContainer.displayName = "Chart";
 
+/**
+ * Validates a CSS color value to prevent CSS injection attacks.
+ * Only allows safe color formats: hex, rgb, rgba, hsl, hsla, and named colors.
+ * 
+ * SECURITY WARNING: Never pass user-controlled or external data to ChartConfig
+ * without proper validation. This function provides defense-in-depth.
+ */
+function isValidCssColor(color: string): boolean {
+  if (!color || typeof color !== 'string') return false;
+  
+  // Remove whitespace and convert to lowercase for validation
+  const trimmed = color.trim().toLowerCase();
+  
+  // Hex colors: #rgb, #rrggbb, #rgba, #rrggbbaa
+  if (/^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/.test(trimmed)) {
+    return true;
+  }
+  
+  // RGB/RGBA: rgb(r, g, b) or rgba(r, g, b, a) - with numbers, percentages, or calc
+  if (/^rgba?\(\s*[\d.%\s,/]+\s*\)$/.test(trimmed)) {
+    return true;
+  }
+  
+  // HSL/HSLA: hsl(h, s%, l%) or hsla(h, s%, l%, a)
+  if (/^hsla?\(\s*[\d.%\s,/deg]+\s*\)$/.test(trimmed)) {
+    return true;
+  }
+  
+  // CSS named colors (common subset) and CSS variables
+  const namedColors = [
+    'transparent', 'currentcolor', 'inherit', 'initial', 'unset',
+    'black', 'white', 'red', 'green', 'blue', 'yellow', 'orange', 'purple',
+    'pink', 'gray', 'grey', 'brown', 'cyan', 'magenta', 'lime', 'navy',
+    'teal', 'maroon', 'olive', 'silver', 'aqua', 'fuchsia'
+  ];
+  if (namedColors.includes(trimmed)) {
+    return true;
+  }
+  
+  // CSS custom properties (var(--name)) - validate the variable name format
+  if (/^var\(--[a-z][a-z0-9-]*\)$/.test(trimmed)) {
+    return true;
+  }
+  
+  return false;
+}
+
+/**
+ * Sanitizes a CSS identifier (property name suffix) to prevent injection.
+ */
+function sanitizeCssIdentifier(key: string): string {
+  // Only allow alphanumeric characters, hyphens, and underscores
+  return key.replace(/[^a-zA-Z0-9_-]/g, '');
+}
+
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color);
 
@@ -75,8 +130,12 @@ ${prefix} [data-chart=${id}] {
 ${colorConfig
   .map(([key, itemConfig]) => {
     const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color;
-    return color ? `  --color-${key}: ${color};` : null;
+    // Validate color and sanitize key to prevent CSS injection
+    if (!color || !isValidCssColor(color)) return null;
+    const safeKey = sanitizeCssIdentifier(key);
+    return safeKey ? `  --color-${safeKey}: ${color};` : null;
   })
+  .filter(Boolean)
   .join("\n")}
 }
 `,
