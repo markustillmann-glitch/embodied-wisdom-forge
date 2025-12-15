@@ -86,7 +86,7 @@ const Index = () => {
           </motion.p>
           
           <div className="flex items-center justify-center gap-[5px] mb-6">
-            <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-[10rem] md:h-[12.5rem] lg:h-[15rem] w-auto" />
+            <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-[5rem] md:h-[6.25rem] lg:h-[7.5rem] w-auto" />
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-left">
               Beyond Bias
               <br />
@@ -126,7 +126,7 @@ const Index = () => {
               href="/oria"
               className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
-              <img src={bbOwlLogo} alt="Oria" className="h-12 w-auto opacity-70" />
+              <img src={bbOwlLogo} alt="Oria" className="h-6 w-auto opacity-70" />
               <span>Oria kennenlernen</span>
             </a>
             <span className="text-muted-foreground/50 hidden sm:inline">|</span>
