@@ -9,6 +9,7 @@ import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 import oriaOwl from "@/assets/oria-owl.png";
+import bbOwlLogo from "@/assets/bb-owl-logo.png";
 const chapters = [
   { id: "cover", title: "Cover" },
   { id: "vorwort", title: "Vorwort" },
@@ -84,11 +85,14 @@ const Index = () => {
             Ein Kompendium
           </motion.p>
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight mb-6">
-            Beyond Bias
-            <br />
-            <span className="text-accent">through memories</span>
-          </h1>
+          <div className="flex items-center justify-center gap-6 mb-6">
+            <img src={bbOwlLogo} alt="Beyond Bias Logo" className="w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32" />
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-left">
+              Beyond Bias
+              <br />
+              <span className="text-accent">through memories</span>
+            </h1>
+          </div>
           
           <motion.p
             initial={{ opacity: 0 }}
