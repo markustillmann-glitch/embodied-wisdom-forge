@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Hear
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { PolygonalBackground, ConnectionLines, HeartPath, GrowthSpiral } from "@/components/PolygonalBackground";
+import { SeminarContactForm } from "@/components/SeminarContactForm";
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -634,34 +635,36 @@ const Seminare = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 relative overflow-hidden">
-        <PolygonalBackground variant="subtle" />
+      {/* Contact Form Section */}
+      <section id="kontakt" className="py-24 relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
         
         {/* Warm glow effect */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
         </div>
         
-        <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-2xl mx-auto px-6">
           <HeartPath className="mx-auto mb-6 opacity-50" />
           
-          <motion.div {...fadeInUp}>
+          <motion.div {...fadeInUp} className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
-              Bereit für den ersten Schritt?
+              Interesse geweckt?
             </h2>
-            <p className="text-muted-foreground mb-8">
-              Beginnen Sie mit einem unverbindlichen Schnupperabend und erleben Sie, 
-              wie dieser integrative Ansatz funktioniert.
+            <p className="text-muted-foreground">
+              Senden Sie uns eine unverbindliche Anfrage – wir melden uns persönlich bei Ihnen 
+              und beantworten Ihre Fragen.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="font-sans">
-                Zum Schnupperabend anmelden
-              </Button>
-              <Button variant="outline" size="lg" className="font-sans">
-                Kontakt aufnehmen
-              </Button>
-            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-card p-8 rounded-xl border border-border shadow-lg"
+          >
+            <SeminarContactForm />
           </motion.div>
         </div>
       </section>
