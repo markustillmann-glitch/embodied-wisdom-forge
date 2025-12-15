@@ -330,9 +330,15 @@ const Oria = () => {
       {/* Footer */}
       <footer className="py-6 sm:py-8 border-t border-chapter-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs sm:text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-3">
             © {new Date().getFullYear()} Beyond Bias through memories
           </p>
+          <Link 
+            to="/impressum" 
+            className="text-xs text-muted-foreground hover:text-accent transition-colors"
+          >
+            Impressum
+          </Link>
         </div>
       </footer>
     </div>
