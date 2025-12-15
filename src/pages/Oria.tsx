@@ -51,6 +51,7 @@ const Oria = () => {
           <nav className="flex items-center gap-3 sm:gap-6">
             <Link 
               to="/seminare" 
+              onClick={() => window.scrollTo(0, 0)}
               className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Seminare
@@ -319,6 +320,7 @@ const Oria = () => {
             </p>
             <Link 
               to="/seminare" 
+              onClick={() => window.scrollTo(0, 0)}
               className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-colors text-sm sm:text-base"
             >
               Zu den Seminarangeboten
