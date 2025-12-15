@@ -7,7 +7,7 @@ import { Quote } from "@/components/Quote";
 import { Highlight } from "@/components/Highlight";
 import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
-import { PolygonalBackground, ConnectionLines, GrowthSpiral, HeartPath } from "@/components/PolygonalBackground";
+import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 const chapters = [
   { id: "cover", title: "Cover" },
   { id: "vorwort", title: "Vorwort" },
@@ -644,7 +644,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-16 mt-16 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="warm" />
-        <HeartPath className="absolute top-8 right-8 opacity-30 hidden md:block" />
+        <OwlSymbol className="absolute top-8 right-8 opacity-30 hidden md:block" />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <p className="font-serif text-2xl text-foreground mb-2">Beyond Bias through memories</p>
           <p className="text-muted-foreground text-sm">
