@@ -82,7 +82,10 @@ export const SeminarContactForm = () => {
         description: "Vielen Dank für Ihr Interesse! Wir melden uns in Kürze bei Ihnen.",
       });
     } catch (error) {
-      console.error("Error submitting inquiry:", error);
+      // Only log detailed errors in development to prevent information leakage
+      if (import.meta.env.DEV) {
+        console.error("Error submitting inquiry:", error);
+      }
       toast({
         title: "Fehler",
         description: "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.",
