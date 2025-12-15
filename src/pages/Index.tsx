@@ -93,7 +93,7 @@ const Index = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-base sm:text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto mt-4 sm:mt-8 leading-relaxed px-2"
           >
-            Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
+            Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </motion.p>
 
           <motion.div
@@ -659,7 +659,7 @@ const Index = () => {
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond Bias through memories</p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-6">
-            Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
+            Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </p>
           
           {/* Navigation Links */}
