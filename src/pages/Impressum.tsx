@@ -188,7 +188,7 @@ const Impressum = () => {
                 <h3 className="font-serif text-lg text-foreground">Beyond Bias through memories</h3>
               </div>
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Das Konzept verbindet 
+                Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Das Konzept verbindet 
                 moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz – 
                 basierend auf Meditation, IFS (Internal Family Systems) und Gewaltfreier Kommunikation.
               </p>

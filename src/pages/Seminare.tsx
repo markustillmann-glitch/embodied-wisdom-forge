@@ -690,7 +690,7 @@ const Seminare = () => {
             Beyond Bias through memories
           </Link>
           <p className="text-muted-foreground text-sm mt-2 mb-4">
-            Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
+            Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </p>
           <Link 
             to="/impressum" 
