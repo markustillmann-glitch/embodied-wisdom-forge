@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { ChapterSection } from "@/components/ChapterSection";
 import { SubSection } from "@/components/SubSection";
@@ -650,11 +651,41 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-10 sm:py-16 mt-10 sm:mt-16 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="warm" />
-        <OwlSymbol className="absolute top-8 right-8 opacity-30 hidden md:block" />
+        <img 
+          src={bbOwlLogo} 
+          alt="Oria" 
+          className="absolute top-8 right-8 h-16 w-auto opacity-20 hidden md:block"
+        />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond Bias through memories</p>
-          <p className="text-muted-foreground text-xs sm:text-sm">
+          <p className="text-muted-foreground text-xs sm:text-sm mb-6">
             Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
+          </p>
+          
+          {/* Navigation Links */}
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6">
+            <Link 
+              to="/oria" 
+              className="text-sm text-muted-foreground hover:text-accent transition-colors"
+            >
+              Oria entdecken
+            </Link>
+            <Link 
+              to="/seminare" 
+              className="text-sm text-muted-foreground hover:text-accent transition-colors"
+            >
+              Seminarangebote
+            </Link>
+            <Link 
+              to="/impressum" 
+              className="text-sm text-muted-foreground hover:text-accent transition-colors"
+            >
+              Impressum
+            </Link>
+          </div>
+          
+          <p className="text-muted-foreground text-xs">
+            © {new Date().getFullYear()} Beyond Bias gUG. Alle Rechte vorbehalten.
           </p>
         </div>
       </footer>
