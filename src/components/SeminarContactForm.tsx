@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -21,13 +22,15 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
-const interestOptions = [
-  { value: "schnupperabend", label: "Schnupperabend (2 Stunden, Online)" },
-  { value: "einfuehrung", label: "Einführungsseminar (4 Stunden / 1 Tag)" },
-  { value: "jahresprogramm", label: "Jahrescoaching (12 Monate)" },
+const getInterestOptions = (t: (key: string) => string) => [
+  { value: "schnupperabend", label: t('form.interestTaster') + " (2h, Online)" },
+  { value: "einfuehrung", label: t('form.interestIntro') + " (4h / 1 day)" },
+  { value: "jahresprogramm", label: t('form.interestAnnual') + " (12 months)" },
 ];
 
 export const SeminarContactForm = () => {
+  const { t } = useLanguage();
+  const interestOptions = getInterestOptions(t);
   const [formData, setFormData] = useState<Partial<ContactFormData>>({
     name: "",
     email: "",
@@ -78,8 +81,8 @@ export const SeminarContactForm = () => {
 
       setIsSubmitted(true);
       toast({
-        title: "Anfrage gesendet",
-        description: "Vielen Dank für Ihr Interesse! Wir melden uns in Kürze bei Ihnen.",
+        title: t('form.successTitle'),
+        description: t('form.successMessage'),
       });
     } catch (error) {
       // Only log detailed errors in development to prevent information leakage
@@ -87,8 +90,8 @@ export const SeminarContactForm = () => {
         console.error("Error submitting inquiry:", error);
       }
       toast({
-        title: "Fehler",
-        description: "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.",
+        title: t('form.errorTitle'),
+        description: t('form.errorMessage'),
         variant: "destructive",
       });
     } finally {
@@ -107,10 +110,10 @@ export const SeminarContactForm = () => {
           <CheckCircle2 className="w-8 h-8 text-accent" />
         </div>
         <h3 className="text-xl font-serif text-foreground mb-2">
-          Vielen Dank für Ihre Anfrage!
+          {t('form.successTitle')}
         </h3>
         <p className="text-muted-foreground">
-          Wir haben Ihre Nachricht erhalten und werden uns in Kürze bei Ihnen melden.
+          {t('form.successMessage')}
         </p>
         <Button
           variant="outline"
@@ -126,7 +129,7 @@ export const SeminarContactForm = () => {
             });
           }}
         >
-          Weitere Anfrage senden
+          {t('form.submit')}
         </Button>
       </motion.div>
     );
@@ -137,14 +140,14 @@ export const SeminarContactForm = () => {
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-sm font-medium text-foreground">
-            Name *
+            {t('form.name')} *
           </Label>
           <Input
             id="name"
             type="text"
             value={formData.name}
             onChange={(e) => handleChange("name", e.target.value)}
-            placeholder="Ihr vollständiger Name"
+            placeholder={t('form.namePlaceholder')}
             className={errors.name ? "border-destructive" : ""}
             disabled={isSubmitting}
           />
@@ -155,14 +158,14 @@ export const SeminarContactForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="email" className="text-sm font-medium text-foreground">
-            E-Mail *
+            {t('form.email')} *
           </Label>
           <Input
             id="email"
             type="email"
             value={formData.email}
             onChange={(e) => handleChange("email", e.target.value)}
-            placeholder="ihre@email.de"
+            placeholder={t('form.emailPlaceholder')}
             className={errors.email ? "border-destructive" : ""}
             disabled={isSubmitting}
           />
@@ -175,14 +178,14 @@ export const SeminarContactForm = () => {
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-            Telefon (optional)
+            {t('form.phone')}
           </Label>
           <Input
             id="phone"
             type="tel"
             value={formData.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
-            placeholder="+49 123 456789"
+            placeholder={t('form.phonePlaceholder')}
             className={errors.phone ? "border-destructive" : ""}
             disabled={isSubmitting}
           />
@@ -193,7 +196,7 @@ export const SeminarContactForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="interest" className="text-sm font-medium text-foreground">
-            Interesse an *
+            {t('form.interest')} *
           </Label>
           <select
             id="interest"
@@ -204,7 +207,7 @@ export const SeminarContactForm = () => {
             }`}
             disabled={isSubmitting}
           >
-            <option value="">Bitte wählen...</option>
+            <option value="">{t('form.interestPlaceholder')}</option>
             {interestOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -219,13 +222,13 @@ export const SeminarContactForm = () => {
 
       <div className="space-y-2">
         <Label htmlFor="message" className="text-sm font-medium text-foreground">
-          Nachricht (optional)
+          {t('form.message')}
         </Label>
         <Textarea
           id="message"
           value={formData.message}
           onChange={(e) => handleChange("message", e.target.value)}
-          placeholder="Ihre Fragen oder Anmerkungen..."
+          placeholder={t('form.messagePlaceholder')}
           rows={4}
           className={errors.message ? "border-destructive" : ""}
           disabled={isSubmitting}
@@ -244,18 +247,18 @@ export const SeminarContactForm = () => {
         {isSubmitting ? (
           <>
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Wird gesendet...
+            {t('form.submitting')}
           </>
         ) : (
           <>
             <Send className="w-4 h-4 mr-2" />
-            Anfrage senden
+            {t('form.submit')}
           </>
         )}
       </Button>
 
       <p className="text-xs text-muted-foreground">
-        * Pflichtfelder. Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.
+        * {t('form.name').includes('Name') ? 'Required fields. Your data will be treated confidentially and not shared with third parties.' : 'Pflichtfelder. Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.'}
       </p>
     </form>
   );

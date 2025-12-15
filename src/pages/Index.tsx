@@ -156,14 +156,13 @@ const Index = () => {
             className="text-center"
           >
             <p className="text-xl sm:text-2xl md:text-3xl font-serif italic text-foreground/80 mb-4">
-              Für mehr Klarheit in Zeiten konstanter Überforderung.
+              {t('index.tagline')}
             </p>
             <p className="text-sm sm:text-base text-muted-foreground font-sans leading-relaxed max-w-xl mx-auto">
-              Das Handlungsmodell von Beyond Bias verbindet moderne Neurobiologie 
-              und Epigenetik mit praktischer Selbstführungskompetenz.
+              {t('index.taglineDesc')}
             </p>
             <p className="text-muted-foreground font-sans mt-4 text-xs sm:text-sm">
-              Kein Ratgeber oder Theoriemodell, sondern Landkarte, praktischer Wegweiser und Transformationshilfe für das menschliche Betriebssystem unter Druck.
+              {t('index.taglineNote')}
             </p>
           </motion.div>
         </div>
@@ -668,7 +667,7 @@ const Index = () => {
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond Bias through memories</p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-6">
-            Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
+            {t('index.footer.subtitle')}
           </p>
           
           {/* Navigation Links */}
@@ -678,26 +677,26 @@ const Index = () => {
               onClick={() => window.scrollTo(0, 0)}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
             >
-              Oria entdecken
+              {t('nav.discoverOria')}
             </Link>
             <Link 
               to="/seminare" 
               onClick={() => window.scrollTo(0, 0)}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
             >
-              Seminarangebote
+              {t('nav.seminarOffers')}
             </Link>
             <Link 
               to="/impressum" 
               onClick={() => window.scrollTo(0, 0)}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
             >
-              Impressum
+              {t('nav.impressum')}
             </Link>
           </div>
           
           <p className="text-muted-foreground text-xs">
-            © {new Date().getFullYear()} Beyond Bias gUG. Alle Rechte vorbehalten.
+            © {new Date().getFullYear()} Beyond Bias gUG. {t('index.footer.copyright')}
           </p>
         </div>
       </footer>
