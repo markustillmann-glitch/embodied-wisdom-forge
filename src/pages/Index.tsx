@@ -126,7 +126,7 @@ const Index = () => {
               href="/oria"
               className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
-              <img src={bbOwlLogo} alt="Oria" className="h-6 w-auto opacity-70" />
+              <img src={bbOwlLogo} alt="Oria" className="h-12 w-auto opacity-70" />
               <span>Oria kennenlernen</span>
             </a>
             <span className="text-muted-foreground/50 hidden sm:inline">|</span>
