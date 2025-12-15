@@ -4,6 +4,7 @@ import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles } from "lucide-reac
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 import oriaOwlFine from "@/assets/oria-owl-fine.png";
+import oriaBracelet from "@/assets/oria-bracelet.png";
 
 const qualities = [
   {
@@ -259,6 +260,26 @@ const Oria = () => {
               <br className="hidden sm:block" />
               Sie ist da, wenn du dich verlierst. Und wenn du dich findest.
             </p>
+          </motion.div>
+          
+          {/* Bracelet Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-10 sm:mt-12"
+          >
+            <div className="relative max-w-sm mx-auto">
+              <img 
+                src={oriaBracelet} 
+                alt="Oria Armband mit Eulensymbol" 
+                className="w-full h-auto rounded-xl shadow-lg"
+              />
+              <p className="text-xs sm:text-sm text-muted-foreground text-center mt-3 italic">
+                Das Oria-Armband – eine kleine Erinnerung an deine innere Weisheit
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>

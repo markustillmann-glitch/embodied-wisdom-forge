@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { PolygonalBackground, ConnectionLines, OwlSymbol, InsightSymbol, MoonSymbol, GrowthSpiral } from "@/components/PolygonalBackground";
 import { SeminarContactForm } from "@/components/SeminarContactForm";
+import oriaBracelet from "@/assets/oria-bracelet.png";
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -674,6 +675,23 @@ const Seminare = () => {
             className="bg-card p-8 rounded-xl border border-border shadow-lg"
           >
             <SeminarContactForm />
+          </motion.div>
+          
+          {/* Bracelet Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-12 flex justify-center"
+          >
+            <div className="max-w-[200px]">
+              <img 
+                src={oriaBracelet} 
+                alt="Oria Armband" 
+                className="w-full h-auto rounded-lg opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
           </motion.div>
         </div>
       </section>
