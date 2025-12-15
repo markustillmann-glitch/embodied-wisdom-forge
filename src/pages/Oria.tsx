@@ -83,7 +83,7 @@ const Oria = () => {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-sm font-sans tracking-[0.3em] text-muted-foreground uppercase mb-6"
           >
-            Symbolfigur
+            Symbolfigur von Beyond Bias
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -108,7 +108,7 @@ const Oria = () => {
             className="text-lg text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed"
           >
             In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen:
-            Oria, unsere Eule – Symbolfigur und Wegweiserin im Jahrescoaching.
+            Oria, unsere Eule – Symbolfigur von Beyond Bias und Wegweiserin im Jahrescoaching.
           </motion.p>
         </div>
       </section>
@@ -124,7 +124,7 @@ const Oria = () => {
             className="space-y-6"
           >
             <p className="text-lg text-foreground/90 leading-relaxed">
-              Sie steht für genau das, was du in diesem Programm kultivierst: <strong className="text-foreground">Präsenz, innere Führung, Tiefe.</strong>
+              Sie steht für genau das, was Beyond Bias und das Jahresprogramm kultivieren: <strong className="text-foreground">Präsenz, innere Führung, Tiefe.</strong>
             </p>
             <p className="text-lg text-foreground/90 leading-relaxed">
               Oria ist kein Maskottchen, sondern eine seelische Gefährtin – eine, die dich erinnert:
