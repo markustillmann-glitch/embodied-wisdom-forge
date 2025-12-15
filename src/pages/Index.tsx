@@ -121,6 +121,16 @@ const Index = () => {
               href="/oria"
               className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
+              <svg width="16" height="16" viewBox="0 0 80 80" className="opacity-70">
+                <ellipse cx="40" cy="45" rx="22" ry="24" stroke="currentColor" strokeWidth="2" fill="none" />
+                <circle cx="32" cy="42" r="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <circle cx="48" cy="42" r="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <circle cx="32" cy="42" r="2.5" fill="currentColor" />
+                <circle cx="48" cy="42" r="2.5" fill="currentColor" />
+                <path d="M40,50 L37,56 L40,54 L43,56 L40,50" stroke="currentColor" strokeWidth="1" fill="none" />
+                <path d="M22,30 L27,22 L32,28" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <path d="M58,30 L53,22 L48,28" stroke="currentColor" strokeWidth="1.5" fill="none" />
+              </svg>
               <span>Oria kennenlernen</span>
             </a>
             <span className="text-muted-foreground/50 hidden sm:inline">|</span>
