@@ -85,12 +85,12 @@ const Index = () => {
             Ein Kompendium
           </motion.p>
           
-          <div className="flex items-center justify-center gap-8 mb-6">
+          <div className="flex items-center justify-center gap-4 mb-6">
             <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-[10rem] md:h-[12.5rem] lg:h-[15rem] w-auto" />
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-left">
               Beyond Bias
               <br />
-              <span className="text-accent">through memories</span>
+              <span className="text-accent whitespace-nowrap">through memories</span>
             </h1>
           </div>
           
@@ -126,24 +126,7 @@ const Index = () => {
               href="/oria"
               className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
-              <svg width="28" height="28" viewBox="0 0 64 64" className="opacity-70">
-                {/* Owl body */}
-                <ellipse cx="32" cy="38" rx="18" ry="20" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                {/* Left eye */}
-                <circle cx="25" cy="34" r="7" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                <circle cx="25" cy="34" r="2.5" fill="currentColor" />
-                {/* Right eye */}
-                <circle cx="39" cy="34" r="7" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                <circle cx="39" cy="34" r="2.5" fill="currentColor" />
-                {/* Beak */}
-                <path d="M32 41 L29 47 L32 45 L35 47 Z" stroke="currentColor" strokeWidth="1" fill="none" />
-                {/* Left ear tuft */}
-                <path d="M18 22 Q20 16 24 20" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                {/* Right ear tuft */}
-                <path d="M46 22 Q44 16 40 20" stroke="currentColor" strokeWidth="1.2" fill="none" />
-                {/* Feather pattern */}
-                <path d="M24 50 Q32 54 40 50" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.6" />
-              </svg>
+              <img src={bbOwlLogo} alt="Oria" className="h-6 w-auto opacity-70" />
               <span>Oria kennenlernen</span>
             </a>
             <span className="text-muted-foreground/50 hidden sm:inline">|</span>
