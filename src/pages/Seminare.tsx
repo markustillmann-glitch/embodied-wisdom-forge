@@ -1,13 +1,239 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
   transition: { duration: 0.6 },
+};
+
+const mehrwerte = [
+  {
+    id: "zufriedenheit",
+    icon: Heart,
+    title: "Persönliche Zufriedenheit",
+    summary: "Innere Balance finden, eigene Bedürfnisse erkennen und erfüllen, Stress und innere Konflikte reduzieren.",
+    details: [
+      {
+        heading: "Innere Zufriedenheit steigern",
+        text: "Durch die Kombination der Methoden lernen Sie, besser für die eigenen Bedürfnisse zu sorgen und innere Konflikte zu lösen. Statt im Autopilot-Stress gefangen zu bleiben, entwickeln Sie bewusste Strategien.",
+      },
+      {
+        heading: "Eigene Bedürfnisse erkennen",
+        text: "Indem Sie lernen, hinter Gefühlen die bedrohten oder unerfüllten Bedürfnisse zu identifizieren, können Sie gezielt dafür sorgen, dass diese erfüllt werden.",
+      },
+      {
+        heading: "Reduzierter Stress",
+        text: "Durch IFS-Arbeit wird das innere Team harmonisiert. Grübeleien, Selbstvorwürfe oder innere Zerreißproben nehmen ab.",
+      },
+    ],
+    example: {
+      name: "Anna, Projektmanagerin",
+      text: "Fühlte sich ständig ausgelaugt. Im Coaching lernte sie, die Körpersignale ihres impliziten Gedächtnisses ernst zu nehmen. Sie erkannte ihr Bedürfnis nach Autonomie und Ruhe, sprach offen mit ihrem Vorgesetzten und fühlt sich heute deutlich zufriedener.",
+    },
+  },
+  {
+    id: "entwicklung",
+    icon: TrendingUp,
+    title: "Entwicklungsprozesse",
+    summary: "Tiefgreifendes persönliches Wachstum, alte Muster auflösen und neue Fähigkeiten entwickeln.",
+    details: [
+      {
+        heading: "Persönliches Wachstum",
+        text: "Über 12 Monate durchlaufen Sie einen nachhaltigen Wandel – alte Muster werden bewusst gemacht und durch neue, gesündere Verhaltensweisen ersetzt.",
+      },
+      {
+        heading: "Gesteigerte Selbstwahrnehmung",
+        text: "Durch Meditation und Achtsamkeitsübungen schulen Sie Ihre Wahrnehmung – Sie bemerken Gedankenmuster, emotionale Reaktionen und Körpersignale immer früher.",
+      },
+      {
+        heading: "Auflösen alter Muster",
+        text: "Sie erkennen die Kette: Trigger → Körperreaktion → automatischer Schutzmechanismus → unerfülltes Bedürfnis. So werden aus Attacke oder Flucht zunehmend achtsame Reaktionen.",
+      },
+    ],
+    example: {
+      name: "Tom, Führungskraft",
+      text: "War in Stressphasen autoritär und ungeduldig. Er entdeckte seinen ‚Kontrolleur'-Anteil und lernte, ihm nicht die Führung zu überlassen. Sein Team bemerkt heute, dass er gelassener und zugänglicher geworden ist.",
+    },
+  },
+  {
+    id: "gefuehle",
+    icon: Brain,
+    title: "Zugang zu Gefühlen & Körperweisheit",
+    summary: "Emotionale und körperliche Bewusstheit entwickeln, Intuition stärken und Bedürfnisse als Kompass nutzen.",
+    details: [
+      {
+        heading: "Gefühle im Körper erkennen",
+        text: "Sie lernen körperliche Symptome wie einen Kloß im Hals, flache Atmung oder Anspannung bewusst zu registrieren und korrekt zu deuten.",
+      },
+      {
+        heading: "Bedürfnisse als Kompass",
+        text: "Hinter jedem starken Gefühl steckt ein Bedürfnis. Das Programm schult die Fähigkeit, diese Ebene bewusst zu erreichen und stimmiger zu handeln.",
+      },
+      {
+        heading: "Somatische Intelligenz stärken",
+        text: "Je öfter Sie auf den eigenen Körper hören, desto mehr Vertrauen entwickeln Sie in Ihre Intuition. Entscheidungen werden weniger bereut.",
+      },
+    ],
+    example: {
+      name: "Daniel, Abteilungsleiter",
+      text: "War es gewohnt, Gefühle wegzudrücken. Im Coaching lernte er, seine Körpersignale ernst zu nehmen – heute nimmt er sich 10 Minuten Pause, wenn er gereizt heimkommt, und kann dann viel liebevoller reagieren.",
+    },
+  },
+  {
+    id: "beziehungen",
+    icon: MessageCircle,
+    title: "Beziehungen & Kommunikation",
+    summary: "Authentisch kommunizieren, empathischer zuhören und Konflikte konstruktiv lösen.",
+    details: [
+      {
+        heading: "Klareres Ausdrücken",
+        text: "Statt ‚Du bist immer so gemein!' lernen Sie: ‚Wenn du mich unterbrichst, bin ich irritiert, weil mir Respekt wichtig ist.' Dieser Wechsel verändert die Atmosphäre dramatisch.",
+      },
+      {
+        heading: "Mehr Empathie",
+        text: "Wer eigene verletzliche Anteile kennengelernt hat, reagiert mit mehr Mitgefühl, wenn andere emotional reagieren.",
+      },
+      {
+        heading: "Konstruktiver Konfliktumgang",
+        text: "Sie lernen, in Konflikten innerlich einen Schritt zurückzutreten, anstatt sofort zurückzuschießen. Aus potentiellen Machtkämpfen werden Dialoge.",
+      },
+    ],
+    example: {
+      name: "Julia, Partnerin",
+      text: "Zog sich bei Streit zurück, ihr Partner wurde lauter. Im Coaching lernte sie, verletzliche Gefühle auszudrücken. Das erste offene Gespräch verlief völlig anders – beide fanden einen Kompromiss.",
+    },
+  },
+  {
+    id: "resilienz",
+    icon: Shield,
+    title: "Selbstführung, Resilienz & Klarheit",
+    summary: "Innere Führungskraft entwickeln, widerstandsfähiger werden und Entscheidungen klar treffen.",
+    details: [
+      {
+        heading: "Selbst als Führungsinstanz",
+        text: "Sie erleben, wie es ist, ruhig und mitfühlend auf eigene Gedanken zu blicken, ohne überwältigt zu werden. Diese innere Führungsinstanz gibt Gelassenheit.",
+      },
+      {
+        heading: "Resilienz und Stressbewältigung",
+        text: "Sie lernen, Ihren Nervensystem-Zustand wahrzunehmen und passende Hilfen anzuwenden – Atemübungen, Meditation oder unterstützende Gedanken.",
+      },
+      {
+        heading: "Innere Klarheit und Fokus",
+        text: "Die anfängliche ‚mentale Zettelwirtschaft' sortiert sich. Sie kennen Ihre Prioritäten und lassen sich weniger von kurzfristigen Emotionen verrennen.",
+      },
+    ],
+    example: {
+      name: "Martin, Teilnehmer",
+      text: "Verlor während des Coaching-Jahres seinen Job. Dank der gelernten Techniken konnte er erstaunlich gefasst bleiben und bereits am nächsten Tag aktiv Schritte planen, statt wochenlang gelähmt zu sein.",
+    },
+  },
+];
+
+const MehrwertCard = ({ item, isExpanded, onToggle }: { 
+  item: typeof mehrwerte[0]; 
+  isExpanded: boolean; 
+  onToggle: () => void;
+}) => {
+  const Icon = item.icon;
+  
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="bg-card rounded-xl border border-border overflow-hidden"
+    >
+      <button
+        onClick={onToggle}
+        className="w-full p-6 flex items-start gap-4 text-left hover:bg-secondary/30 transition-colors"
+      >
+        <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+          <Icon className="w-6 h-6 text-accent" />
+        </div>
+        <div className="flex-grow">
+          <h3 className="text-xl font-serif text-foreground mb-2">{item.title}</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">{item.summary}</p>
+        </div>
+        <div className="shrink-0 mt-1">
+          {isExpanded ? (
+            <ChevronUp className="w-5 h-5 text-muted-foreground" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-muted-foreground" />
+          )}
+        </div>
+      </button>
+      
+      {isExpanded && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="px-6 pb-6 pt-2 border-t border-border"
+        >
+          <div className="space-y-4 mb-6">
+            {item.details.map((detail, idx) => (
+              <div key={idx}>
+                <h4 className="text-sm font-medium text-foreground mb-1">{detail.heading}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{detail.text}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="bg-quote-bg p-4 rounded-lg border-l-4 border-accent">
+            <p className="text-xs font-sans tracking-wider text-accent uppercase mb-1">Praxis-Beispiel</p>
+            <p className="text-sm text-foreground font-medium mb-1">{item.example.name}</p>
+            <p className="text-sm text-muted-foreground italic leading-relaxed">{item.example.text}</p>
+          </div>
+        </motion.div>
+      )}
+    </motion.div>
+  );
+};
+
+const MehrwerteSection = () => {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  
+  return (
+    <section className="py-20 bg-secondary/30">
+      <div className="max-w-4xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
+            Konkrete Mehrwerte des Jahresprogramms
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Das Programm integriert Meditation, IFS und GFK als komplementäre Zugänge zum selben 
+            menschlichen Betriebssystem – statt isolierter Techniken. Die zentrale Erkenntnis: 
+            Viele persönliche Herausforderungen sind keine reinen Denkprobleme, sondern „Zustandsprobleme".
+          </p>
+        </motion.div>
+        
+        <div className="space-y-4">
+          {mehrwerte.map((item) => (
+            <MehrwertCard
+              key={item.id}
+              item={item}
+              isExpanded={expandedId === item.id}
+              onToggle={() => setExpandedId(expandedId === item.id ? null : item.id)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 const Seminare = () => {
@@ -341,6 +567,9 @@ const Seminare = () => {
           </div>
         </div>
       </section>
+
+      {/* Mehrwerte Section */}
+      <MehrwerteSection />
 
       {/* Methodik */}
       <section className="py-20 bg-secondary/30">
