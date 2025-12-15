@@ -99,7 +99,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="mt-16"
+            className="mt-16 flex flex-col sm:flex-row items-center gap-4"
           >
             <button
               onClick={() => scrollToChapter("vorwort")}
@@ -113,6 +113,14 @@ const Index = () => {
                 ↓
               </motion.span>
             </button>
+            <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+            <a
+              href="/seminare"
+              className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
+            >
+              <span>Seminarangebot entdecken</span>
+              <span>→</span>
+            </a>
           </motion.div>
         </motion.div>
       </section>
