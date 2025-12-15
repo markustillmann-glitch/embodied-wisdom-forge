@@ -147,7 +147,7 @@ const Index = () => {
             className="text-center"
           >
             <p className="text-xl sm:text-2xl md:text-3xl font-serif italic text-foreground/80 mb-4">
-              Für Navigatoren in komplexen Gewässern.
+              Für mehr Klarheit in Zeiten konstanter Überforderung.
             </p>
             <p className="text-sm sm:text-base text-muted-foreground font-sans leading-relaxed max-w-xl mx-auto">
               Das Handlungsmodell von Beyond Bias verbindet moderne Neurobiologie 
