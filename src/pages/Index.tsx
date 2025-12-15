@@ -76,14 +76,6 @@ const Index = () => {
           transition={{ duration: 1, ease: "easeOut" }}
           className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto"
         >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xs sm:text-sm font-sans tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground uppercase mb-4 sm:mb-8"
-          >
-            Ein Kompendium
-          </motion.p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-[30px] mb-4 sm:mb-6">
             <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-16 sm:h-[5.5rem] md:h-[6.875rem] lg:h-[8.25rem] w-auto" />
@@ -157,7 +149,7 @@ const Index = () => {
               Für Navigatoren in komplexen Gewässern.
             </p>
             <p className="text-sm sm:text-base text-muted-foreground font-sans leading-relaxed max-w-xl mx-auto">
-              Dieses Dokument dient als internes Grundlagenwerk. Es verbindet moderne Neurobiologie 
+              Das Handlungsmodell von Beyond Bias verbindet moderne Neurobiologie 
               und Epigenetik mit praktischer Selbstführungskompetenz.
             </p>
             <p className="text-muted-foreground font-sans mt-4 text-xs sm:text-sm">
