@@ -689,9 +689,15 @@ const Seminare = () => {
           <Link to="/" className="font-serif text-xl text-foreground hover:text-accent transition-colors">
             Beyond Bias through memories
           </Link>
-          <p className="text-muted-foreground text-sm mt-2">
+          <p className="text-muted-foreground text-sm mt-2 mb-4">
             Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </p>
+          <Link 
+            to="/impressum" 
+            className="text-xs text-muted-foreground hover:text-accent transition-colors"
+          >
+            Impressum
+          </Link>
         </div>
       </footer>
     </div>
