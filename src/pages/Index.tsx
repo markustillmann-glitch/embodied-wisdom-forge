@@ -15,7 +15,7 @@ import oriaOwl from "@/assets/oria-owl.png";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 
 const Index = () => {
-  const { t, language } = useLanguage();
+  const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
 
   const chapters = [
@@ -172,111 +172,58 @@ const Index = () => {
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Vorwort */}
         <div id="vorwort" className="border-t border-chapter-divider">
-          <ChapterSection title="Vorwort: Wenn viel auf dem Spiel steht">
+          <ChapterSection title={t('index.vorwort.title')}>
             <p className="text-xl text-muted-foreground italic mb-8">
-              Weshalb dieses Wissen entscheidend ist für Führung und Selbststeuerung.
+              {t('index.vorwort.subtitle')}
             </p>
-            <p>
-              In der modernen Führung – sei es von Unternehmen, Teams oder dem eigenen Leben – stoßen 
-              rein kognitive Strategien an ihre Grenzen. Wir wissen oft intellektuell, was die richtige 
-              Entscheidung oder die richtige Art der Kommunikation wäre. Doch unter Druck, Zeitmangel 
-              oder in Konflikten greifen wir auf automatisierte Muster zurück.
-            </p>
-            <Highlight>
-              Wir handeln nicht nach unserem besten Wissen, sondern nach unserem am tiefsten verankerten Zustand.
-            </Highlight>
-            <p>
-              Dieses Mini-Buch schließt die Lücke zwischen dem Anspruch („Ich will besonnen und 
-              strategisch handeln") und der Realität („Ich wurde getriggert und habe reagiert").
-            </p>
-            <Quote>
-              Der Mensch ist kein denkendes Wesen mit einem Körper – sondern ein verkörpertes Wesen, 
-              das denken gelernt hat.
-            </Quote>
-            <p>
-              Erinnerungen, Impulse, Vorurteile (Bias) und Selbstbilder entstehen nicht primär im Kopf. 
-              Sie entstehen in einem Zusammenspiel aus Körperzustand, uralten Überlebensprogrammen, 
-              epigenetischem Erbe und inneren Anteilen.
-            </p>
-            <p className="font-medium text-foreground">
-              Wer führt, führt nicht nur Köpfe, sondern reguliert Nervensysteme – zuerst das eigene, 
-              dann das des Systems. Dieses Kompendium liefert die Architektur dafür.
-            </p>
+            <p>{t('index.vorwort.p1')}</p>
+            <Highlight>{t('index.vorwort.highlight1')}</Highlight>
+            <p>{t('index.vorwort.p2')}</p>
+            <Quote>{t('index.vorwort.quote1')}</Quote>
+            <p>{t('index.vorwort.p3')}</p>
+            <p className="font-medium text-foreground">{t('index.vorwort.p4')}</p>
           </ChapterSection>
         </div>
 
         {/* Kapitel 1 */}
         <div id="kap1" className="border-t border-chapter-divider">
-          <ChapterSection number="1" title="Was Erinnerung wirklich ist">
-            <SubSection number="1.1" title="Erinnerung ist kein Archiv">
-              <p>
-                Die verbreitetste Illusion über unser Gedächtnis ist die des „Videoarchivs". 
-                Wir glauben, wir rufen ab, was exakt gespeichert wurde. Das ist falsch.
-              </p>
-              <Highlight>
-                Erinnerungen sind keine gespeicherten Filme, sondern rekonstruierte Zustände.
-              </Highlight>
-              <p>
-                Bei jedem Erinnern werden verschiedene Fragmente im Gehirn neu kombiniert:
-              </p>
-              <ListBlock items={[
-                "Sinneseindrücke (Gerüche, Geräusche)",
-                "Damalige Emotionen",
-                "Aktuelle Körperzustände",
-                "Bedeutungen, die wir dem Ereignis heute geben",
-              ]} />
-              <p className="text-accent font-medium mt-6">
-                Fazit: Jede Erinnerung ist keine Reise in die Vergangenheit, sondern aktive 
-                Gegenwartsarbeit. Wie wir uns heute fühlen, bestimmt, was wir von gestern erinnern.
-              </p>
+          <ChapterSection number="1" title={t('index.kap1.title')}>
+            <SubSection number="1.1" title={t('index.kap1.s1.title')}>
+              <p>{t('index.kap1.s1.p1')}</p>
+              <Highlight>{t('index.kap1.s1.highlight')}</Highlight>
+              <p>{t('index.kap1.s1.p2')}</p>
+              <ListBlock items={tArray('index.kap1.s1.list')} />
+              <p className="text-accent font-medium mt-6">{t('index.kap1.s1.fazit')}</p>
             </SubSection>
 
-            <SubSection number="1.2" title="Explizites vs. implizites Gedächtnis">
-              <p>
-                Um menschliches Verhalten zu verstehen, müssen wir zwei Speichersysteme unterscheiden:
-              </p>
+            <SubSection number="1.2" title={t('index.kap1.s2.title')}>
+              <p>{t('index.kap1.s2.p1')}</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
                 <div className="bg-card p-4 sm:p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">1. Explizites Gedächtnis</h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">(Der Verstand)</p>
-                  <ListBlock items={[
-                    "Fakten, Geschichten, chronologische Abläufe",
-                    "Sprachlich und bewusst zugänglich",
-                  ]} />
-                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">
-                    „Ich weiß noch, dass…"
-                  </p>
+                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">
+                    1. {t('index.kap1.s2.explicit.title')}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">{t('index.kap1.s2.explicit.subtitle')}</p>
+                  <ListBlock items={tArray('index.kap1.s2.explicit.items')} />
+                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">{t('index.kap1.s2.explicit.example')}</p>
                 </div>
                 <div className="bg-card p-4 sm:p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">2. Implizites Gedächtnis</h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">(Der Körper & das Gefühl)</p>
-                  <ListBlock items={[
-                    "Körperreaktionen, automatisierte Erwartungen",
-                    "Vorsprachlich, schneller und unbewusst",
-                  ]} />
-                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">
-                    „Es fühlt sich plötzlich so an, als ob…"
-                  </p>
+                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">
+                    2. {t('index.kap1.s2.implicit.title')}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">{t('index.kap1.s2.implicit.subtitle')}</p>
+                  <ListBlock items={tArray('index.kap1.s2.implicit.items')} />
+                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">{t('index.kap1.s2.implicit.example')}</p>
                 </div>
               </div>
-              <Quote>
-                Das implizite Gedächtnis ist älter, schneller und hochgradig auf Sicherheit und 
-                Beziehung ausgerichtet. Es steuert unsere Sofortreaktionen.
-              </Quote>
+              <Quote>{t('index.kap1.s2.quote')}</Quote>
             </SubSection>
 
-            <SubSection number="1.3" title="Memory Trigger">
-              <p>
-                Ein Trigger (Auslöser durch Musik, Orte, Tonlagen, soziale Situationen wie Kritik) 
-                öffnet nicht nur eine mentale Datei. Er aktiviert eine ganze „Zustandslandschaft".
-              </p>
+            <SubSection number="1.3" title={t('index.kap1.s3.title')}>
+              <p>{t('index.kap1.s3.p1')}</p>
               <div className="bg-quote-bg p-6 rounded-lg mt-4 text-center">
-                <p className="font-sans font-medium text-foreground">
-                  Ein Trigger aktiviert eine Kette:
-                </p>
-                <p className="text-muted-foreground mt-3 text-sm">
-                  Erinnerung (implizit) + Alter Körperzustand + Schutzstrategie + Aktuelles Bedürfnis
-                </p>
+                <p className="font-sans font-medium text-foreground">{t('index.kap1.s3.chain')}</p>
+                <p className="text-muted-foreground mt-3 text-sm">{t('index.kap1.s3.chainDesc')}</p>
               </div>
             </SubSection>
           </ChapterSection>
@@ -284,113 +231,58 @@ const Index = () => {
 
         {/* Kapitel 2 */}
         <div id="kap2" className="border-t border-chapter-divider">
-          <ChapterSection number="2" title="Das somatische Gedächtnis (Body Memory)">
-            <SubSection number="2.1" title="Was der Körper speichert">
-              <p>
-                Während der Verstand die „Story" speichert, speichert der Körper die „Energie" 
-                der Situation. Er registriert vor allem:
-              </p>
-              <ListBlock items={[
-                "Alarm- vs. Sicherheitszustände",
-                "Bindungserfahrungen (War ich willkommen? War ich allein?)",
-                "Ohnmacht vs. Handlungsspielraum",
-                "Rhythmus, Atemmuster, muskuläre Spannung",
-              ]} />
-              <Highlight>
-                Der Körper speichert nicht primär „was passiert ist", sondern die Antwort auf 
-                die Frage: „Wie sicher war ich?"
-              </Highlight>
+          <ChapterSection number="2" title={t('index.kap2.title')}>
+            <SubSection number="2.1" title={t('index.kap2.s1.title')}>
+              <p>{t('index.kap2.s1.p1')}</p>
+              <ListBlock items={tArray('index.kap2.s1.list')} />
+              <Highlight>{t('index.kap2.s1.highlight')}</Highlight>
             </SubSection>
 
-            <SubSection number="2.2" title="Warum der Körper schneller ist als das Denken">
-              <p>
-                Dies ist der entscheidende Punkt für Führung und Selbstmanagement unter Stress: 
-                Neurobiologisch reagieren der Körper und das limbische System (Emotionszentrum) 
-                in Millisekunden auf einen Reiz. Die Kognition (das bewusste Denken) folgt deutlich verzögert.
-              </p>
-              <Quote>
-                Das Denken ist oft nur der „Pressesprecher", der nachträglich erklärt 
-                (oder rationalisiert), was der Körper längst entschieden hat.
-              </Quote>
-              <p>
-                Das erklärt Phänomene wie emotionale Überreaktionen und den Satz: 
-                „Ich weiß es rational besser, aber ich kann gerade nicht anders."
-              </p>
+            <SubSection number="2.2" title={t('index.kap2.s2.title')}>
+              <p>{t('index.kap2.s2.p1')}</p>
+              <Quote>{t('index.kap2.s2.quote')}</Quote>
+              <p>{t('index.kap2.s2.p2')}</p>
             </SubSection>
 
-            <SubSection number="2.3" title="Body Memory ist nicht pathologisch">
-              <p>
-                Das somatische Gedächtnis ist nicht „kaputt" oder irrational. Es ist ein 
-                hocheffizientes Schutzsystem, das auf vergangenen Erfahrungen basiert.
-              </p>
+            <SubSection number="2.3" title={t('index.kap2.s3.title')}>
+              <p>{t('index.kap2.s3.p1')}</p>
             </SubSection>
 
-            <SubSection number="2.4" title="Das Erbe in den Zellen: Epigenetik">
-              <p>
-                Das implizite Gedächtnis beginnt nicht erst mit der eigenen Geburt. Die Forschung 
-                der Epigenetik zeigt, dass traumatische Erfahrungen, langanhaltende Stresszustände 
-                oder existenzielle Krisen Marker auf der DNA hinterlassen, die vererbt werden können.
-              </p>
-              <p className="font-medium text-foreground mt-4">Das bedeutet:</p>
-              <ListBlock items={[
-                "Ein Nervensystem kann mit einer erhöhten Alarmbereitschaft auf die Welt kommen, ohne selbst je Gefahr erlebt zu haben.",
-                "Bestimmte Trigger (z.B. Autorität, Mangel, Plötzlichkeit) aktivieren Ängste, die eigentlich die Realität der Eltern oder Großeltern widerspiegeln.",
-              ]} />
-              <Quote>
-                Wir erinnern uns biologisch an die Krisen unserer Vorfahren. Das erklärt oft 
-                diffuse Ängste oder Blockaden, die „keinen Sinn ergeben", wenn wir nur auf 
-                die eigene Biografie schauen.
-              </Quote>
+            <SubSection number="2.4" title={t('index.kap2.s4.title')}>
+              <p>{t('index.kap2.s4.p1')}</p>
+              <p className="font-medium text-foreground mt-4">{t('index.kap2.s4.p2')}</p>
+              <ListBlock items={tArray('index.kap2.s4.list')} />
+              <Quote>{t('index.kap2.s4.quote')}</Quote>
             </SubSection>
           </ChapterSection>
         </div>
 
         {/* Kapitel 3 */}
         <div id="kap3" className="border-t border-chapter-divider">
-          <ChapterSection number="3" title="Meditation als Zugang (und Risiko)">
-            <SubSection number="3.1" title="Was Meditation wirklich macht">
-              <p>
-                In diesem Kontext ist Meditation keine Entspannungstechnik, sondern ein 
-                Wahrnehmungswerkzeug. Sie tut drei Dinge:
-              </p>
-              <ListBlock ordered items={[
-                "Sie reduziert äußere Reize (Stille).",
-                "Sie erhöht die Interozeption (die Fähigkeit, Signale aus dem Körperinneren wahrzunehmen).",
-                'Sie senkt die kognitive Kontrolle (das „Gedankenkarussell" wird leiser).',
-              ]} />
-              <Highlight>
-                Das öffnet den direkten Zugang zum impliziten Gedächtnis. Der „Lärm" des 
-                Alltags übertönt nicht mehr die Signale des Körpers.
-              </Highlight>
+          <ChapterSection number="3" title={t('index.kap3.title')}>
+            <SubSection number="3.1" title={t('index.kap3.s1.title')}>
+              <p>{t('index.kap3.s1.p1')}</p>
+              <ListBlock ordered items={tArray('index.kap3.s1.list')} />
+              <Highlight>{t('index.kap3.s1.highlight')}</Highlight>
             </SubSection>
 
-            <SubSection number="3.2" title='Warum in Meditation „alte Dinge" auftauchen'>
-              <p>
-                Wenn es still wird, wird es oft nicht ruhig, sondern laut im Inneren. 
-                Nicht weil Meditation Probleme macht, sondern weil der Körper endlich 
-                den Raum bekommt, „zu sprechen" und unvollständige Prozesse sichtbar werden.
-              </p>
+            <SubSection number="3.2" title={t('index.kap3.s2.title')}>
+              <p>{t('index.kap3.s2.p1')}</p>
             </SubSection>
 
-            <SubSection number="3.3" title="Die entscheidende Unterscheidung: Heilung vs. Überforderung">
+            <SubSection number="3.3" title={t('index.kap3.s3.title')}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
                 <div className="bg-accent/10 p-4 sm:p-5 rounded-lg border border-accent/30">
                   <h4 className="font-serif font-semibold text-foreground mb-3 text-sm sm:text-base">
-                    Meditation wirkt integrativ, wenn:
+                    {t('index.kap3.s3.integrative.title')}
                   </h4>
-                  <ListBlock items={[
-                    "das Tempo stimmt und eine Grundsicherheit im Hier und Jetzt vorhanden ist.",
-                    "Selbstmitgefühl aktiv ist (nicht wertendes Beobachten).",
-                  ]} />
+                  <ListBlock items={tArray('index.kap3.s3.integrative.items')} />
                 </div>
                 <div className="bg-destructive/10 p-4 sm:p-5 rounded-lg border border-destructive/30">
                   <h4 className="font-serif font-semibold text-foreground mb-3 text-sm sm:text-base">
-                    Meditation wirkt retraumatisierend, wenn:
+                    {t('index.kap3.s3.retraumatizing.title')}
                   </h4>
-                  <ListBlock items={[
-                    'sie als „Durchbruchtechnik" genutzt wird („no pain no gain").',
-                    "intensive Körperreaktionen (Zittern, Panik) ignoriert werden.",
-                  ]} />
+                  <ListBlock items={tArray('index.kap3.s3.retraumatizing.items')} />
                 </div>
               </div>
             </SubSection>
@@ -399,172 +291,129 @@ const Index = () => {
 
         {/* Kapitel 4 */}
         <div id="kap4" className="border-t border-chapter-divider">
-          <ChapterSection number="4" title="IFS: Die innere Architektur">
-            <p>
-              Wenn wir verstehen, dass der Körper Erinnerungen speichert, hilft uns das 
-              Modell der „Internal Family Systems" (IFS), die daraus resultierenden 
-              Verhaltensweisen zu ordnen.
-            </p>
+          <ChapterSection number="4" title={t('index.kap4.title')}>
+            <p>{t('index.kap4.intro')}</p>
 
-            <SubSection number="4.1" title="Grundannahme von IFS">
-              <p>
-                Wir bestehen aus vielen verschiedenen inneren Anteilen (Teilen), ähnlich 
-                einem inneren Team.
-              </p>
-              <Highlight>
-                Es gibt keine schlechten Teile. Jeder Teil hat – oder hatte ursprünglich – 
-                eine schützende Funktion für das System.
-              </Highlight>
+            <SubSection number="4.1" title={t('index.kap4.s1.title')}>
+              <p>{t('index.kap4.s1.p1')}</p>
+              <Highlight>{t('index.kap4.s1.highlight')}</Highlight>
             </SubSection>
 
-            <SubSection number="4.2" title="Die drei zentralen Teiltypen">
+            <SubSection number="4.2" title={t('index.kap4.s2.title')}>
               <div className="space-y-4 my-6">
                 <div className="bg-card p-5 rounded-lg border border-border">
                   <h4 className="font-serif font-semibold text-foreground mb-2">
-                    Manager <span className="font-sans text-sm text-muted-foreground">(Proaktive Beschützer)</span>
+                    {t('index.kap4.s2.manager.title')} <span className="font-sans text-sm text-muted-foreground">{t('index.kap4.s2.manager.subtitle')}</span>
                   </h4>
-                  <p className="text-muted-foreground">
-                    Wollen Schmerz verhindern durch Kontrolle, Perfektionismus, Planung, Intellektualisieren.
-                  </p>
+                  <p className="text-muted-foreground">{t('index.kap4.s2.manager.desc')}</p>
                 </div>
                 <div className="bg-card p-5 rounded-lg border border-border">
                   <h4 className="font-serif font-semibold text-foreground mb-2">
-                    Firefighter <span className="font-sans text-sm text-muted-foreground">(Reaktive Beschützer)</span>
+                    {t('index.kap4.s2.firefighter.title')} <span className="font-sans text-sm text-muted-foreground">{t('index.kap4.s2.firefighter.subtitle')}</span>
                   </h4>
-                  <p className="text-muted-foreground">
-                    Wenn Schmerz durchbricht, sorgen sie für sofortige Ablenkung (Wut, Sucht, Rückzug).
-                  </p>
+                  <p className="text-muted-foreground">{t('index.kap4.s2.firefighter.desc')}</p>
                 </div>
                 <div className="bg-card p-5 rounded-lg border border-border">
                   <h4 className="font-serif font-semibold text-foreground mb-2">
-                    Exile <span className="font-sans text-sm text-muted-foreground">(Die Verbannten)</span>
+                    {t('index.kap4.s2.exile.title')} <span className="font-sans text-sm text-muted-foreground">{t('index.kap4.s2.exile.subtitle')}</span>
                   </h4>
-                  <p className="text-muted-foreground">
-                    Verletzte Anteile, die Scham oder Angst tragen und von den anderen geschützt werden.
-                  </p>
+                  <p className="text-muted-foreground">{t('index.kap4.s2.exile.desc')}</p>
                 </div>
               </div>
             </SubSection>
 
-            <SubSection number="4.3" title='Self-Energy (Das Selbst)'>
-              <p>
-                Das „Selbst" ist kein Teil, sondern ein Zustand von Präsenz: ruhig, neugierig, 
-                klar, mitfühlend. Führung (im Innen wie im Außen) aus dem „Selbst" heraus 
-                reguliert, ohne Druck auszuüben.
-              </p>
+            <SubSection number="4.3" title={t('index.kap4.s3.title')}>
+              <p>{t('index.kap4.s3.p1')}</p>
             </SubSection>
 
-            <SubSection number="4.4" title="Verbindung zum Körper">
-              <p>
-                Teile zeigen sich immer auch somatisch (Spannung, Übelkeit, Unruhe). 
-                Der Körper ist der Kompass.
-              </p>
+            <SubSection number="4.4" title={t('index.kap4.s4.title')}>
+              <p>{t('index.kap4.s4.p1')}</p>
             </SubSection>
 
-            <SubSection number="4.5" title='Übernommene Lasten („Legacy Burdens")'>
-              <p>
-                Nicht alle unsere Teile sind durch eigene Erfahrung entstanden. In Systemen 
-                übernehmen Kinder oft unbewusst die Rollenbilder und Glaubenssätze der Eltern, 
-                um die Bindung zu sichern.
-              </p>
+            <SubSection number="4.5" title={t('index.kap4.s5.title')}>
+              <p>{t('index.kap4.s5.p1')}</p>
               <ListBlock items={[
-                <span key="1"><strong>Der kopierte Manager:</strong> Agiert dein innerer Antreiber so, wie du es brauchst, oder exakt so, wie dein Vater mit Stress umging?</span>,
-                <span key="2"><strong>Die übernommene Angst:</strong> Trägt ein Teil vielleicht die unaufgelöste Panik der Mutter vor Ausgrenzung?</span>,
+                <span key="1"><strong>{t('index.kap4.s5.copiedManager')}</strong> {t('index.kap4.s5.copiedManagerDesc')}</span>,
+                <span key="2"><strong>{t('index.kap4.s5.inheritedFear')}</strong> {t('index.kap4.s5.inheritedFearDesc')}</span>,
               ]} />
-              <Quote>
-                Die entscheidende Frage ist: „Gehört dieses Gefühl eigentlich mir – oder 
-                trage ich es für jemand anderen?"
-              </Quote>
+              <Quote>{t('index.kap4.s5.quote')}</Quote>
             </SubSection>
           </ChapterSection>
         </div>
 
         {/* Kapitel 5 */}
         <div id="kap5" className="border-t border-chapter-divider">
-          <ChapterSection number="5" title="NVC: Sprache für innere Wahrheit">
-            <p>
-              IFS hilft zu verstehen, wer in uns spricht. Gewaltfreie Kommunikation (NVC) 
-              hilft dabei, wie wir dies ausdrücken, um Verbindung herzustellen.
-            </p>
+          <ChapterSection number="5" title={t('index.kap5.title')}>
+            <p>{t('index.kap5.intro')}</p>
 
-            <SubSection number="5.1" title="Warum NVC hier passt">
-              <p>
-                NVC moralisiert und pathologisiert nicht. Es ist ein Präzisionswerkzeug, 
-                um somatische Zustände in beziehungsfähige Sprache zu übersetzen.
-              </p>
+            <SubSection number="5.1" title={t('index.kap5.s1.title')}>
+              <p>{t('index.kap5.s1.p1')}</p>
             </SubSection>
 
-            <SubSection number="5.2" title="Die vier Schritte – verkörpert gedacht">
+            <SubSection number="5.2" title={t('index.kap5.s2.title')}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 my-6">
                 {[
-                  { num: "1", title: "Beobachtung", desc: "Was ist faktisch passiert? (Beruhigt das Alarmsystem)" },
-                  { num: "2", title: "Gefühl", desc: "Was fühle ich? (Verbindung zum impliziten Gedächtnis)" },
-                  { num: "3", title: "Bedürfnis", desc: "Was braucht gerade Schutz oder Erfüllung? (Der Kernantrieb)" },
-                  { num: "4", title: "Bitte", desc: "Was wäre ein konkreter nächster Schritt?" },
+                  { num: "1", titleKey: 'index.kap5.s2.step1.title', descKey: 'index.kap5.s2.step1.desc' },
+                  { num: "2", titleKey: 'index.kap5.s2.step2.title', descKey: 'index.kap5.s2.step2.desc' },
+                  { num: "3", titleKey: 'index.kap5.s2.step3.title', descKey: 'index.kap5.s2.step3.desc' },
+                  { num: "4", titleKey: 'index.kap5.s2.step4.title', descKey: 'index.kap5.s2.step4.desc' },
                 ].map((step) => (
                   <div key={step.num} className="bg-card p-3 sm:p-4 rounded-lg border border-border">
                     <span className="inline-block w-7 h-7 sm:w-8 sm:h-8 bg-accent text-accent-foreground rounded-full text-center leading-7 sm:leading-8 font-semibold text-xs sm:text-sm mb-2">
                       {step.num}
                     </span>
-                    <h4 className="font-serif font-semibold text-foreground mb-1 text-sm sm:text-base">{step.title}</h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground">{step.desc}</p>
+                    <h4 className="font-serif font-semibold text-foreground mb-1 text-sm sm:text-base">{t(step.titleKey)}</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{t(step.descKey)}</p>
                   </div>
                 ))}
               </div>
             </SubSection>
 
-            <SubSection number="5.3" title="Bedürfnisse als Brücke">
-              <p>
-                Bedürfnisse sind der gemeinsame Nenner aller Teile. Auch ein destruktiver 
-                Teil versucht oft nur, ein Bedürfnis nach Sicherheit zu erfüllen.
-              </p>
+            <SubSection number="5.3" title={t('index.kap5.s3.title')}>
+              <p>{t('index.kap5.s3.p1')}</p>
             </SubSection>
           </ChapterSection>
         </div>
 
         {/* Kapitel 6 */}
         <div id="kap6" className="border-t border-chapter-divider">
-          <ChapterSection number="6" title="Das integrierte Prozessmodell">
-            <p>
-              Wir fügen die Ebenen zusammen. Dies ist die Architektur einer bewussten 
-              Reaktion unter Druck.
-            </p>
+          <ChapterSection number="6" title={t('index.kap6.title')}>
+            <p>{t('index.kap6.intro')}</p>
 
-            <SubSection number="6.1" title="Die Gesamtbewegung (Der Flow)">
+            <SubSection number="6.1" title={t('index.kap6.s1.title')}>
               <ProcessFlow />
             </SubSection>
 
-            <SubSection number="6.2" title="Praxis-Beispiel: Die kritische Situation">
+            <SubSection number="6.2" title={t('index.kap6.s2.title')}>
               <div className="bg-card p-6 rounded-lg border border-border my-6">
                 <p className="font-medium text-foreground mb-4">
-                  <strong>Die Situation:</strong> Sie stellen ein Projekt vor. Ein Stakeholder 
-                  unterbricht genervt: „Das funktioniert hier nicht. Nächster Punkt."
+                  <strong>{t('index.kap6.s2.situation')}</strong> {t('index.kap6.s2.situationDesc')}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 my-6">
                 <div className="bg-destructive/10 p-4 sm:p-5 rounded-lg border border-destructive/30">
                   <h4 className="font-serif font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">
-                    Automatik-Modus
+                    {t('index.kap6.s2.automatic.title')}
                   </h4>
                   <ListBlock items={[
-                    <span key="1"><strong>Trigger:</strong> Unterbrechung & Tonfall</span>,
-                    <span key="2"><strong>Somatik:</strong> Stich im Magen, Hitze</span>,
-                    <span key="3"><strong>Teil:</strong> „Verteidiger" wehrt Inkompetenzgefühle ab</span>,
-                    <span key="4"><strong>Reaktion:</strong> Zynismus oder Gegenangriff → Eskalation</span>,
+                    <span key="1"><strong>{t('index.kap6.s2.automatic.trigger')}</strong> {t('index.kap6.s2.automatic.triggerDesc')}</span>,
+                    <span key="2"><strong>{t('index.kap6.s2.automatic.somatic')}</strong> {t('index.kap6.s2.automatic.somaticDesc')}</span>,
+                    <span key="3"><strong>{t('index.kap6.s2.automatic.part')}</strong> {t('index.kap6.s2.automatic.partDesc')}</span>,
+                    <span key="4"><strong>{t('index.kap6.s2.automatic.reaction')}</strong> {t('index.kap6.s2.automatic.reactionDesc')}</span>,
                   ]} />
                 </div>
 
                 <div className="bg-accent/10 p-4 sm:p-5 rounded-lg border border-accent/30">
                   <h4 className="font-serif font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">
-                    Integrierter Modus
+                    {t('index.kap6.s2.integrated.title')}
                   </h4>
                   <ListBlock items={[
-                    <span key="1"><strong>Trigger:</strong> Unterbrechung</span>,
-                    <span key="2"><strong>Somatik:</strong> Sie spüren Stich und Hitze</span>,
-                    <span key="3"><strong>Pause:</strong> Ausatmen, Impuls erkennen, nicht ausagieren</span>,
-                    <span key="4"><strong>Übersetzung:</strong> „Ich bin irritiert, weil ich möchte, dass die Arbeit gesehen wird."</span>,
-                    <span key="5"><strong>Handlung:</strong> Deeskalierende Frage → Verbindung</span>,
+                    <span key="1"><strong>{t('index.kap6.s2.integrated.trigger')}</strong> {t('index.kap6.s2.integrated.triggerDesc')}</span>,
+                    <span key="2"><strong>{t('index.kap6.s2.integrated.somatic')}</strong> {t('index.kap6.s2.integrated.somaticDesc')}</span>,
+                    <span key="3"><strong>{t('index.kap6.s2.integrated.pause')}</strong> {t('index.kap6.s2.integrated.pauseDesc')}</span>,
+                    <span key="4"><strong>{t('index.kap6.s2.integrated.translation')}</strong> {t('index.kap6.s2.integrated.translationDesc')}</span>,
+                    <span key="5"><strong>{t('index.kap6.s2.integrated.action')}</strong> {t('index.kap6.s2.integrated.actionDesc')}</span>,
                   ]} />
                 </div>
               </div>
@@ -572,86 +421,49 @@ const Index = () => {
           </ChapterSection>
         </div>
 
-        {/* Kapitel 7 & 8 */}
+        {/* Kapitel 7 */}
         <div id="kap7" className="border-t border-chapter-divider">
-          <ChapterSection number="7" title="Unconscious Bias neu verstanden">
-            <SubSection number="7.1" title="Bias als Körperphänomen">
-              <p>
-                Bias ist kein reiner Denkfehler, sondern ein somatischer Sicherheitsmechanismus 
-                unter Zeitdruck.
-              </p>
+          <ChapterSection number="7" title={t('index.kap7.title')}>
+            <SubSection number="7.1" title={t('index.kap7.s1.title')}>
+              <p>{t('index.kap7.s1.p1')}</p>
               <div className="bg-quote-bg p-6 rounded-lg my-6">
-                <p className="font-medium text-foreground mb-2">Das Gehirn scannt: „Sicher oder unsicher?"</p>
-                <ListBlock items={[
-                  "Bias = Ein Schutzteil unter Stress",
-                  "Gefühl: Unsicherheit, Angst vor dem Fremden",
-                  "Bedürfnis: Vorhersagbarkeit, Zugehörigkeit",
-                ]} />
+                <p className="font-medium text-foreground mb-2">{t('index.kap7.s1.scan')}</p>
+                <ListBlock items={tArray('index.kap7.s1.items')} />
               </div>
-              <Highlight>
-                Regulation schlägt Belehrung. Wenn ich mich sicher fühle, brauche ich meine 
-                Vorurteile weniger dringend als Schutzschild.
-              </Highlight>
+              <Highlight>{t('index.kap7.s1.highlight')}</Highlight>
             </SubSection>
           </ChapterSection>
         </div>
 
+        {/* Kapitel 8 */}
         <div id="kap8" className="border-t border-chapter-divider">
-          <ChapterSection number="8" title="Erinnerungskultur & Journaling">
-            <SubSection number="8.1" title="Erinnerungen sind formbar">
-              <p>
-                Wir können die emotionale Ladung einer Erinnerung verändern, indem wir 
-                den Zustand ändern, in dem wir uns erinnern.
-              </p>
+          <ChapterSection number="8" title={t('index.kap8.title')}>
+            <SubSection number="8.1" title={t('index.kap8.s1.title')}>
+              <p>{t('index.kap8.s1.p1')}</p>
             </SubSection>
 
-            <SubSection number="8.2" title="Integratives Journaling">
-              <p>Fragen Sie beim Reflektieren nicht nur: „Was ist passiert?"</p>
-              <p className="font-medium text-foreground mt-4 mb-2">Sondern:</p>
-              <ListBlock items={[
-                "Wie hat es sich im Körper angefühlt?",
-                "Welcher Teil war aktiv?",
-                "Gehört dieses Gefühl mir oder ist es ein Erbe?",
-                "Welches Bedürfnis war lebendig?",
-              ]} />
+            <SubSection number="8.2" title={t('index.kap8.s2.title')}>
+              <p>{t('index.kap8.s2.p1')}</p>
+              <p className="font-medium text-foreground mt-4 mb-2">{t('index.kap8.s2.p2')}</p>
+              <ListBlock items={tArray('index.kap8.s2.items')} />
             </SubSection>
           </ChapterSection>
         </div>
 
-        {/* Ausblick & Fazit */}
+        {/* Fazit */}
         <div id="fazit" className="border-t border-chapter-divider">
-          <ChapterSection title="Angrenzende Themenfelder">
-            <p>Dieses Modell bildet das Fundament für die Arbeit mit:</p>
-            <ListBlock items={[
-              "Polyvagal-Theorie (Nervensystem & Sicherheit)",
-              "Window of Tolerance (Stresstoleranz-Fenster)",
-              "Bindungsstile (Beziehungsmuster)",
-              "Embodied Cognition (Verkörpertes Denken)",
-            ]} />
+          <ChapterSection title={t('index.fazit.adjacentTitle')}>
+            <p>{t('index.fazit.adjacentIntro')}</p>
+            <ListBlock items={tArray('index.fazit.adjacentItems')} />
           </ChapterSection>
 
-          <ChapterSection title="Die zentrale These">
-            <p>
-              Wenn wir die Ebenen von Körpergedächtnis, Epigenetik, inneren Anteilen und 
-              Bedürfnissen zusammenführen, kommen wir zu einer radikalen Schlussfolgerung:
-            </p>
-            <Quote>
-              Viele menschliche Probleme sind keine Denkprobleme, sondern Zustandsprobleme.
-            </Quote>
-            <p>
-              Wir versuchen oft, Konflikte durch mehr Analyse zu lösen. Doch wenn das 
-              Nervensystem im Alarmzustand ist, ist der Zugang zu Lösungen blockiert.
-            </p>
-            <Highlight>
-              Die Arbeit beginnt bei der Regulation des Zustands.
-            </Highlight>
-            <p className="mt-6">Wenn der Zustand reguliert ist:</p>
-            <ListBlock items={[
-              "werden Teile kooperativ.",
-              "werden Bedürfnisse verhandelbar.",
-              "können wir unterscheiden: Was ist mein Stress, und was ist altes Erbe?",
-              "wird echte Beziehung möglich.",
-            ]} />
+          <ChapterSection title={t('index.fazit.thesisTitle')}>
+            <p>{t('index.fazit.thesisIntro')}</p>
+            <Quote>{t('index.fazit.thesisQuote')}</Quote>
+            <p>{t('index.fazit.thesisP1')}</p>
+            <Highlight>{t('index.fazit.thesisHighlight')}</Highlight>
+            <p className="mt-6">{t('index.fazit.thesisP2')}</p>
+            <ListBlock items={tArray('index.fazit.thesisItems')} />
           </ChapterSection>
         </div>
       </main>
