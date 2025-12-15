@@ -8,6 +8,7 @@ import { Highlight } from "@/components/Highlight";
 import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
+import oriaOwl from "@/assets/oria-owl.png";
 const chapters = [
   { id: "cover", title: "Cover" },
   { id: "vorwort", title: "Vorwort" },
@@ -121,16 +122,7 @@ const Index = () => {
               href="/oria"
               className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
-              <svg width="28" height="28" viewBox="0 0 80 80" className="opacity-70">
-                <ellipse cx="40" cy="45" rx="22" ry="24" stroke="currentColor" strokeWidth="2" fill="none" />
-                <circle cx="32" cy="42" r="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                <circle cx="48" cy="42" r="6" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                <circle cx="32" cy="42" r="2.5" fill="currentColor" />
-                <circle cx="48" cy="42" r="2.5" fill="currentColor" />
-                <path d="M40,50 L37,56 L40,54 L43,56 L40,50" stroke="currentColor" strokeWidth="1" fill="none" />
-                <path d="M22,30 L27,22 L32,28" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                <path d="M58,30 L53,22 L48,28" stroke="currentColor" strokeWidth="1.5" fill="none" />
-              </svg>
+              <img src={oriaOwl} alt="" className="w-7 h-7 opacity-70" />
               <span>Oria kennenlernen</span>
             </a>
             <span className="text-muted-foreground/50 hidden sm:inline">|</span>
