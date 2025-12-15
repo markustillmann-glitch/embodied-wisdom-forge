@@ -1,0 +1,1011 @@
+export const translations = {
+  de: {
+    // Navigation
+    nav: {
+      back: 'Zurück',
+      toCompendium: 'Zum Kompendium',
+      toHome: 'Zur Startseite',
+      seminars: 'Seminare',
+      oria: 'Oria',
+      impressum: 'Impressum',
+      discoverOria: 'Oria entdecken',
+      seminarOffers: 'Seminarangebote',
+    },
+    
+    // Index page
+    index: {
+      heroSubtitle: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen',
+      begin: 'Beginnen',
+      meetOria: 'Oria kennenlernen',
+      discoverSeminars: 'Seminarangebot entdecken',
+      tagline: 'Für mehr Klarheit in Zeiten konstanter Überforderung.',
+      taglineDesc: 'Das Handlungsmodell von Beyond Bias verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.',
+      taglineNote: 'Kein Ratgeber oder Theoriemodell, sondern Landkarte, praktischer Wegweiser und Transformationshilfe für das menschliche Betriebssystem unter Druck.',
+      
+      // Chapters
+      chapters: {
+        cover: 'Cover',
+        vorwort: 'Vorwort',
+        erinnerung: 'Erinnerung',
+        bodyMemory: 'Body Memory',
+        meditation: 'Meditation',
+        ifs: 'IFS',
+        nvc: 'NVC',
+        processModel: 'Prozessmodell',
+        bias: 'Bias',
+        journaling: 'Journaling',
+        fazit: 'Fazit',
+      },
+      
+      // Vorwort
+      vorwort: {
+        title: 'Vorwort: Wenn viel auf dem Spiel steht',
+        subtitle: 'Weshalb dieses Wissen entscheidend ist für Führung und Selbststeuerung.',
+        p1: 'In der modernen Führung – sei es von Unternehmen, Teams oder dem eigenen Leben – stoßen rein kognitive Strategien an ihre Grenzen. Wir wissen oft intellektuell, was die richtige Entscheidung oder die richtige Art der Kommunikation wäre. Doch unter Druck, Zeitmangel oder in Konflikten greifen wir auf automatisierte Muster zurück.',
+        highlight1: 'Wir handeln nicht nach unserem besten Wissen, sondern nach unserem am tiefsten verankerten Zustand.',
+        p2: 'Dieses Mini-Buch schließt die Lücke zwischen dem Anspruch („Ich will besonnen und strategisch handeln") und der Realität („Ich wurde getriggert und habe reagiert").',
+        quote1: 'Der Mensch ist kein denkendes Wesen mit einem Körper – sondern ein verkörpertes Wesen, das denken gelernt hat.',
+        p3: 'Erinnerungen, Impulse, Vorurteile (Bias) und Selbstbilder entstehen nicht primär im Kopf. Sie entstehen in einem Zusammenspiel aus Körperzustand, uralten Überlebensprogrammen, epigenetischem Erbe und inneren Anteilen.',
+        p4: 'Wer führt, führt nicht nur Köpfe, sondern reguliert Nervensysteme – zuerst das eigene, dann das des Systems. Dieses Kompendium liefert die Architektur dafür.',
+      },
+      
+      // Chapter 1
+      kap1: {
+        title: 'Was Erinnerung wirklich ist',
+        s1: {
+          title: 'Erinnerung ist kein Archiv',
+          p1: 'Die verbreitetste Illusion über unser Gedächtnis ist die des „Videoarchivs". Wir glauben, wir rufen ab, was exakt gespeichert wurde. Das ist falsch.',
+          highlight: 'Erinnerungen sind keine gespeicherten Filme, sondern rekonstruierte Zustände.',
+          p2: 'Bei jedem Erinnern werden verschiedene Fragmente im Gehirn neu kombiniert:',
+          list: ['Sinneseindrücke (Gerüche, Geräusche)', 'Damalige Emotionen', 'Aktuelle Körperzustände', 'Bedeutungen, die wir dem Ereignis heute geben'],
+          fazit: 'Fazit: Jede Erinnerung ist keine Reise in die Vergangenheit, sondern aktive Gegenwartsarbeit. Wie wir uns heute fühlen, bestimmt, was wir von gestern erinnern.',
+        },
+        s2: {
+          title: 'Explizites vs. implizites Gedächtnis',
+          p1: 'Um menschliches Verhalten zu verstehen, müssen wir zwei Speichersysteme unterscheiden:',
+          explicit: {
+            title: 'Explizites Gedächtnis',
+            subtitle: '(Der Verstand)',
+            items: ['Fakten, Geschichten, chronologische Abläufe', 'Sprachlich und bewusst zugänglich'],
+            example: '„Ich weiß noch, dass…"',
+          },
+          implicit: {
+            title: 'Implizites Gedächtnis',
+            subtitle: '(Der Körper & das Gefühl)',
+            items: ['Körperreaktionen, automatisierte Erwartungen', 'Vorsprachlich, schneller und unbewusst'],
+            example: '„Es fühlt sich plötzlich so an, als ob…"',
+          },
+          quote: 'Das implizite Gedächtnis ist älter, schneller und hochgradig auf Sicherheit und Beziehung ausgerichtet. Es steuert unsere Sofortreaktionen.',
+        },
+        s3: {
+          title: 'Memory Trigger',
+          p1: 'Ein Trigger (Auslöser durch Musik, Orte, Tonlagen, soziale Situationen wie Kritik) öffnet nicht nur eine mentale Datei. Er aktiviert eine ganze „Zustandslandschaft".',
+          chain: 'Ein Trigger aktiviert eine Kette:',
+          chainDesc: 'Erinnerung (implizit) + Alter Körperzustand + Schutzstrategie + Aktuelles Bedürfnis',
+        },
+      },
+      
+      // Chapter 2
+      kap2: {
+        title: 'Das somatische Gedächtnis (Body Memory)',
+        s1: {
+          title: 'Was der Körper speichert',
+          p1: 'Während der Verstand die „Story" speichert, speichert der Körper die „Energie" der Situation. Er registriert vor allem:',
+          list: ['Alarm- vs. Sicherheitszustände', 'Bindungserfahrungen (War ich willkommen? War ich allein?)', 'Ohnmacht vs. Handlungsspielraum', 'Rhythmus, Atemmuster, muskuläre Spannung'],
+          highlight: 'Der Körper speichert nicht primär „was passiert ist", sondern die Antwort auf die Frage: „Wie sicher war ich?"',
+        },
+        s2: {
+          title: 'Warum der Körper schneller ist als das Denken',
+          p1: 'Dies ist der entscheidende Punkt für Führung und Selbstmanagement unter Stress: Neurobiologisch reagieren der Körper und das limbische System (Emotionszentrum) in Millisekunden auf einen Reiz. Die Kognition (das bewusste Denken) folgt deutlich verzögert.',
+          quote: 'Das Denken ist oft nur der „Pressesprecher", der nachträglich erklärt (oder rationalisiert), was der Körper längst entschieden hat.',
+          p2: 'Das erklärt Phänomene wie emotionale Überreaktionen und den Satz: „Ich weiß es rational besser, aber ich kann gerade nicht anders."',
+        },
+        s3: {
+          title: 'Body Memory ist nicht pathologisch',
+          p1: 'Das somatische Gedächtnis ist nicht „kaputt" oder irrational. Es ist ein hocheffizientes Schutzsystem, das auf vergangenen Erfahrungen basiert.',
+        },
+        s4: {
+          title: 'Das Erbe in den Zellen: Epigenetik',
+          p1: 'Das implizite Gedächtnis beginnt nicht erst mit der eigenen Geburt. Die Forschung der Epigenetik zeigt, dass traumatische Erfahrungen, langanhaltende Stresszustände oder existenzielle Krisen Marker auf der DNA hinterlassen, die vererbt werden können.',
+          p2: 'Das bedeutet:',
+          list: ['Ein Nervensystem kann mit einer erhöhten Alarmbereitschaft auf die Welt kommen, ohne selbst je Gefahr erlebt zu haben.', 'Bestimmte Trigger (z.B. Autorität, Mangel, Plötzlichkeit) aktivieren Ängste, die eigentlich die Realität der Eltern oder Großeltern widerspiegeln.'],
+          quote: 'Wir erinnern uns biologisch an die Krisen unserer Vorfahren. Das erklärt oft diffuse Ängste oder Blockaden, die „keinen Sinn ergeben", wenn wir nur auf die eigene Biografie schauen.',
+        },
+      },
+      
+      // Chapter 3
+      kap3: {
+        title: 'Meditation als Zugang (und Risiko)',
+        s1: {
+          title: 'Was Meditation wirklich macht',
+          p1: 'In diesem Kontext ist Meditation keine Entspannungstechnik, sondern ein Wahrnehmungswerkzeug. Sie tut drei Dinge:',
+          list: ['Sie reduziert äußere Reize (Stille).', 'Sie erhöht die Interozeption (die Fähigkeit, Signale aus dem Körperinneren wahrzunehmen).', 'Sie senkt die kognitive Kontrolle (das „Gedankenkarussell" wird leiser).'],
+          highlight: 'Das öffnet den direkten Zugang zum impliziten Gedächtnis. Der „Lärm" des Alltags übertönt nicht mehr die Signale des Körpers.',
+        },
+        s2: {
+          title: 'Warum in Meditation „alte Dinge" auftauchen',
+          p1: 'Wenn es still wird, wird es oft nicht ruhig, sondern laut im Inneren. Nicht weil Meditation Probleme macht, sondern weil der Körper endlich den Raum bekommt, „zu sprechen" und unvollständige Prozesse sichtbar werden.',
+        },
+        s3: {
+          title: 'Die entscheidende Unterscheidung: Heilung vs. Überforderung',
+          integrative: {
+            title: 'Meditation wirkt integrativ, wenn:',
+            items: ['das Tempo stimmt und eine Grundsicherheit im Hier und Jetzt vorhanden ist.', 'Selbstmitgefühl aktiv ist (nicht wertendes Beobachten).'],
+          },
+          retraumatizing: {
+            title: 'Meditation wirkt retraumatisierend, wenn:',
+            items: ['sie als „Durchbruchtechnik" genutzt wird („no pain no gain").', 'intensive Körperreaktionen (Zittern, Panik) ignoriert werden.'],
+          },
+        },
+      },
+      
+      // Chapter 4
+      kap4: {
+        title: 'IFS: Die innere Architektur',
+        intro: 'Wenn wir verstehen, dass der Körper Erinnerungen speichert, hilft uns das Modell der „Internal Family Systems" (IFS), die daraus resultierenden Verhaltensweisen zu ordnen.',
+        s1: {
+          title: 'Grundannahme von IFS',
+          p1: 'Wir bestehen aus vielen verschiedenen inneren Anteilen (Teilen), ähnlich einem inneren Team.',
+          highlight: 'Es gibt keine schlechten Teile. Jeder Teil hat – oder hatte ursprünglich – eine schützende Funktion für das System.',
+        },
+        s2: {
+          title: 'Die drei zentralen Teiltypen',
+          manager: {
+            title: 'Manager',
+            subtitle: '(Proaktive Beschützer)',
+            desc: 'Wollen Schmerz verhindern durch Kontrolle, Perfektionismus, Planung, Intellektualisieren.',
+          },
+          firefighter: {
+            title: 'Firefighter',
+            subtitle: '(Reaktive Beschützer)',
+            desc: 'Wenn Schmerz durchbricht, sorgen sie für sofortige Ablenkung (Wut, Sucht, Rückzug).',
+          },
+          exile: {
+            title: 'Exile',
+            subtitle: '(Die Verbannten)',
+            desc: 'Verletzte Anteile, die Scham oder Angst tragen und von den anderen geschützt werden.',
+          },
+        },
+        s3: {
+          title: 'Self-Energy (Das Selbst)',
+          p1: 'Das „Selbst" ist kein Teil, sondern ein Zustand von Präsenz: ruhig, neugierig, klar, mitfühlend. Führung (im Innen wie im Außen) aus dem „Selbst" heraus reguliert, ohne Druck auszuüben.',
+        },
+        s4: {
+          title: 'Verbindung zum Körper',
+          p1: 'Teile zeigen sich immer auch somatisch (Spannung, Übelkeit, Unruhe). Der Körper ist der Kompass.',
+        },
+        s5: {
+          title: 'Übernommene Lasten („Legacy Burdens")',
+          p1: 'Nicht alle unsere Teile sind durch eigene Erfahrung entstanden. In Systemen übernehmen Kinder oft unbewusst die Rollenbilder und Glaubenssätze der Eltern, um die Bindung zu sichern.',
+          copiedManager: 'Der kopierte Manager:',
+          copiedManagerDesc: 'Agiert dein innerer Antreiber so, wie du es brauchst, oder exakt so, wie dein Vater mit Stress umging?',
+          inheritedFear: 'Die übernommene Angst:',
+          inheritedFearDesc: 'Trägt ein Teil vielleicht die unaufgelöste Panik der Mutter vor Ausgrenzung?',
+          quote: 'Die entscheidende Frage ist: „Gehört dieses Gefühl eigentlich mir – oder trage ich es für jemand anderen?"',
+        },
+      },
+      
+      // Chapter 5
+      kap5: {
+        title: 'NVC: Sprache für innere Wahrheit',
+        intro: 'IFS hilft zu verstehen, wer in uns spricht. Gewaltfreie Kommunikation (NVC) hilft dabei, wie wir dies ausdrücken, um Verbindung herzustellen.',
+        s1: {
+          title: 'Warum NVC hier passt',
+          p1: 'NVC moralisiert und pathologisiert nicht. Es ist ein Präzisionswerkzeug, um somatische Zustände in beziehungsfähige Sprache zu übersetzen.',
+        },
+        s2: {
+          title: 'Die vier Schritte – verkörpert gedacht',
+          step1: { title: 'Beobachtung', desc: 'Was ist faktisch passiert? (Beruhigt das Alarmsystem)' },
+          step2: { title: 'Gefühl', desc: 'Was fühle ich? (Verbindung zum impliziten Gedächtnis)' },
+          step3: { title: 'Bedürfnis', desc: 'Was braucht gerade Schutz oder Erfüllung? (Der Kernantrieb)' },
+          step4: { title: 'Bitte', desc: 'Was wäre ein konkreter nächster Schritt?' },
+        },
+        s3: {
+          title: 'Bedürfnisse als Brücke',
+          p1: 'Bedürfnisse sind der gemeinsame Nenner aller Teile. Auch ein destruktiver Teil versucht oft nur, ein Bedürfnis nach Sicherheit zu erfüllen.',
+        },
+      },
+      
+      // Chapter 6
+      kap6: {
+        title: 'Das integrierte Prozessmodell',
+        intro: 'Wir fügen die Ebenen zusammen. Dies ist die Architektur einer bewussten Reaktion unter Druck.',
+        s1: {
+          title: 'Die Gesamtbewegung (Der Flow)',
+        },
+        s2: {
+          title: 'Praxis-Beispiel: Die kritische Situation',
+          situation: 'Die Situation:',
+          situationDesc: 'Sie stellen ein Projekt vor. Ein Stakeholder unterbricht genervt: „Das funktioniert hier nicht. Nächster Punkt."',
+          automatic: {
+            title: 'Automatik-Modus',
+            trigger: 'Trigger:',
+            triggerDesc: 'Unterbrechung & Tonfall',
+            somatic: 'Somatik:',
+            somaticDesc: 'Stich im Magen, Hitze',
+            part: 'Teil:',
+            partDesc: '„Verteidiger" wehrt Inkompetenzgefühle ab',
+            reaction: 'Reaktion:',
+            reactionDesc: 'Zynismus oder Gegenangriff → Eskalation',
+          },
+          integrated: {
+            title: 'Integrierter Modus',
+            trigger: 'Trigger:',
+            triggerDesc: 'Unterbrechung',
+            somatic: 'Somatik:',
+            somaticDesc: 'Sie spüren Stich und Hitze',
+            pause: 'Pause:',
+            pauseDesc: 'Ausatmen, Impuls erkennen, nicht ausagieren',
+            translation: 'Übersetzung:',
+            translationDesc: '„Ich bin irritiert, weil ich möchte, dass die Arbeit gesehen wird."',
+            action: 'Handlung:',
+            actionDesc: 'Deeskalierende Frage → Verbindung',
+          },
+        },
+      },
+      
+      // Chapter 7
+      kap7: {
+        title: 'Unconscious Bias neu verstanden',
+        s1: {
+          title: 'Bias als Körperphänomen',
+          p1: 'Bias ist kein reiner Denkfehler, sondern ein somatischer Sicherheitsmechanismus unter Zeitdruck.',
+          scan: 'Das Gehirn scannt: „Sicher oder unsicher?"',
+          items: ['Bias = Ein Schutzteil unter Stress', 'Gefühl: Unsicherheit, Angst vor dem Fremden', 'Bedürfnis: Vorhersagbarkeit, Zugehörigkeit'],
+          highlight: 'Regulation schlägt Belehrung. Wenn ich mich sicher fühle, brauche ich meine Vorurteile weniger dringend als Schutzschild.',
+        },
+      },
+      
+      // Chapter 8
+      kap8: {
+        title: 'Erinnerungskultur & Journaling',
+        s1: {
+          title: 'Erinnerungen sind formbar',
+          p1: 'Wir können die emotionale Ladung einer Erinnerung verändern, indem wir den Zustand ändern, in dem wir uns erinnern.',
+        },
+        s2: {
+          title: 'Integratives Journaling',
+          p1: 'Fragen Sie beim Reflektieren nicht nur: „Was ist passiert?"',
+          p2: 'Sondern:',
+          items: ['Wie hat es sich im Körper angefühlt?', 'Welcher Teil war aktiv?', 'Gehört dieses Gefühl mir oder ist es ein Erbe?', 'Welches Bedürfnis war lebendig?'],
+        },
+      },
+      
+      // Fazit
+      fazit: {
+        adjacentTitle: 'Angrenzende Themenfelder',
+        adjacentIntro: 'Dieses Modell bildet das Fundament für die Arbeit mit:',
+        adjacentItems: ['Polyvagal-Theorie (Nervensystem & Sicherheit)', 'Window of Tolerance (Stresstoleranz-Fenster)', 'Bindungsstile (Beziehungsmuster)', 'Embodied Cognition (Verkörpertes Denken)'],
+        thesisTitle: 'Die zentrale These',
+        thesisIntro: 'Wenn wir die Ebenen von Körpergedächtnis, Epigenetik, inneren Anteilen und Bedürfnissen zusammenführen, kommen wir zu einer radikalen Schlussfolgerung:',
+        thesisQuote: 'Viele menschliche Probleme sind keine Denkprobleme, sondern Zustandsprobleme.',
+        thesisP1: 'Wir versuchen oft, Konflikte durch mehr Analyse zu lösen. Doch wenn das Nervensystem im Alarmzustand ist, ist der Zugang zu Lösungen blockiert.',
+        thesisHighlight: 'Die Arbeit beginnt bei der Regulation des Zustands.',
+        thesisP2: 'Wenn der Zustand reguliert ist:',
+        thesisItems: ['werden Teile kooperativ.', 'werden Bedürfnisse verhandelbar.', 'können wir unterscheiden: Was ist mein Stress, und was ist altes Erbe?', 'wird echte Beziehung möglich.'],
+      },
+      
+      // Footer
+      footer: {
+        subtitle: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen',
+        copyright: 'Alle Rechte vorbehalten.',
+      },
+    },
+    
+    // Oria page
+    oria: {
+      symbolOf: 'Symbolfigur von Beyond Bias',
+      title: 'Das ist Oria',
+      subtitle: 'Deine stille Begleiterin auf dem Weg zu dir selbst',
+      intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond Bias und Wegweiserin im Jahrescoaching.',
+      intro2: 'Sie steht für genau das, was Beyond Bias und das Jahresprogramm kultivieren:',
+      intro2Bold: 'Präsenz, innere Führung, Tiefe.',
+      intro3: 'Oria ist kein Maskottchen, sondern eine seelische Gefährtin – eine, die dich erinnert:',
+      intro3Quote: '„Du trägst bereits alles in dir."',
+      whyOwl: 'Warum eine Eule?',
+      whyOwlDesc: 'Die Eule ist seit jeher ein Sinnbild für Weisheit. Sie sieht das, was anderen verborgen bleibt. Und sie verkörpert viele der Qualitäten, die im Coachingprogramm lebendig werden:',
+      qualities: {
+        wisdom: { title: 'Weisheit & innere Klarheit', desc: 'Oria erinnert dich an deinen inneren Kern – das Selbst, das ruhig, klar und mitfühlend führt.' },
+        seeing: { title: 'Sehen im Dunkeln', desc: 'Wie die Eule hilft dir das Programm, auch das Unsichtbare in dir zu erkennen: alte Muster, Körpersignale, Bedürfnisse.' },
+        mindfulness: { title: 'Achtsamkeit & stille Präsenz', desc: 'Eulen bewegen sich lautlos. Sie beobachten. Auch du lernst, innezuhalten und achtsam wahrzunehmen, was wirklich da ist.' },
+        intuition: { title: 'Intuition & somatische Intelligenz', desc: 'Oria verkörpert die Weisheit des Körpers – jenes tiefe Wissen, das unterhalb des Denkens liegt und oft die klarsten Antworten gibt.' },
+        transformation: { title: 'Transformation & Zyklen', desc: 'Eulen begleiten seit jeher Wandlungsphasen. Auch dieses Coachingjahr ist ein Übergang – hinein in ein Leben, das dir wieder entspricht.' },
+      },
+      whyName: 'Warum heißt sie Oria?',
+      whyNameP1: 'Der Name',
+      whyNameP2: 'vereint vieles:',
+      whyNameP3: 'Er klingt sanft und klar. Er erinnert an',
+      whyNameP3Ohr: 'Ohr',
+      whyNameP3Listen: '(Zuhören), an',
+      whyNameP3Orient: 'Orientierung',
+      whyNameP3Guide: '(Führung), und an die innere',
+      whyNameP3Order: 'Ordnung',
+      whyNameP3End: ', die entsteht, wenn wir uns selbst wieder hören.',
+      oriaVoice: 'Oria ist jene Stimme in dir, die sagt:',
+      oriaVoiceQuote: '„Du musst nichts werden – nur erinnern, wer du bist."',
+      accompanies: 'Oria begleitet dich durch das ganze Jahr',
+      accompaniesDesc: 'In Meditationen, als Symbol auf deinen Unterlagen, in Impulsen, wenn du Halt suchst. Sie ist da, wenn du dich verlierst. Und wenn du dich findest.',
+      braceletCaption: 'Das Oria-Armband – eine kleine Erinnerung an deine innere Weisheit',
+      finalQuote: '„Wie still es wird, wenn du wirklich zuhörst – innen wie außen."',
+      ready: 'Bereit, mit Oria auf die Reise zu gehen?',
+      toSeminars: 'Zu den Seminarangeboten',
+    },
+    
+    // Seminare page
+    seminare: {
+      label: 'Seminarangebot',
+      title: 'Integrierte Selbstwahrnehmung',
+      titleAccent: '& Selbstführung',
+      subtitle: 'Ein ganzheitlicher Entwicklungsprozess, der Denken, Fühlen, Körper und Kommunikation verbindet – basierend auf IFS, GFK und somatischer Intelligenz.',
+      forWhom: 'Für wen ist dieses Programm?',
+      forWhomDesc: 'Das Programm richtet sich an entwicklungsorientierte Menschen in intensiven Lebensphasen – persönliche Übergänge, berufliche Neuorientierung, Beziehungskrisen oder andere Umbruchsituationen.',
+      forWhomQuote: 'In solchen Phasen wissen wir oft theoretisch, was gut für uns wäre, fallen unter Stress aber in alte Autopilot-Muster zurück.',
+      formats: 'Unsere Formate',
+      
+      // Taster evening
+      taster: {
+        label: 'Einstieg',
+        title: 'Schnupperabend',
+        desc: 'Ein unverbindlicher Einblick in das Coaching-Konzept. Erleben Sie erste Aha-Momente und verstehen Sie, wie Kopf, Herz und Körper zusammenspielen.',
+        duration: '2 Stunden',
+        location: 'Online',
+        content: 'Inhalt:',
+        items: ['Interaktive Achtsamkeitsübung', 'Einführung in IFS, GFK & Körpergedächtnis', 'Offene Fragerunde'],
+      },
+      
+      // Introduction seminar
+      intro: {
+        label: 'Grundlagen',
+        title: 'Einführungsseminar',
+        desc: 'Gründliche Vorbereitung auf das Jahresprogramm oder eigenständiger kompakter Workshop für einen grundlegenden Einstieg.',
+        duration: '4 Stunden (Digital) oder 1 Tag (Präsenz)',
+        location: 'Online oder vor Ort',
+        content: 'Inhalt:',
+        items: ['Implizites vs. explizites Gedächtnis', 'IFS-Grundlagen: Das innere Team', 'GFK: Sprache des Erlebens', 'Praktische Selbsterfahrungsübungen'],
+      },
+      
+      // Annual program
+      annual: {
+        label: 'Transformation',
+        badge: 'Hauptprogramm',
+        title: 'Jahrescoaching',
+        desc: 'Ein intensiver Blended-Learning-Prozess über 12 Monate mit Online-Modulen, Peer-Austausch und drei Präsenzphasen.',
+        duration: '12 Monate, ca. 4–8h/Monat',
+        location: 'Blended Learning',
+        contains: 'Enthält:',
+        items: ['Auftakt-Wochenende (2 Tage)', '12 thematische Monatsmodule', 'Intensiv-Retreat (7 Tage)', 'Abschluss-Wochenende (2 Tage)'],
+      },
+      
+      // Timeline
+      detailTitle: 'Das Jahresprogramm im Detail',
+      detailSubtitle: 'Ein strukturierter Weg von der Selbstwahrnehmung zur Selbstführung',
+      timeline: {
+        start: { phase: 'Start', title: 'Auftakt-Wochenende', desc: 'Kennenlernen, Vertrauensaufbau und erste Einführung in Meditation, IFS und GFK. Jeder formuliert eine persönliche Intention für das Jahr.' },
+        m1_3: { phase: 'Monat 1–3', title: 'Grundlagen der Selbstwahrnehmung', desc: 'Selbstkontakt entwickeln, Trigger und Reaktionsmuster verstehen, somatische Intelligenz und Körpergedächtnis erkunden.' },
+        m4_5: { phase: 'Monat 4–5', title: 'Innere Anteile (IFS)', desc: 'Manager-Anteile erkennen, Firefighter und Exiles verstehen. Erste Dialoge mit den inneren Beschützern.' },
+        m6: { phase: 'Monat 6', title: 'GFK-Grundlagen', desc: 'Gefühle benennen, Bedürfnisse navigieren. Das innere Erleben in beziehungsfähige Sprache übersetzen.' },
+        mid: { phase: 'Mitte', title: 'Intensiv-Retreat (7 Tage)', desc: 'Tiefe Präsenzwoche mit Körperarbeit, Teile-Heilung, Visionsarbeit und Integration. Der Höhepunkt der ersten Programmhälfte.' },
+        m7_9: { phase: 'Monat 7–9', title: 'Integration & Resilienz', desc: 'Selbstführung im Alltag verankern, authentische Kommunikation üben, Umgang mit Rückschlägen und Stress.' },
+        m10_11: { phase: 'Monat 10–11', title: 'Ausrichtung & Vision', desc: 'Lebensvision und Werte klären, das neue Selbstbild festigen, Zukunftsplan erstellen.' },
+        end: { phase: 'Abschluss', title: 'Abschluss-Wochenende', desc: 'Integration, Wertschätzungsrunden, symbolische Übergabe. Mit gestärkter Selbstverbindung in den Alltag zurückkehren.' },
+      },
+      
+      // Benefits
+      benefitsTitle: 'Konkrete Mehrwerte des Jahresprogramms',
+      benefitsSubtitle: 'Das Programm integriert Meditation, IFS und GFK als komplementäre Zugänge zum selben menschlichen Betriebssystem – statt isolierter Techniken. Die zentrale Erkenntnis: Viele persönliche Herausforderungen sind keine reinen Denkprobleme, sondern „Zustandsprobleme".',
+      practiceExample: 'Praxis-Beispiel',
+      
+      benefits: {
+        satisfaction: {
+          title: 'Persönliche Zufriedenheit',
+          summary: 'Innere Balance finden, eigene Bedürfnisse erkennen und erfüllen, Stress und innere Konflikte reduzieren.',
+          details: [
+            { heading: 'Innere Zufriedenheit steigern', text: 'Durch die Kombination der Methoden lernen Sie, besser für die eigenen Bedürfnisse zu sorgen und innere Konflikte zu lösen. Statt im Autopilot-Stress gefangen zu bleiben, entwickeln Sie bewusste Strategien.' },
+            { heading: 'Eigene Bedürfnisse erkennen', text: 'Indem Sie lernen, hinter Gefühlen die bedrohten oder unerfüllten Bedürfnisse zu identifizieren, können Sie gezielt dafür sorgen, dass diese erfüllt werden.' },
+            { heading: 'Reduzierter Stress', text: 'Durch IFS-Arbeit wird das innere Team harmonisiert. Grübeleien, Selbstvorwürfe oder innere Zerreißproben nehmen ab.' },
+          ],
+          example: { name: 'Anna, Projektmanagerin', text: 'Fühlte sich ständig ausgelaugt. Im Coaching lernte sie, die Körpersignale ihres impliziten Gedächtnisses ernst zu nehmen. Sie erkannte ihr Bedürfnis nach Autonomie und Ruhe, sprach offen mit ihrem Vorgesetzten und fühlt sich heute deutlich zufriedener.' },
+        },
+        development: {
+          title: 'Entwicklungsprozesse',
+          summary: 'Tiefgreifendes persönliches Wachstum, alte Muster auflösen und neue Fähigkeiten entwickeln.',
+          details: [
+            { heading: 'Persönliches Wachstum', text: 'Über 12 Monate durchlaufen Sie einen nachhaltigen Wandel – alte Muster werden bewusst gemacht und durch neue, gesündere Verhaltensweisen ersetzt.' },
+            { heading: 'Gesteigerte Selbstwahrnehmung', text: 'Durch Meditation und Achtsamkeitsübungen schulen Sie Ihre Wahrnehmung – Sie bemerken Gedankenmuster, emotionale Reaktionen und Körpersignale immer früher.' },
+            { heading: 'Auflösen alter Muster', text: 'Sie erkennen die Kette: Trigger → Körperreaktion → automatischer Schutzmechanismus → unerfülltes Bedürfnis. So werden aus Attacke oder Flucht zunehmend achtsame Reaktionen.' },
+          ],
+          example: { name: 'Tom, Führungskraft', text: 'War in Stressphasen autoritär und ungeduldig. Er entdeckte seinen ‚Kontrolleur'-Anteil und lernte, ihm nicht die Führung zu überlassen. Sein Team bemerkt heute, dass er gelassener und zugänglicher geworden ist.' },
+        },
+        feelings: {
+          title: 'Zugang zu Gefühlen & Körperweisheit',
+          summary: 'Emotionale und körperliche Bewusstheit entwickeln, Intuition stärken und Bedürfnisse als Kompass nutzen.',
+          details: [
+            { heading: 'Gefühle im Körper erkennen', text: 'Sie lernen körperliche Symptome wie einen Kloß im Hals, flache Atmung oder Anspannung bewusst zu registrieren und korrekt zu deuten.' },
+            { heading: 'Bedürfnisse als Kompass', text: 'Hinter jedem starken Gefühl steckt ein Bedürfnis. Das Programm schult die Fähigkeit, diese Ebene bewusst zu erreichen und stimmiger zu handeln.' },
+            { heading: 'Somatische Intelligenz stärken', text: 'Je öfter Sie auf den eigenen Körper hören, desto mehr Vertrauen entwickeln Sie in Ihre Intuition. Entscheidungen werden weniger bereut.' },
+          ],
+          example: { name: 'Daniel, Abteilungsleiter', text: 'War es gewohnt, Gefühle wegzudrücken. Im Coaching lernte er, seine Körpersignale ernst zu nehmen – heute nimmt er sich 10 Minuten Pause, wenn er gereizt heimkommt, und kann dann viel liebevoller reagieren.' },
+        },
+        relationships: {
+          title: 'Beziehungen & Kommunikation',
+          summary: 'Authentisch kommunizieren, empathischer zuhören und Konflikte konstruktiv lösen.',
+          details: [
+            { heading: 'Klareres Ausdrücken', text: 'Statt ‚Du bist immer so gemein!' lernen Sie: ‚Wenn du mich unterbrichst, bin ich irritiert, weil mir Respekt wichtig ist.' Dieser Wechsel verändert die Atmosphäre dramatisch.' },
+            { heading: 'Mehr Empathie', text: 'Wer eigene verletzliche Anteile kennengelernt hat, reagiert mit mehr Mitgefühl, wenn andere emotional reagieren.' },
+            { heading: 'Konstruktiver Konfliktumgang', text: 'Sie lernen, in Konflikten innerlich einen Schritt zurückzutreten, anstatt sofort zurückzuschießen. Aus potentiellen Machtkämpfen werden Dialoge.' },
+          ],
+          example: { name: 'Julia, Partnerin', text: 'Zog sich bei Streit zurück, ihr Partner wurde lauter. Im Coaching lernte sie, verletzliche Gefühle auszudrücken. Das erste offene Gespräch verlief völlig anders – beide fanden einen Kompromiss.' },
+        },
+        resilience: {
+          title: 'Selbstführung, Resilienz & Klarheit',
+          summary: 'Innere Führungskraft entwickeln, widerstandsfähiger werden und Entscheidungen klar treffen.',
+          details: [
+            { heading: 'Selbst als Führungsinstanz', text: 'Sie erleben, wie es ist, ruhig und mitfühlend auf eigene Gedanken zu blicken, ohne überwältigt zu werden. Diese innere Führungsinstanz gibt Gelassenheit.' },
+            { heading: 'Resilienz und Stressbewältigung', text: 'Sie lernen, Ihren Nervensystem-Zustand wahrzunehmen und passende Hilfen anzuwenden – Atemübungen, Meditation oder unterstützende Gedanken.' },
+            { heading: 'Innere Klarheit und Fokus', text: 'Die anfängliche ‚mentale Zettelwirtschaft' sortiert sich. Sie kennen Ihre Prioritäten und lassen sich weniger von kurzfristigen Emotionen verrennen.' },
+          ],
+          example: { name: 'Martin, Teilnehmer', text: 'Verlor während des Coaching-Jahres seinen Job. Dank der gelernten Techniken konnte er erstaunlich gefasst bleiben und bereits am nächsten Tag aktiv Schritte planen, statt wochenlang gelähmt zu sein.' },
+        },
+      },
+      
+      // Pillars
+      pillarsTitle: 'Die vier Säulen des Programms',
+      pillars: {
+        meditation: { title: 'Meditation', desc: 'Achtsamkeitsübungen als Wahrnehmungswerkzeug, um Zugang zum impliziten Gedächtnis zu erhalten.' },
+        ifs: { title: 'IFS (Internal Family Systems)', desc: 'Die innere Architektur verstehen: Manager, Firefighter, Exiles und das führende Selbst.' },
+        nvc: { title: 'GFK (Gewaltfreie Kommunikation)', desc: 'Innere Zustände in klare Worte übersetzen: Beobachtung, Gefühl, Bedürfnis, Bitte.' },
+        body: { title: 'Körpergedächtnis', desc: 'Somatische Signale lesen und den Körper als Verbündeten in herausfordernden Momenten nutzen.' },
+      },
+      
+      // Contact
+      contactTitle: 'Interesse geweckt?',
+      contactDesc: 'Senden Sie uns eine unverbindliche Anfrage – wir melden uns persönlich bei Ihnen und beantworten Ihre Fragen.',
+    },
+    
+    // Impressum
+    impressum: {
+      title: 'Impressum',
+      founder: 'Gründer & Entwickler',
+      founderBio: 'Als Vater von drei Töchtern habe ich erfahren, wie tief unbewusste Vorurteile und Prägungen unser Leben beeinflussen. Mit Beyond Bias through memories verbinde ich diese Erkenntnis mit moderner Neurobiologie, somatischer Intelligenz und bewährten Methoden wie IFS und Gewaltfreier Kommunikation – für einen nachhaltigen Weg zu mehr Selbstwahrnehmung und innerer Führung.',
+      legalTitle: 'Angaben gemäß § 5 TMG',
+      responsible: 'Verantwortlich für den Inhalt',
+      disclaimerTitle: 'Haftungsausschluss',
+      contentLiability: 'Haftung für Inhalte',
+      contentLiabilityText: 'Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.',
+      linkLiability: 'Haftung für Links',
+      linkLiabilityText: 'Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.',
+      copyright: 'Urheberrecht',
+      copyrightText: 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.',
+      aboutBB: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Das Konzept verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz – basierend auf Meditation, IFS (Internal Family Systems) und Gewaltfreier Kommunikation.',
+    },
+    
+    // Contact form
+    form: {
+      name: 'Ihr Name',
+      namePlaceholder: 'Max Mustermann',
+      email: 'E-Mail-Adresse',
+      emailPlaceholder: 'ihre.email@beispiel.de',
+      phone: 'Telefon (optional)',
+      phonePlaceholder: '+49 123 456789',
+      interest: 'Interesse an',
+      interestPlaceholder: 'Bitte wählen...',
+      interestTaster: 'Schnupperabend',
+      interestIntro: 'Einführungsseminar',
+      interestAnnual: 'Jahrescoaching',
+      interestGeneral: 'Allgemeine Frage',
+      message: 'Ihre Nachricht (optional)',
+      messagePlaceholder: 'Erzählen Sie uns mehr über Ihre Situation oder stellen Sie Fragen...',
+      submit: 'Anfrage senden',
+      submitting: 'Wird gesendet...',
+      successTitle: 'Vielen Dank!',
+      successMessage: 'Ihre Anfrage wurde erfolgreich gesendet. Wir melden uns zeitnah bei Ihnen.',
+      errorTitle: 'Fehler',
+      errorMessage: 'Es gab ein Problem beim Senden Ihrer Anfrage. Bitte versuchen Sie es später erneut.',
+    },
+  },
+  
+  en: {
+    // Navigation
+    nav: {
+      back: 'Back',
+      toCompendium: 'To Compendium',
+      toHome: 'To Home',
+      seminars: 'Seminars',
+      oria: 'Oria',
+      impressum: 'Legal Notice',
+      discoverOria: 'Discover Oria',
+      seminarOffers: 'Seminar Offerings',
+    },
+    
+    // Index page
+    index: {
+      heroSubtitle: 'A memory-based action model for dealing with stress, bias, and conditioning',
+      begin: 'Begin',
+      meetOria: 'Meet Oria',
+      discoverSeminars: 'Discover Seminars',
+      tagline: 'For more clarity in times of constant overwhelm.',
+      taglineDesc: 'The Beyond Bias action model connects modern neurobiology and epigenetics with practical self-leadership skills.',
+      taglineNote: 'Not a guidebook or theoretical model, but a map, practical guide, and transformation tool for the human operating system under pressure.',
+      
+      // Chapters
+      chapters: {
+        cover: 'Cover',
+        vorwort: 'Foreword',
+        erinnerung: 'Memory',
+        bodyMemory: 'Body Memory',
+        meditation: 'Meditation',
+        ifs: 'IFS',
+        nvc: 'NVC',
+        processModel: 'Process Model',
+        bias: 'Bias',
+        journaling: 'Journaling',
+        fazit: 'Conclusion',
+      },
+      
+      // Vorwort
+      vorwort: {
+        title: 'Foreword: When Much Is at Stake',
+        subtitle: 'Why this knowledge is crucial for leadership and self-regulation.',
+        p1: 'In modern leadership—whether of companies, teams, or our own lives—purely cognitive strategies reach their limits. We often know intellectually what the right decision or the right way to communicate would be. But under pressure, time constraints, or in conflicts, we fall back on automated patterns.',
+        highlight1: 'We don\'t act according to our best knowledge, but according to our most deeply anchored state.',
+        p2: 'This mini-book bridges the gap between intention ("I want to act calmly and strategically") and reality ("I was triggered and reacted").',
+        quote1: 'Humans are not thinking beings with a body—but embodied beings who have learned to think.',
+        p3: 'Memories, impulses, biases, and self-images don\'t primarily originate in the head. They arise from an interplay of body states, ancient survival programs, epigenetic heritage, and inner parts.',
+        p4: 'Those who lead don\'t just lead minds, they regulate nervous systems—first their own, then the system\'s. This compendium provides the architecture for that.',
+      },
+      
+      // Chapter 1
+      kap1: {
+        title: 'What Memory Really Is',
+        s1: {
+          title: 'Memory Is Not an Archive',
+          p1: 'The most widespread illusion about our memory is that of a "video archive." We believe we retrieve exactly what was stored. This is wrong.',
+          highlight: 'Memories are not stored films, but reconstructed states.',
+          p2: 'With each remembering, various fragments in the brain are newly combined:',
+          list: ['Sensory impressions (smells, sounds)', 'Emotions from that time', 'Current body states', 'Meanings we give the event today'],
+          fazit: 'Conclusion: Every memory is not a journey into the past, but active present work. How we feel today determines what we remember from yesterday.',
+        },
+        s2: {
+          title: 'Explicit vs. Implicit Memory',
+          p1: 'To understand human behavior, we must distinguish two storage systems:',
+          explicit: {
+            title: 'Explicit Memory',
+            subtitle: '(The Mind)',
+            items: ['Facts, stories, chronological sequences', 'Linguistically and consciously accessible'],
+            example: '"I still remember that..."',
+          },
+          implicit: {
+            title: 'Implicit Memory',
+            subtitle: '(The Body & Feeling)',
+            items: ['Body reactions, automated expectations', 'Pre-verbal, faster and unconscious'],
+            example: '"It suddenly feels as if..."',
+          },
+          quote: 'Implicit memory is older, faster, and highly oriented toward safety and relationship. It controls our immediate reactions.',
+        },
+        s3: {
+          title: 'Memory Trigger',
+          p1: 'A trigger (caused by music, places, tones, social situations like criticism) doesn\'t just open a mental file. It activates an entire "state landscape."',
+          chain: 'A trigger activates a chain:',
+          chainDesc: 'Memory (implicit) + Old body state + Protection strategy + Current need',
+        },
+      },
+      
+      // Chapter 2
+      kap2: {
+        title: 'The Somatic Memory (Body Memory)',
+        s1: {
+          title: 'What the Body Stores',
+          p1: 'While the mind stores the "story," the body stores the "energy" of the situation. It registers primarily:',
+          list: ['Alarm vs. safety states', 'Attachment experiences (Was I welcome? Was I alone?)', 'Helplessness vs. room to act', 'Rhythm, breathing patterns, muscular tension'],
+          highlight: 'The body doesn\'t primarily store "what happened," but the answer to the question: "How safe was I?"',
+        },
+        s2: {
+          title: 'Why the Body Is Faster Than Thinking',
+          p1: 'This is the crucial point for leadership and self-management under stress: Neurobiologically, the body and limbic system (emotion center) react in milliseconds to a stimulus. Cognition (conscious thinking) follows with a significant delay.',
+          quote: 'Thinking is often just the "press spokesperson" who retroactively explains (or rationalizes) what the body has long decided.',
+          p2: 'This explains phenomena like emotional overreactions and the sentence: "I know better rationally, but I just can\'t help it right now."',
+        },
+        s3: {
+          title: 'Body Memory Is Not Pathological',
+          p1: 'Somatic memory is not "broken" or irrational. It is a highly efficient protection system based on past experiences.',
+        },
+        s4: {
+          title: 'The Legacy in the Cells: Epigenetics',
+          p1: 'Implicit memory doesn\'t begin only at our own birth. Epigenetic research shows that traumatic experiences, long-lasting stress states, or existential crises leave markers on DNA that can be inherited.',
+          p2: 'This means:',
+          list: ['A nervous system can come into the world with heightened alertness without ever having experienced danger itself.', 'Certain triggers (e.g., authority, scarcity, suddenness) activate fears that actually reflect the reality of parents or grandparents.'],
+          quote: 'We biologically remember the crises of our ancestors. This often explains diffuse fears or blockages that "don\'t make sense" when we only look at our own biography.',
+        },
+      },
+      
+      // Chapter 3
+      kap3: {
+        title: 'Meditation as Access (and Risk)',
+        s1: {
+          title: 'What Meditation Really Does',
+          p1: 'In this context, meditation is not a relaxation technique, but a perception tool. It does three things:',
+          list: ['It reduces external stimuli (silence).', 'It increases interoception (the ability to perceive signals from within the body).', 'It lowers cognitive control (the "thought carousel" becomes quieter).'],
+          highlight: 'This opens direct access to implicit memory. The "noise" of everyday life no longer drowns out the body\'s signals.',
+        },
+        s2: {
+          title: 'Why "Old Things" Surface in Meditation',
+          p1: 'When it becomes quiet, it often doesn\'t become calm, but loud inside. Not because meditation causes problems, but because the body finally gets the space to "speak" and incomplete processes become visible.',
+        },
+        s3: {
+          title: 'The Crucial Distinction: Healing vs. Overwhelm',
+          integrative: {
+            title: 'Meditation works integratively when:',
+            items: ['the pace is right and a basic safety in the here and now is present.', 'Self-compassion is active (non-judgmental observation).'],
+          },
+          retraumatizing: {
+            title: 'Meditation works retraumatizingly when:',
+            items: ['it is used as a "breakthrough technique" ("no pain no gain").', 'intense body reactions (trembling, panic) are ignored.'],
+          },
+        },
+      },
+      
+      // Chapter 4
+      kap4: {
+        title: 'IFS: The Inner Architecture',
+        intro: 'When we understand that the body stores memories, the Internal Family Systems (IFS) model helps us organize the resulting behaviors.',
+        s1: {
+          title: 'Basic Assumption of IFS',
+          p1: 'We consist of many different inner parts, similar to an inner team.',
+          highlight: 'There are no bad parts. Every part has—or originally had—a protective function for the system.',
+        },
+        s2: {
+          title: 'The Three Central Part Types',
+          manager: {
+            title: 'Managers',
+            subtitle: '(Proactive Protectors)',
+            desc: 'Want to prevent pain through control, perfectionism, planning, intellectualizing.',
+          },
+          firefighter: {
+            title: 'Firefighters',
+            subtitle: '(Reactive Protectors)',
+            desc: 'When pain breaks through, they provide immediate distraction (anger, addiction, withdrawal).',
+          },
+          exile: {
+            title: 'Exiles',
+            subtitle: '(The Banished)',
+            desc: 'Wounded parts that carry shame or fear and are protected by the others.',
+          },
+        },
+        s3: {
+          title: 'Self-Energy (The Self)',
+          p1: 'The "Self" is not a part, but a state of presence: calm, curious, clear, compassionate. Leadership (inside and outside) from the "Self" regulates without exerting pressure.',
+        },
+        s4: {
+          title: 'Connection to the Body',
+          p1: 'Parts always also show somatically (tension, nausea, restlessness). The body is the compass.',
+        },
+        s5: {
+          title: 'Inherited Burdens ("Legacy Burdens")',
+          p1: 'Not all our parts arose from our own experience. In systems, children often unconsciously adopt the role models and beliefs of parents to secure attachment.',
+          copiedManager: 'The copied manager:',
+          copiedManagerDesc: 'Does your inner driver act as you need it, or exactly as your father dealt with stress?',
+          inheritedFear: 'The inherited fear:',
+          inheritedFearDesc: 'Does a part perhaps carry your mother\'s unresolved panic about exclusion?',
+          quote: 'The crucial question is: "Does this feeling actually belong to me—or am I carrying it for someone else?"',
+        },
+      },
+      
+      // Chapter 5
+      kap5: {
+        title: 'NVC: Language for Inner Truth',
+        intro: 'IFS helps understand who is speaking in us. Nonviolent Communication (NVC) helps with how we express this to create connection.',
+        s1: {
+          title: 'Why NVC Fits Here',
+          p1: 'NVC doesn\'t moralize or pathologize. It is a precision tool for translating somatic states into relational language.',
+        },
+        s2: {
+          title: 'The Four Steps – Thought Embodied',
+          step1: { title: 'Observation', desc: 'What factually happened? (Calms the alarm system)' },
+          step2: { title: 'Feeling', desc: 'What do I feel? (Connection to implicit memory)' },
+          step3: { title: 'Need', desc: 'What needs protection or fulfillment right now? (The core drive)' },
+          step4: { title: 'Request', desc: 'What would be a concrete next step?' },
+        },
+        s3: {
+          title: 'Needs as a Bridge',
+          p1: 'Needs are the common denominator of all parts. Even a destructive part is often just trying to fulfill a need for safety.',
+        },
+      },
+      
+      // Chapter 6
+      kap6: {
+        title: 'The Integrated Process Model',
+        intro: 'We combine the levels. This is the architecture of a conscious response under pressure.',
+        s1: {
+          title: 'The Overall Movement (The Flow)',
+        },
+        s2: {
+          title: 'Practice Example: The Critical Situation',
+          situation: 'The Situation:',
+          situationDesc: 'You\'re presenting a project. A stakeholder interrupts irritably: "That doesn\'t work here. Next point."',
+          automatic: {
+            title: 'Automatic Mode',
+            trigger: 'Trigger:',
+            triggerDesc: 'Interruption & tone',
+            somatic: 'Somatic:',
+            somaticDesc: 'Stab in stomach, heat',
+            part: 'Part:',
+            partDesc: '"Defender" wards off feelings of incompetence',
+            reaction: 'Reaction:',
+            reactionDesc: 'Cynicism or counterattack → Escalation',
+          },
+          integrated: {
+            title: 'Integrated Mode',
+            trigger: 'Trigger:',
+            triggerDesc: 'Interruption',
+            somatic: 'Somatic:',
+            somaticDesc: 'You feel stab and heat',
+            pause: 'Pause:',
+            pauseDesc: 'Exhale, recognize impulse, don\'t act it out',
+            translation: 'Translation:',
+            translationDesc: '"I\'m irritated because I want my work to be seen."',
+            action: 'Action:',
+            actionDesc: 'De-escalating question → Connection',
+          },
+        },
+      },
+      
+      // Chapter 7
+      kap7: {
+        title: 'Unconscious Bias Understood Anew',
+        s1: {
+          title: 'Bias as a Body Phenomenon',
+          p1: 'Bias is not a pure thinking error, but a somatic safety mechanism under time pressure.',
+          scan: 'The brain scans: "Safe or unsafe?"',
+          items: ['Bias = A protective part under stress', 'Feeling: Uncertainty, fear of the unfamiliar', 'Need: Predictability, belonging'],
+          highlight: 'Regulation beats instruction. When I feel safe, I need my prejudices less urgently as a shield.',
+        },
+      },
+      
+      // Chapter 8
+      kap8: {
+        title: 'Memory Culture & Journaling',
+        s1: {
+          title: 'Memories Are Malleable',
+          p1: 'We can change the emotional charge of a memory by changing the state in which we remember.',
+        },
+        s2: {
+          title: 'Integrative Journaling',
+          p1: 'When reflecting, don\'t just ask: "What happened?"',
+          p2: 'But rather:',
+          items: ['How did it feel in my body?', 'Which part was active?', 'Does this feeling belong to me or is it an inheritance?', 'Which need was alive?'],
+        },
+      },
+      
+      // Fazit
+      fazit: {
+        adjacentTitle: 'Adjacent Topic Areas',
+        adjacentIntro: 'This model forms the foundation for working with:',
+        adjacentItems: ['Polyvagal Theory (Nervous System & Safety)', 'Window of Tolerance (Stress Tolerance Window)', 'Attachment Styles (Relationship Patterns)', 'Embodied Cognition'],
+        thesisTitle: 'The Central Thesis',
+        thesisIntro: 'When we combine the levels of body memory, epigenetics, inner parts, and needs, we arrive at a radical conclusion:',
+        thesisQuote: 'Many human problems are not thinking problems, but state problems.',
+        thesisP1: 'We often try to solve conflicts through more analysis. But when the nervous system is in an alarm state, access to solutions is blocked.',
+        thesisHighlight: 'The work begins with state regulation.',
+        thesisP2: 'When the state is regulated:',
+        thesisItems: ['parts become cooperative.', 'needs become negotiable.', 'we can distinguish: What is my stress, and what is old legacy?', 'real relationship becomes possible.'],
+      },
+      
+      // Footer
+      footer: {
+        subtitle: 'A memory-based action model for dealing with stress, bias, and conditioning',
+        copyright: 'All rights reserved.',
+      },
+    },
+    
+    // Oria page
+    oria: {
+      symbolOf: 'Symbol Figure of Beyond Bias',
+      title: 'This is Oria',
+      subtitle: 'Your quiet companion on the path to yourself',
+      intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Beyond Bias and guide in the annual coaching.',
+      intro2: 'She represents exactly what Beyond Bias and the annual program cultivate:',
+      intro2Bold: 'Presence, inner leadership, depth.',
+      intro3: 'Oria is not a mascot, but a soul companion—one who reminds you:',
+      intro3Quote: '"You already carry everything within you."',
+      whyOwl: 'Why an Owl?',
+      whyOwlDesc: 'The owl has always been a symbol of wisdom. It sees what remains hidden to others. And it embodies many of the qualities that come alive in the coaching program:',
+      qualities: {
+        wisdom: { title: 'Wisdom & Inner Clarity', desc: 'Oria reminds you of your inner core—the Self that leads calmly, clearly, and compassionately.' },
+        seeing: { title: 'Seeing in the Dark', desc: 'Like the owl, the program helps you recognize the invisible in yourself: old patterns, body signals, needs.' },
+        mindfulness: { title: 'Mindfulness & Quiet Presence', desc: 'Owls move silently. They observe. You too learn to pause and mindfully perceive what is really there.' },
+        intuition: { title: 'Intuition & Somatic Intelligence', desc: 'Oria embodies the wisdom of the body—that deep knowledge beneath thinking that often gives the clearest answers.' },
+        transformation: { title: 'Transformation & Cycles', desc: 'Owls have always accompanied phases of change. This coaching year is also a transition—into a life that suits you again.' },
+      },
+      whyName: 'Why Is She Called Oria?',
+      whyNameP1: 'The name',
+      whyNameP2: 'unites many things:',
+      whyNameP3: 'It sounds gentle and clear. It reminds of',
+      whyNameP3Ohr: 'Ear',
+      whyNameP3Listen: '(Listening), of',
+      whyNameP3Orient: 'Orientation',
+      whyNameP3Guide: '(Guidance), and of the inner',
+      whyNameP3Order: 'Order',
+      whyNameP3End: ' that emerges when we hear ourselves again.',
+      oriaVoice: 'Oria is that voice in you that says:',
+      oriaVoiceQuote: '"You don\'t have to become anything—just remember who you are."',
+      accompanies: 'Oria accompanies you throughout the year',
+      accompaniesDesc: 'In meditations, as a symbol on your materials, in impulses when you seek support. She is there when you lose yourself. And when you find yourself.',
+      braceletCaption: 'The Oria bracelet—a small reminder of your inner wisdom',
+      finalQuote: '"How quiet it becomes when you truly listen—inside and out."',
+      ready: 'Ready to embark on the journey with Oria?',
+      toSeminars: 'To the Seminar Offerings',
+    },
+    
+    // Seminare page
+    seminare: {
+      label: 'Seminar Offering',
+      title: 'Integrated Self-Awareness',
+      titleAccent: '& Self-Leadership',
+      subtitle: 'A holistic development process that connects thinking, feeling, body, and communication—based on IFS, NVC, and somatic intelligence.',
+      forWhom: 'Who Is This Program For?',
+      forWhomDesc: 'The program is designed for development-oriented people in intensive life phases—personal transitions, career reorientation, relationship crises, or other upheaval situations.',
+      forWhomQuote: 'In such phases, we often know theoretically what would be good for us, but fall back into old autopilot patterns under stress.',
+      formats: 'Our Formats',
+      
+      // Taster evening
+      taster: {
+        label: 'Entry',
+        title: 'Taster Evening',
+        desc: 'A non-binding insight into the coaching concept. Experience first aha moments and understand how head, heart, and body interact.',
+        duration: '2 hours',
+        location: 'Online',
+        content: 'Content:',
+        items: ['Interactive mindfulness exercise', 'Introduction to IFS, NVC & body memory', 'Open Q&A session'],
+      },
+      
+      // Introduction seminar
+      intro: {
+        label: 'Basics',
+        title: 'Introduction Seminar',
+        desc: 'Thorough preparation for the annual program or standalone compact workshop for a basic introduction.',
+        duration: '4 hours (Digital) or 1 day (In-person)',
+        location: 'Online or on-site',
+        content: 'Content:',
+        items: ['Implicit vs. explicit memory', 'IFS basics: The inner team', 'NVC: Language of experience', 'Practical self-experience exercises'],
+      },
+      
+      // Annual program
+      annual: {
+        label: 'Transformation',
+        badge: 'Main Program',
+        title: 'Annual Coaching',
+        desc: 'An intensive blended learning process over 12 months with online modules, peer exchange, and three in-person phases.',
+        duration: '12 months, approx. 4-8h/month',
+        location: 'Blended Learning',
+        contains: 'Contains:',
+        items: ['Kickoff weekend (2 days)', '12 thematic monthly modules', 'Intensive retreat (7 days)', 'Closing weekend (2 days)'],
+      },
+      
+      // Timeline
+      detailTitle: 'The Annual Program in Detail',
+      detailSubtitle: 'A structured path from self-awareness to self-leadership',
+      timeline: {
+        start: { phase: 'Start', title: 'Kickoff Weekend', desc: 'Getting to know each other, building trust, and first introduction to meditation, IFS, and NVC. Everyone formulates a personal intention for the year.' },
+        m1_3: { phase: 'Month 1-3', title: 'Foundations of Self-Awareness', desc: 'Developing self-contact, understanding triggers and reaction patterns, exploring somatic intelligence and body memory.' },
+        m4_5: { phase: 'Month 4-5', title: 'Inner Parts (IFS)', desc: 'Recognizing manager parts, understanding firefighters and exiles. First dialogues with inner protectors.' },
+        m6: { phase: 'Month 6', title: 'NVC Basics', desc: 'Naming feelings, navigating needs. Translating inner experience into relational language.' },
+        mid: { phase: 'Middle', title: 'Intensive Retreat (7 days)', desc: 'Deep presence week with body work, parts healing, vision work, and integration. The highlight of the first half of the program.' },
+        m7_9: { phase: 'Month 7-9', title: 'Integration & Resilience', desc: 'Anchoring self-leadership in everyday life, practicing authentic communication, dealing with setbacks and stress.' },
+        m10_11: { phase: 'Month 10-11', title: 'Alignment & Vision', desc: 'Clarifying life vision and values, solidifying the new self-image, creating a future plan.' },
+        end: { phase: 'Closing', title: 'Closing Weekend', desc: 'Integration, appreciation rounds, symbolic handover. Returning to everyday life with strengthened self-connection.' },
+      },
+      
+      // Benefits
+      benefitsTitle: 'Concrete Benefits of the Annual Program',
+      benefitsSubtitle: 'The program integrates meditation, IFS, and NVC as complementary approaches to the same human operating system—instead of isolated techniques. The central insight: Many personal challenges are not pure thinking problems, but "state problems."',
+      practiceExample: 'Practice Example',
+      
+      benefits: {
+        satisfaction: {
+          title: 'Personal Satisfaction',
+          summary: 'Finding inner balance, recognizing and fulfilling your own needs, reducing stress and inner conflicts.',
+          details: [
+            { heading: 'Increasing inner satisfaction', text: 'Through the combination of methods, you learn to better care for your own needs and resolve inner conflicts. Instead of being trapped in autopilot stress, you develop conscious strategies.' },
+            { heading: 'Recognizing your own needs', text: 'By learning to identify the threatened or unfulfilled needs behind feelings, you can specifically ensure they are met.' },
+            { heading: 'Reduced stress', text: 'Through IFS work, the inner team is harmonized. Rumination, self-blame, or inner turmoil decrease.' },
+          ],
+          example: { name: 'Anna, Project Manager', text: 'Felt constantly drained. In coaching, she learned to take the body signals of her implicit memory seriously. She recognized her need for autonomy and rest, spoke openly with her supervisor, and feels significantly more satisfied today.' },
+        },
+        development: {
+          title: 'Development Processes',
+          summary: 'Deep personal growth, dissolving old patterns, and developing new skills.',
+          details: [
+            { heading: 'Personal growth', text: 'Over 12 months, you undergo a sustainable transformation—old patterns are made conscious and replaced by new, healthier behaviors.' },
+            { heading: 'Increased self-awareness', text: 'Through meditation and mindfulness exercises, you train your perception—you notice thought patterns, emotional reactions, and body signals earlier and earlier.' },
+            { heading: 'Dissolving old patterns', text: 'You recognize the chain: Trigger → Body reaction → Automatic protection mechanism → Unfulfilled need. This way, attack or flight increasingly become mindful reactions.' },
+          ],
+          example: { name: 'Tom, Leader', text: 'Was authoritarian and impatient in stress phases. He discovered his "controller" part and learned not to let it take the lead. His team now notices that he has become calmer and more approachable.' },
+        },
+        feelings: {
+          title: 'Access to Feelings & Body Wisdom',
+          summary: 'Developing emotional and physical awareness, strengthening intuition, and using needs as a compass.',
+          details: [
+            { heading: 'Recognizing feelings in the body', text: 'You learn to consciously register and correctly interpret physical symptoms like a lump in your throat, shallow breathing, or tension.' },
+            { heading: 'Needs as compass', text: 'Behind every strong feeling is a need. The program trains the ability to consciously reach this level and act more coherently.' },
+            { heading: 'Strengthening somatic intelligence', text: 'The more often you listen to your own body, the more trust you develop in your intuition. Decisions are regretted less.' },
+          ],
+          example: { name: 'Daniel, Department Head', text: 'Was used to suppressing feelings. In coaching, he learned to take his body signals seriously—today he takes 10 minutes break when he comes home irritated, and can then react much more lovingly.' },
+        },
+        relationships: {
+          title: 'Relationships & Communication',
+          summary: 'Communicating authentically, listening more empathically, and resolving conflicts constructively.',
+          details: [
+            { heading: 'Clearer expression', text: 'Instead of "You\'re always so mean!" you learn: "When you interrupt me, I\'m irritated because respect is important to me." This shift dramatically changes the atmosphere.' },
+            { heading: 'More empathy', text: 'Those who have gotten to know their own vulnerable parts react with more compassion when others react emotionally.' },
+            { heading: 'Constructive conflict handling', text: 'You learn to internally take a step back in conflicts instead of immediately firing back. Potential power struggles become dialogues.' },
+          ],
+          example: { name: 'Julia, Partner', text: 'Withdrew during arguments, her partner got louder. In coaching, she learned to express vulnerable feelings. The first open conversation went completely differently—both found a compromise.' },
+        },
+        resilience: {
+          title: 'Self-Leadership, Resilience & Clarity',
+          summary: 'Developing inner leadership capacity, becoming more resilient, and making clear decisions.',
+          details: [
+            { heading: 'Self as leadership authority', text: 'You experience what it\'s like to calmly and compassionately look at your own thoughts without being overwhelmed. This inner leadership authority gives serenity.' },
+            { heading: 'Resilience and stress management', text: 'You learn to perceive your nervous system state and apply appropriate aids—breathing exercises, meditation, or supportive thoughts.' },
+            { heading: 'Inner clarity and focus', text: 'The initial "mental clutter" sorts itself out. You know your priorities and are less likely to get derailed by short-term emotions.' },
+          ],
+          example: { name: 'Martin, Participant', text: 'Lost his job during the coaching year. Thanks to the learned techniques, he was able to remain surprisingly composed and plan active steps the very next day, instead of being paralyzed for weeks.' },
+        },
+      },
+      
+      // Pillars
+      pillarsTitle: 'The Four Pillars of the Program',
+      pillars: {
+        meditation: { title: 'Meditation', desc: 'Mindfulness exercises as perception tools to gain access to implicit memory.' },
+        ifs: { title: 'IFS (Internal Family Systems)', desc: 'Understanding the inner architecture: Managers, Firefighters, Exiles, and the leading Self.' },
+        nvc: { title: 'NVC (Nonviolent Communication)', desc: 'Translating inner states into clear words: Observation, Feeling, Need, Request.' },
+        body: { title: 'Body Memory', desc: 'Reading somatic signals and using the body as an ally in challenging moments.' },
+      },
+      
+      // Contact
+      contactTitle: 'Interested?',
+      contactDesc: 'Send us a non-binding inquiry—we will personally get back to you and answer your questions.',
+    },
+    
+    // Impressum
+    impressum: {
+      title: 'Legal Notice',
+      founder: 'Founder & Developer',
+      founderBio: 'As a father of three daughters, I have experienced how deeply unconscious biases and conditioning influence our lives. With Beyond Bias through memories, I connect this insight with modern neurobiology, somatic intelligence, and proven methods like IFS and Nonviolent Communication—for a sustainable path to more self-awareness and inner leadership.',
+      legalTitle: 'Information according to § 5 TMG',
+      responsible: 'Responsible for content',
+      disclaimerTitle: 'Disclaimer',
+      contentLiability: 'Liability for Content',
+      contentLiabilityText: 'The contents of our pages were created with the greatest care. However, we cannot guarantee the accuracy, completeness, and timeliness of the content.',
+      linkLiability: 'Liability for Links',
+      linkLiabilityText: 'Our offer contains links to external third-party websites, over whose content we have no influence. Therefore, we cannot assume any liability for these external contents.',
+      copyright: 'Copyright',
+      copyrightText: 'The content and works created by the site operators on these pages are subject to German copyright law. Duplication, processing, distribution, and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator.',
+      aboutBB: 'A memory-based action model for dealing with stress, bias, and conditioning. The concept connects modern neurobiology and epigenetics with practical self-leadership skills—based on meditation, IFS (Internal Family Systems), and Nonviolent Communication.',
+    },
+    
+    // Contact form
+    form: {
+      name: 'Your Name',
+      namePlaceholder: 'John Doe',
+      email: 'Email Address',
+      emailPlaceholder: 'your.email@example.com',
+      phone: 'Phone (optional)',
+      phonePlaceholder: '+1 123 456789',
+      interest: 'Interest in',
+      interestPlaceholder: 'Please select...',
+      interestTaster: 'Taster Evening',
+      interestIntro: 'Introduction Seminar',
+      interestAnnual: 'Annual Coaching',
+      interestGeneral: 'General Question',
+      message: 'Your Message (optional)',
+      messagePlaceholder: 'Tell us more about your situation or ask questions...',
+      submit: 'Send Inquiry',
+      submitting: 'Sending...',
+      successTitle: 'Thank you!',
+      successMessage: 'Your inquiry has been sent successfully. We will get back to you soon.',
+      errorTitle: 'Error',
+      errorMessage: 'There was a problem sending your inquiry. Please try again later.',
+    },
+  },
+};
