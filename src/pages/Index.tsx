@@ -85,7 +85,7 @@ const Index = () => {
             Ein Kompendium
           </motion.p>
           
-          <div className="flex items-center justify-center gap-[20px] mb-6">
+          <div className="flex items-center justify-center gap-[30px] mb-6">
             <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-[5rem] md:h-[6.25rem] lg:h-[7.5rem] w-auto" />
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-left">
               Beyond Bias
