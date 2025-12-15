@@ -666,18 +666,21 @@ const Index = () => {
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6">
             <Link 
               to="/oria" 
+              onClick={() => window.scrollTo(0, 0)}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
             >
               Oria entdecken
             </Link>
             <Link 
               to="/seminare" 
+              onClick={() => window.scrollTo(0, 0)}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
             >
               Seminarangebote
             </Link>
             <Link 
               to="/impressum" 
+              onClick={() => window.scrollTo(0, 0)}
               className="text-sm text-muted-foreground hover:text-accent transition-colors"
             >
               Impressum
