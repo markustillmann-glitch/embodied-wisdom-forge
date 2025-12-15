@@ -9,24 +9,28 @@ import { Highlight } from "@/components/Highlight";
 import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 import oriaOwl from "@/assets/oria-owl.png";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
-const chapters = [
-  { id: "cover", title: "Cover" },
-  { id: "vorwort", title: "Vorwort" },
-  { id: "kap1", title: "Erinnerung", number: "1" },
-  { id: "kap2", title: "Body Memory", number: "2" },
-  { id: "kap3", title: "Meditation", number: "3" },
-  { id: "kap4", title: "IFS", number: "4" },
-  { id: "kap5", title: "NVC", number: "5" },
-  { id: "kap6", title: "Prozessmodell", number: "6" },
-  { id: "kap7", title: "Bias", number: "7" },
-  { id: "kap8", title: "Journaling", number: "8" },
-  { id: "fazit", title: "Fazit" },
-];
 
 const Index = () => {
+  const { t, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
+
+  const chapters = [
+    { id: "cover", title: t('index.chapters.cover') },
+    { id: "vorwort", title: t('index.chapters.vorwort') },
+    { id: "kap1", title: t('index.chapters.erinnerung'), number: "1" },
+    { id: "kap2", title: t('index.chapters.bodyMemory'), number: "2" },
+    { id: "kap3", title: t('index.chapters.meditation'), number: "3" },
+    { id: "kap4", title: t('index.chapters.ifs'), number: "4" },
+    { id: "kap5", title: t('index.chapters.nvc'), number: "5" },
+    { id: "kap6", title: t('index.chapters.processModel'), number: "6" },
+    { id: "kap7", title: t('index.chapters.bias'), number: "7" },
+    { id: "kap8", title: t('index.chapters.journaling'), number: "8" },
+    { id: "fazit", title: t('index.chapters.fazit') },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +52,7 @@ const Index = () => {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [language]);
 
   const scrollToChapter = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -61,6 +65,11 @@ const Index = () => {
         activeChapter={activeChapter}
         onChapterClick={scrollToChapter}
       />
+
+      {/* Language Switcher - Fixed Position */}
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
 
       {/* Hero / Cover */}
       <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden py-12 md:py-0">
@@ -93,7 +102,7 @@ const Index = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-base sm:text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto mt-4 sm:mt-8 leading-relaxed px-2"
           >
-            Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
+            {t('index.heroSubtitle')}
           </motion.p>
 
           <motion.div
@@ -106,7 +115,7 @@ const Index = () => {
               onClick={() => scrollToChapter("vorwort")}
               className="group inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
-              <span>Beginnen</span>
+              <span>{t('index.begin')}</span>
               <motion.span
                 animate={{ y: [0, 4, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
@@ -120,14 +129,14 @@ const Index = () => {
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
                 <img src={bbOwlLogo} alt="Oria" className="h-5 sm:h-6 w-auto opacity-70" />
-                <span>Oria kennenlernen</span>
+                <span>{t('index.meetOria')}</span>
               </a>
               <span className="text-muted-foreground/50 hidden sm:inline">|</span>
               <a
                 href="/seminare"
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
               >
-                <span>Seminarangebot entdecken</span>
+                <span>{t('index.discoverSeminars')}</span>
                 <span>→</span>
               </a>
             </div>

@@ -414,7 +414,7 @@ export const translations = {
             { heading: 'Gesteigerte Selbstwahrnehmung', text: 'Durch Meditation und Achtsamkeitsübungen schulen Sie Ihre Wahrnehmung – Sie bemerken Gedankenmuster, emotionale Reaktionen und Körpersignale immer früher.' },
             { heading: 'Auflösen alter Muster', text: 'Sie erkennen die Kette: Trigger → Körperreaktion → automatischer Schutzmechanismus → unerfülltes Bedürfnis. So werden aus Attacke oder Flucht zunehmend achtsame Reaktionen.' },
           ],
-          example: { name: 'Tom, Führungskraft', text: 'War in Stressphasen autoritär und ungeduldig. Er entdeckte seinen ‚Kontrolleur'-Anteil und lernte, ihm nicht die Führung zu überlassen. Sein Team bemerkt heute, dass er gelassener und zugänglicher geworden ist.' },
+          example: { name: 'Tom, Führungskraft', text: "War in Stressphasen autoritär und ungeduldig. Er entdeckte seinen 'Kontrolleur'-Anteil und lernte, ihm nicht die Führung zu überlassen. Sein Team bemerkt heute, dass er gelassener und zugänglicher geworden ist." },
         },
         feelings: {
           title: 'Zugang zu Gefühlen & Körperweisheit',
@@ -430,7 +430,7 @@ export const translations = {
           title: 'Beziehungen & Kommunikation',
           summary: 'Authentisch kommunizieren, empathischer zuhören und Konflikte konstruktiv lösen.',
           details: [
-            { heading: 'Klareres Ausdrücken', text: 'Statt ‚Du bist immer so gemein!' lernen Sie: ‚Wenn du mich unterbrichst, bin ich irritiert, weil mir Respekt wichtig ist.' Dieser Wechsel verändert die Atmosphäre dramatisch.' },
+            { heading: 'Klareres Ausdrücken', text: "Statt 'Du bist immer so gemein!' lernen Sie: 'Wenn du mich unterbrichst, bin ich irritiert, weil mir Respekt wichtig ist.' Dieser Wechsel verändert die Atmosphäre dramatisch." },
             { heading: 'Mehr Empathie', text: 'Wer eigene verletzliche Anteile kennengelernt hat, reagiert mit mehr Mitgefühl, wenn andere emotional reagieren.' },
             { heading: 'Konstruktiver Konfliktumgang', text: 'Sie lernen, in Konflikten innerlich einen Schritt zurückzutreten, anstatt sofort zurückzuschießen. Aus potentiellen Machtkämpfen werden Dialoge.' },
           ],
@@ -442,7 +442,7 @@ export const translations = {
           details: [
             { heading: 'Selbst als Führungsinstanz', text: 'Sie erleben, wie es ist, ruhig und mitfühlend auf eigene Gedanken zu blicken, ohne überwältigt zu werden. Diese innere Führungsinstanz gibt Gelassenheit.' },
             { heading: 'Resilienz und Stressbewältigung', text: 'Sie lernen, Ihren Nervensystem-Zustand wahrzunehmen und passende Hilfen anzuwenden – Atemübungen, Meditation oder unterstützende Gedanken.' },
-            { heading: 'Innere Klarheit und Fokus', text: 'Die anfängliche ‚mentale Zettelwirtschaft' sortiert sich. Sie kennen Ihre Prioritäten und lassen sich weniger von kurzfristigen Emotionen verrennen.' },
+            { heading: 'Innere Klarheit und Fokus', text: "Die anfängliche 'mentale Zettelwirtschaft' sortiert sich. Sie kennen Ihre Prioritäten und lassen sich weniger von kurzfristigen Emotionen verrennen." },
           ],
           example: { name: 'Martin, Teilnehmer', text: 'Verlor während des Coaching-Jahres seinen Job. Dank der gelernten Techniken konnte er erstaunlich gefasst bleiben und bereits am nächsten Tag aktiv Schritte planen, statt wochenlang gelähmt zu sein.' },
         },

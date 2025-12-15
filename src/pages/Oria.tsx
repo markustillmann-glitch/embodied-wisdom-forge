@@ -2,39 +2,43 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles } from "lucide-react";
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 import oriaOwlFine from "@/assets/oria-owl-fine.png";
 import oriaBracelet from "@/assets/oria-bracelet.png";
 
-const qualities = [
-  {
-    icon: Eye,
-    title: "Weisheit & innere Klarheit",
-    description: "Oria erinnert dich an deinen inneren Kern – das Selbst, das ruhig, klar und mitfühlend führt.",
-  },
-  {
-    icon: Moon,
-    title: "Sehen im Dunkeln",
-    description: "Wie die Eule hilft dir das Programm, auch das Unsichtbare in dir zu erkennen: alte Muster, Körpersignale, Bedürfnisse.",
-  },
-  {
-    icon: Sparkles,
-    title: "Achtsamkeit & stille Präsenz",
-    description: "Eulen bewegen sich lautlos. Sie beobachten. Auch du lernst, innezuhalten und achtsam wahrzunehmen, was wirklich da ist.",
-  },
-  {
-    icon: Heart,
-    title: "Intuition & somatische Intelligenz",
-    description: "Oria verkörpert die Weisheit des Körpers – jenes tiefe Wissen, das unterhalb des Denkens liegt und oft die klarsten Antworten gibt.",
-  },
-  {
-    icon: Compass,
-    title: "Transformation & Zyklen",
-    description: "Eulen begleiten seit jeher Wandlungsphasen. Auch dieses Coachingjahr ist ein Übergang – hinein in ein Leben, das dir wieder entspricht.",
-  },
-];
-
 const Oria = () => {
+  const { t } = useLanguage();
+
+  const qualities = [
+    {
+      icon: Eye,
+      title: t('oria.qualities.wisdom.title'),
+      description: t('oria.qualities.wisdom.desc'),
+    },
+    {
+      icon: Moon,
+      title: t('oria.qualities.seeing.title'),
+      description: t('oria.qualities.seeing.desc'),
+    },
+    {
+      icon: Sparkles,
+      title: t('oria.qualities.mindfulness.title'),
+      description: t('oria.qualities.mindfulness.desc'),
+    },
+    {
+      icon: Heart,
+      title: t('oria.qualities.intuition.title'),
+      description: t('oria.qualities.intuition.desc'),
+    },
+    {
+      icon: Compass,
+      title: t('oria.qualities.transformation.title'),
+      description: t('oria.qualities.transformation.desc'),
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -46,8 +50,8 @@ const Oria = () => {
             className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden xs:inline">Zum Kompendium</span>
-            <span className="xs:hidden">Zurück</span>
+            <span className="hidden xs:inline">{t('nav.toCompendium')}</span>
+            <span className="xs:hidden">{t('nav.back')}</span>
           </Link>
           <nav className="flex items-center gap-3 sm:gap-6">
             <Link 
@@ -55,9 +59,10 @@ const Oria = () => {
               onClick={() => window.scrollTo(0, 0)}
               className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Seminare
+              {t('nav.seminars')}
             </Link>
             <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
+            <LanguageSwitcher />
           </nav>
         </div>
       </header>
@@ -89,7 +94,7 @@ const Oria = () => {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="text-xs sm:text-sm font-sans tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground uppercase mb-4 sm:mb-6"
             >
-              Symbolfigur von Beyond Bias
+              {t('oria.symbolOf')}
             </motion.p>
             
             {/* Owl + Heading inline */}
@@ -105,7 +110,7 @@ const Oria = () => {
                 className="h-10 sm:h-[2.5rem] md:h-[3rem] lg:h-[3.75rem] w-auto object-contain"
               />
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight">
-                Das ist Oria
+                {t('oria.title')}
               </h1>
             </motion.div>
             
@@ -115,7 +120,7 @@ const Oria = () => {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-lg sm:text-xl md:text-2xl text-accent font-serif mb-6 sm:mb-8"
             >
-              Deine stille Begleiterin auf dem Weg zu dir selbst
+              {t('oria.subtitle')}
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -123,8 +128,7 @@ const Oria = () => {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-base sm:text-lg text-muted-foreground font-sans max-w-2xl leading-relaxed px-2"
             >
-              In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen:
-              Oria, unsere Eule – Symbolfigur von Beyond Bias und Wegweiserin im Jahrescoaching.
+              {t('oria.intro')}
             </motion.p>
           </div>
         </div>
@@ -141,14 +145,14 @@ const Oria = () => {
             className="space-y-4 sm:space-y-6"
           >
             <p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
-              Sie steht für genau das, was Beyond Bias und das Jahresprogramm kultivieren: <strong className="text-foreground">Präsenz, innere Führung, Tiefe.</strong>
+              {t('oria.intro2')} <strong className="text-foreground">{t('oria.intro2Bold')}</strong>
             </p>
             <p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
-              Oria ist kein Maskottchen, sondern eine seelische Gefährtin – eine, die dich erinnert:
+              {t('oria.intro3')}
             </p>
             <div className="bg-quote-bg p-5 sm:p-8 rounded-lg border-l-4 border-accent">
               <p className="text-lg sm:text-xl font-serif italic text-foreground">
-                „Du trägst bereits alles in dir."
+                {t('oria.intro3Quote')}
               </p>
             </div>
           </motion.div>
@@ -168,11 +172,10 @@ const Oria = () => {
             className="text-center mb-8 sm:mb-12"
           >
             <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground mb-3 sm:mb-4">
-              Warum eine Eule?
+              {t('oria.whyOwl')}
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-              Die Eule ist seit jeher ein Sinnbild für Weisheit. Sie sieht das, was anderen verborgen bleibt.
-              Und sie verkörpert viele der Qualitäten, die im Coachingprogramm lebendig werden:
+              {t('oria.whyOwlDesc')}
             </p>
           </motion.div>
 
@@ -220,24 +223,23 @@ const Oria = () => {
             <div className="flex items-center gap-2 sm:gap-3 mb-2">
               <Ear className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
               <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground">
-                Warum heißt sie Oria?
+                {t('oria.whyName')}
               </h2>
             </div>
             
             <p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
-              Der Name <strong className="text-accent">Oria</strong> vereint vieles:
+              {t('oria.whyNameP1')} <strong className="text-accent">Oria</strong> {t('oria.whyNameP2')}
             </p>
             <p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
-              Er klingt sanft und klar. Er erinnert an <em>Ohr</em> (Zuhören), an <em>Orientierung</em> (Führung), 
-              und an die innere <em>Ordnung</em>, die entsteht, wenn wir uns selbst wieder hören.
+              {t('oria.whyNameP3')} <em>{t('oria.whyNameP3Ohr')}</em> {t('oria.whyNameP3Listen')} <em>{t('oria.whyNameP3Orient')}</em> {t('oria.whyNameP3Guide')} <em>{t('oria.whyNameP3Order')}</em>{t('oria.whyNameP3End')}
             </p>
             
             <div className="bg-quote-bg p-5 sm:p-8 rounded-lg border-l-4 border-accent">
               <p className="text-lg sm:text-xl font-serif italic text-foreground mb-2">
-                Oria ist jene Stimme in dir, die sagt:
+                {t('oria.oriaVoice')}
               </p>
               <p className="text-xl sm:text-2xl font-serif text-accent">
-                „Du musst nichts werden – nur erinnern, wer du bist."
+                {t('oria.oriaVoiceQuote')}
               </p>
             </div>
           </motion.div>
@@ -255,12 +257,10 @@ const Oria = () => {
             className="text-center space-y-4 sm:space-y-6"
           >
             <h2 className="text-xl sm:text-2xl font-serif text-foreground">
-              Oria begleitet dich durch das ganze Jahr
+              {t('oria.accompanies')}
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              In Meditationen, als Symbol auf deinen Unterlagen, in Impulsen, wenn du Halt suchst.
-              <br className="hidden sm:block" />
-              Sie ist da, wenn du dich verlierst. Und wenn du dich findest.
+              {t('oria.accompaniesDesc')}
             </p>
           </motion.div>
           
@@ -279,7 +279,7 @@ const Oria = () => {
                 className="w-full h-auto rounded-xl shadow-lg"
               />
               <p className="text-xs sm:text-sm text-muted-foreground text-center mt-3 italic">
-                Das Oria-Armband – eine kleine Erinnerung an deine innere Weisheit
+                {t('oria.braceletCaption')}
               </p>
             </div>
           </motion.div>
@@ -299,7 +299,7 @@ const Oria = () => {
             className="space-y-6 sm:space-y-8"
           >
             <blockquote className="text-xl sm:text-2xl md:text-3xl font-serif italic text-foreground leading-relaxed">
-              „Wie still es wird, wenn du wirklich zuhörst – innen wie außen."
+              {t('oria.finalQuote')}
             </blockquote>
             <p className="text-accent font-serif text-base sm:text-lg">— Oria</p>
           </motion.div>
@@ -317,14 +317,14 @@ const Oria = () => {
             className="space-y-4 sm:space-y-6"
           >
             <p className="text-base sm:text-lg text-muted-foreground">
-              Bereit, mit Oria auf die Reise zu gehen?
+              {t('oria.ready')}
             </p>
             <Link 
               to="/seminare" 
               onClick={() => window.scrollTo(0, 0)}
               className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-colors text-sm sm:text-base"
             >
-              Zu den Seminarangeboten
+              {t('oria.toSeminars')}
             </Link>
           </motion.div>
         </div>
@@ -341,7 +341,7 @@ const Oria = () => {
             onClick={() => window.scrollTo(0, 0)}
             className="text-xs text-muted-foreground hover:text-accent transition-colors"
           >
-            Impressum
+            {t('nav.impressum')}
           </Link>
         </div>
       </footer>
