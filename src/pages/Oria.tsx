@@ -126,7 +126,7 @@ const Oria = () => {
               <img
                 src={bbOwlLogo}
                 alt="Oria - Die weise Eule"
-                className="w-[200px] md:w-[280px] lg:w-[320px] h-auto object-contain"
+                className="h-[3.5rem] md:h-[4rem] lg:h-[4.5rem] w-auto object-contain"
               />
             </motion.div>
           </div>
