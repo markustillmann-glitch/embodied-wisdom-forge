@@ -256,7 +256,15 @@ const Seminare = () => {
             <ArrowLeft className="w-4 h-4" />
             <span>Zum Kompendium</span>
           </Link>
-          <p className="font-serif text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
+          <nav className="flex items-center gap-6">
+            <Link 
+              to="/oria" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
+            >
+              Oria
+            </Link>
+            <p className="font-serif text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
+          </nav>
         </div>
       </header>
 

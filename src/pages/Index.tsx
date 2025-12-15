@@ -118,6 +118,13 @@ const Index = () => {
             </button>
             <span className="text-muted-foreground/50 hidden sm:inline">|</span>
             <a
+              href="/oria"
+              className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <span>Oria kennenlernen</span>
+            </a>
+            <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+            <a
               href="/seminare"
               className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
             >
