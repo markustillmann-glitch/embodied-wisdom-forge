@@ -335,8 +335,165 @@ export const ConnectionLines = ({ className = "" }: { className?: string }) => {
   );
 };
 
-// Heart-shaped decorative element
-export const HeartPath = ({ className = "" }: { className?: string }) => {
+// Simple owl decorative element - Oria symbol
+export const OwlSymbol = ({ className = "" }: { className?: string }) => {
+  return (
+    <motion.svg
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className={`pointer-events-none ${className}`}
+      width="80"
+      height="80"
+      viewBox="0 0 80 80"
+    >
+      {/* Simple owl face outline */}
+      <motion.ellipse
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.2 }}
+        cx="40"
+        cy="45"
+        rx="28"
+        ry="30"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1.5"
+        fill="hsl(var(--accent))"
+        fillOpacity="0.05"
+        strokeOpacity="0.3"
+      />
+      {/* Left eye */}
+      <motion.circle
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        cx="30"
+        cy="40"
+        r="8"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1.5"
+        fill="none"
+        strokeOpacity="0.4"
+      />
+      {/* Right eye */}
+      <motion.circle
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        cx="50"
+        cy="40"
+        r="8"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1.5"
+        fill="none"
+        strokeOpacity="0.4"
+      />
+      {/* Pupils */}
+      <circle cx="30" cy="40" r="3" fill="hsl(var(--accent))" fillOpacity="0.2" />
+      <circle cx="50" cy="40" r="3" fill="hsl(var(--accent))" fillOpacity="0.2" />
+      {/* Beak */}
+      <motion.path
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+        d="M40,48 L36,56 L40,54 L44,56 L40,48"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1"
+        fill="hsl(var(--accent))"
+        fillOpacity="0.1"
+        strokeOpacity="0.3"
+      />
+      {/* Ear tufts */}
+      <motion.path
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        d="M18,28 L24,18 L30,26"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1.5"
+        fill="none"
+        strokeOpacity="0.3"
+      />
+      <motion.path
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        d="M62,28 L56,18 L50,26"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1.5"
+        fill="none"
+        strokeOpacity="0.3"
+      />
+    </motion.svg>
+  );
+};
+
+// Wisdom/insight symbol - third eye / awareness
+export const InsightSymbol = ({ className = "" }: { className?: string }) => {
+  return (
+    <motion.svg
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className={`pointer-events-none ${className}`}
+      width="80"
+      height="80"
+      viewBox="0 0 80 80"
+    >
+      {/* Eye shape */}
+      <motion.path
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: 0.2 }}
+        d="M10,40 Q40,15 70,40 Q40,65 10,40"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1.5"
+        fill="hsl(var(--accent))"
+        fillOpacity="0.05"
+        strokeOpacity="0.3"
+      />
+      {/* Inner circle */}
+      <motion.circle
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        cx="40"
+        cy="40"
+        r="12"
+        stroke="hsl(var(--accent))"
+        strokeWidth="1"
+        fill="hsl(var(--accent))"
+        fillOpacity="0.08"
+        strokeOpacity="0.25"
+      />
+      {/* Pupil */}
+      <motion.circle
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.3, delay: 0.8 }}
+        cx="40"
+        cy="40"
+        r="5"
+        fill="hsl(var(--accent))"
+        fillOpacity="0.2"
+      />
+    </motion.svg>
+  );
+};
+
+// Moon/night symbol - representing inner work
+export const MoonSymbol = ({ className = "" }: { className?: string }) => {
   return (
     <motion.svg
       initial={{ opacity: 0, scale: 0.8 }}
@@ -353,13 +510,17 @@ export const HeartPath = ({ className = "" }: { className?: string }) => {
         whileInView={{ pathLength: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.5, delay: 0.2 }}
-        d="M40,70 C20,50 5,35 5,22 C5,12 13,5 25,5 C32,5 38,10 40,15 C42,10 48,5 55,5 C67,5 75,12 75,22 C75,35 60,50 40,70 Z"
+        d="M55,15 A28,28 0 1,0 55,65 A22,22 0 1,1 55,15"
         stroke="hsl(var(--accent))"
         strokeWidth="1.5"
         fill="hsl(var(--accent))"
         fillOpacity="0.08"
         strokeOpacity="0.3"
       />
+      {/* Small stars */}
+      <circle cx="25" cy="25" r="2" fill="hsl(var(--accent))" fillOpacity="0.2" />
+      <circle cx="18" cy="40" r="1.5" fill="hsl(var(--accent))" fillOpacity="0.15" />
+      <circle cx="30" cy="55" r="1.5" fill="hsl(var(--accent))" fillOpacity="0.15" />
     </motion.svg>
   );
 };

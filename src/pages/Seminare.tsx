@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { PolygonalBackground, ConnectionLines, HeartPath, GrowthSpiral } from "@/components/PolygonalBackground";
+import { PolygonalBackground, ConnectionLines, OwlSymbol, InsightSymbol, MoonSymbol, GrowthSpiral } from "@/components/PolygonalBackground";
 import { SeminarContactForm } from "@/components/SeminarContactForm";
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -206,9 +206,9 @@ const MehrwerteSection = () => {
     <section className="py-20 relative overflow-hidden">
       <PolygonalBackground variant="warm" />
       
-      {/* Decorative heart elements */}
-      <HeartPath className="absolute top-12 left-8 opacity-30 hidden md:block" />
-      <HeartPath className="absolute bottom-20 right-12 opacity-20 hidden md:block" />
+      {/* Decorative elements */}
+      <OwlSymbol className="absolute top-12 left-8 opacity-30 hidden md:block" />
+      <InsightSymbol className="absolute bottom-20 right-12 opacity-20 hidden md:block" />
       
       <div className="relative z-10 max-w-4xl mx-auto px-6">
         <motion.div
@@ -645,7 +645,7 @@ const Seminare = () => {
         </div>
         
         <div className="relative z-10 max-w-2xl mx-auto px-6">
-          <HeartPath className="mx-auto mb-6 opacity-50" />
+          <OwlSymbol className="mx-auto mb-6 opacity-50" />
           
           <motion.div {...fadeInUp} className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
