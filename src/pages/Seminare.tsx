@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
+import { PolygonalBackground, ConnectionLines, HeartPath, GrowthSpiral } from "@/components/PolygonalBackground";
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -202,8 +202,14 @@ const MehrwerteSection = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   
   return (
-    <section className="py-20 bg-secondary/30">
-      <div className="max-w-4xl mx-auto px-6">
+    <section className="py-20 relative overflow-hidden">
+      <PolygonalBackground variant="warm" />
+      
+      {/* Decorative heart elements */}
+      <HeartPath className="absolute top-12 left-8 opacity-30 hidden md:block" />
+      <HeartPath className="absolute bottom-20 right-12 opacity-20 hidden md:block" />
+      
+      <div className="relative z-10 max-w-4xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -255,8 +261,12 @@ const Seminare = () => {
 
       {/* Hero */}
       <section className="py-20 md:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-background" />
-        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <PolygonalBackground variant="hero" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
+        
+        {/* Decorative elements */}
+        <ConnectionLines className="top-20 right-10 w-32 h-32 opacity-60 hidden lg:block" />
+        <GrowthSpiral className="absolute bottom-20 left-10 opacity-40 hidden lg:block" />
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <motion.p
@@ -312,8 +322,10 @@ const Seminare = () => {
       </section>
 
       {/* Formate */}
-      <section className="py-20 bg-secondary/30">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-20 relative overflow-hidden">
+        <PolygonalBackground variant="section" />
+        
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
           <motion.h2 
             {...fadeInUp}
             className="text-2xl md:text-3xl font-serif text-foreground text-center mb-12"
@@ -481,8 +493,14 @@ const Seminare = () => {
       </section>
 
       {/* Jahresprogramm Details */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="py-20 relative overflow-hidden">
+        <PolygonalBackground variant="flow" />
+        
+        {/* Decorative growth spiral */}
+        <GrowthSpiral className="absolute top-1/4 right-8 opacity-30 hidden lg:block" />
+        <ConnectionLines className="absolute bottom-1/3 left-4 w-24 h-24 opacity-40 hidden lg:block" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
           <motion.div {...fadeInUp} className="text-center mb-16">
             <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
               Das Jahresprogramm im Detail
@@ -572,8 +590,10 @@ const Seminare = () => {
       <MehrwerteSection />
 
       {/* Methodik */}
-      <section className="py-20 bg-secondary/30">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="py-20 relative overflow-hidden">
+        <PolygonalBackground variant="accent" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
           <motion.h2
             {...fadeInUp}
             className="text-2xl md:text-3xl font-serif text-foreground text-center mb-12"
@@ -615,8 +635,17 @@ const Seminare = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20">
-        <div className="max-w-2xl mx-auto px-6 text-center">
+      <section className="py-24 relative overflow-hidden">
+        <PolygonalBackground variant="subtle" />
+        
+        {/* Warm glow effect */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
+        </div>
+        
+        <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
+          <HeartPath className="mx-auto mb-6 opacity-50" />
+          
           <motion.div {...fadeInUp}>
             <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
               Bereit für den ersten Schritt?
