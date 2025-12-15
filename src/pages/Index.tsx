@@ -154,7 +154,7 @@ const Index = () => {
               und Epigenetik mit praktischer Selbstführungskompetenz.
             </p>
             <p className="text-muted-foreground font-sans mt-4 text-xs sm:text-sm">
-              Es ist kein Workshop-Skript, sondern eine Landkarte für das menschliche Betriebssystem unter Druck.
+              Kein Ratgeber oder Theoriemodell, sondern Landkarte, praktischer Wegweiser und Transformationshilfe für das menschliche Betriebssystem unter Druck.
             </p>
           </motion.div>
         </div>
