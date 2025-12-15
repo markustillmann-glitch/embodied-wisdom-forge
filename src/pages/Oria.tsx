@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles } from "lucide-react";
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
+import oriaOwlFine from "@/assets/oria-owl-fine.png";
 
 const qualities = [
   {
@@ -65,12 +66,12 @@ const Oria = () => {
         {/* Owl background image */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <motion.img
-            src={bbOwlLogo}
+            src={oriaOwlFine}
             alt=""
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 0.15, scale: 1 }}
+            animate={{ opacity: 0.25, scale: 1 }}
             transition={{ duration: 1.5 }}
-            className="w-[400px] md:w-[500px] lg:w-[600px] h-auto object-contain"
+            className="w-[500px] md:w-[650px] lg:w-[800px] h-auto object-contain"
           />
         </div>
         
@@ -188,8 +189,8 @@ const Oria = () => {
         <PolygonalBackground variant="warm" />
         
         {/* Subtle owl in background */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-10 hidden lg:block">
-          <img src={bbOwlLogo} alt="" className="w-[300px] h-auto" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-15 hidden lg:block">
+          <img src={oriaOwlFine} alt="" className="w-[400px] h-auto" />
         </div>
         
         <div className="relative z-10 max-w-3xl mx-auto px-6">
