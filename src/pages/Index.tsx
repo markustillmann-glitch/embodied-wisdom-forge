@@ -7,7 +7,7 @@ import { Quote } from "@/components/Quote";
 import { Highlight } from "@/components/Highlight";
 import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
-
+import { PolygonalBackground, ConnectionLines, GrowthSpiral, HeartPath } from "@/components/PolygonalBackground";
 const chapters = [
   { id: "cover", title: "Cover" },
   { id: "vorwort", title: "Vorwort" },
@@ -61,9 +61,12 @@ const Index = () => {
 
       {/* Hero / Cover */}
       <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-background" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <PolygonalBackground variant="hero" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
+        
+        {/* Decorative elements */}
+        <ConnectionLines className="absolute top-20 right-10 w-32 h-32 opacity-60 hidden lg:block" />
+        <GrowthSpiral className="absolute bottom-32 left-10 opacity-40 hidden lg:block" />
         
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -126,8 +129,9 @@ const Index = () => {
       </section>
 
       {/* Impressum & Intention */}
-      <section className="py-20 border-t border-chapter-divider">
-        <div className="max-w-3xl mx-auto px-6 lg:px-8">
+      <section className="py-20 border-t border-chapter-divider relative overflow-hidden">
+        <PolygonalBackground variant="subtle" />
+        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -638,8 +642,10 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="py-16 mt-16 border-t border-chapter-divider">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+      <footer className="py-16 mt-16 border-t border-chapter-divider relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
+        <HeartPath className="absolute top-8 right-8 opacity-30 hidden md:block" />
+        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <p className="font-serif text-2xl text-foreground mb-2">Beyond Bias through memories</p>
           <p className="text-muted-foreground text-sm">
             Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
