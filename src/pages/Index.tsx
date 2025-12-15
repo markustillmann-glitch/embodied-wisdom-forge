@@ -9,7 +9,7 @@ import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 import oriaOwl from "@/assets/oria-owl.png";
-import bbOwlLogo from "@/assets/bb-owl-logo.png";
+import bbOwlLogo from "@/assets/bb-owl-logo-transparent.png";
 const chapters = [
   { id: "cover", title: "Cover" },
   { id: "vorwort", title: "Vorwort" },
