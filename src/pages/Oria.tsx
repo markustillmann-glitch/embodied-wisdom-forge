@@ -77,40 +77,59 @@ const Oria = () => {
         
         <ConnectionLines className="top-20 right-10 w-32 h-32 opacity-60 hidden lg:block" />
         
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-sm font-sans tracking-[0.3em] text-muted-foreground uppercase mb-6"
-          >
-            Symbolfigur von Beyond Bias
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight mb-6"
-          >
-            Das ist Oria
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-xl md:text-2xl text-accent font-serif mb-8"
-          >
-            Deine stille Begleiterin auf dem Weg zu dir selbst
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-lg text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed"
-          >
-            In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen:
-            Oria, unsere Eule – Symbolfigur von Beyond Bias und Wegweiserin im Jahrescoaching.
-          </motion.p>
+        <div className="relative z-10 max-w-5xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+            {/* Text content */}
+            <div className="text-center lg:text-left flex-1">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="text-sm font-sans tracking-[0.3em] text-muted-foreground uppercase mb-6"
+              >
+                Symbolfigur von Beyond Bias
+              </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight mb-6"
+              >
+                Das ist Oria
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="text-xl md:text-2xl text-accent font-serif mb-8"
+              >
+                Deine stille Begleiterin auf dem Weg zu dir selbst
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="text-lg text-muted-foreground font-sans max-w-2xl leading-relaxed"
+              >
+                In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen:
+                Oria, unsere Eule – Symbolfigur von Beyond Bias und Wegweiserin im Jahrescoaching.
+              </motion.p>
+            </div>
+            
+            {/* Owl image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="flex-shrink-0"
+            >
+              <img
+                src={bbOwlLogo}
+                alt="Oria - Die weise Eule"
+                className="w-[200px] md:w-[280px] lg:w-[320px] h-auto object-contain"
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
