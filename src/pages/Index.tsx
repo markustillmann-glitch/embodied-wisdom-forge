@@ -62,7 +62,7 @@ const Index = () => {
       />
 
       {/* Hero / Cover */}
-      <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden py-12 md:py-0">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
@@ -74,20 +74,20 @@ const Index = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+          className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto"
         >
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-sm font-sans tracking-[0.3em] text-muted-foreground uppercase mb-8"
+            className="text-xs sm:text-sm font-sans tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground uppercase mb-4 sm:mb-8"
           >
             Ein Kompendium
           </motion.p>
           
-          <div className="flex items-center justify-center gap-[30px] mb-6">
-            <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-[5.5rem] md:h-[6.875rem] lg:h-[8.25rem] w-auto" />
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-left">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-[30px] mb-4 sm:mb-6">
+            <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-16 sm:h-[5.5rem] md:h-[6.875rem] lg:h-[8.25rem] w-auto" />
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-center sm:text-left">
               Beyond Bias
               <br />
               <span className="text-accent whitespace-nowrap">through memories</span>
@@ -98,7 +98,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto mt-8 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto mt-4 sm:mt-8 leading-relaxed px-2"
           >
             Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </motion.p>
@@ -107,7 +107,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="mt-16 flex flex-col sm:flex-row items-center gap-4"
+            className="mt-8 sm:mt-16 flex flex-col items-center gap-4"
           >
             <button
               onClick={() => scrollToChapter("vorwort")}
@@ -121,30 +121,31 @@ const Index = () => {
                 ↓
               </motion.span>
             </button>
-            <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-            <a
-              href="/oria"
-              className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <img src={bbOwlLogo} alt="Oria" className="h-6 w-auto opacity-70" />
-              <span>Oria kennenlernen</span>
-            </a>
-            <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-            <a
-              href="/seminare"
-              className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
-            >
-              <span>Seminarangebot entdecken</span>
-              <span>→</span>
-            </a>
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+              <a
+                href="/oria"
+                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <img src={bbOwlLogo} alt="Oria" className="h-5 sm:h-6 w-auto opacity-70" />
+                <span>Oria kennenlernen</span>
+              </a>
+              <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+              <a
+                href="/seminare"
+                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
+              >
+                <span>Seminarangebot entdecken</span>
+                <span>→</span>
+              </a>
+            </div>
           </motion.div>
         </motion.div>
       </section>
 
       {/* Impressum & Intention */}
-      <section className="py-20 border-t border-chapter-divider relative overflow-hidden">
+      <section className="py-12 sm:py-20 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="subtle" />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -152,14 +153,14 @@ const Index = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <p className="text-2xl md:text-3xl font-serif italic text-foreground/80 mb-4">
+            <p className="text-xl sm:text-2xl md:text-3xl font-serif italic text-foreground/80 mb-4">
               Für Navigatoren in komplexen Gewässern.
             </p>
-            <p className="text-muted-foreground font-sans leading-relaxed max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-muted-foreground font-sans leading-relaxed max-w-xl mx-auto">
               Dieses Dokument dient als internes Grundlagenwerk. Es verbindet moderne Neurobiologie 
               und Epigenetik mit praktischer Selbstführungskompetenz.
             </p>
-            <p className="text-muted-foreground font-sans mt-4 text-sm">
+            <p className="text-muted-foreground font-sans mt-4 text-xs sm:text-sm">
               Es ist kein Workshop-Skript, sondern eine Landkarte für das menschliche Betriebssystem unter Druck.
             </p>
           </motion.div>
@@ -167,7 +168,7 @@ const Index = () => {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-6 lg:px-8">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Vorwort */}
         <div id="vorwort" className="border-t border-chapter-divider">
           <ChapterSection title="Vorwort: Wenn viel auf dem Spiel steht">
@@ -233,26 +234,26 @@ const Index = () => {
               <p>
                 Um menschliches Verhalten zu verstehen, müssen wir zwei Speichersysteme unterscheiden:
               </p>
-              <div className="grid md:grid-cols-2 gap-4 my-6">
-                <div className="bg-card p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2">1. Explizites Gedächtnis</h4>
-                  <p className="text-sm text-muted-foreground mb-2">(Der Verstand)</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                <div className="bg-card p-4 sm:p-5 rounded-lg border border-border">
+                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">1. Explizites Gedächtnis</h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">(Der Verstand)</p>
                   <ListBlock items={[
                     "Fakten, Geschichten, chronologische Abläufe",
                     "Sprachlich und bewusst zugänglich",
                   ]} />
-                  <p className="text-sm italic text-muted-foreground mt-3">
+                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">
                     „Ich weiß noch, dass…"
                   </p>
                 </div>
-                <div className="bg-card p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2">2. Implizites Gedächtnis</h4>
-                  <p className="text-sm text-muted-foreground mb-2">(Der Körper & das Gefühl)</p>
+                <div className="bg-card p-4 sm:p-5 rounded-lg border border-border">
+                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">2. Implizites Gedächtnis</h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">(Der Körper & das Gefühl)</p>
                   <ListBlock items={[
                     "Körperreaktionen, automatisierte Erwartungen",
                     "Vorsprachlich, schneller und unbewusst",
                   ]} />
-                  <p className="text-sm italic text-muted-foreground mt-3">
+                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">
                     „Es fühlt sich plötzlich so an, als ob…"
                   </p>
                 </div>
@@ -371,9 +372,9 @@ const Index = () => {
             </SubSection>
 
             <SubSection number="3.3" title="Die entscheidende Unterscheidung: Heilung vs. Überforderung">
-              <div className="grid md:grid-cols-2 gap-4 my-6">
-                <div className="bg-accent/10 p-5 rounded-lg border border-accent/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                <div className="bg-accent/10 p-4 sm:p-5 rounded-lg border border-accent/30">
+                  <h4 className="font-serif font-semibold text-foreground mb-3 text-sm sm:text-base">
                     Meditation wirkt integrativ, wenn:
                   </h4>
                   <ListBlock items={[
@@ -381,8 +382,8 @@ const Index = () => {
                     "Selbstmitgefühl aktiv ist (nicht wertendes Beobachten).",
                   ]} />
                 </div>
-                <div className="bg-destructive/10 p-5 rounded-lg border border-destructive/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-3">
+                <div className="bg-destructive/10 p-4 sm:p-5 rounded-lg border border-destructive/30">
+                  <h4 className="font-serif font-semibold text-foreground mb-3 text-sm sm:text-base">
                     Meditation wirkt retraumatisierend, wenn:
                   </h4>
                   <ListBlock items={[
@@ -493,19 +494,19 @@ const Index = () => {
             </SubSection>
 
             <SubSection number="5.2" title="Die vier Schritte – verkörpert gedacht">
-              <div className="grid sm:grid-cols-2 gap-4 my-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 my-6">
                 {[
                   { num: "1", title: "Beobachtung", desc: "Was ist faktisch passiert? (Beruhigt das Alarmsystem)" },
                   { num: "2", title: "Gefühl", desc: "Was fühle ich? (Verbindung zum impliziten Gedächtnis)" },
                   { num: "3", title: "Bedürfnis", desc: "Was braucht gerade Schutz oder Erfüllung? (Der Kernantrieb)" },
                   { num: "4", title: "Bitte", desc: "Was wäre ein konkreter nächster Schritt?" },
                 ].map((step) => (
-                  <div key={step.num} className="bg-card p-4 rounded-lg border border-border">
-                    <span className="inline-block w-8 h-8 bg-accent text-accent-foreground rounded-full text-center leading-8 font-semibold text-sm mb-2">
+                  <div key={step.num} className="bg-card p-3 sm:p-4 rounded-lg border border-border">
+                    <span className="inline-block w-7 h-7 sm:w-8 sm:h-8 bg-accent text-accent-foreground rounded-full text-center leading-7 sm:leading-8 font-semibold text-xs sm:text-sm mb-2">
                       {step.num}
                     </span>
-                    <h4 className="font-serif font-semibold text-foreground mb-1">{step.title}</h4>
-                    <p className="text-sm text-muted-foreground">{step.desc}</p>
+                    <h4 className="font-serif font-semibold text-foreground mb-1 text-sm sm:text-base">{step.title}</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{step.desc}</p>
                   </div>
                 ))}
               </div>
@@ -540,9 +541,9 @@ const Index = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 my-6">
-                <div className="bg-destructive/10 p-5 rounded-lg border border-destructive/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 my-6">
+                <div className="bg-destructive/10 p-4 sm:p-5 rounded-lg border border-destructive/30">
+                  <h4 className="font-serif font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">
                     Automatik-Modus
                   </h4>
                   <ListBlock items={[
@@ -553,8 +554,8 @@ const Index = () => {
                   ]} />
                 </div>
 
-                <div className="bg-accent/10 p-5 rounded-lg border border-accent/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-4">
+                <div className="bg-accent/10 p-4 sm:p-5 rounded-lg border border-accent/30">
+                  <h4 className="font-serif font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">
                     Integrierter Modus
                   </h4>
                   <ListBlock items={[
@@ -655,12 +656,12 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="py-16 mt-16 border-t border-chapter-divider relative overflow-hidden">
+      <footer className="py-10 sm:py-16 mt-10 sm:mt-16 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="warm" />
         <OwlSymbol className="absolute top-8 right-8 opacity-30 hidden md:block" />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <p className="font-serif text-2xl text-foreground mb-2">Beyond Bias through memories</p>
-          <p className="text-muted-foreground text-sm">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond Bias through memories</p>
+          <p className="text-muted-foreground text-xs sm:text-sm">
             Ein Handlungsmodell zum Umgang mit Stress, Bias und Prägungen
           </p>
         </div>

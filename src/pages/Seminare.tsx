@@ -248,28 +248,29 @@ const Seminare = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-chapter-divider">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <Link 
             to="/" 
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Zum Kompendium</span>
+            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden xs:inline">Zum Kompendium</span>
+            <span className="xs:hidden">Zurück</span>
           </Link>
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center gap-3 sm:gap-6">
             <Link 
               to="/oria" 
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
             >
               Oria
             </Link>
-            <p className="font-serif text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
+            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
           </nav>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="py-20 md:py-32 relative overflow-hidden">
+      <section className="py-12 sm:py-20 md:py-32 relative overflow-hidden">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
@@ -277,12 +278,12 @@ const Seminare = () => {
         <ConnectionLines className="top-20 right-10 w-32 h-32 opacity-60 hidden lg:block" />
         <GrowthSpiral className="absolute bottom-20 left-10 opacity-40 hidden lg:block" />
         
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-sm font-sans tracking-[0.3em] text-muted-foreground uppercase mb-6"
+            className="text-xs sm:text-sm font-sans tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground uppercase mb-4 sm:mb-6"
           >
             Seminarangebot
           </motion.p>
@@ -290,7 +291,7 @@ const Seminare = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight mb-6"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight mb-4 sm:mb-6"
           >
             Integrierte Selbstwahrnehmung
             <br />
@@ -300,7 +301,7 @@ const Seminare = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed px-2"
           >
             Ein ganzheitlicher Entwicklungsprozess, der Denken, Fühlen, Körper und 
             Kommunikation verbindet – basierend auf IFS, GFK und somatischer Intelligenz.
@@ -342,7 +343,7 @@ const Seminare = () => {
             Unsere Formate
           </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Schnupperabend */}
             <motion.div
               {...fadeInUp}
@@ -610,7 +611,7 @@ const Seminare = () => {
             Die vier Säulen des Programms
           </motion.h2>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {[
               {
                 title: "Meditation",
