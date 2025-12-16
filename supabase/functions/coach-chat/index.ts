@@ -303,16 +303,199 @@ serve(async (req) => {
     let systemPrompt = getSystemPrompt(language);
     
     if (userProfile) {
-      const contextLabel = language === 'en' ? 'User Profile Context' : 'User-Profil-Kontext';
-      const nameLabel = language === 'en' ? 'Name' : 'Name';
-      const topicsLabel = language === 'en' ? 'Previous topics' : 'Frühere Themen';
+      const isEn = language === 'en';
+      systemPrompt += isEn 
+        ? `\n\n## IMPORTANT - Personalized User Profile:\nUse this profile to personalize your responses, adapt your tone, depth, and approach. This person has specific needs and sensitivities.\n\n`
+        : `\n\n## WICHTIG - Personalisiertes Nutzerprofil:\nNutze dieses Profil um deine Antworten zu personalisieren, passe deinen Ton, Tiefe und Herangehensweise an. Diese Person hat spezifische Bedürfnisse und Empfindlichkeiten.\n\n`;
       
-      systemPrompt += `\n\n## ${contextLabel}:\n`;
       if (userProfile.displayName) {
-        systemPrompt += `- ${nameLabel}: ${userProfile.displayName}\n`;
+        systemPrompt += `**${isEn ? 'Name' : 'Name'}**: ${userProfile.displayName}\n\n`;
       }
+      
+      // Goals & Challenges
+      if (userProfile.goals_motivation) {
+        systemPrompt += `**${isEn ? 'Goals & Motivation' : 'Ziele & Motivation'}**: ${userProfile.goals_motivation}\n`;
+      }
+      if (userProfile.biggest_challenges) {
+        systemPrompt += `**${isEn ? 'Biggest Challenges' : 'Größte Herausforderungen'}**: ${userProfile.biggest_challenges}\n\n`;
+      }
+      
+      // 1. Emotion & Regulation Profile
+      if (userProfile.safety_feeling || userProfile.overwhelm_signals || userProfile.nervous_system_tempo) {
+        systemPrompt += `### ${isEn ? 'Emotion & Regulation Profile' : 'Emotions- & Regulationsprofil'}:\n`;
+        if (userProfile.safety_feeling) {
+          systemPrompt += `- ${isEn ? 'Safety feels like' : 'Sicherheit fühlt sich an wie'}: ${userProfile.safety_feeling}\n`;
+        }
+        if (userProfile.overwhelm_signals) {
+          systemPrompt += `- ${isEn ? 'Overwhelm signals' : 'Überforderungssignale'}: ${userProfile.overwhelm_signals}\n`;
+        }
+        if (userProfile.nervous_system_tempo) {
+          const tempoMap: Record<string, string> = {
+            calm: isEn ? 'rather calm' : 'eher ruhig',
+            varying: isEn ? 'varying' : 'wechselnd',
+            high_active: isEn ? 'highly active' : 'hochaktiv'
+          };
+          systemPrompt += `- ${isEn ? 'Nervous system tempo' : 'Grundtempo Nervensystem'}: ${tempoMap[userProfile.nervous_system_tempo] || userProfile.nervous_system_tempo}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // 2. Needs Topology
+      if (userProfile.core_needs?.length || userProfile.neglected_needs?.length || userProfile.over_fulfilled_needs?.length) {
+        systemPrompt += `### ${isEn ? 'Needs Topology (NVC)' : 'Bedürfnis-Topologie (NVC)'}:\n`;
+        if (userProfile.core_needs?.length) {
+          systemPrompt += `- ${isEn ? 'Core needs' : 'Kernbedürfnisse'}: ${userProfile.core_needs.join(', ')}\n`;
+        }
+        if (userProfile.neglected_needs?.length) {
+          systemPrompt += `- ${isEn ? 'Often neglected' : 'Oft zu kurz kommend'}: ${userProfile.neglected_needs.join(', ')}\n`;
+        }
+        if (userProfile.over_fulfilled_needs?.length) {
+          systemPrompt += `- ${isEn ? 'Over-fulfilled' : 'Übererfüllt'}: ${userProfile.over_fulfilled_needs.join(', ')}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // 3. Belonging & Difference
+      if (userProfile.belonging_through?.length || userProfile.reaction_to_expectations || userProfile.harder_closeness_or_boundaries) {
+        systemPrompt += `### ${isEn ? 'Belonging & Difference' : 'Zugehörigkeit & Anderssein'}:\n`;
+        if (userProfile.belonging_through?.length) {
+          const belongingMap: Record<string, string> = {
+            similarity: isEn ? 'through similarity' : 'durch Ähnlichkeit',
+            acceptance_of_difference: isEn ? 'through acceptance of difference' : 'durch Akzeptanz von Unterschied',
+            achievement: isEn ? 'through achievement' : 'durch Leistung'
+          };
+          systemPrompt += `- ${isEn ? 'Feels belonging' : 'Zugehörigkeit durch'}: ${userProfile.belonging_through.map((b: string) => belongingMap[b] || b).join(', ')}\n`;
+        }
+        if (userProfile.reaction_to_expectations) {
+          systemPrompt += `- ${isEn ? 'Reaction to expectations' : 'Reaktion auf Erwartungen'}: ${userProfile.reaction_to_expectations}\n`;
+        }
+        if (userProfile.harder_closeness_or_boundaries) {
+          const harderMap: Record<string, string> = {
+            closeness: isEn ? 'closeness' : 'Nähe',
+            boundaries: isEn ? 'boundaries' : 'Abgrenzung',
+            both: isEn ? 'both equally' : 'beides gleichermaßen'
+          };
+          systemPrompt += `- ${isEn ? 'Harder for them' : 'Schwieriger'}: ${harderMap[userProfile.harder_closeness_or_boundaries] || userProfile.harder_closeness_or_boundaries}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // 4. Memory Type
+      if (userProfile.primary_memory_channel?.length || userProfile.memory_effect || userProfile.trigger_sensitivity) {
+        systemPrompt += `### ${isEn ? 'Memory Type' : 'Erinnerungstyp'}:\n`;
+        if (userProfile.primary_memory_channel?.length) {
+          const channelMap: Record<string, string> = {
+            body: isEn ? 'body' : 'Körper',
+            music: isEn ? 'music' : 'Musik',
+            images: isEn ? 'images' : 'Bilder',
+            language: isEn ? 'language' : 'Sprache',
+            places: isEn ? 'places' : 'Orte'
+          };
+          systemPrompt += `- ${isEn ? 'Primary channels' : 'Primäre Kanäle'}: ${userProfile.primary_memory_channel.map((c: string) => channelMap[c] || c).join(', ')}\n`;
+        }
+        if (userProfile.memory_effect) {
+          const effectMap: Record<string, string> = {
+            regulating: isEn ? 'regulating' : 'regulierend',
+            intensifying: isEn ? 'intensifying' : 'intensivierend',
+            melancholic: isEn ? 'melancholic' : 'melancholisierend'
+          };
+          systemPrompt += `- ${isEn ? 'Memories tend to be' : 'Erinnerungen wirken'}: ${effectMap[userProfile.memory_effect] || userProfile.memory_effect}\n`;
+        }
+        if (userProfile.trigger_sensitivity) {
+          const sensMap: Record<string, string> = {
+            low: isEn ? 'low' : 'niedrig',
+            medium: isEn ? 'medium' : 'mittel',
+            high: isEn ? 'high (be gentle!)' : 'hoch (sei behutsam!)'
+          };
+          systemPrompt += `- ${isEn ? 'Trigger sensitivity' : 'Trigger-Sensibilität'}: ${sensMap[userProfile.trigger_sensitivity] || userProfile.trigger_sensitivity}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // 5. Lightness vs Depth
+      if (userProfile.when_feels_light || userProfile.when_depth_nourishing || userProfile.when_depth_burdening || userProfile.lightness_depth_balance) {
+        systemPrompt += `### ${isEn ? 'Lightness vs. Depth' : 'Leichtigkeit vs. Tiefe'}:\n`;
+        if (userProfile.when_feels_light) {
+          systemPrompt += `- ${isEn ? 'Feels light when' : 'Leicht wenn'}: ${userProfile.when_feels_light}\n`;
+        }
+        if (userProfile.when_depth_nourishing) {
+          systemPrompt += `- ${isEn ? 'Depth nourishing when' : 'Tiefe nährend wenn'}: ${userProfile.when_depth_nourishing}\n`;
+        }
+        if (userProfile.when_depth_burdening) {
+          systemPrompt += `- ${isEn ? 'Depth burdening when' : 'Tiefe belastend wenn'}: ${userProfile.when_depth_burdening}\n`;
+        }
+        if (userProfile.lightness_depth_balance) {
+          const balanceMap: Record<string, string> = {
+            more_lightness: isEn ? 'needs more lightness right now' : 'braucht gerade mehr Leichtigkeit',
+            more_depth: isEn ? 'needs more depth right now' : 'braucht gerade mehr Tiefe',
+            balanced: isEn ? 'balance is good' : 'Balance passt'
+          };
+          systemPrompt += `- ${isEn ? 'Current need' : 'Aktuelles Bedürfnis'}: ${balanceMap[userProfile.lightness_depth_balance] || userProfile.lightness_depth_balance}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // 6. Language & Tonality (CRITICAL for coach behavior)
+      if (userProfile.preferred_tone?.length || userProfile.response_preference?.length || userProfile.language_triggers?.length) {
+        systemPrompt += `### ${isEn ? '⚠️ LANGUAGE & TONALITY PREFERENCES (ADAPT YOUR COMMUNICATION!)' : '⚠️ SPRACH- & TONALITÄTS-PRÄFERENZEN (PASSE DEINE KOMMUNIKATION AN!)'}:\n`;
+        if (userProfile.preferred_tone?.length) {
+          const toneMap: Record<string, string> = {
+            calm: isEn ? 'calm' : 'ruhig',
+            poetic: isEn ? 'poetic' : 'poetisch',
+            clear: isEn ? 'clear' : 'klar',
+            analytical: isEn ? 'analytical' : 'analytisch',
+            questioning: isEn ? 'questioning' : 'fragend'
+          };
+          systemPrompt += `- ${isEn ? 'Preferred tone' : 'Bevorzugter Ton'}: ${userProfile.preferred_tone.map((t: string) => toneMap[t] || t).join(', ')}\n`;
+        }
+        if (userProfile.response_preference?.length) {
+          const respMap: Record<string, string> = {
+            direct_recommendations: isEn ? 'direct recommendations' : 'direkte Empfehlungen',
+            open_questions: isEn ? 'open questions' : 'offene Fragen',
+            reflections: isEn ? 'reflections/mirroring' : 'Spiegelungen'
+          };
+          systemPrompt += `- ${isEn ? 'Responds well to' : 'Reagiert gut auf'}: ${userProfile.response_preference.map((r: string) => respMap[r] || r).join(', ')}\n`;
+        }
+        if (userProfile.language_triggers?.length) {
+          systemPrompt += `- ${isEn ? '🚫 AVOID these words/phrases (triggers!)' : '🚫 VERMEIDE diese Worte/Phrasen (Trigger!)'}: ${userProfile.language_triggers.join(', ')}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // 7. Current Life Phase
+      if (userProfile.life_phase || userProfile.energy_level || userProfile.current_focus?.length) {
+        systemPrompt += `### ${isEn ? 'Current Life Phase (temporary context)' : 'Aktuelle Lebensphase (zeitlich begrenzt)'}:\n`;
+        if (userProfile.life_phase) {
+          const phaseMap: Record<string, string> = {
+            stabilization: isEn ? 'stabilization' : 'Stabilisierung',
+            integration: isEn ? 'integration' : 'Integration',
+            opening: isEn ? 'opening' : 'Öffnung',
+            transition: isEn ? 'transition' : 'Übergang'
+          };
+          systemPrompt += `- ${isEn ? 'Phase' : 'Phase'}: ${phaseMap[userProfile.life_phase] || userProfile.life_phase}\n`;
+        }
+        if (userProfile.energy_level) {
+          const energyMap: Record<string, string> = {
+            low: isEn ? 'low (be gentle, shorter responses)' : 'niedrig (sei behutsam, kürzere Antworten)',
+            medium: isEn ? 'medium' : 'mittel',
+            high: isEn ? 'high (can handle more depth)' : 'hoch (kann mehr Tiefe vertragen)'
+          };
+          systemPrompt += `- ${isEn ? 'Energy level' : 'Energielevel'}: ${energyMap[userProfile.energy_level] || userProfile.energy_level}\n`;
+        }
+        if (userProfile.current_focus?.length) {
+          const focusMap: Record<string, string> = {
+            self: isEn ? 'self' : 'Selbst',
+            relationship: isEn ? 'relationships' : 'Beziehung',
+            meaning_direction: isEn ? 'meaning/direction' : 'Sinn/Richtung'
+          };
+          systemPrompt += `- ${isEn ? 'Current focus' : 'Aktueller Fokus'}: ${userProfile.current_focus.map((f: string) => focusMap[f] || f).join(', ')}\n`;
+        }
+        systemPrompt += '\n';
+      }
+      
+      // Previous topics
       if (userProfile.previousTopics && userProfile.previousTopics.length > 0) {
-        systemPrompt += `- ${topicsLabel}: ${userProfile.previousTopics.join(', ')}\n`;
+        systemPrompt += `### ${isEn ? 'Previous conversation topics' : 'Frühere Gesprächsthemen'}: ${userProfile.previousTopics.join(', ')}\n`;
       }
     }
 
