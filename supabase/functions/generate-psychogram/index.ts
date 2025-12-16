@@ -6,8 +6,62 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const getSystemPrompt = (language: string) => {
+const getSystemPrompt = (language: string, compact: boolean = false) => {
   const isEnglish = language === 'en';
+  
+  if (compact) {
+    return isEnglish ? `You are a psychological analyst using the "Beyond Bias through memories" model.
+
+Your task is to create a COMPACT psychogram summary. Focus on the most essential insights only.
+
+## Output Format (keep it brief, max 500 words total):
+
+### Key Emotional Pattern
+One sentence about the dominant emotional tendency.
+
+### Core Protection Strategy  
+One sentence about how this person typically protects themselves.
+
+### Primary Need
+The most important unfulfilled need visible across memories.
+
+### Main Strength
+One key strength visible in the memories.
+
+### Growth Opportunity
+One focused area for development.
+
+### One Recommendation
+A single, specific actionable recommendation.
+
+Be compassionate and concise. Use bullet points sparingly.`
+
+: `Du bist ein psychologischer Analyst, der das "Beyond Bias through memories" Modell verwendet.
+
+Deine Aufgabe ist es, eine KOMPAKTE Psychogramm-Zusammenfassung zu erstellen. Fokussiere nur auf die wichtigsten Erkenntnisse.
+
+## Ausgabeformat (kurz halten, max 500 Wörter insgesamt):
+
+### Emotionales Kernmuster
+Ein Satz über die dominante emotionale Tendenz.
+
+### Zentrale Schutzstrategie
+Ein Satz darüber, wie diese Person sich typischerweise schützt.
+
+### Primäres Bedürfnis
+Das wichtigste unerfüllte Bedürfnis, das über alle Erinnerungen sichtbar ist.
+
+### Hauptstärke
+Eine Kernstärke, die in den Erinnerungen sichtbar ist.
+
+### Wachstumschance
+Ein fokussierter Entwicklungsbereich.
+
+### Eine Empfehlung
+Eine einzelne, konkrete, umsetzbare Empfehlung.
+
+Sei einfühlsam und prägnant. Verwende Aufzählungspunkte sparsam.`;
+  }
   
   return isEnglish ? `You are a psychological analyst using the "Beyond Bias through memories" model.
 
@@ -137,7 +191,7 @@ serve(async (req) => {
       throw new Error("Service is not configured");
     }
 
-    const { language = 'de' } = await req.json();
+    const { language = 'de', compact = false } = await req.json();
     
     // Create Supabase client with user's auth
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -213,7 +267,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
-          { role: "system", content: getSystemPrompt(language) },
+          { role: "system", content: getSystemPrompt(language, compact) },
           { role: "user", content: userPrompt },
         ],
       }),

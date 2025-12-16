@@ -110,6 +110,7 @@ const Coach = () => {
   const [psychogramContent, setPsychogramContent] = useState<string>('');
   const [psychogramMemoryCount, setPsychogramMemoryCount] = useState<number>(0);
   const [isGeneratingPsychogram, setIsGeneratingPsychogram] = useState(false);
+  const [psychogramCompact, setPsychogramCompact] = useState(false);
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -362,8 +363,9 @@ const Coach = () => {
     setDeleteConversationId(null);
   };
 
-  const generatePsychogram = async () => {
+  const generatePsychogram = async (compact: boolean = false) => {
     setIsGeneratingPsychogram(true);
+    setPsychogramCompact(compact);
     setPsychogramDialogOpen(true);
     setPsychogramContent('');
     
@@ -383,7 +385,7 @@ const Coach = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ language }),
+          body: JSON.stringify({ language, compact }),
         }
       );
 
@@ -846,20 +848,37 @@ const Coach = () => {
         </ScrollArea>
 
         <div className="p-4 border-t border-border space-y-2">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={generatePsychogram}
-            disabled={isGeneratingPsychogram}
-            className="w-full justify-start"
-          >
-            {isGeneratingPsychogram ? (
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            ) : (
-              <Brain className="h-4 w-4 mr-2" />
-            )}
-            {t('coach.psychogram')}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                disabled={isGeneratingPsychogram}
+                className="w-full justify-start"
+              >
+                {isGeneratingPsychogram ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Brain className="h-4 w-4 mr-2" />
+                )}
+                {t('coach.psychogram')}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-56">
+              <DropdownMenuItem onClick={() => generatePsychogram(false)}>
+                <div className="flex flex-col">
+                  <span className="font-medium">{t('coach.psychogramDetailed')}</span>
+                  <span className="text-xs text-muted-foreground">{t('coach.psychogramDetailedDesc')}</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => generatePsychogram(true)}>
+                <div className="flex flex-col">
+                  <span className="font-medium">{t('coach.psychogramCompact')}</span>
+                  <span className="text-xs text-muted-foreground">{t('coach.psychogramCompactDesc')}</span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link to="/vault">
             <Button variant="ghost" size="sm" className="w-full justify-start">
               <Archive className="h-4 w-4 mr-2" />
@@ -1213,6 +1232,11 @@ const Coach = () => {
             <DialogTitle className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-accent" />
               {t('coach.psychogramTitle')}
+              {psychogramCompact && (
+                <span className="text-xs font-normal bg-accent/10 text-accent px-2 py-0.5 rounded">
+                  {t('coach.psychogramCompact')}
+                </span>
+              )}
             </DialogTitle>
             {psychogramMemoryCount > 0 && (
               <DialogDescription>
