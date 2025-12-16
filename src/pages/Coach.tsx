@@ -14,6 +14,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { 
   ArrowLeft, 
@@ -35,8 +37,16 @@ import {
   UserCheck,
   Archive,
   Save,
-  Sparkles
+  Sparkles,
+  Pencil,
+  MoreVertical
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
@@ -83,7 +93,14 @@ const Coach = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [coachSuggestions, setCoachSuggestions] = useState<{title?: string, summary?: string, emotion?: string} | null>(null);
 
-  // Extract coach suggestions from messages
+  // Rename dialog state
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+  const [renameConversationId, setRenameConversationId] = useState<string | null>(null);
+  const [renameTitle, setRenameTitle] = useState('');
+
+  // Delete confirmation dialog state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteConversationId, setDeleteConversationId] = useState<string | null>(null);
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -291,6 +308,49 @@ const Coach = () => {
       setCurrentConversation(remaining.length > 0 ? remaining[0].id : null);
       setMessages([]);
     }
+  };
+
+  const openRenameDialog = (conv: Conversation) => {
+    setRenameConversationId(conv.id);
+    setRenameTitle(conv.title);
+    setRenameDialogOpen(true);
+  };
+
+  const renameConversation = async () => {
+    if (!renameConversationId || !renameTitle.trim()) return;
+
+    const { error } = await supabase
+      .from('conversations')
+      .update({ title: renameTitle.trim() })
+      .eq('id', renameConversationId);
+
+    if (error) {
+      toast({
+        title: t('vault.error'),
+        description: t('coach.errorRenamingConversation'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setConversations(prev => prev.map(c => 
+      c.id === renameConversationId ? { ...c, title: renameTitle.trim() } : c
+    ));
+    setRenameDialogOpen(false);
+    setRenameConversationId(null);
+    setRenameTitle('');
+  };
+
+  const openDeleteDialog = (id: string) => {
+    setDeleteConversationId(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteConversationId) return;
+    await deleteConversation(deleteConversationId);
+    setDeleteDialogOpen(false);
+    setDeleteConversationId(null);
   };
 
   const detectSongLink = (text: string): string | null => {
@@ -650,15 +710,26 @@ const Coach = () => {
               >
                 <MessageSquare className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <span className="text-sm truncate flex-1">{conv.title}</span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteConversation(conv.id);
-                  }}
-                  className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-destructive/10 rounded transition-all"
-                >
-                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                    <button className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-secondary rounded transition-all">
+                      <MoreVertical className="h-3.5 w-3.5 text-muted-foreground" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                    <DropdownMenuItem onClick={() => openRenameDialog(conv)}>
+                      <Pencil className="h-4 w-4 mr-2" />
+                      {t('coach.rename')}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => openDeleteDialog(conv.id)}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      {t('coach.delete')}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ))}
           </div>
@@ -955,6 +1026,59 @@ const Coach = () => {
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Rename Dialog */}
+      <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('coach.renameConversation')}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">
+                {t('coach.renameTitle')}
+              </label>
+              <Input
+                value={renameTitle}
+                onChange={(e) => setRenameTitle(e.target.value)}
+                className="mt-1.5"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    renameConversation();
+                  }
+                }}
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setRenameDialogOpen(false)}>
+                {t('coach.cancel')}
+              </Button>
+              <Button onClick={renameConversation} disabled={!renameTitle.trim()}>
+                {t('coach.rename')}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('coach.deleteConversation')}</DialogTitle>
+            <DialogDescription>{t('coach.deleteConfirm')}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="pt-4">
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+              {t('coach.cancel')}
+            </Button>
+            <Button variant="destructive" onClick={confirmDelete}>
+              {t('coach.delete')}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
