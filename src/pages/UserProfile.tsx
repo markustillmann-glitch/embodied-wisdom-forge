@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -68,6 +68,87 @@ const defaultProfile: UserProfileData = {
   energy_level: null,
   current_focus: [],
 };
+
+// Extracted components to prevent re-creation on every render
+const RadioOption = React.memo(({ 
+  value, 
+  label, 
+  selected, 
+  onSelect 
+}: { 
+  value: string; 
+  label: string; 
+  selected: boolean; 
+  onSelect: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onSelect}
+    className={cn(
+      "px-4 py-2 rounded-lg border transition-all text-sm",
+      selected
+        ? "bg-primary text-primary-foreground border-primary"
+        : "bg-secondary/50 border-border hover:bg-secondary"
+    )}
+  >
+    {label}
+  </button>
+));
+RadioOption.displayName = 'RadioOption';
+
+const CheckboxOption = React.memo(({ 
+  value, 
+  label, 
+  checked, 
+  onToggle 
+}: { 
+  value: string; 
+  label: string; 
+  checked: boolean; 
+  onToggle: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onToggle}
+    className={cn(
+      "px-4 py-2 rounded-lg border transition-all text-sm",
+      checked
+        ? "bg-primary text-primary-foreground border-primary"
+        : "bg-secondary/50 border-border hover:bg-secondary"
+    )}
+  >
+    {label}
+  </button>
+));
+CheckboxOption.displayName = 'CheckboxOption';
+
+const Section = React.memo(({ 
+  icon: Icon, 
+  title, 
+  description, 
+  children 
+}: { 
+  icon: any; 
+  title: string; 
+  description: string; 
+  children: React.ReactNode;
+}) => (
+  <div className="bg-card rounded-xl p-6 border border-border space-y-4">
+    <div className="flex items-start gap-3">
+      <div className="p-2 rounded-lg bg-primary/10">
+        <Icon className="h-5 w-5 text-primary" />
+      </div>
+      <div>
+        <h3 className="font-semibold text-lg">{title}</h3>
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </div>
+    </div>
+    <div className="space-y-4 pt-2">
+      {children}
+    </div>
+  </div>
+));
+Section.displayName = 'Section';
 
 const UserProfile = () => {
   const { user, loading: authLoading } = useAuth();
@@ -186,64 +267,19 @@ const UserProfile = () => {
     setIsSaving(false);
   };
 
-  const updateField = (field: keyof UserProfileData, value: any) => {
+  const updateField = useCallback((field: keyof UserProfileData, value: any) => {
     setProfile(prev => ({ ...prev, [field]: value }));
-  };
+  }, []);
 
-  const toggleArrayField = (field: keyof UserProfileData, value: string) => {
-    const current = (profile[field] as string[]) || [];
-    const updated = current.includes(value)
-      ? current.filter(v => v !== value)
-      : [...current, value];
-    updateField(field, updated);
-  };
-
-  const RadioOption = ({ field, value, label }: { field: keyof UserProfileData; value: string; label: string }) => (
-    <button
-      type="button"
-      onClick={() => updateField(field, value)}
-      className={cn(
-        "px-4 py-2 rounded-lg border transition-all text-sm",
-        profile[field] === value
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-secondary/50 border-border hover:bg-secondary"
-      )}
-    >
-      {label}
-    </button>
-  );
-
-  const CheckboxOption = ({ field, value, label }: { field: keyof UserProfileData; value: string; label: string }) => (
-    <button
-      type="button"
-      onClick={() => toggleArrayField(field, value)}
-      className={cn(
-        "px-4 py-2 rounded-lg border transition-all text-sm",
-        ((profile[field] as string[]) || []).includes(value)
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-secondary/50 border-border hover:bg-secondary"
-      )}
-    >
-      {label}
-    </button>
-  );
-
-  const Section = ({ icon: Icon, title, description, children }: { icon: any; title: string; description: string; children: React.ReactNode }) => (
-    <div className="bg-card rounded-xl p-6 border border-border space-y-4">
-      <div className="flex items-start gap-3">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <Icon className="h-5 w-5 text-primary" />
-        </div>
-        <div>
-          <h3 className="font-semibold text-lg">{title}</h3>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
-      </div>
-      <div className="space-y-4 pt-2">
-        {children}
-      </div>
-    </div>
-  );
+  const toggleArrayField = useCallback((field: keyof UserProfileData, value: string) => {
+    setProfile(prev => {
+      const current = (prev[field] as string[]) || [];
+      const updated = current.includes(value)
+        ? current.filter(v => v !== value)
+        : [...current, value];
+      return { ...prev, [field]: updated };
+    });
+  }, []);
 
   if (authLoading || isLoading) {
     return (
@@ -340,9 +376,9 @@ const UserProfile = () => {
             <div>
               <Label className="mb-2 block">{t('userProfile.nervousSystemTempo')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="nervous_system_tempo" value="calm" label={t('userProfile.tempo.calm')} />
-                <RadioOption field="nervous_system_tempo" value="varying" label={t('userProfile.tempo.varying')} />
-                <RadioOption field="nervous_system_tempo" value="high_active" label={t('userProfile.tempo.highActive')} />
+                <RadioOption value="calm" label={t('userProfile.tempo.calm')} selected={profile.nervous_system_tempo === 'calm'} onSelect={() => updateField('nervous_system_tempo', 'calm')} />
+                <RadioOption value="varying" label={t('userProfile.tempo.varying')} selected={profile.nervous_system_tempo === 'varying'} onSelect={() => updateField('nervous_system_tempo', 'varying')} />
+                <RadioOption value="high_active" label={t('userProfile.tempo.highActive')} selected={profile.nervous_system_tempo === 'high_active'} onSelect={() => updateField('nervous_system_tempo', 'high_active')} />
               </div>
             </div>
           </Section>
@@ -384,9 +420,9 @@ const UserProfile = () => {
             <div>
               <Label className="mb-2 block">{t('userProfile.belongingThrough')}</Label>
               <div className="flex flex-wrap gap-2">
-                <CheckboxOption field="belonging_through" value="similarity" label={t('userProfile.belonging.similarity')} />
-                <CheckboxOption field="belonging_through" value="acceptance_of_difference" label={t('userProfile.belonging.acceptanceDifference')} />
-                <CheckboxOption field="belonging_through" value="achievement" label={t('userProfile.belonging.achievement')} />
+                <CheckboxOption value="similarity" label={t('userProfile.belonging.similarity')} checked={(profile.belonging_through || []).includes('similarity')} onToggle={() => toggleArrayField('belonging_through', 'similarity')} />
+                <CheckboxOption value="acceptance_of_difference" label={t('userProfile.belonging.acceptanceDifference')} checked={(profile.belonging_through || []).includes('acceptance_of_difference')} onToggle={() => toggleArrayField('belonging_through', 'acceptance_of_difference')} />
+                <CheckboxOption value="achievement" label={t('userProfile.belonging.achievement')} checked={(profile.belonging_through || []).includes('achievement')} onToggle={() => toggleArrayField('belonging_through', 'achievement')} />
               </div>
             </div>
             <div>
@@ -402,9 +438,9 @@ const UserProfile = () => {
             <div>
               <Label className="mb-2 block">{t('userProfile.harderClosenessOrBoundaries')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="harder_closeness_or_boundaries" value="closeness" label={t('userProfile.closeness')} />
-                <RadioOption field="harder_closeness_or_boundaries" value="boundaries" label={t('userProfile.boundaries')} />
-                <RadioOption field="harder_closeness_or_boundaries" value="both" label={t('userProfile.both')} />
+                <RadioOption value="closeness" label={t('userProfile.closeness')} selected={profile.harder_closeness_or_boundaries === 'closeness'} onSelect={() => updateField('harder_closeness_or_boundaries', 'closeness')} />
+                <RadioOption value="boundaries" label={t('userProfile.boundaries')} selected={profile.harder_closeness_or_boundaries === 'boundaries'} onSelect={() => updateField('harder_closeness_or_boundaries', 'boundaries')} />
+                <RadioOption value="both" label={t('userProfile.both')} selected={profile.harder_closeness_or_boundaries === 'both'} onSelect={() => updateField('harder_closeness_or_boundaries', 'both')} />
               </div>
             </div>
           </Section>
@@ -414,33 +450,33 @@ const UserProfile = () => {
             <div>
               <Label className="mb-2 block">{t('userProfile.primaryMemoryChannel')}</Label>
               <div className="flex flex-wrap gap-2">
-                <CheckboxOption field="primary_memory_channel" value="body" label={t('userProfile.channel.body')} />
-                <CheckboxOption field="primary_memory_channel" value="music" label={t('userProfile.channel.music')} />
-                <CheckboxOption field="primary_memory_channel" value="images" label={t('userProfile.channel.images')} />
-                <CheckboxOption field="primary_memory_channel" value="language" label={t('userProfile.channel.language')} />
-                <CheckboxOption field="primary_memory_channel" value="places" label={t('userProfile.channel.places')} />
+                <CheckboxOption value="body" label={t('userProfile.channel.body')} checked={(profile.primary_memory_channel || []).includes('body')} onToggle={() => toggleArrayField('primary_memory_channel', 'body')} />
+                <CheckboxOption value="music" label={t('userProfile.channel.music')} checked={(profile.primary_memory_channel || []).includes('music')} onToggle={() => toggleArrayField('primary_memory_channel', 'music')} />
+                <CheckboxOption value="images" label={t('userProfile.channel.images')} checked={(profile.primary_memory_channel || []).includes('images')} onToggle={() => toggleArrayField('primary_memory_channel', 'images')} />
+                <CheckboxOption value="language" label={t('userProfile.channel.language')} checked={(profile.primary_memory_channel || []).includes('language')} onToggle={() => toggleArrayField('primary_memory_channel', 'language')} />
+                <CheckboxOption value="places" label={t('userProfile.channel.places')} checked={(profile.primary_memory_channel || []).includes('places')} onToggle={() => toggleArrayField('primary_memory_channel', 'places')} />
               </div>
             </div>
             <div>
               <Label className="mb-2 block">{t('userProfile.memoryEffect')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="memory_effect" value="regulating" label={t('userProfile.effect.regulating')} />
-                <RadioOption field="memory_effect" value="intensifying" label={t('userProfile.effect.intensifying')} />
-                <RadioOption field="memory_effect" value="melancholic" label={t('userProfile.effect.melancholic')} />
+                <RadioOption value="regulating" label={t('userProfile.effect.regulating')} selected={profile.memory_effect === 'regulating'} onSelect={() => updateField('memory_effect', 'regulating')} />
+                <RadioOption value="intensifying" label={t('userProfile.effect.intensifying')} selected={profile.memory_effect === 'intensifying'} onSelect={() => updateField('memory_effect', 'intensifying')} />
+                <RadioOption value="melancholic" label={t('userProfile.effect.melancholic')} selected={profile.memory_effect === 'melancholic'} onSelect={() => updateField('memory_effect', 'melancholic')} />
               </div>
             </div>
             <div>
               <Label className="mb-2 block">{t('userProfile.triggerSensitivity')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="trigger_sensitivity" value="low" label={t('userProfile.sensitivity.low')} />
-                <RadioOption field="trigger_sensitivity" value="medium" label={t('userProfile.sensitivity.medium')} />
-                <RadioOption field="trigger_sensitivity" value="high" label={t('userProfile.sensitivity.high')} />
+                <RadioOption value="low" label={t('userProfile.sensitivity.low')} selected={profile.trigger_sensitivity === 'low'} onSelect={() => updateField('trigger_sensitivity', 'low')} />
+                <RadioOption value="medium" label={t('userProfile.sensitivity.medium')} selected={profile.trigger_sensitivity === 'medium'} onSelect={() => updateField('trigger_sensitivity', 'medium')} />
+                <RadioOption value="high" label={t('userProfile.sensitivity.high')} selected={profile.trigger_sensitivity === 'high'} onSelect={() => updateField('trigger_sensitivity', 'high')} />
               </div>
             </div>
           </Section>
 
           {/* 5. Lightness vs Depth */}
-          <Section icon={Sun} title={t('userProfile.lightnessDepth')} description={t('userProfile.lightnessDepthDesc')}>
+          <Section icon={Sun} title={t('userProfile.lightnessVsDepth')} description={t('userProfile.lightnessVsDepthDesc')}>
             <div>
               <Label>{t('userProfile.whenFeelsLight')}</Label>
               <Textarea
@@ -474,9 +510,9 @@ const UserProfile = () => {
             <div>
               <Label className="mb-2 block">{t('userProfile.lightnessDepthBalance')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="lightness_depth_balance" value="more_lightness" label={t('userProfile.balance.moreLightness')} />
-                <RadioOption field="lightness_depth_balance" value="more_depth" label={t('userProfile.balance.moreDepth')} />
-                <RadioOption field="lightness_depth_balance" value="balanced" label={t('userProfile.balance.balanced')} />
+                <RadioOption value="more_lightness" label={t('userProfile.balance.moreLightness')} selected={profile.lightness_depth_balance === 'more_lightness'} onSelect={() => updateField('lightness_depth_balance', 'more_lightness')} />
+                <RadioOption value="more_depth" label={t('userProfile.balance.moreDepth')} selected={profile.lightness_depth_balance === 'more_depth'} onSelect={() => updateField('lightness_depth_balance', 'more_depth')} />
+                <RadioOption value="balanced" label={t('userProfile.balance.balanced')} selected={profile.lightness_depth_balance === 'balanced'} onSelect={() => updateField('lightness_depth_balance', 'balanced')} />
               </div>
             </div>
           </Section>
@@ -486,19 +522,19 @@ const UserProfile = () => {
             <div>
               <Label className="mb-2 block">{t('userProfile.preferredTone')}</Label>
               <div className="flex flex-wrap gap-2">
-                <CheckboxOption field="preferred_tone" value="calm" label={t('userProfile.tone.calm')} />
-                <CheckboxOption field="preferred_tone" value="poetic" label={t('userProfile.tone.poetic')} />
-                <CheckboxOption field="preferred_tone" value="clear" label={t('userProfile.tone.clear')} />
-                <CheckboxOption field="preferred_tone" value="analytical" label={t('userProfile.tone.analytical')} />
-                <CheckboxOption field="preferred_tone" value="questioning" label={t('userProfile.tone.questioning')} />
+                <CheckboxOption value="calm" label={t('userProfile.tone.calm')} checked={(profile.preferred_tone || []).includes('calm')} onToggle={() => toggleArrayField('preferred_tone', 'calm')} />
+                <CheckboxOption value="poetic" label={t('userProfile.tone.poetic')} checked={(profile.preferred_tone || []).includes('poetic')} onToggle={() => toggleArrayField('preferred_tone', 'poetic')} />
+                <CheckboxOption value="clear" label={t('userProfile.tone.clear')} checked={(profile.preferred_tone || []).includes('clear')} onToggle={() => toggleArrayField('preferred_tone', 'clear')} />
+                <CheckboxOption value="analytical" label={t('userProfile.tone.analytical')} checked={(profile.preferred_tone || []).includes('analytical')} onToggle={() => toggleArrayField('preferred_tone', 'analytical')} />
+                <CheckboxOption value="questioning" label={t('userProfile.tone.questioning')} checked={(profile.preferred_tone || []).includes('questioning')} onToggle={() => toggleArrayField('preferred_tone', 'questioning')} />
               </div>
             </div>
             <div>
               <Label className="mb-2 block">{t('userProfile.responsePreference')}</Label>
               <div className="flex flex-wrap gap-2">
-                <CheckboxOption field="response_preference" value="direct_recommendations" label={t('userProfile.response.directRecommendations')} />
-                <CheckboxOption field="response_preference" value="open_questions" label={t('userProfile.response.openQuestions')} />
-                <CheckboxOption field="response_preference" value="reflections" label={t('userProfile.response.reflections')} />
+                <CheckboxOption value="direct_recommendations" label={t('userProfile.response.directRecommendations')} checked={(profile.response_preference || []).includes('direct_recommendations')} onToggle={() => toggleArrayField('response_preference', 'direct_recommendations')} />
+                <CheckboxOption value="open_questions" label={t('userProfile.response.openQuestions')} checked={(profile.response_preference || []).includes('open_questions')} onToggle={() => toggleArrayField('response_preference', 'open_questions')} />
+                <CheckboxOption value="mirroring" label={t('userProfile.response.mirroring')} checked={(profile.response_preference || []).includes('mirroring')} onToggle={() => toggleArrayField('response_preference', 'mirroring')} />
               </div>
             </div>
             <div>
@@ -516,39 +552,33 @@ const UserProfile = () => {
           {/* 7. Current Life Phase */}
           <Section icon={Clock} title={t('userProfile.lifePhase')} description={t('userProfile.lifePhaseDesc')}>
             <div>
-              <Label className="mb-2 block">{t('userProfile.currentPhase')}</Label>
+              <Label className="mb-2 block">{t('userProfile.phase')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="life_phase" value="stabilization" label={t('userProfile.phase.stabilization')} />
-                <RadioOption field="life_phase" value="integration" label={t('userProfile.phase.integration')} />
-                <RadioOption field="life_phase" value="opening" label={t('userProfile.phase.opening')} />
-                <RadioOption field="life_phase" value="transition" label={t('userProfile.phase.transition')} />
+                <RadioOption value="stabilization" label={t('userProfile.phases.stabilization')} selected={profile.life_phase === 'stabilization'} onSelect={() => updateField('life_phase', 'stabilization')} />
+                <RadioOption value="integration" label={t('userProfile.phases.integration')} selected={profile.life_phase === 'integration'} onSelect={() => updateField('life_phase', 'integration')} />
+                <RadioOption value="opening" label={t('userProfile.phases.opening')} selected={profile.life_phase === 'opening'} onSelect={() => updateField('life_phase', 'opening')} />
+                <RadioOption value="transition" label={t('userProfile.phases.transition')} selected={profile.life_phase === 'transition'} onSelect={() => updateField('life_phase', 'transition')} />
               </div>
             </div>
             <div>
               <Label className="mb-2 block">{t('userProfile.energyLevel')}</Label>
               <div className="flex flex-wrap gap-2">
-                <RadioOption field="energy_level" value="low" label={t('userProfile.energy.low')} />
-                <RadioOption field="energy_level" value="medium" label={t('userProfile.energy.medium')} />
-                <RadioOption field="energy_level" value="high" label={t('userProfile.energy.high')} />
+                <RadioOption value="low" label={t('userProfile.energy.low')} selected={profile.energy_level === 'low'} onSelect={() => updateField('energy_level', 'low')} />
+                <RadioOption value="medium" label={t('userProfile.energy.medium')} selected={profile.energy_level === 'medium'} onSelect={() => updateField('energy_level', 'medium')} />
+                <RadioOption value="high" label={t('userProfile.energy.high')} selected={profile.energy_level === 'high'} onSelect={() => updateField('energy_level', 'high')} />
               </div>
             </div>
             <div>
               <Label className="mb-2 block">{t('userProfile.currentFocus')}</Label>
               <div className="flex flex-wrap gap-2">
-                <CheckboxOption field="current_focus" value="self" label={t('userProfile.focus.self')} />
-                <CheckboxOption field="current_focus" value="relationship" label={t('userProfile.focus.relationship')} />
-                <CheckboxOption field="current_focus" value="meaning_direction" label={t('userProfile.focus.meaningDirection')} />
+                <CheckboxOption value="self" label={t('userProfile.focus.self')} checked={(profile.current_focus || []).includes('self')} onToggle={() => toggleArrayField('current_focus', 'self')} />
+                <CheckboxOption value="relationship" label={t('userProfile.focus.relationship')} checked={(profile.current_focus || []).includes('relationship')} onToggle={() => toggleArrayField('current_focus', 'relationship')} />
+                <CheckboxOption value="meaning" label={t('userProfile.focus.meaning')} checked={(profile.current_focus || []).includes('meaning')} onToggle={() => toggleArrayField('current_focus', 'meaning')} />
               </div>
             </div>
           </Section>
 
-          {/* Save Button (Mobile) */}
-          <div className="pb-8 sm:hidden">
-            <Button onClick={handleSave} disabled={isSaving} className="w-full" size="lg">
-              {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-              {t('userProfile.save')}
-            </Button>
-          </div>
+          <div className="pb-8" />
         </main>
       </ScrollArea>
     </div>
