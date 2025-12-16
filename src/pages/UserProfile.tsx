@@ -389,7 +389,8 @@ const UserProfile = () => {
               <Label>{t('userProfile.coreNeeds')}</Label>
               <Input
                 value={(profile.core_needs || []).join(', ')}
-                onChange={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                onChange={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.coreNeedsPlaceholder')}
                 className="mt-1.5"
               />
@@ -399,7 +400,8 @@ const UserProfile = () => {
               <Label>{t('userProfile.neglectedNeeds')}</Label>
               <Input
                 value={(profile.neglected_needs || []).join(', ')}
-                onChange={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                onChange={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.neglectedNeedsPlaceholder')}
                 className="mt-1.5"
               />
@@ -409,7 +411,8 @@ const UserProfile = () => {
               <Label>{t('userProfile.overFulfilledNeeds')}</Label>
               <Input
                 value={(profile.over_fulfilled_needs || []).join(', ')}
-                onChange={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                onChange={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.overFulfilledNeedsPlaceholder')}
                 className="mt-1.5"
               />
@@ -543,7 +546,8 @@ const UserProfile = () => {
               <Label>{t('userProfile.languageTriggers')}</Label>
               <Input
                 value={(profile.language_triggers || []).join(', ')}
-                onChange={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                onChange={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.languageTriggersPlaceholder')}
                 className="mt-1.5"
               />
