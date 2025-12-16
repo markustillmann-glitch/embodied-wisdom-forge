@@ -40,7 +40,9 @@ import {
   Sparkles,
   Pencil,
   MoreVertical,
-  Brain
+  Brain,
+  Download,
+  FileText
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -404,6 +406,58 @@ const Coach = () => {
     } finally {
       setIsGeneratingPsychogram(false);
     }
+  };
+
+  const exportPsychogramMarkdown = () => {
+    const date = new Date().toISOString().split('T')[0];
+    const filename = `psychogram-${date}.md`;
+    const content = `# ${t('coach.psychogramTitle')}\n\n${t('coach.psychogramSubtitle').replace('{count}', String(psychogramMemoryCount))}\n\n---\n\n${psychogramContent}`;
+    
+    const blob = new Blob([content], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportPsychogramPdf = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      toast({
+        title: t('vault.error'),
+        description: 'Could not open print window. Please allow popups.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    const date = new Date().toLocaleDateString();
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${t('coach.psychogramTitle')}</title>
+          <style>
+            body { font-family: Georgia, serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+            h1 { color: #333; border-bottom: 2px solid #666; padding-bottom: 10px; }
+            .subtitle { color: #666; font-size: 14px; margin-bottom: 30px; }
+            .content { white-space: pre-wrap; }
+            @media print { body { margin: 20px; } }
+          </style>
+        </head>
+        <body>
+          <h1>${t('coach.psychogramTitle')}</h1>
+          <p class="subtitle">${t('coach.psychogramSubtitle').replace('{count}', String(psychogramMemoryCount))} • ${date}</p>
+          <div class="content">${psychogramContent.replace(/\n/g, '<br>')}</div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
   };
 
   const detectSongLink = (text: string): string | null => {
@@ -1178,7 +1232,19 @@ const Coach = () => {
               </div>
             )}
           </div>
-          <DialogFooter className="pt-4 border-t border-border">
+          <DialogFooter className="pt-4 border-t border-border flex-wrap gap-2">
+            {psychogramContent && !isGeneratingPsychogram && (
+              <>
+                <Button variant="outline" size="sm" onClick={exportPsychogramMarkdown}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  {t('coach.exportMarkdown')}
+                </Button>
+                <Button variant="outline" size="sm" onClick={exportPsychogramPdf}>
+                  <Download className="h-4 w-4 mr-2" />
+                  {t('coach.exportPdf')}
+                </Button>
+              </>
+            )}
             <Button onClick={() => setPsychogramDialogOpen(false)}>
               {t('coach.closePsychogram')}
             </Button>

@@ -597,6 +597,8 @@ export const translations = {
       psychogramNoMemories: 'Du hast noch keine Erinnerungen gespeichert. Verarbeite zuerst einige Erinnerungen mit Oria.',
       psychogramError: 'Psychogramm konnte nicht erstellt werden.',
       closePsychogram: 'Schließen',
+      exportMarkdown: 'Als Markdown',
+      exportPdf: 'Als PDF',
     },
 
     // Memory Vault
@@ -1277,6 +1279,8 @@ export const translations = {
       psychogramNoMemories: 'You have no saved memories yet. First process some memories with Oria.',
       psychogramError: 'Could not create psychogram.',
       closePsychogram: 'Close',
+      exportMarkdown: 'As Markdown',
+      exportPdf: 'As PDF',
     },
 
     // Memory Vault
