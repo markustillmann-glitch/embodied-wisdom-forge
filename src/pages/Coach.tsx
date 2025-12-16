@@ -44,7 +44,8 @@ import {
   MoreVertical,
   Brain,
   Download,
-  FileText
+  FileText,
+  ShieldCheck
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -985,6 +986,11 @@ const Coach = () => {
             <div className="flex flex-col">
               <h1 className="font-serif text-base sm:text-lg leading-tight">{t('nav.askOria')}</h1>
               <span className="text-xs text-muted-foreground">{t('nav.yourPersonalCoach')}</span>
+            </div>
+            {/* Security Badge */}
+            <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 border border-accent/30 rounded-full ml-2">
+              <ShieldCheck className="w-3.5 h-3.5 text-accent" />
+              <span className="text-xs font-medium text-accent">{t('oria.security.badge')}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
