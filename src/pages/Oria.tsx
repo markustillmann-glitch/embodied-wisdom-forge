@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles } from "lucide-react";
+import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles, ShieldCheck, MessageCircle, User, Lock } from "lucide-react";
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -282,6 +282,154 @@ const Oria = () => {
                 {t('oria.braceletCaption')}
               </p>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Personal Profile Section */}
+      <section className="py-12 sm:py-20 relative overflow-hidden">
+        <PolygonalBackground variant="section" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+              <User className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground">
+                {t('oria.personalProfile.title')}
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-4">
+              {t('oria.personalProfile.intro')}
+            </p>
+            <p className="text-sm sm:text-base text-foreground/90 max-w-2xl mx-auto">
+              {t('oria.personalProfile.desc')}
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8"
+          >
+            <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+              {t('oria.personalProfile.modelUse')}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Interactive Dialog Section */}
+      <section className="py-12 sm:py-16 border-t border-chapter-divider">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8"
+          >
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+              <h2 className="text-xl sm:text-2xl font-serif text-foreground">
+                {t('oria.interactive.title')}
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground">
+              {t('oria.interactive.intro')}
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6"
+          >
+            {[0, 1, 2, 3].map((idx) => (
+              <div key={idx} className="flex items-start gap-3 p-4 bg-card rounded-lg border border-border">
+                <Sparkles className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                <span className="text-sm text-foreground/90">{t(`oria.interactive.items.${idx}`)}</span>
+              </div>
+            ))}
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-quote-bg p-5 sm:p-6 rounded-lg border-l-4 border-accent"
+          >
+            <p className="text-sm sm:text-base text-foreground/90 italic">
+              {t('oria.interactive.result')}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Security Section */}
+      <section className="py-12 sm:py-20 relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            {/* Security Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/30 rounded-full mb-6">
+              <ShieldCheck className="w-5 h-5 text-accent" />
+              <span className="text-sm font-medium text-accent">{t('oria.security.badge')}</span>
+            </div>
+            
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+              <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground">
+                {t('oria.security.title')}
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              {t('oria.security.intro')}
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
+          >
+            {[0, 1, 2, 3].map((idx) => (
+              <div key={idx} className="flex items-start gap-3 p-4 bg-card rounded-lg border border-border">
+                <ShieldCheck className="w-5 h-5 text-accent shrink-0" />
+                <span className="text-sm sm:text-base text-foreground/90">{t(`oria.security.items.${idx}`)}</span>
+              </div>
+            ))}
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-card p-6 sm:p-8 rounded-xl border border-border text-center"
+          >
+            <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+              {t('oria.security.note')}
+            </p>
           </motion.div>
         </div>
       </section>

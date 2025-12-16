@@ -333,6 +333,41 @@ export const translations = {
       ready: 'Bereit, mit Oria auf die Reise zu gehen?',
       toSeminars: 'Zu den Seminarangeboten',
       
+      // Personal profile section
+      personalProfile: {
+        title: 'Dein tiefes persönliches Profil',
+        intro: 'Im Laufe deiner Arbeit mit Oria entwickelst du ein reichhaltiges persönliches Profil – eine detaillierte Landkarte deiner inneren Welt.',
+        desc: 'Dieses Profil erfasst sieben Dimensionen: Emotionsregulation, Bedürfnistopografie, Zugehörigkeit, Erinnerungstyp, Leichtigkeit vs. Tiefe, Sprachpräferenzen und deine aktuelle Lebensphase.',
+        modelUse: 'Das Beyond Bias Modell und dein persönliches Profil fließen gemeinsam in jede Antwort von Oria ein – so erhältst du prägnante, verwertbare Ergebnisse, die genau auf dich zugeschnitten sind.',
+      },
+      
+      // Interactive capabilities
+      interactive: {
+        title: 'Dialog statt Monolog',
+        intro: 'Oria ist keine Einbahnstraße. Du kannst jederzeit:',
+        items: [
+          'Gegenfragen stellen und tiefer nachhaken',
+          'Um Verfeinerung und Präzisierung bitten',
+          'Antworten kommentieren und korrigieren',
+          'Deine eigene Perspektive einbringen'
+        ],
+        result: 'Durch diesen lebendigen Dialog werden die Ergebnisse immer besser – und dein persönliches Profil wird mit jeder Interaktion reichhaltiger und präziser.',
+      },
+      
+      // Security section
+      security: {
+        badge: 'Geprüfte Sicherheit',
+        title: 'Deine Daten sind geschützt',
+        intro: 'Intimität und Diskretion sind uns heilig. Deshalb gelten höchste Sicherheitsstandards:',
+        items: [
+          'Ende-zu-Ende-Verschlüsselung aller Daten',
+          'DSGVO-konforme Datenspeicherung in der EU',
+          'Kein Verkauf oder Weitergabe deiner Daten',
+          'Du behältst volle Kontrolle über dein Profil'
+        ],
+        note: 'Deine innersten Gedanken, Erinnerungen und Reflexionen verdienen absoluten Schutz. Wir nehmen diese Verantwortung ernst.',
+      },
+      
       // Guided practice section
       guidedPractice: {
         title: 'Warum Begleitung einen Unterschied macht',
@@ -1219,6 +1254,41 @@ export const translations = {
       finalQuote: '"How quiet it becomes when you truly listen—inside and out."',
       ready: 'Ready to embark on the journey with Oria?',
       toSeminars: 'To the Seminar Offerings',
+      
+      // Personal profile section
+      personalProfile: {
+        title: 'Your Deep Personal Profile',
+        intro: 'Throughout your work with Oria, you develop a rich personal profile—a detailed map of your inner world.',
+        desc: 'This profile captures seven dimensions: emotion regulation, needs topology, belonging, memory type, lightness vs. depth, language preferences, and your current life phase.',
+        modelUse: 'The Beyond Bias model and your personal profile flow together into every response from Oria—so you receive precise, actionable results tailored exactly to you.',
+      },
+      
+      // Interactive capabilities
+      interactive: {
+        title: 'Dialogue, Not Monologue',
+        intro: 'Oria is not a one-way street. You can anytime:',
+        items: [
+          'Ask follow-up questions and dig deeper',
+          'Request refinement and clarification',
+          'Comment on and correct responses',
+          'Bring in your own perspective'
+        ],
+        result: 'Through this living dialogue, results keep improving—and your personal profile becomes richer and more precise with every interaction.',
+      },
+      
+      // Security section
+      security: {
+        badge: 'Verified Security',
+        title: 'Your Data Is Protected',
+        intro: 'Intimacy and discretion are sacred to us. That\'s why we maintain the highest security standards:',
+        items: [
+          'End-to-end encryption of all data',
+          'GDPR-compliant data storage in the EU',
+          'No sale or sharing of your data',
+          'You retain full control over your profile'
+        ],
+        note: 'Your innermost thoughts, memories, and reflections deserve absolute protection. We take this responsibility seriously.',
+      },
       
       // Guided practice section
       guidedPractice: {
