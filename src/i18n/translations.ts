@@ -599,6 +599,10 @@ export const translations = {
       closePsychogram: 'Schließen',
       exportMarkdown: 'Als Markdown',
       exportPdf: 'Als PDF',
+      psychogramDetailed: 'Detailliert',
+      psychogramCompact: 'Kompakt',
+      psychogramDetailedDesc: 'Umfassende Analyse mit allen 8 Kategorien',
+      psychogramCompactDesc: 'Kurze Zusammenfassung der wichtigsten Erkenntnisse',
     },
 
     // Memory Vault
@@ -1281,6 +1285,10 @@ export const translations = {
       closePsychogram: 'Close',
       exportMarkdown: 'As Markdown',
       exportPdf: 'As PDF',
+      psychogramDetailed: 'Detailed',
+      psychogramCompact: 'Compact',
+      psychogramDetailedDesc: 'Comprehensive analysis with all 8 categories',
+      psychogramCompactDesc: 'Brief summary of key insights',
     },
 
     // Memory Vault
