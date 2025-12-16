@@ -298,12 +298,15 @@ const Coach = () => {
   };
 
   const deleteConversation = async (id: string) => {
+    console.log('Attempting to delete conversation:', id);
+    
     const { error } = await supabase
       .from('conversations')
       .delete()
       .eq('id', id);
 
     if (error) {
+      console.error('Error deleting conversation:', error);
       toast({
         title: t('vault.error'),
         description: t('coach.errorDeletingConversation'),
@@ -312,6 +315,7 @@ const Coach = () => {
       return;
     }
 
+    console.log('Conversation deleted successfully');
     setConversations(prev => prev.filter(c => c.id !== id));
     
     if (currentConversation === id) {
@@ -319,6 +323,11 @@ const Coach = () => {
       setCurrentConversation(remaining.length > 0 ? remaining[0].id : null);
       setMessages([]);
     }
+    
+    toast({
+      title: t('coach.conversationDeleted'),
+      description: t('coach.conversationDeletedDesc'),
+    });
   };
 
   const openRenameDialog = (conv: Conversation) => {
