@@ -219,6 +219,102 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profiles: {
+        Row: {
+          belonging_through: string[] | null
+          biggest_challenges: string | null
+          core_needs: string[] | null
+          created_at: string
+          current_focus: string[] | null
+          energy_level: string | null
+          goals_motivation: string | null
+          harder_closeness_or_boundaries: string | null
+          id: string
+          language_triggers: string[] | null
+          life_phase: string | null
+          lightness_depth_balance: string | null
+          memory_effect: string | null
+          neglected_needs: string[] | null
+          nervous_system_tempo: string | null
+          over_fulfilled_needs: string[] | null
+          overwhelm_signals: string | null
+          photo_url: string | null
+          preferred_tone: string[] | null
+          primary_memory_channel: string[] | null
+          reaction_to_expectations: string | null
+          response_preference: string[] | null
+          safety_feeling: string | null
+          trigger_sensitivity: string | null
+          updated_at: string
+          user_id: string
+          when_depth_burdening: string | null
+          when_depth_nourishing: string | null
+          when_feels_light: string | null
+        }
+        Insert: {
+          belonging_through?: string[] | null
+          biggest_challenges?: string | null
+          core_needs?: string[] | null
+          created_at?: string
+          current_focus?: string[] | null
+          energy_level?: string | null
+          goals_motivation?: string | null
+          harder_closeness_or_boundaries?: string | null
+          id?: string
+          language_triggers?: string[] | null
+          life_phase?: string | null
+          lightness_depth_balance?: string | null
+          memory_effect?: string | null
+          neglected_needs?: string[] | null
+          nervous_system_tempo?: string | null
+          over_fulfilled_needs?: string[] | null
+          overwhelm_signals?: string | null
+          photo_url?: string | null
+          preferred_tone?: string[] | null
+          primary_memory_channel?: string[] | null
+          reaction_to_expectations?: string | null
+          response_preference?: string[] | null
+          safety_feeling?: string | null
+          trigger_sensitivity?: string | null
+          updated_at?: string
+          user_id: string
+          when_depth_burdening?: string | null
+          when_depth_nourishing?: string | null
+          when_feels_light?: string | null
+        }
+        Update: {
+          belonging_through?: string[] | null
+          biggest_challenges?: string | null
+          core_needs?: string[] | null
+          created_at?: string
+          current_focus?: string[] | null
+          energy_level?: string | null
+          goals_motivation?: string | null
+          harder_closeness_or_boundaries?: string | null
+          id?: string
+          language_triggers?: string[] | null
+          life_phase?: string | null
+          lightness_depth_balance?: string | null
+          memory_effect?: string | null
+          neglected_needs?: string[] | null
+          nervous_system_tempo?: string | null
+          over_fulfilled_needs?: string[] | null
+          overwhelm_signals?: string | null
+          photo_url?: string | null
+          preferred_tone?: string[] | null
+          primary_memory_channel?: string[] | null
+          reaction_to_expectations?: string | null
+          response_preference?: string[] | null
+          safety_feeling?: string | null
+          trigger_sensitivity?: string | null
+          updated_at?: string
+          user_id?: string
+          when_depth_burdening?: string | null
+          when_depth_nourishing?: string | null
+          when_feels_light?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

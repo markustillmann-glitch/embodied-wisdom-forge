@@ -891,6 +891,12 @@ const Coach = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Link to="/profile">
+            <Button variant="ghost" size="sm" className="w-full justify-start">
+              <UserCheck className="h-4 w-4 mr-2" />
+              {t('userProfile.title')}
+            </Button>
+          </Link>
           <Link to="/vault">
             <Button variant="ghost" size="sm" className="w-full justify-start">
               <Archive className="h-4 w-4 mr-2" />

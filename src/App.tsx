@@ -12,6 +12,7 @@ import Impressum from "./pages/Impressum";
 import Auth from "./pages/Auth";
 import Coach from "./pages/Coach";
 import MemoryVault from "./pages/MemoryVault";
+import UserProfile from "./pages/UserProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<Coach />} />
               <Route path="/vault" element={<MemoryVault />} />
+              <Route path="/profile" element={<UserProfile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

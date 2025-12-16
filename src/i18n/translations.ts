@@ -692,6 +692,148 @@ export const translations = {
         clarity: 'Klarheit',
       },
     },
+
+    // User Profile
+    userProfile: {
+      title: 'Mein Profil',
+      backToCoach: 'Zurück zum Coach',
+      save: 'Speichern',
+      saved: 'Gespeichert',
+      savedDesc: 'Dein Profil wurde aktualisiert.',
+      saveError: 'Profil konnte nicht gespeichert werden.',
+      
+      // Basic Info
+      basicInfo: 'Über mich',
+      basicInfoDesc: 'Grundlegende Informationen und Ziele',
+      goalsMotivation: 'Ziele & Motivation',
+      goalsPlaceholder: 'Was möchtest du mit dieser Arbeit erreichen?',
+      biggestChallenges: 'Größte Herausforderungen',
+      challengesPlaceholder: 'Welche Herausforderungen beschäftigen dich am meisten?',
+      
+      // 1. Emotion Profile
+      emotionProfile: 'Emotions- & Regulationsprofil',
+      emotionProfileDesc: 'Wie fühlt sich "stimmig" für dich an?',
+      safetyFeeling: 'Wie fühlt sich Sicherheit im Körper an?',
+      safetyFeelingPlaceholder: 'z.B. warm, ruhig, weit, klar...',
+      overwhelmSignals: 'Was signalisiert Überforderung?',
+      overwhelmSignalsPlaceholder: 'z.B. Druck, Enge, Gedankenkreisen...',
+      nervousSystemTempo: 'Grundtempo des Nervensystems',
+      tempo: {
+        calm: 'Eher ruhig',
+        varying: 'Wechselnd',
+        highActive: 'Hochaktiv',
+      },
+      
+      // 2. Needs Topology
+      needsTopology: 'Bedürfnis-Topologie',
+      needsTopologyDesc: 'Was reguliert dich wirklich? (NVC)',
+      coreNeeds: 'Top 5 Kernbedürfnisse',
+      coreNeedsPlaceholder: 'z.B. Authentizität, Verbindung, Ruhe, Sinn, Autonomie',
+      neglectedNeeds: 'Bedürfnisse, die oft zu kurz kommen',
+      neglectedNeedsPlaceholder: 'z.B. Ruhe, Spiel, Leichtigkeit',
+      overFulfilledNeeds: 'Bedürfnisse, die übererfüllt sind',
+      overFulfilledNeedsPlaceholder: 'z.B. Sicherheit, Kontrolle',
+      commaSeparated: 'Kommagetrennt eingeben',
+      
+      // 3. Belonging & Difference
+      belongingDifference: 'Zugehörigkeit & Anderssein',
+      belongingDifferenceDesc: 'Wie erlebst du Nähe und Abgrenzung?',
+      belongingThrough: 'Wann fühlst du dich zugehörig?',
+      belonging: {
+        similarity: 'Durch Ähnlichkeit',
+        acceptanceDifference: 'Durch Akzeptanz von Unterschied',
+        achievement: 'Durch Leistung',
+      },
+      reactionToExpectations: 'Wie reagierst du innerlich auf Erwartung?',
+      reactionPlaceholder: 'z.B. Druck, Rückzug, Anpassung, Rebellion...',
+      harderClosenessOrBoundaries: 'Was ist schwieriger?',
+      closeness: 'Nähe',
+      boundaries: 'Abgrenzung',
+      both: 'Beides',
+      
+      // 4. Memory Type
+      memoryType: 'Erinnerungstyp',
+      memoryTypeDesc: 'Wie arbeitet dein Gedächtnis?',
+      primaryMemoryChannel: 'Primärer Erinnerungskanal',
+      channel: {
+        body: 'Körper',
+        music: 'Musik',
+        images: 'Bilder',
+        language: 'Sprache',
+        places: 'Orte',
+      },
+      memoryEffect: 'Wie wirken Erinnerungen?',
+      effect: {
+        regulating: 'Regulierend',
+        intensifying: 'Intensivierend',
+        melancholic: 'Melancholisierend',
+      },
+      triggerSensitivity: 'Trigger-Sensibilität',
+      sensitivity: {
+        low: 'Niedrig',
+        medium: 'Mittel',
+        high: 'Hoch',
+      },
+      
+      // 5. Lightness vs Depth
+      lightnessDepth: 'Leichtigkeit vs. Tiefe',
+      lightnessDepthDesc: 'Wann ist was nährend?',
+      whenFeelsLight: 'Wann fühlt sich etwas "leicht" an?',
+      whenFeelsLightPlaceholder: 'Beschreibe Situationen oder Qualitäten...',
+      whenDepthNourishing: 'Wann ist Tiefe nährend?',
+      whenDepthNourishingPlaceholder: 'z.B. in Gesprächen, beim Lesen...',
+      whenDepthBurdening: 'Wann ist Tiefe belastend?',
+      whenDepthBurdeningPlaceholder: 'z.B. bei Grübeln, zu viel Analyse...',
+      lightnessDepthBalance: 'Was brauchst du gerade mehr?',
+      balance: {
+        moreLightness: 'Mehr Leichtigkeit',
+        moreDepth: 'Mehr Tiefe',
+        balanced: 'Balance passt',
+      },
+      
+      // 6. Language & Tonality
+      languageTonality: 'Sprache & Tonalität',
+      languageTonalityDesc: 'Wie soll das Modell mit dir sprechen?',
+      preferredTone: 'Bevorzugter Ton',
+      tone: {
+        calm: 'Ruhig',
+        poetic: 'Poetisch',
+        clear: 'Klar',
+        analytical: 'Analytisch',
+        questioning: 'Fragend',
+      },
+      responsePreference: 'Reaktion auf',
+      response: {
+        directRecommendations: 'Direkte Empfehlungen',
+        openQuestions: 'Offene Fragen',
+        reflections: 'Spiegelungen',
+      },
+      languageTriggers: 'Trigger durch Sprache',
+      languageTriggersPlaceholder: 'z.B. "müssen", "sollten", "optimieren"',
+      
+      // 7. Life Phase
+      lifePhase: 'Aktuelle Lebensphase',
+      lifePhaseDesc: 'Wo stehst du gerade?',
+      currentPhase: 'Phase',
+      phase: {
+        stabilization: 'Stabilisierung',
+        integration: 'Integration',
+        opening: 'Öffnung',
+        transition: 'Übergang',
+      },
+      energyLevel: 'Energielevel',
+      energy: {
+        low: 'Niedrig',
+        medium: 'Mittel',
+        high: 'Hoch',
+      },
+      currentFocus: 'Aktueller Fokus',
+      focus: {
+        self: 'Selbst',
+        relationship: 'Beziehung',
+        meaningDirection: 'Sinn / Richtung',
+      },
+    },
   },
   
   en: {
@@ -1385,6 +1527,148 @@ export const translations = {
         contribution: 'Contribution',
         empathy: 'Empathy',
         clarity: 'Clarity',
+      },
+    },
+
+    // User Profile
+    userProfile: {
+      title: 'My Profile',
+      backToCoach: 'Back to Coach',
+      save: 'Save',
+      saved: 'Saved',
+      savedDesc: 'Your profile has been updated.',
+      saveError: 'Could not save profile.',
+      
+      // Basic Info
+      basicInfo: 'About Me',
+      basicInfoDesc: 'Basic information and goals',
+      goalsMotivation: 'Goals & Motivation',
+      goalsPlaceholder: 'What do you want to achieve with this work?',
+      biggestChallenges: 'Biggest Challenges',
+      challengesPlaceholder: 'What challenges concern you most?',
+      
+      // 1. Emotion Profile
+      emotionProfile: 'Emotion & Regulation Profile',
+      emotionProfileDesc: 'How does "aligned" feel for you?',
+      safetyFeeling: 'How does safety feel in your body?',
+      safetyFeelingPlaceholder: 'e.g. warm, calm, open, clear...',
+      overwhelmSignals: 'What signals overwhelm?',
+      overwhelmSignalsPlaceholder: 'e.g. pressure, tightness, racing thoughts...',
+      nervousSystemTempo: 'Nervous system baseline',
+      tempo: {
+        calm: 'Rather calm',
+        varying: 'Varying',
+        highActive: 'Highly active',
+      },
+      
+      // 2. Needs Topology
+      needsTopology: 'Needs Topology',
+      needsTopologyDesc: 'What truly regulates you? (NVC)',
+      coreNeeds: 'Top 5 Core Needs',
+      coreNeedsPlaceholder: 'e.g. Authenticity, Connection, Peace, Meaning, Autonomy',
+      neglectedNeeds: 'Needs often neglected',
+      neglectedNeedsPlaceholder: 'e.g. Rest, Play, Lightness',
+      overFulfilledNeeds: 'Needs that are over-fulfilled',
+      overFulfilledNeedsPlaceholder: 'e.g. Security, Control',
+      commaSeparated: 'Enter comma-separated',
+      
+      // 3. Belonging & Difference
+      belongingDifference: 'Belonging & Difference',
+      belongingDifferenceDesc: 'How do you experience closeness and boundaries?',
+      belongingThrough: 'When do you feel belonging?',
+      belonging: {
+        similarity: 'Through similarity',
+        acceptanceDifference: 'Through acceptance of difference',
+        achievement: 'Through achievement',
+      },
+      reactionToExpectations: 'How do you react internally to expectations?',
+      reactionPlaceholder: 'e.g. pressure, withdrawal, adaptation, rebellion...',
+      harderClosenessOrBoundaries: 'What is harder?',
+      closeness: 'Closeness',
+      boundaries: 'Boundaries',
+      both: 'Both',
+      
+      // 4. Memory Type
+      memoryType: 'Memory Type',
+      memoryTypeDesc: 'How does your memory work?',
+      primaryMemoryChannel: 'Primary memory channel',
+      channel: {
+        body: 'Body',
+        music: 'Music',
+        images: 'Images',
+        language: 'Language',
+        places: 'Places',
+      },
+      memoryEffect: 'How do memories affect you?',
+      effect: {
+        regulating: 'Regulating',
+        intensifying: 'Intensifying',
+        melancholic: 'Melancholic',
+      },
+      triggerSensitivity: 'Trigger sensitivity',
+      sensitivity: {
+        low: 'Low',
+        medium: 'Medium',
+        high: 'High',
+      },
+      
+      // 5. Lightness vs Depth
+      lightnessDepth: 'Lightness vs. Depth',
+      lightnessDepthDesc: 'When is what nourishing?',
+      whenFeelsLight: 'When does something feel "light"?',
+      whenFeelsLightPlaceholder: 'Describe situations or qualities...',
+      whenDepthNourishing: 'When is depth nourishing?',
+      whenDepthNourishingPlaceholder: 'e.g. in conversations, while reading...',
+      whenDepthBurdening: 'When is depth burdening?',
+      whenDepthBurdeningPlaceholder: 'e.g. when ruminating, too much analysis...',
+      lightnessDepthBalance: 'What do you need more right now?',
+      balance: {
+        moreLightness: 'More lightness',
+        moreDepth: 'More depth',
+        balanced: 'Balance is good',
+      },
+      
+      // 6. Language & Tonality
+      languageTonality: 'Language & Tonality',
+      languageTonalityDesc: 'How should the model speak to you?',
+      preferredTone: 'Preferred tone',
+      tone: {
+        calm: 'Calm',
+        poetic: 'Poetic',
+        clear: 'Clear',
+        analytical: 'Analytical',
+        questioning: 'Questioning',
+      },
+      responsePreference: 'Response to',
+      response: {
+        directRecommendations: 'Direct recommendations',
+        openQuestions: 'Open questions',
+        reflections: 'Reflections',
+      },
+      languageTriggers: 'Language triggers',
+      languageTriggersPlaceholder: 'e.g. "must", "should", "optimize"',
+      
+      // 7. Life Phase
+      lifePhase: 'Current Life Phase',
+      lifePhaseDesc: 'Where are you right now?',
+      currentPhase: 'Phase',
+      phase: {
+        stabilization: 'Stabilization',
+        integration: 'Integration',
+        opening: 'Opening',
+        transition: 'Transition',
+      },
+      energyLevel: 'Energy level',
+      energy: {
+        low: 'Low',
+        medium: 'Medium',
+        high: 'High',
+      },
+      currentFocus: 'Current focus',
+      focus: {
+        self: 'Self',
+        relationship: 'Relationship',
+        meaningDirection: 'Meaning / Direction',
       },
     },
   },
