@@ -1243,6 +1243,13 @@ const Coach = () => {
                 {t('coach.psychogramSubtitle').replace('{count}', String(psychogramMemoryCount))}
               </DialogDescription>
             )}
+            {psychogramMemoryCount > 0 && psychogramMemoryCount < 20 && !isGeneratingPsychogram && (
+              <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-md">
+                <p className="text-sm text-amber-600 dark:text-amber-400">
+                  {t('coach.psychogramStabilityWarning')}
+                </p>
+              </div>
+            )}
           </DialogHeader>
           <div className="flex-1 min-h-0 overflow-y-auto max-h-[60vh] py-4 pr-2">
             {isGeneratingPsychogram ? (
