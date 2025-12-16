@@ -40,39 +40,54 @@ export type Database = {
       }
       memories: {
         Row: {
+          additional_thoughts: string | null
           content: string
           conversation_id: string | null
           created_at: string
           emotion: string | null
+          feeling_after: string | null
           id: string
+          image_url: string | null
           memory_date: string | null
           memory_type: string
+          needs_after: string[] | null
           summary: string | null
           title: string
+          updated_at: string | null
           user_id: string
         }
         Insert: {
+          additional_thoughts?: string | null
           content: string
           conversation_id?: string | null
           created_at?: string
           emotion?: string | null
+          feeling_after?: string | null
           id?: string
+          image_url?: string | null
           memory_date?: string | null
           memory_type?: string
+          needs_after?: string[] | null
           summary?: string | null
           title: string
+          updated_at?: string | null
           user_id: string
         }
         Update: {
+          additional_thoughts?: string | null
           content?: string
           conversation_id?: string | null
           created_at?: string
           emotion?: string | null
+          feeling_after?: string | null
           id?: string
+          image_url?: string | null
           memory_date?: string | null
           memory_type?: string
+          needs_after?: string[] | null
           summary?: string | null
           title?: string
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: [
