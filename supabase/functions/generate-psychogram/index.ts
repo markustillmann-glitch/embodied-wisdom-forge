@@ -182,20 +182,23 @@ serve(async (req) => {
 
     console.log(`Found ${memories.length} memories, generating psychogram`);
 
-    // Prepare memory summaries for analysis
+    // Prepare memory summaries for analysis - include ALL fields for equal analysis
     const memorySummaries = memories.map((m, i) => {
       const parts = [
         `Memory ${i + 1}:`,
         `- Title: ${m.title}`,
         `- Type: ${m.memory_type}`,
+        m.memory_date ? `- Date: ${m.memory_date}` : null,
         m.emotion ? `- Emotion: ${m.emotion}` : null,
+        // Include the full content (journaling responses) - this is the core of the memory
+        m.content ? `- Full Content/Journaling:\n${m.content}` : null,
         m.summary ? `- Summary: ${m.summary}` : null,
         m.feeling_after ? `- Feeling after processing: ${m.feeling_after}` : null,
         m.needs_after && m.needs_after.length > 0 ? `- Needs identified: ${m.needs_after.join(', ')}` : null,
         m.additional_thoughts ? `- Additional thoughts: ${m.additional_thoughts}` : null,
       ].filter(Boolean).join('\n');
       return parts;
-    }).join('\n\n');
+    }).join('\n\n---\n\n');
 
     const userPrompt = language === 'en'
       ? `Please create a comprehensive psychogram based on these ${memories.length} memories:\n\n${memorySummaries}`
