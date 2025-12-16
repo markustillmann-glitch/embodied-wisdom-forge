@@ -5,9 +5,16 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { 
   ArrowLeft, 
   Send, 
@@ -25,7 +32,9 @@ import {
   Menu,
   Plane,
   Trophy,
-  UserCheck
+  UserCheck,
+  Archive,
+  Save
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -63,6 +72,13 @@ const Coach = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  
+  // Save memory dialog state
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [memoryTitle, setMemoryTitle] = useState('');
+  const [memorySummary, setMemorySummary] = useState('');
+  const [memoryEmotion, setMemoryEmotion] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -396,6 +412,69 @@ const Coach = () => {
     }
   };
 
+  // Detect memory type from conversation
+  const detectMemoryType = (): string => {
+    const firstUserMessage = messages.find(m => m.role === 'user')?.content.toLowerCase() || '';
+    if (firstUserMessage.includes('konzert') || firstUserMessage.includes('concert')) return 'concert';
+    if (firstUserMessage.includes('beziehung') || firstUserMessage.includes('relationship')) return 'relationship';
+    if (firstUserMessage.includes('beruf') || firstUserMessage.includes('work') || firstUserMessage.includes('arbeit')) return 'work';
+    if (firstUserMessage.includes('kindheit') || firstUserMessage.includes('childhood')) return 'childhood';
+    if (firstUserMessage.includes('reise') || firstUserMessage.includes('travel')) return 'travel';
+    if (firstUserMessage.includes('freund') || firstUserMessage.includes('friendship')) return 'friendship';
+    if (firstUserMessage.includes('erfolg') || firstUserMessage.includes('success')) return 'success';
+    return 'general';
+  };
+
+  // Open save dialog with auto-filled title
+  const openSaveDialog = () => {
+    const conversation = conversations.find(c => c.id === currentConversation);
+    setMemoryTitle(conversation?.title || '');
+    setMemorySummary('');
+    setMemoryEmotion('');
+    setSaveDialogOpen(true);
+  };
+
+  // Save memory to vault
+  const saveMemory = async () => {
+    if (!user || !currentConversation || !memoryTitle.trim()) return;
+    
+    setIsSaving(true);
+    
+    // Compile conversation content
+    const content = messages.map(m => 
+      `${m.role === 'user' ? '👤' : '🦉'} ${m.content}`
+    ).join('\n\n---\n\n');
+    
+    const { error } = await supabase
+      .from('memories')
+      .insert({
+        user_id: user.id,
+        title: memoryTitle.trim(),
+        summary: memorySummary.trim() || null,
+        content,
+        memory_type: detectMemoryType(),
+        emotion: memoryEmotion.trim() || null,
+        conversation_id: currentConversation,
+        memory_date: new Date().toISOString(),
+      });
+    
+    setIsSaving(false);
+    
+    if (error) {
+      toast({
+        title: t('vault.error'),
+        description: t('vault.saveError'),
+        variant: 'destructive',
+      });
+    } else {
+      toast({
+        title: t('vault.saved'),
+        description: t('vault.savedDesc'),
+      });
+      setSaveDialogOpen(false);
+    }
+  };
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -477,7 +556,13 @@ const Coach = () => {
           </div>
         </ScrollArea>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-2">
+          <Link to="/vault">
+            <Button variant="ghost" size="sm" className="w-full justify-start">
+              <Archive className="h-4 w-4 mr-2" />
+              {t('vault.openVault')}
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" onClick={signOut} className="w-full justify-start">
             <LogOut className="h-4 w-4 mr-2" />
             {t('auth.signOut')}
@@ -487,14 +572,27 @@ const Coach = () => {
 
       {/* Main Chat Area */}
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 border-b border-border flex items-center px-3 sm:px-4 gap-3">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-secondary rounded-lg transition-colors shrink-0"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <h1 className="font-serif text-base sm:text-lg truncate">{t('coach.title')}</h1>
+        <header className="h-14 border-b border-border flex items-center justify-between px-3 sm:px-4">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-secondary rounded-lg transition-colors shrink-0"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <h1 className="font-serif text-base sm:text-lg truncate">{t('coach.title')}</h1>
+          </div>
+          {messages.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={openSaveDialog}
+              className="shrink-0"
+            >
+              <Save className="h-4 w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">{t('vault.saveMemory')}</span>
+            </Button>
+          )}
         </header>
 
         {currentConversation ? (
@@ -659,6 +757,66 @@ const Coach = () => {
           </div>
         )}
       </main>
+
+      {/* Save Memory Dialog */}
+      <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Archive className="h-5 w-5 text-accent" />
+              {t('vault.saveTitle')}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <label className="text-sm font-medium text-foreground">
+                {t('vault.saveTitle')} *
+              </label>
+              <Input
+                value={memoryTitle}
+                onChange={(e) => setMemoryTitle(e.target.value)}
+                placeholder={t('vault.saveTitlePlaceholder')}
+                className="mt-1.5"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">
+                {t('vault.saveSummary')}
+              </label>
+              <Textarea
+                value={memorySummary}
+                onChange={(e) => setMemorySummary(e.target.value)}
+                placeholder={t('vault.saveSummary')}
+                className="mt-1.5 h-20"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">
+                {t('vault.saveEmotion')}
+              </label>
+              <Input
+                value={memoryEmotion}
+                onChange={(e) => setMemoryEmotion(e.target.value)}
+                placeholder="z.B. Dankbarkeit, Nostalgie, Stolz..."
+                className="mt-1.5"
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
+                {t('nav.back')}
+              </Button>
+              <Button onClick={saveMemory} disabled={!memoryTitle.trim() || isSaving}>
+                {isSaving ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4 mr-2" />
+                )}
+                {isSaving ? t('vault.saving') : t('vault.saveMemory')}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

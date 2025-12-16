@@ -38,6 +38,53 @@ export type Database = {
         }
         Relationships: []
       }
+      memories: {
+        Row: {
+          content: string
+          conversation_id: string | null
+          created_at: string
+          emotion: string | null
+          id: string
+          memory_date: string | null
+          memory_type: string
+          summary: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id?: string | null
+          created_at?: string
+          emotion?: string | null
+          id?: string
+          memory_date?: string | null
+          memory_type?: string
+          summary?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string | null
+          created_at?: string
+          emotion?: string | null
+          id?: string
+          memory_date?: string | null
+          memory_type?: string
+          summary?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memories_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string
