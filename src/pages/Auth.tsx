@@ -12,11 +12,6 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
-const authSchema = z.object({
-  email: z.string().email('Ungültige E-Mail-Adresse'),
-  password: z.string().min(6, 'Passwort muss mindestens 6 Zeichen haben'),
-});
-
 const Auth = () => {
   const { user, signIn, signUp, loading: authLoading } = useAuth();
   const { t } = useLanguage();
@@ -27,6 +22,12 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Create schema with translated messages
+  const authSchema = z.object({
+    email: z.string().email(t('auth.invalidEmail')),
+    password: z.string().min(6, t('auth.passwordTooShort')),
+  });
 
   useEffect(() => {
     if (user && !authLoading) {
@@ -42,7 +43,7 @@ const Auth = () => {
     } catch (err) {
       if (err instanceof z.ZodError) {
         toast({
-          title: 'Validierungsfehler',
+          title: t('auth.validationError'),
           description: err.errors[0].message,
           variant: 'destructive',
         });
@@ -56,9 +57,9 @@ const Auth = () => {
 
     if (error) {
       toast({
-        title: 'Anmeldung fehlgeschlagen',
+        title: t('auth.signInFailed'),
         description: error.message === 'Invalid login credentials' 
-          ? 'Ungültige E-Mail oder Passwort' 
+          ? t('auth.invalidCredentials')
           : error.message,
         variant: 'destructive',
       });
@@ -73,7 +74,7 @@ const Auth = () => {
     } catch (err) {
       if (err instanceof z.ZodError) {
         toast({
-          title: 'Validierungsfehler',
+          title: t('auth.validationError'),
           description: err.errors[0].message,
           variant: 'destructive',
         });
@@ -88,21 +89,21 @@ const Auth = () => {
     if (error) {
       if (error.message.includes('already registered')) {
         toast({
-          title: 'Konto existiert bereits',
-          description: 'Diese E-Mail ist bereits registriert. Bitte melden Sie sich an.',
+          title: t('auth.accountExists'),
+          description: t('auth.accountExistsDesc'),
           variant: 'destructive',
         });
       } else {
         toast({
-          title: 'Registrierung fehlgeschlagen',
+          title: t('auth.signUpFailed'),
           description: error.message,
           variant: 'destructive',
         });
       }
     } else {
       toast({
-        title: 'Willkommen!',
-        description: 'Ihr Konto wurde erstellt.',
+        title: t('auth.welcome'),
+        description: t('auth.accountCreated'),
       });
     }
   };

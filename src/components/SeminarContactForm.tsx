@@ -10,17 +10,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { z } from "zod";
 
-const contactSchema = z.object({
-  name: z.string().trim().min(1, "Bitte geben Sie Ihren Namen ein").max(100, "Name zu lang"),
-  email: z.string().trim().email("Bitte geben Sie eine gültige E-Mail-Adresse ein").max(255, "E-Mail zu lang"),
-  phone: z.string().trim().max(30, "Telefonnummer zu lang").optional().or(z.literal("")),
-  interest: z.enum(["schnupperabend", "einfuehrung", "jahresprogramm"], {
-    required_error: "Bitte wählen Sie ein Seminarformat",
-  }),
-  message: z.string().trim().max(2000, "Nachricht zu lang").optional().or(z.literal("")),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+type ContactFormData = {
+  name: string;
+  email: string;
+  phone?: string;
+  interest: "schnupperabend" | "einfuehrung" | "jahresprogramm";
+  message?: string;
+};
 
 const getInterestOptions = (t: (key: string) => string) => [
   { value: "schnupperabend", label: t('form.interestTaster') + " (2h, Online)" },
@@ -31,6 +27,18 @@ const getInterestOptions = (t: (key: string) => string) => [
 export const SeminarContactForm = () => {
   const { t } = useLanguage();
   const interestOptions = getInterestOptions(t);
+  
+  // Create schema with translated messages
+  const contactSchema = z.object({
+    name: z.string().trim().min(1, t('form.validationName')).max(100, t('form.validationNameTooLong')),
+    email: z.string().trim().email(t('form.validationEmail')).max(255, t('form.validationEmailTooLong')),
+    phone: z.string().trim().max(30, t('form.validationPhone')).optional().or(z.literal("")),
+    interest: z.enum(["schnupperabend", "einfuehrung", "jahresprogramm"], {
+      required_error: t('form.validationInterest'),
+    }),
+    message: z.string().trim().max(2000, t('form.validationMessage')).optional().or(z.literal("")),
+  });
+
   const [formData, setFormData] = useState<Partial<ContactFormData>>({
     name: "",
     email: "",
@@ -258,7 +266,7 @@ export const SeminarContactForm = () => {
       </Button>
 
       <p className="text-xs text-muted-foreground">
-        * {t('form.name').includes('Name') ? 'Required fields. Your data will be treated confidentially and not shared with third parties.' : 'Pflichtfelder. Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.'}
+        * {t('form.requiredFields')}
       </p>
     </form>
   );

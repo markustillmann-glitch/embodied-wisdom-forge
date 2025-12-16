@@ -257,8 +257,8 @@ const Coach = () => {
 
     if (error) {
       toast({
-        title: 'Fehler',
-        description: 'Konversation konnte nicht erstellt werden.',
+        title: t('vault.error'),
+        description: t('coach.errorCreatingConversation'),
         variant: 'destructive',
       });
       return;
@@ -277,8 +277,8 @@ const Coach = () => {
 
     if (error) {
       toast({
-        title: 'Fehler',
-        description: 'Konversation konnte nicht gelöscht werden.',
+        title: t('vault.error'),
+        description: t('coach.errorDeletingConversation'),
         variant: 'destructive',
       });
       return;
@@ -340,8 +340,8 @@ const Coach = () => {
     if (userMsgError) {
       console.error('Error saving user message:', userMsgError);
       toast({
-        title: 'Fehler',
-        description: 'Nachricht konnte nicht gespeichert werden.',
+        title: t('vault.error'),
+        description: t('coach.errorSavingMessage'),
         variant: 'destructive',
       });
       return;
@@ -509,7 +509,7 @@ const Coach = () => {
       console.error('Cannot save memory: No user logged in');
       toast({
         title: t('vault.error'),
-        description: 'Bitte melde dich an',
+        description: t('coach.pleaseLogin'),
         variant: 'destructive',
       });
       return;
@@ -519,7 +519,7 @@ const Coach = () => {
       console.error('Cannot save memory: No conversation selected');
       toast({
         title: t('vault.error'),
-        description: 'Keine Unterhaltung ausgewählt',
+        description: t('coach.noConversationSelected'),
         variant: 'destructive',
       });
       return;
@@ -529,7 +529,7 @@ const Coach = () => {
       console.error('Cannot save memory: No title provided');
       toast({
         title: t('vault.error'),
-        description: 'Bitte gib einen Titel ein',
+        description: t('coach.pleaseEnterTitle'),
         variant: 'destructive',
       });
       return;
