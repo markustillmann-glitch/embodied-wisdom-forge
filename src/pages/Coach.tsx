@@ -22,7 +22,10 @@ import {
   Users,
   BookOpen,
   X,
-  Menu
+  Menu,
+  Plane,
+  Trophy,
+  UserCheck
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -504,11 +507,11 @@ const Coach = () => {
                     <p className="text-base sm:text-lg font-serif mb-2">{t('coach.welcome')}</p>
                     <p className="text-sm mb-4 sm:mb-6">{t('coach.welcomeDesc')}</p>
                     
-                    {/* Quick action buttons for journaling - single column on mobile */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-md mx-auto mt-4 sm:mt-6">
+                    {/* Quick action buttons for journaling - responsive grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 max-w-2xl mx-auto mt-4 sm:mt-6">
                       <button
                         onClick={() => sendMessage(t('coach.prompts.concert'))}
-                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Music className="h-5 w-5 text-accent shrink-0" />
                         <div className="min-w-0">
@@ -518,7 +521,7 @@ const Coach = () => {
                       </button>
                       <button
                         onClick={() => sendMessage(t('coach.prompts.relationship'))}
-                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Heart className="h-5 w-5 text-accent shrink-0" />
                         <div className="min-w-0">
@@ -528,7 +531,7 @@ const Coach = () => {
                       </button>
                       <button
                         onClick={() => sendMessage(t('coach.prompts.work'))}
-                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Briefcase className="h-5 w-5 text-accent shrink-0" />
                         <div className="min-w-0">
@@ -538,12 +541,42 @@ const Coach = () => {
                       </button>
                       <button
                         onClick={() => sendMessage(t('coach.prompts.childhood'))}
-                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Users className="h-5 w-5 text-accent shrink-0" />
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.childhood')}</p>
                           <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.childhood')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.travel'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                      >
+                        <Plane className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.travel')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.travel')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.friendship'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                      >
+                        <UserCheck className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.friendship')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.friendship')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.success'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left sm:col-span-2 lg:col-span-1"
+                      >
+                        <Trophy className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.success')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.success')}</p>
                         </div>
                       </button>
                     </div>
