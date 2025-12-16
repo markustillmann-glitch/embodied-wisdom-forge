@@ -672,6 +672,8 @@ const Coach = () => {
     if (firstUserMessage.includes('reise') || firstUserMessage.includes('travel')) return 'travel';
     if (firstUserMessage.includes('freund') || firstUserMessage.includes('friendship')) return 'friendship';
     if (firstUserMessage.includes('erfolg') || firstUserMessage.includes('success')) return 'success';
+    if (firstUserMessage.includes('meditation') || firstUserMessage.includes('meditieren') || firstUserMessage.includes('meditate')) return 'meditation';
+    if (firstUserMessage.includes('song') || firstUserMessage.includes('lied') || firstUserMessage.includes('lyrics') || firstUserMessage.includes('text')) return 'song';
     return 'general';
   };
 

@@ -569,6 +569,8 @@ export const translations = {
         travel: 'Reise-Erinnerung',
         friendship: 'Freundschaft',
         success: 'Erfolgsmoment',
+        meditation: 'Meditationserfahrung',
+        song: 'Song & Lyrics',
       },
       promptDesc: {
         concert: 'Musik & emotionale Momente',
@@ -578,6 +580,8 @@ export const translations = {
         travel: 'Orte, Begegnungen, Freiheit',
         friendship: 'Verbundenheit & Vertrauen',
         success: 'Stolz, Überwindung, Wachstum',
+        meditation: 'Innere Reisen & Erkenntnisse',
+        song: 'Lyrics, Emotionen & Bedeutung',
       },
       prompts: {
         concert: 'Ich möchte eine Konzert-Erinnerung verarbeiten. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
@@ -587,6 +591,8 @@ export const translations = {
         travel: 'Ich möchte eine Reise-Erinnerung reflektieren. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         friendship: 'Ich möchte über eine Freundschaftserfahrung nachdenken. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         success: 'Ich möchte einen Erfolgsmoment verarbeiten. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
+        meditation: 'Ich möchte eine Meditationserfahrung reflektieren. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
+        song: 'Ich möchte einen Song und dessen Lyrics verarbeiten, der mir wichtig ist. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
       },
       psychogram: 'Psychogramm',
       psychogramDesc: 'Erstelle ein strukturiertes psychologisches Profil basierend auf deinen Erinnerungen',
@@ -1256,6 +1262,8 @@ export const translations = {
         travel: 'Travel Memory',
         friendship: 'Friendship',
         success: 'Success Moment',
+        meditation: 'Meditation Experience',
+        song: 'Song & Lyrics',
       },
       promptDesc: {
         concert: 'Music & emotional moments',
@@ -1265,6 +1273,8 @@ export const translations = {
         travel: 'Places, encounters, freedom',
         friendship: 'Connection & trust',
         success: 'Pride, overcoming, growth',
+        meditation: 'Inner journeys & insights',
+        song: 'Lyrics, emotions & meaning',
       },
       prompts: {
         concert: 'I want to process a concert memory. Can you create a personalized journaling template for me?',
@@ -1274,6 +1284,8 @@ export const translations = {
         travel: 'I want to reflect on a travel memory. Can you create a personalized journaling template for me?',
         friendship: 'I want to think about a friendship experience. Can you create a personalized journaling template for me?',
         success: 'I want to process a success moment. Can you create a personalized journaling template for me?',
+        meditation: 'I want to reflect on a meditation experience. Can you create a personalized journaling template for me?',
+        song: 'I want to process a song and its lyrics that is important to me. Can you create a personalized journaling template for me?',
       },
       psychogram: 'Psychogram',
       psychogramDesc: 'Create a structured psychological profile based on your memories',
