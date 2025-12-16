@@ -603,6 +603,7 @@ export const translations = {
       psychogramCompact: 'Kompakt',
       psychogramDetailedDesc: 'Umfassende Analyse mit allen 8 Kategorien',
       psychogramCompactDesc: 'Kurze Zusammenfassung der wichtigsten Erkenntnisse',
+      psychogramStabilityWarning: 'Hinweis: Stabile und aussagekräftige Ergebnisse werden erst ab 20-25 gespeicherten Erinnerungen erreicht. Bei weniger Erinnerungen können die Ergebnisse noch verzerrt oder unvollständig sein.',
     },
 
     // Memory Vault
@@ -1289,6 +1290,7 @@ export const translations = {
       psychogramCompact: 'Compact',
       psychogramDetailedDesc: 'Comprehensive analysis with all 8 categories',
       psychogramCompactDesc: 'Brief summary of key insights',
+      psychogramStabilityWarning: 'Note: Stable and meaningful results are only achieved with 20-25 saved memories. With fewer memories, results may be distorted or incomplete.',
     },
 
     // Memory Vault
