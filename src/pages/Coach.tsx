@@ -935,6 +935,18 @@ const Coach = () => {
             <Button
               variant="ghost"
               size="sm"
+              onClick={() => {
+                const conv = conversations.find(c => c.id === currentConversation);
+                if (conv) openRenameDialog(conv);
+              }}
+              className="shrink-0 text-muted-foreground hover:text-primary"
+              title={t('coach.renameConversation')}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => openDeleteDialog(currentConversation!)}
               className="shrink-0 text-muted-foreground hover:text-destructive"
               title={t('coach.deleteConversation')}
