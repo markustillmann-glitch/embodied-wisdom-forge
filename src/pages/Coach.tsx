@@ -34,7 +34,8 @@ import {
   Trophy,
   UserCheck,
   Archive,
-  Save
+  Save,
+  Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -60,7 +61,7 @@ interface UserProfile {
 
 const Coach = () => {
   const { user, loading: authLoading, signOut } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -79,6 +80,82 @@ const Coach = () => {
   const [memorySummary, setMemorySummary] = useState('');
   const [memoryEmotion, setMemoryEmotion] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [coachSuggestions, setCoachSuggestions] = useState<{title?: string, summary?: string, emotion?: string} | null>(null);
+
+  // Extract coach suggestions from messages
+  const extractCoachSuggestions = () => {
+    // Look through recent assistant messages for suggestions
+    const recentAssistantMessages = messages
+      .filter(m => m.role === 'assistant')
+      .slice(-5)
+      .map(m => m.content)
+      .join('\n');
+    
+    const suggestions: {title?: string, summary?: string, emotion?: string} = {};
+    
+    // Look for title suggestions (common patterns from coach)
+    const titlePatterns = [
+      /Titel[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /Titel[:\s]*["']([^"']+)["']/i,
+      /vorgeschlagener Titel[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /Title[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /\*\*Titel\*\*[:\s]*([^\n]+)/i,
+    ];
+    
+    for (const pattern of titlePatterns) {
+      const match = recentAssistantMessages.match(pattern);
+      if (match) {
+        suggestions.title = match[1].trim();
+        break;
+      }
+    }
+    
+    // Look for summary suggestions
+    const summaryPatterns = [
+      /Zusammenfassung[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /Zusammenfassung[:\s]*["']([^"']+)["']/i,
+      /Summary[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /\*\*Zusammenfassung\*\*[:\s]*([^\n]+(?:\n[^\n*]+)*)/i,
+    ];
+    
+    for (const pattern of summaryPatterns) {
+      const match = recentAssistantMessages.match(pattern);
+      if (match) {
+        suggestions.summary = match[1].trim();
+        break;
+      }
+    }
+    
+    // Look for emotion suggestions
+    const emotionPatterns = [
+      /Gefühl[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /Emotion[:\s]*[„"«]([^"»„]+)[»""]/i,
+      /dominante[s]?\s*Gefühl[:\s]*([^\n.,]+)/i,
+      /\*\*Emotion\*\*[:\s]*([^\n]+)/i,
+      /\*\*Gefühl\*\*[:\s]*([^\n]+)/i,
+    ];
+    
+    for (const pattern of emotionPatterns) {
+      const match = recentAssistantMessages.match(pattern);
+      if (match) {
+        suggestions.emotion = match[1].trim();
+        break;
+      }
+    }
+    
+    return Object.keys(suggestions).length > 0 ? suggestions : null;
+  };
+
+  const openSaveDialog = () => {
+    const suggestions = extractCoachSuggestions();
+    setCoachSuggestions(suggestions);
+    if (suggestions) {
+      if (suggestions.title) setMemoryTitle(suggestions.title);
+      if (suggestions.summary) setMemorySummary(suggestions.summary);
+      if (suggestions.emotion) setMemoryEmotion(suggestions.emotion);
+    }
+    setSaveDialogOpen(true);
+  };
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -425,15 +502,6 @@ const Coach = () => {
     return 'general';
   };
 
-  // Open save dialog with auto-filled title
-  const openSaveDialog = () => {
-    const conversation = conversations.find(c => c.id === currentConversation);
-    setMemoryTitle(conversation?.title || '');
-    setMemorySummary('');
-    setMemoryEmotion('');
-    setSaveDialogOpen(true);
-  };
-
   // Save memory to vault
   const saveMemory = async () => {
     if (!user || !currentConversation || !memoryTitle.trim()) return;
@@ -768,37 +836,65 @@ const Coach = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
+            {coachSuggestions && (
+              <div className="bg-accent/10 border border-accent/20 rounded-lg p-3 mb-4">
+                <div className="flex items-center gap-2 text-sm font-medium text-accent mb-2">
+                  <Sparkles className="h-4 w-4" />
+                  {language === 'de' ? 'Coach-Vorschläge' : 'Coach Suggestions'}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {language === 'de' 
+                    ? 'Die Felder wurden mit den Vorschlägen des Coaches vorausgefüllt. Du kannst sie anpassen.' 
+                    : 'Fields have been pre-filled with the coach\'s suggestions. You can adjust them.'}
+                </p>
+              </div>
+            )}
             <div>
-              <label className="text-sm font-medium text-foreground">
+              <label className="text-sm font-medium text-foreground flex items-center gap-2">
                 {t('vault.saveTitle')} *
+                {coachSuggestions?.title && (
+                  <span className="text-xs text-accent flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" />
+                  </span>
+                )}
               </label>
               <Input
                 value={memoryTitle}
                 onChange={(e) => setMemoryTitle(e.target.value)}
                 placeholder={t('vault.saveTitlePlaceholder')}
-                className="mt-1.5"
+                className={cn("mt-1.5", coachSuggestions?.title && "border-accent/30")}
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">
+              <label className="text-sm font-medium text-foreground flex items-center gap-2">
                 {t('vault.saveSummary')}
+                {coachSuggestions?.summary && (
+                  <span className="text-xs text-accent flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" />
+                  </span>
+                )}
               </label>
               <Textarea
                 value={memorySummary}
                 onChange={(e) => setMemorySummary(e.target.value)}
                 placeholder={t('vault.saveSummary')}
-                className="mt-1.5 h-20"
+                className={cn("mt-1.5 h-20", coachSuggestions?.summary && "border-accent/30")}
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">
+              <label className="text-sm font-medium text-foreground flex items-center gap-2">
                 {t('vault.saveEmotion')}
+                {coachSuggestions?.emotion && (
+                  <span className="text-xs text-accent flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" />
+                  </span>
+                )}
               </label>
               <Input
                 value={memoryEmotion}
                 onChange={(e) => setMemoryEmotion(e.target.value)}
                 placeholder="z.B. Dankbarkeit, Nostalgie, Stolz..."
-                className="mt-1.5"
+                className={cn("mt-1.5", coachSuggestions?.emotion && "border-accent/30")}
               />
             </div>
             <div className="flex justify-end gap-2 pt-2">
