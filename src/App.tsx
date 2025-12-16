@@ -11,6 +11,7 @@ import Oria from "./pages/Oria";
 import Impressum from "./pages/Impressum";
 import Auth from "./pages/Auth";
 import Coach from "./pages/Coach";
+import MemoryVault from "./pages/MemoryVault";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<Coach />} />
+              <Route path="/vault" element={<MemoryVault />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
