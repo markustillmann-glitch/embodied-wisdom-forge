@@ -26,6 +26,7 @@ import {
   LogOut,
   Trash2,
   Music,
+  Music2,
   Heart,
   Briefcase,
   Users,
@@ -997,12 +998,32 @@ const Coach = () => {
                       </button>
                       <button
                         onClick={() => sendMessage(t('coach.prompts.success'))}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left sm:col-span-2 lg:col-span-1"
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Trophy className="h-5 w-5 text-accent shrink-0" />
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.success')}</p>
                           <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.success')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.meditation'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                      >
+                        <Sparkles className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.meditation')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.meditation')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.song'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                      >
+                        <Music2 className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.song')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.song')}</p>
                         </div>
                       </button>
                     </div>
