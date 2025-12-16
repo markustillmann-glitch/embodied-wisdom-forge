@@ -29,6 +29,7 @@ import {
   Archive,
   Calendar,
   Music,
+  Music2,
   Heart,
   Briefcase,
   Users,
@@ -71,6 +72,8 @@ const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }
   travel: Plane,
   friendship: UserCheck,
   success: Trophy,
+  meditation: Sparkles,
+  song: Music2,
   general: BookOpen,
 };
 
