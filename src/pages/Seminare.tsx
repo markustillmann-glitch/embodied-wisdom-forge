@@ -440,6 +440,86 @@ const Seminare = () => {
       {/* Mehrwerte Section */}
       <MehrwerteSection />
 
+      {/* Practice Offerings */}
+      <section className="py-20 relative overflow-hidden">
+        <PolygonalBackground variant="section" />
+        
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
+              {t('seminare.practiceTitle')}
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {t('seminare.practiceSubtitle')}
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {['ifsmed', 'breathing', 'bodyscan', 'selfempathy', 'nvctraining', 'bodywork'].map((practice, index) => (
+              <motion.div
+                key={practice}
+                {...fadeInUp}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                className="bg-card p-6 rounded-lg border border-border"
+              >
+                <h3 className="font-serif text-lg text-foreground mb-2">{t(`seminare.practices.${practice}.title`)}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(`seminare.practices.${practice}.desc`)}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Coach Integration */}
+      <section className="py-20 relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
+        
+        <OwlSymbol className="absolute top-12 right-8 opacity-30 hidden md:block" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
+              {t('seminare.coachIntegration.title')}
+            </h2>
+            <p className="text-muted-foreground">
+              {t('seminare.coachIntegration.subtitle')}
+            </p>
+          </motion.div>
+
+          <motion.div {...fadeInUp} className="space-y-6">
+            <div className="bg-card p-6 sm:p-8 rounded-xl border border-border">
+              <p className="text-foreground/90 leading-relaxed mb-4">
+                {t('seminare.coachIntegration.p1')}
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                {t('seminare.coachIntegration.p2')}
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-card p-6 rounded-lg border border-border">
+                <h3 className="font-serif text-lg text-foreground mb-2">{t('seminare.coachIntegration.permanent')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t('seminare.coachIntegration.permanentDesc')}</p>
+              </div>
+              <div className="bg-card p-6 rounded-lg border border-border">
+                <h3 className="font-serif text-lg text-foreground mb-2">{t('seminare.coachIntegration.presence')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t('seminare.coachIntegration.presenceDesc')}</p>
+              </div>
+            </div>
+            
+            <div className="text-center pt-4">
+              <Link 
+                to="/coach" 
+                onClick={() => window.scrollTo(0, 0)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-colors"
+              >
+                {t('seminare.coachIntegration.tryCoach')}
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Methodik */}
       <section className="py-20 relative overflow-hidden">
         <PolygonalBackground variant="accent" />

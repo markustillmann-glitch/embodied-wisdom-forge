@@ -286,6 +286,74 @@ const Oria = () => {
         </div>
       </section>
 
+      {/* Why Guidance Matters */}
+      <section className="py-12 sm:py-20 relative overflow-hidden">
+        <PolygonalBackground variant="section" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground mb-3 sm:mb-4">
+              {t('oria.guidedPractice.title')}
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              {t('oria.guidedPractice.intro')}
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8 mb-6"
+          >
+            <h3 className="text-base sm:text-lg font-serif text-foreground mb-4">
+              {t('oria.guidedPractice.butTitle')}
+            </h3>
+            <ul className="space-y-2 mb-6">
+              {[0, 1, 2, 3, 4].map((idx) => (
+                <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-muted-foreground">
+                  <Sparkles className="w-4 h-4 text-accent mt-1 shrink-0" />
+                  <span>{t(`oria.guidedPractice.butItems.${idx}`)}</span>
+                </li>
+              ))}
+            </ul>
+            
+            <div className="bg-quote-bg p-4 sm:p-6 rounded-lg border-l-4 border-accent">
+              <h4 className="text-sm font-medium text-accent mb-2">{t('oria.guidedPractice.whyTitle')}</h4>
+              <p className="text-sm sm:text-base text-foreground/90 leading-relaxed mb-3">
+                {t('oria.guidedPractice.whyText')}
+              </p>
+              <p className="text-xs sm:text-sm text-muted-foreground italic">
+                {t('oria.guidedPractice.coachRole')}
+              </p>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center"
+          >
+            <Link 
+              to="/seminare" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-colors text-sm sm:text-base"
+            >
+              {t('oria.guidedPractice.cta')}
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Final Quote */}
       <section className="py-12 sm:py-20 relative overflow-hidden">
         <PolygonalBackground variant="subtle" />

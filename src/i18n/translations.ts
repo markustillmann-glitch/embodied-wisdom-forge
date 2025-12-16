@@ -332,6 +332,24 @@ export const translations = {
       finalQuote: '„Wie still es wird, wenn du wirklich zuhörst – innen wie außen."',
       ready: 'Bereit, mit Oria auf die Reise zu gehen?',
       toSeminars: 'Zu den Seminarangeboten',
+      
+      // Guided practice section
+      guidedPractice: {
+        title: 'Warum Begleitung einen Unterschied macht',
+        intro: 'Oria kann dich als dein persönlicher AI-Coach auf deinem Weg begleiten – jederzeit verfügbar, um Erinnerungen zu erfassen und erste Impulse zu geben.',
+        butTitle: 'Doch manche Dinge brauchen mehr:',
+        butItems: [
+          'Tiefe Teile-Arbeit mit IFS-Meditationen',
+          'Körperlicher Zugang durch Atemübungen und Body Scans',
+          'Emotionale Regulation durch Selbstempathie-Meditationen',
+          'Verbindung und Empathie durch GFK-Schulungen',
+          'Somatische Integration durch Bodywork-Kurse'
+        ],
+        whyTitle: 'Vertiefung, Übung, Anwendung, Gemeinschaft',
+        whyText: 'Viele Prozesse gelingen begleitet besser, dauerhafter und mit weniger Risiko. Erfahrene Coaches in 1:1 und Gruppensituationen können das, was Oria beginnt, in sichere Tiefe führen.',
+        coachRole: 'Der AI-Coach dient dem strukturierten Erfassen deiner relevanten Erinnerungen und steht dir dauerhaft als Ratgeber zur Verfügung. Die Präsenzseminare bieten den geschützten Raum, Techniken zu erlernen und Übungen gemeinsam zu praktizieren.',
+        cta: 'Entdecke die Seminarangebote',
+      },
     },
     
     // Seminare page
@@ -458,6 +476,31 @@ export const translations = {
         ifs: { title: 'IFS (Internal Family Systems)', desc: 'Die innere Architektur verstehen: Manager, Firefighter, Exiles und das führende Selbst.' },
         nvc: { title: 'GFK (Gewaltfreie Kommunikation)', desc: 'Innere Zustände in klare Worte übersetzen: Beobachtung, Gefühl, Bedürfnis, Bitte.' },
         body: { title: 'Körpergedächtnis', desc: 'Somatische Signale lesen und den Körper als Verbündeten in herausfordernden Momenten nutzen.' },
+      },
+      
+      // Practice offerings
+      practiceTitle: 'Vertiefende Übungsangebote',
+      practiceSubtitle: 'Ergänzend zum Jahresprogramm: gezielte Formate für spezifische Entwicklungsbereiche',
+      practices: {
+        ifsmed: { title: 'IFS-Meditationen', desc: 'Geführte Teile-Arbeit unter Anleitung erfahrener Coaches. Sichere Begegnung mit Managern, Firefightern und Exilanten.' },
+        breathing: { title: 'Atemübungen & Regulation', desc: 'Praktische Techniken zur Nervensystem-Regulation. Vom Vagus-Atem bis zur Box-Atmung.' },
+        bodyscan: { title: 'Body Scans', desc: 'Systematische Körperwahrnehmung. Den Dialog mit dem somatischen Gedächtnis kultivieren.' },
+        selfempathy: { title: 'Selbstempathie-Meditationen', desc: 'Mitfühlende Präsenz für eigene Gefühle und Bedürfnisse entwickeln. Innere Kritiker transformieren.' },
+        nvctraining: { title: 'GFK-Schulungen', desc: 'Gewaltfreie Kommunikation praktisch anwenden. Von der Theorie zur lebendigen Alltagspraxis.' },
+        bodywork: { title: 'Bodywork-Kurse', desc: 'Somatische Übungen und Körperarbeit. Den Körper als Ressource in herausfordernden Momenten nutzen.' },
+      },
+      
+      // Coach integration
+      coachIntegration: {
+        title: 'Frag Oria: Dein persönlicher AI-Coach',
+        subtitle: 'Wie der Coach Teil des Jahresprogramms ist',
+        p1: 'Der AI-Coach „Frag Oria" ist dein täglicher Begleiter – verfügbar wann immer du ihn brauchst. Er unterstützt dich beim strukturierten Erfassen deiner relevanten Erinnerungen und bietet personalisierte Journaling-Templates basierend auf dem Beyond Bias Modell.',
+        p2: 'Im Jahresprogramm dient der Coach als Brücke zwischen den Präsenzphasen: Du kannst Erinnerungen festhalten, Muster erkennen und erste Impulse erhalten – und diese dann in den Seminaren mit erfahrenen Coaches vertiefen.',
+        permanent: 'Dauerhafter Ratgeber',
+        permanentDesc: 'Auch nach dem Jahresprogramm bleibt der Coach dein Begleiter. Nutze ihn jederzeit für Reflexion, Journaling und als Erinnerung an das Gelernte.',
+        presence: 'Präsenzseminare',
+        presenceDesc: 'Die Präsenzphasen bieten den geschützten Raum für das, was der Coach nicht leisten kann: geführte Meditationen, Körperarbeit, Peer-Austausch und die Sicherheit erfahrener Begleitung.',
+        tryCoach: 'Coach ausprobieren',
       },
       
       // Contact
@@ -1176,6 +1219,24 @@ export const translations = {
       finalQuote: '"How quiet it becomes when you truly listen—inside and out."',
       ready: 'Ready to embark on the journey with Oria?',
       toSeminars: 'To the Seminar Offerings',
+      
+      // Guided practice section
+      guidedPractice: {
+        title: 'Why Guidance Makes a Difference',
+        intro: 'Oria can accompany you as your personal AI coach on your journey—available anytime to capture memories and provide initial impulses.',
+        butTitle: 'But some things need more:',
+        butItems: [
+          'Deep parts work with IFS meditations',
+          'Physical access through breathing exercises and body scans',
+          'Emotional regulation through self-empathy meditations',
+          'Connection and empathy through NVC trainings',
+          'Somatic integration through bodywork courses'
+        ],
+        whyTitle: 'Deepening, Practice, Application, Community',
+        whyText: 'Many processes work better, more sustainably, and with less risk when accompanied. Experienced coaches in 1:1 and group settings can take what Oria begins into safe depth.',
+        coachRole: 'The AI coach serves to structurally capture your relevant memories and is permanently available as your advisor. The in-person seminars provide the protected space to learn techniques and practice exercises together.',
+        cta: 'Discover the Seminar Offerings',
+      },
     },
     
     // Seminare page
@@ -1302,6 +1363,31 @@ export const translations = {
         ifs: { title: 'IFS (Internal Family Systems)', desc: 'Understanding the inner architecture: Managers, Firefighters, Exiles, and the leading Self.' },
         nvc: { title: 'NVC (Nonviolent Communication)', desc: 'Translating inner states into clear words: Observation, Feeling, Need, Request.' },
         body: { title: 'Body Memory', desc: 'Reading somatic signals and using the body as an ally in challenging moments.' },
+      },
+      
+      // Practice offerings
+      practiceTitle: 'Deepening Practice Offerings',
+      practiceSubtitle: 'Complementary to the annual program: targeted formats for specific development areas',
+      practices: {
+        ifsmed: { title: 'IFS Meditations', desc: 'Guided parts work under the guidance of experienced coaches. Safe encounters with managers, firefighters, and exiles.' },
+        breathing: { title: 'Breathing Exercises & Regulation', desc: 'Practical techniques for nervous system regulation. From vagal breathing to box breathing.' },
+        bodyscan: { title: 'Body Scans', desc: 'Systematic body awareness. Cultivating dialogue with somatic memory.' },
+        selfempathy: { title: 'Self-Empathy Meditations', desc: 'Developing compassionate presence for your own feelings and needs. Transforming inner critics.' },
+        nvctraining: { title: 'NVC Trainings', desc: 'Applying Nonviolent Communication practically. From theory to living everyday practice.' },
+        bodywork: { title: 'Bodywork Courses', desc: 'Somatic exercises and body work. Using the body as a resource in challenging moments.' },
+      },
+      
+      // Coach integration
+      coachIntegration: {
+        title: 'Ask Oria: Your Personal AI Coach',
+        subtitle: 'How the Coach is Part of the Annual Program',
+        p1: 'The AI coach "Ask Oria" is your daily companion—available whenever you need it. It supports you in systematically capturing your relevant memories and offers personalized journaling templates based on the Beyond Bias model.',
+        p2: 'In the annual program, the coach serves as a bridge between the in-person phases: You can capture memories, recognize patterns, and receive initial impulses—then deepen these with experienced coaches in the seminars.',
+        permanent: 'Permanent Advisor',
+        permanentDesc: 'Even after the annual program, the coach remains your companion. Use it anytime for reflection, journaling, and as a reminder of what you\'ve learned.',
+        presence: 'In-Person Seminars',
+        presenceDesc: 'The in-person phases provide the protected space for what the coach cannot do: guided meditations, body work, peer exchange, and the safety of experienced guidance.',
+        tryCoach: 'Try the Coach',
       },
       
       // Contact
