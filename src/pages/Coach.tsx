@@ -138,6 +138,9 @@ const Coach = () => {
   const [psychogramMemoryCount, setPsychogramMemoryCount] = useState<number>(0);
   const [isGeneratingPsychogram, setIsGeneratingPsychogram] = useState(false);
   const [psychogramCompact, setPsychogramCompact] = useState(false);
+  
+  // Template mode state
+  const [templateMode, setTemplateMode] = useState<'compact' | 'detailed'>('detailed');
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -627,7 +630,7 @@ const Coach = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({ messages: chatMessages, userProfile, language }),
+          body: JSON.stringify({ messages: chatMessages, userProfile, language, templateMode }),
         }
       );
 
@@ -1030,6 +1033,35 @@ const Coach = () => {
                     <p className="text-base sm:text-lg font-serif mb-2">{t('coach.welcome')}</p>
                     <p className="text-sm mb-4 sm:mb-6">{t('coach.welcomeDesc')}</p>
                     
+                    {/* Template mode selector */}
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <span className="text-xs text-muted-foreground">{t('coach.templateMode')}:</span>
+                      <button
+                        onClick={() => setTemplateMode('compact')}
+                        className={cn(
+                          "px-3 py-1 text-xs rounded-full transition-colors",
+                          templateMode === 'compact' 
+                            ? "bg-primary text-primary-foreground" 
+                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                        )}
+                        title={t('coach.templateCompactDesc')}
+                      >
+                        {t('coach.templateCompact')}
+                      </button>
+                      <button
+                        onClick={() => setTemplateMode('detailed')}
+                        className={cn(
+                          "px-3 py-1 text-xs rounded-full transition-colors",
+                          templateMode === 'detailed' 
+                            ? "bg-primary text-primary-foreground" 
+                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                        )}
+                        title={t('coach.templateDetailedDesc')}
+                      >
+                        {t('coach.templateDetailed')}
+                      </button>
+                    </div>
+                    
                     {/* Profile status indicator */}
                     {userProfile?.goals_motivation || userProfile?.preferred_tone?.length ? (
                       <Link to="/profile" className="inline-flex items-center gap-2 text-xs text-primary/80 hover:text-primary mb-4 transition-colors">
@@ -1157,7 +1189,7 @@ const Coach = () => {
                           : "bg-secondary text-secondary-foreground"
                       )}
                     >
-                      <p className="whitespace-pre-wrap text-sm">{message.content}</p>
+                      <p className="whitespace-pre-wrap text-base sm:text-sm">{message.content}</p>
                     </div>
                   </div>
                 ))}

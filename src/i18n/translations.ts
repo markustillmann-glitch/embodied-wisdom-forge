@@ -614,6 +614,11 @@ export const translations = {
       psychogramStabilityWarning: 'Hinweis: Stabile und aussagekräftige Ergebnisse werden erst ab 20-25 gespeicherten Erinnerungen erreicht. Bei weniger Erinnerungen können die Ergebnisse noch verzerrt oder unvollständig sein.',
       profileHint: 'Fülle dein Profil aus für personalisierte Antworten',
       profileComplete: 'Profil aktiv – Oria passt sich an deine Präferenzen an',
+      templateMode: 'Template-Modus',
+      templateCompact: 'Kompakt',
+      templateDetailed: 'Ausführlich',
+      templateCompactDesc: 'Kürzere Antworten, weniger Fragen',
+      templateDetailedDesc: 'Tiefe Reflexion, alle 11 Punkte',
     },
 
     // Memory Vault
@@ -1453,6 +1458,11 @@ export const translations = {
       psychogramStabilityWarning: 'Note: Stable and meaningful results are only achieved with 20-25 saved memories. With fewer memories, results may be distorted or incomplete.',
       profileHint: 'Complete your profile for personalized responses',
       profileComplete: 'Profile active – Oria adapts to your preferences',
+      templateMode: 'Template Mode',
+      templateCompact: 'Compact',
+      templateDetailed: 'Detailed',
+      templateCompactDesc: 'Shorter responses, fewer questions',
+      templateDetailedDesc: 'Deep reflection, all 11 points',
     },
 
     // Memory Vault
