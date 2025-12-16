@@ -10,6 +10,7 @@ export const translations = {
       impressum: 'Impressum',
       discoverOria: 'Oria entdecken',
       seminarOffers: 'Seminarangebote',
+      coach: 'AI Coach',
     },
     
     // Index page
@@ -502,6 +503,30 @@ export const translations = {
       errorTitle: 'Fehler',
       errorMessage: 'Es gab ein Problem beim Senden Ihrer Anfrage. Bitte versuchen Sie es später erneut.',
     },
+
+    // Auth
+    auth: {
+      title: 'Willkommen beim Beyond Bias Coach',
+      subtitle: 'Melden Sie sich an, um Ihre Gespräche zu speichern',
+      signIn: 'Anmelden',
+      signUp: 'Registrieren',
+      signOut: 'Abmelden',
+      email: 'E-Mail',
+      password: 'Passwort',
+      displayName: 'Anzeigename',
+      displayNamePlaceholder: 'Wie sollen wir Sie nennen?',
+    },
+
+    // Coach
+    coach: {
+      title: 'Beyond Bias Coach',
+      newConversation: 'Neue Unterhaltung',
+      noConversation: 'Keine Unterhaltung ausgewählt',
+      welcome: 'Willkommen beim Beyond Bias Coach',
+      welcomeDesc: 'Teilen Sie Erinnerungen, Gefühle oder Song-Links – ich analysiere sie mit dem Beyond Bias Modell.',
+      inputPlaceholder: 'Nachricht eingeben oder Song-Link teilen...',
+      hint: 'YouTube/Spotify-Links werden automatisch erkannt und analysiert',
+    },
   },
   
   en: {
@@ -515,6 +540,7 @@ export const translations = {
       impressum: 'Legal Notice',
       discoverOria: 'Discover Oria',
       seminarOffers: 'Seminar Offerings',
+      coach: 'AI Coach',
     },
     
     // Index page
@@ -1006,6 +1032,30 @@ export const translations = {
       successMessage: 'Your inquiry has been sent successfully. We will get back to you soon.',
       errorTitle: 'Error',
       errorMessage: 'There was a problem sending your inquiry. Please try again later.',
+    },
+
+    // Auth
+    auth: {
+      title: 'Welcome to Beyond Bias Coach',
+      subtitle: 'Sign in to save your conversations',
+      signIn: 'Sign In',
+      signUp: 'Sign Up',
+      signOut: 'Sign Out',
+      email: 'Email',
+      password: 'Password',
+      displayName: 'Display Name',
+      displayNamePlaceholder: 'What should we call you?',
+    },
+
+    // Coach
+    coach: {
+      title: 'Beyond Bias Coach',
+      newConversation: 'New Conversation',
+      noConversation: 'No conversation selected',
+      welcome: 'Welcome to Beyond Bias Coach',
+      welcomeDesc: 'Share memories, feelings, or song links – I will analyze them using the Beyond Bias model.',
+      inputPlaceholder: 'Enter message or share a song link...',
+      hint: 'YouTube/Spotify links are automatically detected and analyzed',
     },
   },
 };

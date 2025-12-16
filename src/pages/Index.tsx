@@ -125,6 +125,13 @@ const Index = () => {
             </button>
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <a
+                href="/coach"
+                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider bg-accent text-accent-foreground px-4 py-2 rounded-full hover:bg-accent/90 transition-colors"
+              >
+                <span>{t('nav.coach')}</span>
+                <span>✦</span>
+              </a>
+              <a
                 href="/oria"
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
