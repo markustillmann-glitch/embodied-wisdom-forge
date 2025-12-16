@@ -588,6 +588,15 @@ export const translations = {
         friendship: 'Ich möchte über eine Freundschaftserfahrung nachdenken. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         success: 'Ich möchte einen Erfolgsmoment verarbeiten. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
       },
+      psychogram: 'Psychogramm',
+      psychogramDesc: 'Erstelle ein strukturiertes psychologisches Profil basierend auf deinen Erinnerungen',
+      generatePsychogram: 'Psychogramm erstellen',
+      generatingPsychogram: 'Analysiere Erinnerungen...',
+      psychogramTitle: 'Dein persönliches Psychogramm',
+      psychogramSubtitle: 'Basierend auf {count} Erinnerungen',
+      psychogramNoMemories: 'Du hast noch keine Erinnerungen gespeichert. Verarbeite zuerst einige Erinnerungen mit Oria.',
+      psychogramError: 'Psychogramm konnte nicht erstellt werden.',
+      closePsychogram: 'Schließen',
     },
 
     // Memory Vault
@@ -1259,6 +1268,15 @@ export const translations = {
         friendship: 'I want to think about a friendship experience. Can you create a personalized journaling template for me?',
         success: 'I want to process a success moment. Can you create a personalized journaling template for me?',
       },
+      psychogram: 'Psychogram',
+      psychogramDesc: 'Create a structured psychological profile based on your memories',
+      generatePsychogram: 'Create Psychogram',
+      generatingPsychogram: 'Analyzing memories...',
+      psychogramTitle: 'Your Personal Psychogram',
+      psychogramSubtitle: 'Based on {count} memories',
+      psychogramNoMemories: 'You have no saved memories yet. First process some memories with Oria.',
+      psychogramError: 'Could not create psychogram.',
+      closePsychogram: 'Close',
     },
 
     // Memory Vault

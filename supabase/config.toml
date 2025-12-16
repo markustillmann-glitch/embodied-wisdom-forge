@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.generate-memory-image]
 verify_jwt = false
+
+[functions.generate-psychogram]
+verify_jwt = false

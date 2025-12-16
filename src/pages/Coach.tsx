@@ -39,7 +39,8 @@ import {
   Save,
   Sparkles,
   Pencil,
-  MoreVertical
+  MoreVertical,
+  Brain
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -101,6 +102,12 @@ const Coach = () => {
   // Delete confirmation dialog state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteConversationId, setDeleteConversationId] = useState<string | null>(null);
+
+  // Psychogram state
+  const [psychogramDialogOpen, setPsychogramDialogOpen] = useState(false);
+  const [psychogramContent, setPsychogramContent] = useState<string>('');
+  const [psychogramMemoryCount, setPsychogramMemoryCount] = useState<number>(0);
+  const [isGeneratingPsychogram, setIsGeneratingPsychogram] = useState(false);
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -351,6 +358,45 @@ const Coach = () => {
     await deleteConversation(deleteConversationId);
     setDeleteDialogOpen(false);
     setDeleteConversationId(null);
+  };
+
+  const generatePsychogram = async () => {
+    setIsGeneratingPsychogram(true);
+    setPsychogramDialogOpen(true);
+    setPsychogramContent('');
+    
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-psychogram`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ language }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to generate psychogram');
+      }
+
+      const data = await response.json();
+      setPsychogramContent(data.psychogram);
+      setPsychogramMemoryCount(data.memoryCount || 0);
+    } catch (error) {
+      console.error('Psychogram error:', error);
+      toast({
+        title: t('vault.error'),
+        description: t('coach.psychogramError'),
+        variant: 'destructive',
+      });
+      setPsychogramDialogOpen(false);
+    } finally {
+      setIsGeneratingPsychogram(false);
+    }
   };
 
   const detectSongLink = (text: string): string | null => {
@@ -739,6 +785,20 @@ const Coach = () => {
         </ScrollArea>
 
         <div className="p-4 border-t border-border space-y-2">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={generatePsychogram}
+            disabled={isGeneratingPsychogram}
+            className="w-full justify-start"
+          >
+            {isGeneratingPsychogram ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <Brain className="h-4 w-4 mr-2" />
+            )}
+            {t('coach.psychogram')}
+          </Button>
           <Link to="/vault">
             <Button variant="ghost" size="sm" className="w-full justify-start">
               <Archive className="h-4 w-4 mr-2" />
@@ -1080,6 +1140,42 @@ const Coach = () => {
             </Button>
             <Button variant="destructive" onClick={confirmDelete}>
               {t('coach.delete')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Psychogram Dialog */}
+      <Dialog open={psychogramDialogOpen} onOpenChange={setPsychogramDialogOpen}>
+        <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Brain className="h-5 w-5 text-accent" />
+              {t('coach.psychogramTitle')}
+            </DialogTitle>
+            {psychogramMemoryCount > 0 && (
+              <DialogDescription>
+                {t('coach.psychogramSubtitle').replace('{count}', String(psychogramMemoryCount))}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+          <ScrollArea className="flex-1 pr-4">
+            <div className="py-4">
+              {isGeneratingPsychogram ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Loader2 className="h-8 w-8 animate-spin text-accent mb-4" />
+                  <p className="text-muted-foreground">{t('coach.generatingPsychogram')}</p>
+                </div>
+              ) : (
+                <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">
+                  {psychogramContent}
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+          <DialogFooter className="pt-4 border-t border-border">
+            <Button onClick={() => setPsychogramDialogOpen(false)}>
+              {t('coach.closePsychogram')}
             </Button>
           </DialogFooter>
         </DialogContent>
