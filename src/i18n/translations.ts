@@ -558,7 +558,9 @@ export const translations = {
       renameTitle: 'Neuer Titel',
       rename: 'Umbenennen',
       deleteConversation: 'Unterhaltung löschen',
-      deleteConfirm: 'Bist du sicher, dass du diese Unterhaltung löschen möchtest?',
+      deleteConfirm: 'Bist du sicher, dass du diese Unterhaltung löschen möchtest? Die gespeicherten Erinnerungen im Tresor bleiben erhalten.',
+      conversationDeleted: 'Gelöscht',
+      conversationDeletedDesc: 'Die Unterhaltung wurde gelöscht.',
       cancel: 'Abbrechen',
       delete: 'Löschen',
       promptLabels: {
@@ -1251,7 +1253,9 @@ export const translations = {
       renameTitle: 'New title',
       rename: 'Rename',
       deleteConversation: 'Delete Conversation',
-      deleteConfirm: 'Are you sure you want to delete this conversation?',
+      deleteConfirm: 'Are you sure you want to delete this conversation? Memories saved in the vault will be preserved.',
+      conversationDeleted: 'Deleted',
+      conversationDeletedDesc: 'The conversation has been deleted.',
       cancel: 'Cancel',
       delete: 'Delete',
       promptLabels: {
