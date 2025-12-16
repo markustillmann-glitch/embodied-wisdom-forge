@@ -39,7 +39,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import oriaOwl from '@/assets/oria-owl.png';
+import bbOwlLogo from '@/assets/bb-owl-new.png';
 
 interface Message {
   id: string;
@@ -649,7 +649,7 @@ const Coach = () => {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <img src={oriaOwl} alt="Oria" className="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover" />
+            <img src={bbOwlLogo} alt="Oria" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
             <div className="flex flex-col">
               <h1 className="font-serif text-base sm:text-lg leading-tight">{t('nav.askOria')}</h1>
               <span className="text-xs text-muted-foreground">{t('nav.yourPersonalCoach')}</span>
