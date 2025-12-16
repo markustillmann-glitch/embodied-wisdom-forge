@@ -30,6 +30,7 @@ import {
   Heart,
   Briefcase,
   Users,
+  User,
   BookOpen,
   X,
   Menu,
@@ -72,6 +73,31 @@ interface Conversation {
 interface UserProfile {
   displayName: string | null;
   previousTopics?: string[];
+  // Comprehensive profile fields
+  goals_motivation?: string | null;
+  biggest_challenges?: string | null;
+  safety_feeling?: string | null;
+  overwhelm_signals?: string | null;
+  nervous_system_tempo?: string | null;
+  core_needs?: string[] | null;
+  neglected_needs?: string[] | null;
+  over_fulfilled_needs?: string[] | null;
+  belonging_through?: string[] | null;
+  reaction_to_expectations?: string | null;
+  harder_closeness_or_boundaries?: string | null;
+  primary_memory_channel?: string[] | null;
+  memory_effect?: string | null;
+  trigger_sensitivity?: string | null;
+  when_feels_light?: string | null;
+  when_depth_nourishing?: string | null;
+  when_depth_burdening?: string | null;
+  lightness_depth_balance?: string | null;
+  preferred_tone?: string[] | null;
+  response_preference?: string[] | null;
+  language_triggers?: string[] | null;
+  life_phase?: string | null;
+  energy_level?: string | null;
+  current_focus?: string[] | null;
 }
 
 const Coach = () => {
@@ -228,17 +254,49 @@ const Coach = () => {
   const loadUserProfile = async () => {
     if (!user) return;
     
-    const { data: profile } = await supabase
+    // Load display name from profiles
+    const { data: basicProfile } = await supabase
       .from('profiles')
       .select('display_name')
       .eq('user_id', user.id)
       .single();
     
-    if (profile) {
-      setUserProfile({
-        displayName: profile.display_name,
-      });
-    }
+    // Load comprehensive profile from user_profiles
+    const { data: fullProfile } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    
+    setUserProfile({
+      displayName: basicProfile?.display_name || null,
+      ...(fullProfile ? {
+        goals_motivation: fullProfile.goals_motivation,
+        biggest_challenges: fullProfile.biggest_challenges,
+        safety_feeling: fullProfile.safety_feeling,
+        overwhelm_signals: fullProfile.overwhelm_signals,
+        nervous_system_tempo: fullProfile.nervous_system_tempo,
+        core_needs: fullProfile.core_needs,
+        neglected_needs: fullProfile.neglected_needs,
+        over_fulfilled_needs: fullProfile.over_fulfilled_needs,
+        belonging_through: fullProfile.belonging_through,
+        reaction_to_expectations: fullProfile.reaction_to_expectations,
+        harder_closeness_or_boundaries: fullProfile.harder_closeness_or_boundaries,
+        primary_memory_channel: fullProfile.primary_memory_channel,
+        memory_effect: fullProfile.memory_effect,
+        trigger_sensitivity: fullProfile.trigger_sensitivity,
+        when_feels_light: fullProfile.when_feels_light,
+        when_depth_nourishing: fullProfile.when_depth_nourishing,
+        when_depth_burdening: fullProfile.when_depth_burdening,
+        lightness_depth_balance: fullProfile.lightness_depth_balance,
+        preferred_tone: fullProfile.preferred_tone,
+        response_preference: fullProfile.response_preference,
+        language_triggers: fullProfile.language_triggers,
+        life_phase: fullProfile.life_phase,
+        energy_level: fullProfile.energy_level,
+        current_focus: fullProfile.current_focus,
+      } : {}),
+    });
   };
 
   const loadConversations = async () => {
@@ -971,6 +1029,19 @@ const Coach = () => {
                     <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
                     <p className="text-base sm:text-lg font-serif mb-2">{t('coach.welcome')}</p>
                     <p className="text-sm mb-4 sm:mb-6">{t('coach.welcomeDesc')}</p>
+                    
+                    {/* Profile status indicator */}
+                    {userProfile?.goals_motivation || userProfile?.preferred_tone?.length ? (
+                      <Link to="/profile" className="inline-flex items-center gap-2 text-xs text-primary/80 hover:text-primary mb-4 transition-colors">
+                        <div className="w-2 h-2 rounded-full bg-green-500" />
+                        {t('coach.profileComplete')}
+                      </Link>
+                    ) : (
+                      <Link to="/profile" className="inline-flex items-center gap-2 text-xs text-amber-600 hover:text-amber-500 mb-4 transition-colors">
+                        <User className="h-3.5 w-3.5" />
+                        {t('coach.profileHint')}
+                      </Link>
+                    )}
                     
                     {/* Quick action buttons for journaling - responsive grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 max-w-2xl mx-auto mt-4 sm:mt-6">
