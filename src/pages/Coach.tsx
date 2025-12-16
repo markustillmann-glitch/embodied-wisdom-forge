@@ -920,17 +920,28 @@ const Coach = () => {
               <span className="text-xs text-muted-foreground">{t('nav.yourPersonalCoach')}</span>
             </div>
           </div>
-          {messages.length > 0 && (
+          <div className="flex items-center gap-2">
+            {messages.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={openSaveDialog}
+                className="shrink-0"
+              >
+                <Save className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">{t('vault.saveMemory')}</span>
+              </Button>
+            )}
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
-              onClick={openSaveDialog}
-              className="shrink-0"
+              onClick={() => openDeleteDialog(currentConversation!)}
+              className="shrink-0 text-muted-foreground hover:text-destructive"
+              title={t('coach.deleteConversation')}
             >
-              <Save className="h-4 w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">{t('vault.saveMemory')}</span>
+              <Trash2 className="h-4 w-4" />
             </Button>
-          )}
+          </div>
         </header>
 
         {currentConversation ? (
