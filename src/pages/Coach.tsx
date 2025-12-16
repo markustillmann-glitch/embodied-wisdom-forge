@@ -505,7 +505,35 @@ const Coach = () => {
 
   // Save memory to vault
   const saveMemory = async () => {
-    if (!user || !currentConversation || !memoryTitle.trim()) return;
+    if (!user) {
+      console.error('Cannot save memory: No user logged in');
+      toast({
+        title: t('vault.error'),
+        description: 'Bitte melde dich an',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    if (!currentConversation) {
+      console.error('Cannot save memory: No conversation selected');
+      toast({
+        title: t('vault.error'),
+        description: 'Keine Unterhaltung ausgewählt',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    if (!memoryTitle.trim()) {
+      console.error('Cannot save memory: No title provided');
+      toast({
+        title: t('vault.error'),
+        description: 'Bitte gib einen Titel ein',
+        variant: 'destructive',
+      });
+      return;
+    }
     
     setIsSaving(true);
     
@@ -514,33 +542,44 @@ const Coach = () => {
       `${m.role === 'user' ? '👤' : '🦉'} ${m.content}`
     ).join('\n\n---\n\n');
     
-    const { error } = await supabase
+    const memoryData = {
+      user_id: user.id,
+      title: memoryTitle.trim(),
+      summary: memorySummary.trim() || null,
+      content,
+      memory_type: detectMemoryType(),
+      emotion: memoryEmotion.trim() || null,
+      conversation_id: currentConversation,
+      memory_date: new Date().toISOString(),
+    };
+    
+    console.log('Saving memory with data:', memoryData);
+    
+    const { data, error } = await supabase
       .from('memories')
-      .insert({
-        user_id: user.id,
-        title: memoryTitle.trim(),
-        summary: memorySummary.trim() || null,
-        content,
-        memory_type: detectMemoryType(),
-        emotion: memoryEmotion.trim() || null,
-        conversation_id: currentConversation,
-        memory_date: new Date().toISOString(),
-      });
+      .insert(memoryData)
+      .select();
     
     setIsSaving(false);
     
     if (error) {
+      console.error('Error saving memory:', error);
       toast({
         title: t('vault.error'),
-        description: t('vault.saveError'),
+        description: `${t('vault.saveError')}: ${error.message}`,
         variant: 'destructive',
       });
     } else {
+      console.log('Memory saved successfully:', data);
       toast({
         title: t('vault.saved'),
         description: t('vault.savedDesc'),
       });
       setSaveDialogOpen(false);
+      // Reset form
+      setMemoryTitle('');
+      setMemorySummary('');
+      setMemoryEmotion('');
     }
   };
 
