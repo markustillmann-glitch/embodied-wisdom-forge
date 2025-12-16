@@ -15,7 +15,11 @@ import {
   Loader2, 
   LogOut,
   Trash2,
-  Music
+  Music,
+  Heart,
+  Briefcase,
+  Users,
+  BookOpen
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -34,6 +38,11 @@ interface Conversation {
   updated_at: string;
 }
 
+interface UserProfile {
+  displayName: string | null;
+  previousTopics?: string[];
+}
+
 const Coach = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { t } = useLanguage();
@@ -46,6 +55,7 @@ const Coach = () => {
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +73,12 @@ const Coach = () => {
   }, [user]);
 
   useEffect(() => {
+    if (user) {
+      loadUserProfile();
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (currentConversation) {
       loadMessages(currentConversation);
     }
@@ -71,6 +87,22 @@ const Coach = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const loadUserProfile = async () => {
+    if (!user) return;
+    
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('display_name')
+      .eq('user_id', user.id)
+      .single();
+    
+    if (profile) {
+      setUserProfile({
+        displayName: profile.display_name,
+      });
+    }
+  };
 
   const loadConversations = async () => {
     const { data, error } = await supabase
@@ -245,7 +277,7 @@ const Coach = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({ messages: chatMessages }),
+          body: JSON.stringify({ messages: chatMessages, userProfile }),
         }
       );
 
@@ -432,10 +464,56 @@ const Coach = () => {
             <ScrollArea className="flex-1 p-4">
               <div className="max-w-3xl mx-auto space-y-4">
                 {messages.length === 0 && (
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Music className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <div className="text-center py-8 text-muted-foreground">
+                    <BookOpen className="h-12 w-12 mx-auto mb-4 opacity-50" />
                     <p className="text-lg font-serif mb-2">{t('coach.welcome')}</p>
-                    <p className="text-sm">{t('coach.welcomeDesc')}</p>
+                    <p className="text-sm mb-6">{t('coach.welcomeDesc')}</p>
+                    
+                    {/* Quick action buttons for journaling */}
+                    <div className="grid grid-cols-2 gap-3 max-w-md mx-auto mt-6">
+                      <button
+                        onClick={() => setInput(t('coach.prompts.concert'))}
+                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                      >
+                        <Music className="h-5 w-5 text-accent shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.concert')}</p>
+                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.concert')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setInput(t('coach.prompts.relationship'))}
+                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                      >
+                        <Heart className="h-5 w-5 text-accent shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.relationship')}</p>
+                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.relationship')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setInput(t('coach.prompts.work'))}
+                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                      >
+                        <Briefcase className="h-5 w-5 text-accent shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.work')}</p>
+                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.work')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setInput(t('coach.prompts.childhood'))}
+                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                      >
+                        <Users className="h-5 w-5 text-accent shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.childhood')}</p>
+                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.childhood')}</p>
+                        </div>
+                      </button>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground mt-6">{t('coach.journalingHint')}</p>
                   </div>
                 )}
                 
