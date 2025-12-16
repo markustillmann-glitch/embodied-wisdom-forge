@@ -39,6 +39,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import oriaOwl from '@/assets/oria-owl.png';
 
 interface Message {
   id: string;
@@ -640,7 +641,7 @@ const Coach = () => {
 
       {/* Main Chat Area */}
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 border-b border-border flex items-center justify-between px-3 sm:px-4">
+        <header className="h-16 sm:h-18 border-b border-border flex items-center justify-between px-3 sm:px-4">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -648,7 +649,11 @@ const Coach = () => {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <h1 className="font-serif text-base sm:text-lg truncate">{t('coach.title')}</h1>
+            <img src={oriaOwl} alt="Oria" className="h-10 w-10 sm:h-12 sm:w-12 rounded-full object-cover" />
+            <div className="flex flex-col">
+              <h1 className="font-serif text-base sm:text-lg leading-tight">{t('nav.askOria')}</h1>
+              <span className="text-xs text-muted-foreground">{t('nav.yourPersonalCoach')}</span>
+            </div>
           </div>
           {messages.length > 0 && (
             <Button
