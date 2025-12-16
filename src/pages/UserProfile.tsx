@@ -403,6 +403,7 @@ const UserProfile = () => {
                 placeholder={t('userProfile.neglectedNeedsPlaceholder')}
                 className="mt-1.5"
               />
+              <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
             </div>
             <div>
               <Label>{t('userProfile.overFulfilledNeeds')}</Label>
@@ -412,6 +413,7 @@ const UserProfile = () => {
                 placeholder={t('userProfile.overFulfilledNeedsPlaceholder')}
                 className="mt-1.5"
               />
+              <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
             </div>
           </Section>
 
