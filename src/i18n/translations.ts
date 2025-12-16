@@ -11,6 +11,8 @@ export const translations = {
       discoverOria: 'Oria entdecken',
       seminarOffers: 'Seminarangebote',
       coach: 'AI Coach',
+      askOria: 'Frag Oria',
+      yourPersonalCoach: 'dein persönlicher Coach',
     },
     
     // Index page
@@ -597,6 +599,8 @@ export const translations = {
       discoverOria: 'Discover Oria',
       seminarOffers: 'Seminar Offerings',
       coach: 'AI Coach',
+      askOria: 'Ask Oria',
+      yourPersonalCoach: 'your personal coach',
     },
     
     // Index page
