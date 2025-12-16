@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   ArrowLeft, 
   Send, 
@@ -19,7 +20,9 @@ import {
   Heart,
   Briefcase,
   Users,
-  BookOpen
+  BookOpen,
+  X,
+  Menu
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -48,17 +51,26 @@ const Coach = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Close sidebar on mobile when conversation is selected
+  const selectConversation = (id: string) => {
+    setCurrentConversation(id);
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -393,17 +405,39 @@ const Coach = () => {
   }
 
   return (
-    <div className="h-screen flex bg-background">
+    <div className="h-screen flex bg-background relative">
+      {/* Mobile Overlay */}
+      {isMobile && sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside className={cn(
-        "bg-card border-r border-border flex flex-col transition-all duration-300",
-        sidebarOpen ? "w-64" : "w-0 overflow-hidden"
+        "bg-card border-r border-border flex flex-col transition-all duration-300 z-50",
+        isMobile 
+          ? "fixed inset-y-0 left-0 w-72" 
+          : "w-64",
+        isMobile && !sidebarOpen && "-translate-x-full",
+        !isMobile && !sidebarOpen && "w-0 overflow-hidden"
       )}>
         <div className="p-4 border-b border-border">
-          <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-4">
-            <ArrowLeft className="h-4 w-4" />
-            {t('nav.toHome')}
-          </Link>
+          <div className="flex items-center justify-between mb-4">
+            <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
+              <ArrowLeft className="h-4 w-4" />
+              {t('nav.toHome')}
+            </Link>
+            {isMobile && (
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="p-2 hover:bg-secondary rounded-lg transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            )}
+          </div>
           <Button onClick={createNewConversation} className="w-full" size="sm">
             <Plus className="h-4 w-4 mr-2" />
             {t('coach.newConversation')}
@@ -416,12 +450,12 @@ const Coach = () => {
               <div
                 key={conv.id}
                 className={cn(
-                  "group flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors",
+                  "group flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors",
                   currentConversation === conv.id
                     ? "bg-secondary"
                     : "hover:bg-secondary/50"
                 )}
-                onClick={() => setCurrentConversation(conv.id)}
+                onClick={() => selectConversation(conv.id)}
               >
                 <MessageSquare className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <span className="text-sm truncate flex-1">{conv.title}</span>
@@ -430,9 +464,9 @@ const Coach = () => {
                     e.stopPropagation();
                     deleteConversation(conv.id);
                   }}
-                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-destructive/10 rounded transition-all"
+                  className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-destructive/10 rounded transition-all"
                 >
-                  <Trash2 className="h-3 w-3 text-destructive" />
+                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
                 </button>
               </div>
             ))}
@@ -448,72 +482,72 @@ const Coach = () => {
       </aside>
 
       {/* Main Chat Area */}
-      <main className="flex-1 flex flex-col">
-        <header className="h-14 border-b border-border flex items-center px-4 gap-4">
+      <main className="flex-1 flex flex-col min-w-0">
+        <header className="h-14 border-b border-border flex items-center px-3 sm:px-4 gap-3">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-secondary rounded-lg transition-colors"
+            className="p-2 hover:bg-secondary rounded-lg transition-colors shrink-0"
           >
-            <MessageSquare className="h-5 w-5" />
+            <Menu className="h-5 w-5" />
           </button>
-          <h1 className="font-serif text-lg">{t('coach.title')}</h1>
+          <h1 className="font-serif text-base sm:text-lg truncate">{t('coach.title')}</h1>
         </header>
 
         {currentConversation ? (
           <>
-            <ScrollArea className="flex-1 p-4">
-              <div className="max-w-3xl mx-auto space-y-4">
+            <ScrollArea className="flex-1 p-3 sm:p-4">
+              <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
                 {messages.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <BookOpen className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg font-serif mb-2">{t('coach.welcome')}</p>
-                    <p className="text-sm mb-6">{t('coach.welcomeDesc')}</p>
+                  <div className="text-center py-6 sm:py-8 text-muted-foreground px-2">
+                    <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
+                    <p className="text-base sm:text-lg font-serif mb-2">{t('coach.welcome')}</p>
+                    <p className="text-sm mb-4 sm:mb-6">{t('coach.welcomeDesc')}</p>
                     
-                    {/* Quick action buttons for journaling */}
-                    <div className="grid grid-cols-2 gap-3 max-w-md mx-auto mt-6">
+                    {/* Quick action buttons for journaling - single column on mobile */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-md mx-auto mt-4 sm:mt-6">
                       <button
                         onClick={() => setInput(t('coach.prompts.concert'))}
-                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Music className="h-5 w-5 text-accent shrink-0" />
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.concert')}</p>
-                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.concert')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.concert')}</p>
                         </div>
                       </button>
                       <button
                         onClick={() => setInput(t('coach.prompts.relationship'))}
-                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Heart className="h-5 w-5 text-accent shrink-0" />
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.relationship')}</p>
-                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.relationship')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.relationship')}</p>
                         </div>
                       </button>
                       <button
                         onClick={() => setInput(t('coach.prompts.work'))}
-                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Briefcase className="h-5 w-5 text-accent shrink-0" />
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.work')}</p>
-                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.work')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.work')}</p>
                         </div>
                       </button>
                       <button
                         onClick={() => setInput(t('coach.prompts.childhood'))}
-                        className="flex items-center gap-2 p-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors text-left"
+                        className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Users className="h-5 w-5 text-accent shrink-0" />
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.childhood')}</p>
-                          <p className="text-xs text-muted-foreground">{t('coach.promptDesc.childhood')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.childhood')}</p>
                         </div>
                       </button>
                     </div>
                     
-                    <p className="text-xs text-muted-foreground mt-6">{t('coach.journalingHint')}</p>
+                    <p className="text-xs text-muted-foreground mt-4 sm:mt-6">{t('coach.journalingHint')}</p>
                   </div>
                 )}
                 
@@ -521,13 +555,13 @@ const Coach = () => {
                   <div
                     key={message.id}
                     className={cn(
-                      "flex gap-3",
+                      "flex gap-2 sm:gap-3",
                       message.role === 'user' ? "justify-end" : "justify-start"
                     )}
                   >
                     <div
                       className={cn(
-                        "max-w-[80%] rounded-2xl px-4 py-3",
+                        "max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3",
                         message.role === 'user'
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary text-secondary-foreground"
@@ -539,8 +573,8 @@ const Coach = () => {
                 ))}
                 
                 {isStreaming && messages[messages.length - 1]?.role !== 'assistant' && (
-                  <div className="flex gap-3 justify-start">
-                    <div className="bg-secondary rounded-2xl px-4 py-3">
+                  <div className="flex gap-2 sm:gap-3 justify-start">
+                    <div className="bg-secondary rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3">
                       <Loader2 className="h-4 w-4 animate-spin" />
                     </div>
                   </div>
@@ -550,7 +584,7 @@ const Coach = () => {
               </div>
             </ScrollArea>
 
-            <div className="p-4 border-t border-border">
+            <div className="p-3 sm:p-4 border-t border-border safe-area-inset-bottom">
               <div className="max-w-3xl mx-auto flex gap-2">
                 <Input
                   ref={inputRef}
@@ -559,9 +593,14 @@ const Coach = () => {
                   onKeyDown={handleKeyDown}
                   placeholder={t('coach.inputPlaceholder')}
                   disabled={isStreaming}
-                  className="flex-1"
+                  className="flex-1 text-base"
                 />
-                <Button onClick={sendMessage} disabled={!input.trim() || isStreaming}>
+                <Button 
+                  onClick={sendMessage} 
+                  disabled={!input.trim() || isStreaming}
+                  size="default"
+                  className="shrink-0 px-3 sm:px-4"
+                >
                   {isStreaming ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
@@ -569,7 +608,7 @@ const Coach = () => {
                   )}
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground text-center mt-2">
+              <p className="text-xs text-muted-foreground text-center mt-2 hidden sm:block">
                 {t('coach.hint')}
               </p>
             </div>
