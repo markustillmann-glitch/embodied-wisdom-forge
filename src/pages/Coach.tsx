@@ -1227,8 +1227,62 @@ const Coach = () => {
                 <p className="text-muted-foreground">{t('coach.generatingPsychogram')}</p>
               </div>
             ) : (
-              <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">
-                {psychogramContent}
+              <div className="space-y-4">
+                {psychogramContent.split('\n').map((line, index) => {
+                  // Main headings (##)
+                  if (line.startsWith('## ')) {
+                    return (
+                      <h2 key={index} className="text-lg font-semibold text-foreground mt-6 mb-2 pb-1 border-b border-border">
+                        {line.replace('## ', '')}
+                      </h2>
+                    );
+                  }
+                  // Sub-headings (###)
+                  if (line.startsWith('### ')) {
+                    return (
+                      <h3 key={index} className="text-base font-medium text-foreground mt-4 mb-1">
+                        {line.replace('### ', '')}
+                      </h3>
+                    );
+                  }
+                  // Bold text (**text**)
+                  if (line.startsWith('**') && line.endsWith('**')) {
+                    return (
+                      <p key={index} className="font-semibold text-foreground mt-3">
+                        {line.replace(/\*\*/g, '')}
+                      </p>
+                    );
+                  }
+                  // List items
+                  if (line.startsWith('- ') || line.startsWith('• ')) {
+                    return (
+                      <div key={index} className="flex gap-2 pl-2">
+                        <span className="text-accent">•</span>
+                        <span className="text-muted-foreground">{line.replace(/^[-•]\s*/, '')}</span>
+                      </div>
+                    );
+                  }
+                  // Numbered list items
+                  if (/^\d+\.\s/.test(line)) {
+                    const [num, ...rest] = line.split('. ');
+                    return (
+                      <div key={index} className="flex gap-2 pl-2">
+                        <span className="text-accent font-medium min-w-[1.5rem]">{num}.</span>
+                        <span className="text-muted-foreground">{rest.join('. ')}</span>
+                      </div>
+                    );
+                  }
+                  // Empty lines
+                  if (line.trim() === '') {
+                    return <div key={index} className="h-2" />;
+                  }
+                  // Regular paragraphs
+                  return (
+                    <p key={index} className="text-muted-foreground leading-relaxed">
+                      {line}
+                    </p>
+                  );
+                })}
               </div>
             )}
           </div>
