@@ -78,7 +78,7 @@ export type Database = {
           conversation_id: string | null
           created_at: string
           emotion: string | null
-          feeling_after: string | null
+          feeling_after: string[] | null
           id: string
           image_url: string | null
           memory_date: string | null
@@ -95,7 +95,7 @@ export type Database = {
           conversation_id?: string | null
           created_at?: string
           emotion?: string | null
-          feeling_after?: string | null
+          feeling_after?: string[] | null
           id?: string
           image_url?: string | null
           memory_date?: string | null
@@ -112,7 +112,7 @@ export type Database = {
           conversation_id?: string | null
           created_at?: string
           emotion?: string | null
-          feeling_after?: string | null
+          feeling_after?: string[] | null
           id?: string
           image_url?: string | null
           memory_date?: string | null
