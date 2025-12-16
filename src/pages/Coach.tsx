@@ -432,7 +432,10 @@ const Coach = () => {
 
     // Add song context hint if detected
     if (songLink) {
-      chatMessages[chatMessages.length - 1].content += `\n\n[Ein Song-Link wurde geteilt: ${songLink}. Bitte analysiere diesen Song im Kontext des Beyond Bias Modells.]`;
+      const songHint = language === 'en' 
+        ? `\n\n[A song link was shared: ${songLink}. Please analyze this song in the context of the Beyond Bias model.]`
+        : `\n\n[Ein Song-Link wurde geteilt: ${songLink}. Bitte analysiere diesen Song im Kontext des Beyond Bias Modells.]`;
+      chatMessages[chatMessages.length - 1].content += songHint;
     }
 
     setIsStreaming(true);
@@ -447,7 +450,7 @@ const Coach = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({ messages: chatMessages, userProfile }),
+          body: JSON.stringify({ messages: chatMessages, userProfile, language }),
         }
       );
 
