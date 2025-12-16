@@ -1166,21 +1166,17 @@ const Coach = () => {
               </DialogDescription>
             )}
           </DialogHeader>
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <ScrollArea className="h-full max-h-[60vh]">
-              <div className="py-4 pr-4">
-                {isGeneratingPsychogram ? (
-                  <div className="flex flex-col items-center justify-center py-12">
-                    <Loader2 className="h-8 w-8 animate-spin text-accent mb-4" />
-                    <p className="text-muted-foreground">{t('coach.generatingPsychogram')}</p>
-                  </div>
-                ) : (
-                  <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">
-                    {psychogramContent}
-                  </div>
-                )}
+          <div className="flex-1 min-h-0 overflow-y-auto max-h-[60vh] py-4 pr-2">
+            {isGeneratingPsychogram ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-accent mb-4" />
+                <p className="text-muted-foreground">{t('coach.generatingPsychogram')}</p>
               </div>
-            </ScrollArea>
+            ) : (
+              <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">
+                {psychogramContent}
+              </div>
+            )}
           </div>
           <DialogFooter className="pt-4 border-t border-border">
             <Button onClick={() => setPsychogramDialogOpen(false)}>
