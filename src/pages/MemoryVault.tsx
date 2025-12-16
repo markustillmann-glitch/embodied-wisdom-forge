@@ -60,7 +60,7 @@ interface Memory {
   memory_date: string | null;
   additional_thoughts: string | null;
   image_url: string | null;
-  feeling_after: string | null;
+  feeling_after: string[] | null;
   needs_after: string[] | null;
 }
 
@@ -105,7 +105,7 @@ const MemoryVault = () => {
   const [editTitle, setEditTitle] = useState('');
   const [editSummary, setEditSummary] = useState('');
   const [editAdditionalThoughts, setEditAdditionalThoughts] = useState('');
-  const [editFeelingAfter, setEditFeelingAfter] = useState('');
+  const [editFeelingsAfter, setEditFeelingsAfter] = useState<string[]>([]);
   const [editNeedsAfter, setEditNeedsAfter] = useState<string[]>([]);
   const [editImageUrl, setEditImageUrl] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
@@ -172,7 +172,7 @@ const MemoryVault = () => {
     setEditTitle(memory.title);
     setEditSummary(memory.summary || '');
     setEditAdditionalThoughts(memory.additional_thoughts || '');
-    setEditFeelingAfter(memory.feeling_after || '');
+    setEditFeelingsAfter(memory.feeling_after || []);
     setEditNeedsAfter(memory.needs_after || []);
     setEditImageUrl(memory.image_url || '');
     setEditDialogOpen(true);
@@ -189,7 +189,7 @@ const MemoryVault = () => {
         title: editTitle.trim(),
         summary: editSummary.trim() || null,
         additional_thoughts: editAdditionalThoughts.trim() || null,
-        feeling_after: editFeelingAfter || null,
+        feeling_after: editFeelingsAfter.length > 0 ? editFeelingsAfter : null,
         needs_after: editNeedsAfter.length > 0 ? editNeedsAfter : null,
         image_url: editImageUrl || null,
       })
@@ -258,7 +258,7 @@ const MemoryVault = () => {
         body: {
           title: editTitle || selectedMemory.title,
           summary: editSummary || selectedMemory.summary,
-          emotion: editFeelingAfter || selectedMemory.emotion,
+          emotion: editFeelingsAfter.length > 0 ? editFeelingsAfter[0] : selectedMemory.emotion,
           memoryType: selectedMemory.memory_type,
         },
       });
@@ -320,8 +320,9 @@ const MemoryVault = () => {
       content += `Gefühl während: ${memory.emotion}\n`;
     }
     
-    if (memory.feeling_after) {
-      content += `Gefühl danach: ${t(`vault.nvcFeelings.${memory.feeling_after}`) || memory.feeling_after}\n`;
+    if (memory.feeling_after && memory.feeling_after.length > 0) {
+      const feelingsLabels = memory.feeling_after.map(f => t(`vault.nvcFeelings.${f}`) || f).join(', ');
+      content += `Gefühle danach: ${feelingsLabels}\n`;
     }
     
     if (memory.needs_after && memory.needs_after.length > 0) {
@@ -355,6 +356,14 @@ const MemoryVault = () => {
       title: t('vault.exportSuccess'),
       description: t('vault.exportSuccessDesc'),
     });
+  };
+
+  const toggleFeeling = (feeling: string) => {
+    setEditFeelingsAfter(prev => 
+      prev.includes(feeling) 
+        ? prev.filter(f => f !== feeling)
+        : [...prev, feeling]
+    );
   };
 
   const toggleNeed = (need: string) => {
@@ -494,11 +503,11 @@ const MemoryVault = () => {
                                         {memory.emotion}
                                       </span>
                                     )}
-                                    {memory.feeling_after && (
-                                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                                        {t(`vault.nvcFeelings.${memory.feeling_after}`) || memory.feeling_after}
+                                    {memory.feeling_after && memory.feeling_after.length > 0 && memory.feeling_after.slice(0, 2).map(feeling => (
+                                      <span key={feeling} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                                        {t(`vault.nvcFeelings.${feeling}`) || feeling}
                                       </span>
-                                    )}
+                                    ))}
                                   </div>
                                 </div>
                               </div>
@@ -584,12 +593,16 @@ const MemoryVault = () => {
                         </div>
                       )}
                       
-                      {selectedMemory.feeling_after && (
+                      {selectedMemory.feeling_after && selectedMemory.feeling_after.length > 0 && (
                         <div>
-                          <span className="text-xs text-muted-foreground">{t('vault.feelingAfter')}:</span>
-                          <span className="ml-2 text-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                            {t(`vault.nvcFeelings.${selectedMemory.feeling_after}`) || selectedMemory.feeling_after}
-                          </span>
+                          <span className="text-xs text-muted-foreground block mb-1">{t('vault.feelingAfter')}:</span>
+                          <div className="flex flex-wrap gap-1">
+                            {selectedMemory.feeling_after.map(feeling => (
+                              <Badge key={feeling} variant="secondary" className="text-xs">
+                                {t(`vault.nvcFeelings.${feeling}`) || feeling}
+                              </Badge>
+                            ))}
+                          </div>
                         </div>
                       )}
                       
@@ -729,21 +742,21 @@ const MemoryVault = () => {
               />
             </div>
             
-            {/* Feeling After */}
+            {/* Feelings After */}
             <div>
-              <label className="text-sm font-medium mb-1 block">{t('vault.feelingAfter')}</label>
-              <Select value={editFeelingAfter} onValueChange={setEditFeelingAfter}>
-                <SelectTrigger>
-                  <SelectValue placeholder={t('vault.feelingAfterPlaceholder')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {nvcFeelings.map(feeling => (
-                    <SelectItem key={feeling} value={feeling}>
-                      {t(`vault.nvcFeelings.${feeling}`) || feeling}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <label className="text-sm font-medium mb-2 block">{t('vault.feelingAfter')}</label>
+              <div className="flex flex-wrap gap-2">
+                {nvcFeelings.map(feeling => (
+                  <Badge
+                    key={feeling}
+                    variant={editFeelingsAfter.includes(feeling) ? "default" : "outline"}
+                    className="cursor-pointer"
+                    onClick={() => toggleFeeling(feeling)}
+                  >
+                    {t(`vault.nvcFeelings.${feeling}`) || feeling}
+                  </Badge>
+                ))}
+              </div>
             </div>
             
             {/* Needs After */}
