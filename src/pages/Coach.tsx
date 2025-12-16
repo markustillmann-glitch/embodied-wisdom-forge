@@ -211,10 +211,11 @@ const Coach = () => {
     return null;
   };
 
-  const sendMessage = async () => {
-    if (!input.trim() || !currentConversation || isStreaming) return;
+  const sendMessage = async (directMessage?: string) => {
+    const messageToSend = directMessage || input.trim();
+    if (!messageToSend || !currentConversation || isStreaming) return;
 
-    const userMessage = input.trim();
+    const userMessage = messageToSend;
     setInput('');
     
     const songLink = detectSongLink(userMessage);
@@ -506,7 +507,7 @@ const Coach = () => {
                     {/* Quick action buttons for journaling - single column on mobile */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-md mx-auto mt-4 sm:mt-6">
                       <button
-                        onClick={() => setInput(t('coach.prompts.concert'))}
+                        onClick={() => sendMessage(t('coach.prompts.concert'))}
                         className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Music className="h-5 w-5 text-accent shrink-0" />
@@ -516,7 +517,7 @@ const Coach = () => {
                         </div>
                       </button>
                       <button
-                        onClick={() => setInput(t('coach.prompts.relationship'))}
+                        onClick={() => sendMessage(t('coach.prompts.relationship'))}
                         className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Heart className="h-5 w-5 text-accent shrink-0" />
@@ -526,7 +527,7 @@ const Coach = () => {
                         </div>
                       </button>
                       <button
-                        onClick={() => setInput(t('coach.prompts.work'))}
+                        onClick={() => sendMessage(t('coach.prompts.work'))}
                         className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Briefcase className="h-5 w-5 text-accent shrink-0" />
@@ -536,7 +537,7 @@ const Coach = () => {
                         </div>
                       </button>
                       <button
-                        onClick={() => setInput(t('coach.prompts.childhood'))}
+                        onClick={() => sendMessage(t('coach.prompts.childhood'))}
                         className="flex items-center gap-3 p-3 sm:p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
                       >
                         <Users className="h-5 w-5 text-accent shrink-0" />
@@ -596,7 +597,7 @@ const Coach = () => {
                   className="flex-1 text-base"
                 />
                 <Button 
-                  onClick={sendMessage} 
+                  onClick={() => sendMessage()}
                   disabled={!input.trim() || isStreaming}
                   size="default"
                   className="shrink-0 px-3 sm:px-4"
