@@ -29,7 +29,7 @@ import {
   RotateCw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import oriaOwlImage from '@/assets/oria-owl.png';
+import oriaOwlImage from '@/assets/bb-owl-new.png';
 import { format } from 'date-fns';
 import { de, enUS } from 'date-fns/locale';
 import jsPDF from 'jspdf';
@@ -552,10 +552,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         quoteBg: { r: 242, g: 238, b: 230 },          // quote background
       };
 
-      // Use Times for serif (titles) and Helvetica for sans-serif (body)
-      // These are built-in jsPDF fonts that work reliably
+      // Use Times/Georgia style for both titles and body text
+      // 'times' is the closest built-in jsPDF font to Georgia
       const fontSerif = 'times';
-      const fontSans = 'helvetica';
+      const fontBody = 'times'; // Georgia-like serif for body text
+      const fontSans = 'helvetica'; // Keep for captions and small UI elements
 
       // Helper to detect image format from base64 or URL
       const getImageFormat = (url: string): string => {
@@ -901,8 +902,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           }
 
           if (page.content || page.contentExtended) {
-            pdf.setFontSize(9);
-            pdf.setFont(fontSans, 'normal');
+            pdf.setFontSize(12); // Larger font size for body text
+            pdf.setFont(fontBody, 'normal');
             pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
             // Use extended content for PDF if available, otherwise fall back to regular content
             const textContent = page.contentExtended || page.content || '';
