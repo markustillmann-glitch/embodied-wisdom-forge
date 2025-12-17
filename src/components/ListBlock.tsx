@@ -10,7 +10,7 @@ export const ListBlock = ({ items, ordered = false }: ListBlockProps) => {
   const Tag = ordered ? "ol" : "ul";
   
   return (
-    <Tag className={`space-y-3 my-4 ${ordered ? "list-decimal" : "list-disc"} pl-6`}>
+    <Tag className={`space-y-2 sm:space-y-3 my-4 ${ordered ? "list-decimal" : "list-disc"} pl-5 sm:pl-6`}>
       {items.map((item, i) => (
         <motion.li
           key={i}
@@ -18,7 +18,7 @@ export const ListBlock = ({ items, ordered = false }: ListBlockProps) => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.05, duration: 0.4 }}
-          className="text-foreground/80 leading-relaxed"
+          className="text-foreground/80 leading-relaxed text-sm sm:text-base"
         >
           {item}
         </motion.li>

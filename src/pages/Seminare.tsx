@@ -188,7 +188,7 @@ const Seminare = () => {
       </header>
 
       {/* Hero */}
-      <section className="py-12 sm:py-20 md:py-32 relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-24 relative overflow-hidden">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
@@ -200,7 +200,7 @@ const Seminare = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-xs sm:text-sm font-sans tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground uppercase mb-4 sm:mb-6"
+            className="text-xs sm:text-sm font-sans tracking-[0.15em] sm:tracking-[0.2em] text-muted-foreground uppercase mb-4 sm:mb-5"
           >
             {t('seminare.label')}
           </motion.p>
@@ -208,7 +208,7 @@ const Seminare = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight mb-4 sm:mb-6"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-foreground leading-tight mb-4 sm:mb-5 tracking-tight"
           >
             {t('seminare.title')}
             <br />
@@ -218,7 +218,7 @@ const Seminare = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-base sm:text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed px-2"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground font-sans max-w-xl mx-auto leading-relaxed px-2"
           >
             {t('seminare.subtitle')}
           </motion.p>
