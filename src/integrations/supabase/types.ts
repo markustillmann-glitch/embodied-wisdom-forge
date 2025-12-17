@@ -390,11 +390,91 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      analytics_conversation_stats: {
+        Row: {
+          conversation_count: number | null
+          date: string | null
+        }
+        Relationships: []
+      }
+      analytics_insight_patterns: {
+        Row: {
+          confidence_level: string | null
+          count: number | null
+          insight_type: string | null
+        }
+        Relationships: []
+      }
+      analytics_memory_stats: {
+        Row: {
+          count: number | null
+          date: string | null
+          emotion: string | null
+          memory_type: string | null
+        }
+        Relationships: []
+      }
+      analytics_message_stats: {
+        Row: {
+          avg_message_length: number | null
+          date: string | null
+          message_count: number | null
+          role: string | null
+        }
+        Relationships: []
+      }
+      analytics_token_stats: {
+        Row: {
+          call_count: number | null
+          date: string | null
+          function_name: string | null
+          model: string | null
+          total_cost: number | null
+          total_input_tokens: number | null
+          total_output_tokens: number | null
+          total_tokens: number | null
+        }
+        Relationships: []
+      }
+      analytics_user_segments: {
+        Row: {
+          segment: string | null
+          user_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       hash_sensitive_data: { Args: { input_text: string }; Returns: string }
       log_data_access: {
         Args: {
@@ -407,7 +487,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -534,6 +614,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
