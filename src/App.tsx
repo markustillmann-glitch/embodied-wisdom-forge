@@ -15,6 +15,7 @@ import Coach from "./pages/Coach";
 import MemoryVault from "./pages/MemoryVault";
 import UserProfile from "./pages/UserProfile";
 import Admin from "./pages/Admin";
+import UserAnalytics from "./pages/UserAnalytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/vault" element={<MemoryVault />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/user-analytics" element={<UserAnalytics />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
