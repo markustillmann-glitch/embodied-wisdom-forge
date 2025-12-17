@@ -328,6 +328,7 @@ export type Database = {
           trigger_sensitivity: string | null
           updated_at: string
           user_id: string
+          vault_password_hash: string | null
           when_depth_burdening: string | null
           when_depth_nourishing: string | null
           when_feels_light: string | null
@@ -359,6 +360,7 @@ export type Database = {
           trigger_sensitivity?: string | null
           updated_at?: string
           user_id: string
+          vault_password_hash?: string | null
           when_depth_burdening?: string | null
           when_depth_nourishing?: string | null
           when_feels_light?: string | null
@@ -390,6 +392,7 @@ export type Database = {
           trigger_sensitivity?: string | null
           updated_at?: string
           user_id?: string
+          vault_password_hash?: string | null
           when_depth_burdening?: string | null
           when_depth_nourishing?: string | null
           when_feels_light?: string | null

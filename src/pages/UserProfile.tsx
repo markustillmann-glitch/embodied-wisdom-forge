@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -161,6 +161,12 @@ const UserProfile = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  
+  // Vault password state
+  const [hasVaultPassword, setHasVaultPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -196,8 +202,19 @@ const UserProfile = () => {
       if (data.photo_url) {
         setPhotoPreview(data.photo_url);
       }
+      // Check if vault password is set
+      setHasVaultPassword(!!data.vault_password_hash);
     }
     setIsLoading(false);
+  };
+
+  // Simple hash function for password
+  const hashPassword = async (password: string): Promise<string> => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   };
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -237,15 +254,38 @@ const UserProfile = () => {
   const handleSave = async () => {
     if (!user) return;
 
+    // Validate password fields if trying to set a new password
+    if (newPassword && newPassword !== confirmPassword) {
+      toast({
+        title: t('userProfile.vaultPasswordMismatch'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (newPassword && newPassword.length < 4) {
+      toast({
+        title: t('userProfile.vaultPasswordPlaceholder'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsSaving(true);
     
     const photoUrl = await uploadPhoto();
 
-    const profileData = {
+    // Prepare profile data
+    const profileData: any = {
       user_id: user.id,
       ...profile,
       photo_url: photoUrl,
     };
+
+    // Handle password update
+    if (newPassword) {
+      profileData.vault_password_hash = await hashPassword(newPassword);
+    }
 
     const { error } = await supabase
       .from('user_profiles')
@@ -258,9 +298,41 @@ const UserProfile = () => {
         variant: 'destructive',
       });
     } else {
+      // Update password state if password was set
+      if (newPassword) {
+        setHasVaultPassword(true);
+        setNewPassword('');
+        setConfirmPassword('');
+      }
       toast({
         title: t('userProfile.saved'),
         description: t('userProfile.savedDesc'),
+      });
+    }
+
+    setIsSaving(false);
+  };
+
+  const removeVaultPassword = async () => {
+    if (!user) return;
+    
+    setIsSaving(true);
+    
+    const { error } = await supabase
+      .from('user_profiles')
+      .update({ vault_password_hash: null })
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Error removing password:', error);
+      toast({
+        title: t('userProfile.saveError'),
+        variant: 'destructive',
+      });
+    } else {
+      setHasVaultPassword(false);
+      toast({
+        title: t('userProfile.vaultPasswordRemoved'),
       });
     }
 
@@ -580,6 +652,69 @@ const UserProfile = () => {
                 <CheckboxOption value="self" label={t('userProfile.focus.self')} checked={(profile.current_focus || []).includes('self')} onToggle={() => toggleArrayField('current_focus', 'self')} />
                 <CheckboxOption value="relationship" label={t('userProfile.focus.relationship')} checked={(profile.current_focus || []).includes('relationship')} onToggle={() => toggleArrayField('current_focus', 'relationship')} />
                 <CheckboxOption value="meaning" label={t('userProfile.focus.meaning')} checked={(profile.current_focus || []).includes('meaning')} onToggle={() => toggleArrayField('current_focus', 'meaning')} />
+              </div>
+            </div>
+          </Section>
+
+          {/* Vault Password Protection */}
+          <Section icon={Lock} title={t('userProfile.vaultPassword')} description={t('userProfile.vaultPasswordDesc')}>
+            <div className="space-y-4">
+              {hasVaultPassword ? (
+                <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-green-500" />
+                    <span className="text-sm text-green-700 dark:text-green-400">{t('userProfile.vaultPasswordSet')}</span>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={removeVaultPassword}
+                    disabled={isSaving}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <X className="h-4 w-4 mr-1" />
+                    {t('userProfile.vaultPasswordRemove')}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+                  <Lock className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{t('userProfile.vaultPasswordNotSet')}</span>
+                </div>
+              )}
+              
+              <div>
+                <Label className="text-sm">{t('userProfile.vaultPasswordNew')}</Label>
+                <div className="relative mt-1.5">
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder={t('userProfile.vaultPasswordPlaceholder')}
+                    className="text-base pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <Label className="text-sm">{t('userProfile.vaultPasswordConfirm')}</Label>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder={t('userProfile.vaultPasswordPlaceholder')}
+                  className="mt-1.5 text-base"
+                />
+                {newPassword && confirmPassword && newPassword !== confirmPassword && (
+                  <p className="text-xs text-destructive mt-1">{t('userProfile.vaultPasswordMismatch')}</p>
+                )}
               </div>
             </div>
           </Section>

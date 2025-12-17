@@ -48,7 +48,10 @@ import {
   X,
   BookMarked,
   FileText,
-  ExternalLink
+  ExternalLink,
+  Lock,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -120,6 +123,14 @@ const MemoryVault = () => {
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [bookOpen, setBookOpen] = useState(false);
+  
+  // Password protection state
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [hasPassword, setHasPassword] = useState<boolean | null>(null);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [storedPasswordHash, setStoredPasswordHash] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -129,9 +140,69 @@ const MemoryVault = () => {
 
   useEffect(() => {
     if (user) {
-      loadMemories();
+      checkPasswordProtection();
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user && isUnlocked) {
+      loadMemories();
+    }
+  }, [user, isUnlocked]);
+
+  // Simple hash function for password verification
+  const hashPassword = async (password: string): Promise<string> => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  };
+
+  const checkPasswordProtection = async () => {
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .select('vault_password_hash')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error checking password:', error);
+      setHasPassword(false);
+      setIsUnlocked(true);
+      return;
+    }
+
+    if (data?.vault_password_hash) {
+      setHasPassword(true);
+      setStoredPasswordHash(data.vault_password_hash);
+      setIsUnlocked(false);
+    } else {
+      setHasPassword(false);
+      setIsUnlocked(true);
+    }
+  };
+
+  const verifyPassword = async () => {
+    if (!passwordInput || !storedPasswordHash) return;
+    
+    const inputHash = await hashPassword(passwordInput);
+    
+    if (inputHash === storedPasswordHash) {
+      setIsUnlocked(true);
+      setPasswordError(false);
+      setPasswordInput('');
+    } else {
+      setPasswordError(true);
+      toast({
+        title: t('vault.passwordWrong'),
+        description: t('vault.passwordWrongDesc'),
+        variant: 'destructive',
+      });
+    }
+  };
 
   const loadMemories = async () => {
     setLoading(true);
@@ -396,7 +467,7 @@ const MemoryVault = () => {
 
   const dateLocale = language === 'de' ? de : enUS;
 
-  if (authLoading) {
+  if (authLoading || hasPassword === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-accent" />
@@ -406,6 +477,60 @@ const MemoryVault = () => {
 
   if (!user) {
     return null;
+  }
+
+  // Password protection screen
+  if (hasPassword && !isUnlocked) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="max-w-md w-full">
+          <div className="bg-card rounded-xl border border-border p-6 sm:p-8 text-center">
+            <div className="p-4 rounded-full bg-accent/10 w-fit mx-auto mb-6">
+              <Lock className="h-8 w-8 text-accent" />
+            </div>
+            <h2 className="font-serif text-xl mb-2">{t('vault.passwordRequired')}</h2>
+            <p className="text-muted-foreground text-sm mb-6">{t('vault.passwordRequiredDesc')}</p>
+            
+            <div className="space-y-4">
+              <div className="relative">
+                <Input
+                  type={showPasswordInput ? 'text' : 'password'}
+                  value={passwordInput}
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value);
+                    setPasswordError(false);
+                  }}
+                  onKeyDown={(e) => e.key === 'Enter' && verifyPassword()}
+                  placeholder={t('vault.passwordPlaceholder')}
+                  className={cn("pr-10", passwordError && "border-destructive")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPasswordInput(!showPasswordInput)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPasswordInput ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              
+              <Button onClick={verifyPassword} className="w-full">
+                {t('vault.passwordUnlock')}
+              </Button>
+            </div>
+            
+            <div className="mt-6 pt-6 border-t border-border">
+              <Link 
+                to="/coach" 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4 inline mr-1" />
+                {t('vault.backToCoach')}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
