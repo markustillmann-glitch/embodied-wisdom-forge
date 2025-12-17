@@ -37,10 +37,10 @@ export function AdminLink() {
   return (
     <Link
       to="/admin"
-      className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+      className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
+      title={t('admin.adminDashboard')}
     >
       <Settings className="w-4 h-4" />
-      <span>{t('admin.adminDashboard')}</span>
     </Link>
   );
 }
