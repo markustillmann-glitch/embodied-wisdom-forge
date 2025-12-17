@@ -85,10 +85,10 @@ const RadioOption = React.memo(({
     type="button"
     onClick={onSelect}
     className={cn(
-      "px-4 py-2 rounded-lg border transition-all text-sm",
+      "px-3 py-2 sm:px-4 rounded-lg border transition-all text-xs sm:text-sm min-h-[44px] touch-manipulation",
       selected
         ? "bg-primary text-primary-foreground border-primary"
-        : "bg-secondary/50 border-border hover:bg-secondary"
+        : "bg-secondary/50 border-border hover:bg-secondary active:bg-secondary"
     )}
   >
     {label}
@@ -111,10 +111,10 @@ const CheckboxOption = React.memo(({
     type="button"
     onClick={onToggle}
     className={cn(
-      "px-4 py-2 rounded-lg border transition-all text-sm",
+      "px-3 py-2 sm:px-4 rounded-lg border transition-all text-xs sm:text-sm min-h-[44px] touch-manipulation",
       checked
         ? "bg-primary text-primary-foreground border-primary"
-        : "bg-secondary/50 border-border hover:bg-secondary"
+        : "bg-secondary/50 border-border hover:bg-secondary active:bg-secondary"
     )}
   >
     {label}
@@ -133,17 +133,17 @@ const Section = React.memo(({
   description: string; 
   children: React.ReactNode;
 }) => (
-  <div className="bg-card rounded-xl p-6 border border-border space-y-4">
-    <div className="flex items-start gap-3">
-      <div className="p-2 rounded-lg bg-primary/10">
-        <Icon className="h-5 w-5 text-primary" />
+  <div className="bg-card rounded-xl p-4 sm:p-6 border border-border space-y-3 sm:space-y-4">
+    <div className="flex items-start gap-2 sm:gap-3">
+      <div className="p-1.5 sm:p-2 rounded-lg bg-primary/10 shrink-0">
+        <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
       </div>
-      <div>
-        <h3 className="font-semibold text-lg">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+      <div className="min-w-0">
+        <h3 className="font-semibold text-base sm:text-lg">{title}</h3>
+        <p className="text-xs sm:text-sm text-muted-foreground">{description}</p>
       </div>
     </div>
-    <div className="space-y-4 pt-2">
+    <div className="space-y-3 sm:space-y-4 pt-1 sm:pt-2">
       {children}
     </div>
   </div>
@@ -293,58 +293,58 @@ const UserProfile = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/coach" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="h-5 w-5" />
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
+          <Link to="/coach" className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground transition-colors shrink-0">
+            <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             <span className="hidden sm:inline">{t('userProfile.backToCoach')}</span>
           </Link>
-          <h1 className="font-serif text-lg">{t('userProfile.title')}</h1>
-          <Button onClick={handleSave} disabled={isSaving} size="sm">
-            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-            {t('userProfile.save')}
+          <h1 className="font-serif text-sm sm:text-lg truncate">{t('userProfile.title')}</h1>
+          <Button onClick={handleSave} disabled={isSaving} size="sm" className="shrink-0">
+            {isSaving ? <Loader2 className="h-4 w-4 animate-spin sm:mr-2" /> : <Save className="h-4 w-4 sm:mr-2" />}
+            <span className="hidden sm:inline">{t('userProfile.save')}</span>
           </Button>
         </div>
       </header>
 
-      <ScrollArea className="h-[calc(100vh-4rem)]">
-        <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <ScrollArea className="h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)]">
+        <main className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-8">
           {/* Photo & Basic Info */}
           <Section icon={User} title={t('userProfile.basicInfo')} description={t('userProfile.basicInfoDesc')}>
-            <div className="flex flex-col sm:flex-row gap-6">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               <div className="flex flex-col items-center gap-3">
                 <div className="relative">
-                  <div className="w-32 h-32 rounded-full bg-secondary flex items-center justify-center overflow-hidden border-2 border-border">
+                  <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary flex items-center justify-center overflow-hidden border-2 border-border">
                     {photoPreview ? (
                       <img src={photoPreview} alt="Profile" className="w-full h-full object-cover" />
                     ) : (
-                      <User className="h-12 w-12 text-muted-foreground" />
+                      <User className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground" />
                     )}
                   </div>
-                  <label className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full cursor-pointer hover:bg-primary/90 transition-colors">
+                  <label className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full cursor-pointer hover:bg-primary/90 transition-colors touch-manipulation">
                     <Camera className="h-4 w-4" />
                     <input type="file" accept="image/*" onChange={handlePhotoChange} className="hidden" />
                   </label>
                 </div>
               </div>
-              <div className="flex-1 space-y-4">
+              <div className="flex-1 space-y-3 sm:space-y-4">
                 <div>
-                  <Label>{t('userProfile.goalsMotivation')}</Label>
+                  <Label className="text-sm">{t('userProfile.goalsMotivation')}</Label>
                   <Textarea
                     value={profile.goals_motivation || ''}
                     onChange={(e) => updateField('goals_motivation', e.target.value)}
                     placeholder={t('userProfile.goalsPlaceholder')}
-                    className="mt-1.5"
-                    rows={3}
+                    className="mt-1.5 text-base"
+                    rows={2}
                   />
                 </div>
                 <div>
-                  <Label>{t('userProfile.biggestChallenges')}</Label>
+                  <Label className="text-sm">{t('userProfile.biggestChallenges')}</Label>
                   <Textarea
                     value={profile.biggest_challenges || ''}
                     onChange={(e) => updateField('biggest_challenges', e.target.value)}
                     placeholder={t('userProfile.challengesPlaceholder')}
-                    className="mt-1.5"
-                    rows={3}
+                    className="mt-1.5 text-base"
+                    rows={2}
                   />
                 </div>
               </div>
@@ -354,28 +354,28 @@ const UserProfile = () => {
           {/* 1. Emotion & Regulation Profile */}
           <Section icon={Heart} title={t('userProfile.emotionProfile')} description={t('userProfile.emotionProfileDesc')}>
             <div>
-              <Label>{t('userProfile.safetyFeeling')}</Label>
+              <Label className="text-sm">{t('userProfile.safetyFeeling')}</Label>
               <Textarea
                 value={profile.safety_feeling || ''}
                 onChange={(e) => updateField('safety_feeling', e.target.value)}
                 placeholder={t('userProfile.safetyFeelingPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
                 rows={2}
               />
             </div>
             <div>
-              <Label>{t('userProfile.overwhelmSignals')}</Label>
+              <Label className="text-sm">{t('userProfile.overwhelmSignals')}</Label>
               <Textarea
                 value={profile.overwhelm_signals || ''}
                 onChange={(e) => updateField('overwhelm_signals', e.target.value)}
                 placeholder={t('userProfile.overwhelmSignalsPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
                 rows={2}
               />
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.nervousSystemTempo')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.nervousSystemTempo')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="calm" label={t('userProfile.tempo.calm')} selected={profile.nervous_system_tempo === 'calm'} onSelect={() => updateField('nervous_system_tempo', 'calm')} />
                 <RadioOption value="varying" label={t('userProfile.tempo.varying')} selected={profile.nervous_system_tempo === 'varying'} onSelect={() => updateField('nervous_system_tempo', 'varying')} />
                 <RadioOption value="high_active" label={t('userProfile.tempo.highActive')} selected={profile.nervous_system_tempo === 'high_active'} onSelect={() => updateField('nervous_system_tempo', 'high_active')} />
@@ -386,35 +386,35 @@ const UserProfile = () => {
           {/* 2. Needs Topology */}
           <Section icon={Sparkles} title={t('userProfile.needsTopology')} description={t('userProfile.needsTopologyDesc')}>
             <div>
-              <Label>{t('userProfile.coreNeeds')}</Label>
+              <Label className="text-sm">{t('userProfile.coreNeeds')}</Label>
               <Input
                 value={(profile.core_needs || []).join(', ')}
                 onChange={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()))}
                 onBlur={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.coreNeedsPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
               />
               <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
             </div>
             <div>
-              <Label>{t('userProfile.neglectedNeeds')}</Label>
+              <Label className="text-sm">{t('userProfile.neglectedNeeds')}</Label>
               <Input
                 value={(profile.neglected_needs || []).join(', ')}
                 onChange={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()))}
                 onBlur={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.neglectedNeedsPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
               />
               <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
             </div>
             <div>
-              <Label>{t('userProfile.overFulfilledNeeds')}</Label>
+              <Label className="text-sm">{t('userProfile.overFulfilledNeeds')}</Label>
               <Input
                 value={(profile.over_fulfilled_needs || []).join(', ')}
                 onChange={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()))}
                 onBlur={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.overFulfilledNeedsPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
               />
               <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
             </div>
@@ -423,26 +423,26 @@ const UserProfile = () => {
           {/* 3. Belonging & Difference */}
           <Section icon={User} title={t('userProfile.belongingDifference')} description={t('userProfile.belongingDifferenceDesc')}>
             <div>
-              <Label className="mb-2 block">{t('userProfile.belongingThrough')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.belongingThrough')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <CheckboxOption value="similarity" label={t('userProfile.belonging.similarity')} checked={(profile.belonging_through || []).includes('similarity')} onToggle={() => toggleArrayField('belonging_through', 'similarity')} />
                 <CheckboxOption value="acceptance_of_difference" label={t('userProfile.belonging.acceptanceDifference')} checked={(profile.belonging_through || []).includes('acceptance_of_difference')} onToggle={() => toggleArrayField('belonging_through', 'acceptance_of_difference')} />
                 <CheckboxOption value="achievement" label={t('userProfile.belonging.achievement')} checked={(profile.belonging_through || []).includes('achievement')} onToggle={() => toggleArrayField('belonging_through', 'achievement')} />
               </div>
             </div>
             <div>
-              <Label>{t('userProfile.reactionToExpectations')}</Label>
+              <Label className="text-sm">{t('userProfile.reactionToExpectations')}</Label>
               <Textarea
                 value={profile.reaction_to_expectations || ''}
                 onChange={(e) => updateField('reaction_to_expectations', e.target.value)}
                 placeholder={t('userProfile.reactionPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
                 rows={2}
               />
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.harderClosenessOrBoundaries')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.harderClosenessOrBoundaries')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="closeness" label={t('userProfile.closeness')} selected={profile.harder_closeness_or_boundaries === 'closeness'} onSelect={() => updateField('harder_closeness_or_boundaries', 'closeness')} />
                 <RadioOption value="boundaries" label={t('userProfile.boundaries')} selected={profile.harder_closeness_or_boundaries === 'boundaries'} onSelect={() => updateField('harder_closeness_or_boundaries', 'boundaries')} />
                 <RadioOption value="both" label={t('userProfile.both')} selected={profile.harder_closeness_or_boundaries === 'both'} onSelect={() => updateField('harder_closeness_or_boundaries', 'both')} />
@@ -453,8 +453,8 @@ const UserProfile = () => {
           {/* 4. Memory Type */}
           <Section icon={Brain} title={t('userProfile.memoryType')} description={t('userProfile.memoryTypeDesc')}>
             <div>
-              <Label className="mb-2 block">{t('userProfile.primaryMemoryChannel')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.primaryMemoryChannel')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <CheckboxOption value="body" label={t('userProfile.channel.body')} checked={(profile.primary_memory_channel || []).includes('body')} onToggle={() => toggleArrayField('primary_memory_channel', 'body')} />
                 <CheckboxOption value="music" label={t('userProfile.channel.music')} checked={(profile.primary_memory_channel || []).includes('music')} onToggle={() => toggleArrayField('primary_memory_channel', 'music')} />
                 <CheckboxOption value="images" label={t('userProfile.channel.images')} checked={(profile.primary_memory_channel || []).includes('images')} onToggle={() => toggleArrayField('primary_memory_channel', 'images')} />
@@ -463,16 +463,16 @@ const UserProfile = () => {
               </div>
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.memoryEffect')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.memoryEffect')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="regulating" label={t('userProfile.effect.regulating')} selected={profile.memory_effect === 'regulating'} onSelect={() => updateField('memory_effect', 'regulating')} />
                 <RadioOption value="intensifying" label={t('userProfile.effect.intensifying')} selected={profile.memory_effect === 'intensifying'} onSelect={() => updateField('memory_effect', 'intensifying')} />
                 <RadioOption value="melancholic" label={t('userProfile.effect.melancholic')} selected={profile.memory_effect === 'melancholic'} onSelect={() => updateField('memory_effect', 'melancholic')} />
               </div>
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.triggerSensitivity')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.triggerSensitivity')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="low" label={t('userProfile.sensitivity.low')} selected={profile.trigger_sensitivity === 'low'} onSelect={() => updateField('trigger_sensitivity', 'low')} />
                 <RadioOption value="medium" label={t('userProfile.sensitivity.medium')} selected={profile.trigger_sensitivity === 'medium'} onSelect={() => updateField('trigger_sensitivity', 'medium')} />
                 <RadioOption value="high" label={t('userProfile.sensitivity.high')} selected={profile.trigger_sensitivity === 'high'} onSelect={() => updateField('trigger_sensitivity', 'high')} />
@@ -483,38 +483,38 @@ const UserProfile = () => {
           {/* 5. Lightness vs Depth */}
           <Section icon={Sun} title={t('userProfile.lightnessVsDepth')} description={t('userProfile.lightnessVsDepthDesc')}>
             <div>
-              <Label>{t('userProfile.whenFeelsLight')}</Label>
+              <Label className="text-sm">{t('userProfile.whenFeelsLight')}</Label>
               <Textarea
                 value={profile.when_feels_light || ''}
                 onChange={(e) => updateField('when_feels_light', e.target.value)}
                 placeholder={t('userProfile.whenFeelsLightPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
                 rows={2}
               />
             </div>
             <div>
-              <Label>{t('userProfile.whenDepthNourishing')}</Label>
+              <Label className="text-sm">{t('userProfile.whenDepthNourishing')}</Label>
               <Textarea
                 value={profile.when_depth_nourishing || ''}
                 onChange={(e) => updateField('when_depth_nourishing', e.target.value)}
                 placeholder={t('userProfile.whenDepthNourishingPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
                 rows={2}
               />
             </div>
             <div>
-              <Label>{t('userProfile.whenDepthBurdening')}</Label>
+              <Label className="text-sm">{t('userProfile.whenDepthBurdening')}</Label>
               <Textarea
                 value={profile.when_depth_burdening || ''}
                 onChange={(e) => updateField('when_depth_burdening', e.target.value)}
                 placeholder={t('userProfile.whenDepthBurdeningPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
                 rows={2}
               />
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.lightnessDepthBalance')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.lightnessDepthBalance')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="more_lightness" label={t('userProfile.balance.moreLightness')} selected={profile.lightness_depth_balance === 'more_lightness'} onSelect={() => updateField('lightness_depth_balance', 'more_lightness')} />
                 <RadioOption value="more_depth" label={t('userProfile.balance.moreDepth')} selected={profile.lightness_depth_balance === 'more_depth'} onSelect={() => updateField('lightness_depth_balance', 'more_depth')} />
                 <RadioOption value="balanced" label={t('userProfile.balance.balanced')} selected={profile.lightness_depth_balance === 'balanced'} onSelect={() => updateField('lightness_depth_balance', 'balanced')} />
@@ -525,8 +525,8 @@ const UserProfile = () => {
           {/* 6. Language & Tonality */}
           <Section icon={MessageSquare} title={t('userProfile.languageTonality')} description={t('userProfile.languageTonalityDesc')}>
             <div>
-              <Label className="mb-2 block">{t('userProfile.preferredTone')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.preferredTone')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <CheckboxOption value="calm" label={t('userProfile.tone.calm')} checked={(profile.preferred_tone || []).includes('calm')} onToggle={() => toggleArrayField('preferred_tone', 'calm')} />
                 <CheckboxOption value="poetic" label={t('userProfile.tone.poetic')} checked={(profile.preferred_tone || []).includes('poetic')} onToggle={() => toggleArrayField('preferred_tone', 'poetic')} />
                 <CheckboxOption value="clear" label={t('userProfile.tone.clear')} checked={(profile.preferred_tone || []).includes('clear')} onToggle={() => toggleArrayField('preferred_tone', 'clear')} />
@@ -535,21 +535,21 @@ const UserProfile = () => {
               </div>
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.responsePreference')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.responsePreference')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <CheckboxOption value="direct_recommendations" label={t('userProfile.response.directRecommendations')} checked={(profile.response_preference || []).includes('direct_recommendations')} onToggle={() => toggleArrayField('response_preference', 'direct_recommendations')} />
                 <CheckboxOption value="open_questions" label={t('userProfile.response.openQuestions')} checked={(profile.response_preference || []).includes('open_questions')} onToggle={() => toggleArrayField('response_preference', 'open_questions')} />
                 <CheckboxOption value="mirroring" label={t('userProfile.response.mirroring')} checked={(profile.response_preference || []).includes('mirroring')} onToggle={() => toggleArrayField('response_preference', 'mirroring')} />
               </div>
             </div>
             <div>
-              <Label>{t('userProfile.languageTriggers')}</Label>
+              <Label className="text-sm">{t('userProfile.languageTriggers')}</Label>
               <Input
                 value={(profile.language_triggers || []).join(', ')}
                 onChange={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()))}
                 onBlur={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.languageTriggersPlaceholder')}
-                className="mt-1.5"
+                className="mt-1.5 text-base"
               />
               <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
             </div>
@@ -558,8 +558,8 @@ const UserProfile = () => {
           {/* 7. Current Life Phase */}
           <Section icon={Clock} title={t('userProfile.lifePhase')} description={t('userProfile.lifePhaseDesc')}>
             <div>
-              <Label className="mb-2 block">{t('userProfile.phase')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.phase')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="stabilization" label={t('userProfile.phases.stabilization')} selected={profile.life_phase === 'stabilization'} onSelect={() => updateField('life_phase', 'stabilization')} />
                 <RadioOption value="integration" label={t('userProfile.phases.integration')} selected={profile.life_phase === 'integration'} onSelect={() => updateField('life_phase', 'integration')} />
                 <RadioOption value="opening" label={t('userProfile.phases.opening')} selected={profile.life_phase === 'opening'} onSelect={() => updateField('life_phase', 'opening')} />
@@ -567,16 +567,16 @@ const UserProfile = () => {
               </div>
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.energyLevel')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.energyLevel')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <RadioOption value="low" label={t('userProfile.energy.low')} selected={profile.energy_level === 'low'} onSelect={() => updateField('energy_level', 'low')} />
                 <RadioOption value="medium" label={t('userProfile.energy.medium')} selected={profile.energy_level === 'medium'} onSelect={() => updateField('energy_level', 'medium')} />
                 <RadioOption value="high" label={t('userProfile.energy.high')} selected={profile.energy_level === 'high'} onSelect={() => updateField('energy_level', 'high')} />
               </div>
             </div>
             <div>
-              <Label className="mb-2 block">{t('userProfile.currentFocus')}</Label>
-              <div className="flex flex-wrap gap-2">
+              <Label className="mb-2 block text-sm">{t('userProfile.currentFocus')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 <CheckboxOption value="self" label={t('userProfile.focus.self')} checked={(profile.current_focus || []).includes('self')} onToggle={() => toggleArrayField('current_focus', 'self')} />
                 <CheckboxOption value="relationship" label={t('userProfile.focus.relationship')} checked={(profile.current_focus || []).includes('relationship')} onToggle={() => toggleArrayField('current_focus', 'relationship')} />
                 <CheckboxOption value="meaning" label={t('userProfile.focus.meaning')} checked={(profile.current_focus || []).includes('meaning')} onToggle={() => toggleArrayField('current_focus', 'meaning')} />
