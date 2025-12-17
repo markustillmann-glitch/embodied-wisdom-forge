@@ -781,6 +781,30 @@ const Coach = () => {
         ));
       }
 
+      // Log token usage (estimate based on content length)
+      const inputText = chatMessages.map(m => m.content).join(' ');
+      const estimatedInputTokens = Math.ceil(inputText.length / 4);
+      const estimatedOutputTokens = Math.ceil(assistantContent.length / 4);
+      
+      try {
+        await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/log-token-usage`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              functionName: 'coach-chat',
+              model: 'google/gemini-2.5-flash',
+              inputTokens: estimatedInputTokens,
+              outputTokens: estimatedOutputTokens,
+              userId: user?.id,
+            }),
+          }
+        );
+      } catch (logError) {
+        console.error('Failed to log token usage:', logError);
+      }
+
       // Update conversation timestamp
       await supabase
         .from('conversations')

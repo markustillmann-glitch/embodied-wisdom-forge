@@ -6,6 +6,35 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Token tracking helper
+async function logTokenUsage(
+  supabase: any,
+  userId: string | null,
+  functionName: string,
+  model: string,
+  inputTokens: number,
+  outputTokens: number
+) {
+  const totalTokens = inputTokens + outputTokens;
+  // Gemini Flash pricing estimate: ~$0.075/1M input, ~$0.30/1M output
+  const estimatedCost = (inputTokens * 0.000000075) + (outputTokens * 0.0000003);
+  
+  try {
+    await supabase.from('token_usage').insert({
+      user_id: userId,
+      function_name: functionName,
+      model,
+      input_tokens: inputTokens,
+      output_tokens: outputTokens,
+      total_tokens: totalTokens,
+      estimated_cost_usd: estimatedCost,
+    });
+    console.log(`Token usage logged: ${functionName} - ${totalTokens} tokens, ~$${estimatedCost.toFixed(6)}`);
+  } catch (e) {
+    console.error("Failed to log token usage:", e);
+  }
+}
+
 // Simple hash function for deduplication
 function simpleHash(str: string): string {
   let hash = 0;
@@ -130,6 +159,20 @@ ${conversationText}`;
     const aiData = await aiResponse.json();
     const responseContent = aiData.choices?.[0]?.message?.content || "[]";
     
+    // Log token usage
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    const usage = aiData.usage;
+    if (usage) {
+      await logTokenUsage(
+        supabase,
+        userId,
+        'coach-learn',
+        'google/gemini-2.5-flash',
+        usage.prompt_tokens || 0,
+        usage.completion_tokens || 0
+      );
+    }
+    
     let insights: Array<{type: string, content: string, confidence: string}> = [];
     try {
       const parsed = JSON.parse(responseContent);
@@ -148,9 +191,6 @@ ${conversationText}`;
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-
-    // Use service role client to store insights securely
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     let storedCount = 0;
     let updatedCount = 0;
