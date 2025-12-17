@@ -22,7 +22,10 @@ import {
   X,
   BookOpen,
   Image as ImageIcon,
-  Plus
+  Plus,
+  Upload,
+  ImagePlus,
+  Trash2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -74,6 +77,9 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [isGeneratingPageImage, setIsGeneratingPageImage] = useState(false);
+  const [showInsertMenu, setShowInsertMenu] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const coverFileInputRef = useRef<HTMLInputElement>(null);
   
   // Swipe handling
   const touchStartX = useRef<number | null>(null);
@@ -333,6 +339,75 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
     setIsGeneratingPageImage(false);
   };
 
+  const handleCoverImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageUrl = event.target?.result as string;
+      const coverIndex = pages.findIndex(p => p.type === 'cover');
+      if (coverIndex >= 0) {
+        const newPages = [...pages];
+        newPages[coverIndex] = { ...newPages[coverIndex], imageUrl };
+        setPages(newPages);
+      }
+    };
+    reader.readAsDataURL(file);
+    
+    // Reset input
+    if (coverFileInputRef.current) {
+      coverFileInputRef.current.value = '';
+    }
+  };
+
+  const handleInsertImagePage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageUrl = event.target?.result as string;
+      const newImagePage: BookPage = {
+        id: `image-${Date.now()}`,
+        type: 'image',
+        title: '',
+        imageUrl,
+      };
+      
+      // Insert after current page
+      const newPages = [...pages];
+      newPages.splice(currentPage + 1, 0, newImagePage);
+      setPages(newPages);
+      setCurrentPage(currentPage + 1);
+      setShowInsertMenu(false);
+      
+      toast({
+        title: t('vault.book.imageInserted'),
+        description: t('vault.book.imageInsertedDesc'),
+      });
+    };
+    reader.readAsDataURL(file);
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const deletePage = (index: number) => {
+    if (pages[index].type === 'cover' || pages[index].type === 'ending') return;
+    
+    const newPages = pages.filter((_, i) => i !== index);
+    setPages(newPages);
+    if (currentPage >= newPages.length) {
+      setCurrentPage(Math.max(0, newPages.length - 1));
+    }
+    toast({
+      title: t('vault.book.pageDeleted'),
+    });
+  };
+
   const exportToPDF = async () => {
     setIsExporting(true);
 
@@ -462,19 +537,36 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
 
     if (page.type === 'cover') {
       return (
-        <div className="h-full flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-accent/5 to-background">
-          {page.imageUrl && (
-            <div className="w-full max-w-xs h-48 mb-6 rounded-xl overflow-hidden shadow-lg">
-              <img src={page.imageUrl} alt="" className="w-full h-full object-cover" />
+        <div className="h-full flex flex-col items-center justify-center text-center p-4 sm:p-8 bg-gradient-to-b from-accent/5 to-background">
+          <div className="relative w-full max-w-xs mb-4 sm:mb-6">
+            {page.imageUrl ? (
+              <div className="h-40 sm:h-48 rounded-xl overflow-hidden shadow-lg">
+                <img src={page.imageUrl} alt="" className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className="h-40 sm:h-48 rounded-xl border-2 border-dashed border-muted-foreground/30 flex items-center justify-center bg-muted/20">
+                <ImageIcon className="h-12 w-12 text-muted-foreground/40" />
+              </div>
+            )}
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+              <Button
+                size="sm"
+                variant="secondary"
+                className="shadow-md"
+                onClick={() => coverFileInputRef.current?.click()}
+              >
+                <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                <span className="text-xs sm:text-sm">{t('vault.book.uploadImage')}</span>
+              </Button>
             </div>
-          )}
-          <h1 className="font-serif text-3xl md:text-4xl mb-4 text-foreground">{page.title}</h1>
+          </div>
+          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4 text-foreground mt-4">{page.title}</h1>
           {page.subtitle && (
-            <p className="text-muted-foreground text-lg">{page.subtitle}</p>
+            <p className="text-muted-foreground text-sm sm:text-lg">{page.subtitle}</p>
           )}
-          <div className="mt-8 flex items-center gap-2 text-accent">
-            <BookOpen className="h-5 w-5" />
-            <span className="text-sm font-medium">{t('vault.book.memoryBook')}</span>
+          <div className="mt-6 sm:mt-8 flex items-center gap-2 text-accent">
+            <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="text-xs sm:text-sm font-medium">{t('vault.book.memoryBook')}</span>
           </div>
         </div>
       );
@@ -482,13 +574,30 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
 
     if (page.type === 'image') {
       return (
-        <div className="h-full flex flex-col items-center justify-center p-8">
+        <div className="h-full flex flex-col items-center justify-center p-4 sm:p-8 relative">
           {page.imageUrl ? (
             <>
               <div className="w-full max-w-md rounded-xl overflow-hidden shadow-lg mb-4">
                 <img src={page.imageUrl} alt="" className="w-full object-cover" />
               </div>
-              {page.title && (
+              {isEditing ? (
+                <div className="w-full max-w-md space-y-2">
+                  <Input
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    placeholder={t('vault.book.imageCaptionPlaceholder')}
+                    className="text-center"
+                  />
+                  <div className="flex justify-center gap-2">
+                    <Button size="sm" onClick={saveEdit}>
+                      <Check className="h-4 w-4" />
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={cancelEdit}>
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
                 <p className="text-sm text-muted-foreground italic text-center">{page.title}</p>
               )}
             </>
@@ -510,20 +619,32 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
               </Button>
             </div>
           )}
+          {/* Edit/Delete buttons for image pages */}
+          <div className="absolute top-2 right-2 flex gap-1">
+            <Button variant="ghost" size="sm" onClick={() => {
+              setEditContent(page.title || '');
+              setEditingPage(index);
+            }}>
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => deletePage(index)} className="text-destructive hover:text-destructive">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       );
     }
 
     if (page.type === 'quote') {
       return (
-        <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-accent/5">
+        <div className="h-full flex flex-col items-center justify-center p-4 sm:p-8 text-center bg-accent/5">
           <div className="max-w-lg">
-            <p className="font-serif text-2xl md:text-3xl italic text-foreground/80 leading-relaxed">
+            <p className="font-serif text-xl sm:text-2xl md:text-3xl italic text-foreground/80 leading-relaxed">
               "{isEditing ? (
                 <Textarea
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
-                  className="text-2xl font-serif italic text-center min-h-[150px]"
+                  className="text-xl sm:text-2xl font-serif italic text-center min-h-[150px]"
                 />
               ) : page.content}"
             </p>
@@ -534,10 +655,10 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
 
     if (page.type === 'ending') {
       return (
-        <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-t from-accent/5 to-background">
-          <BookOpen className="h-12 w-12 text-accent mb-6" />
-          <h2 className="font-serif text-2xl mb-4 text-foreground">{page.title}</h2>
-          <p className="text-muted-foreground max-w-md">{page.content}</p>
+        <div className="h-full flex flex-col items-center justify-center p-4 sm:p-8 text-center bg-gradient-to-t from-accent/5 to-background">
+          <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-accent mb-4 sm:mb-6" />
+          <h2 className="font-serif text-xl sm:text-2xl mb-3 sm:mb-4 text-foreground">{page.title}</h2>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-md">{page.content}</p>
         </div>
       );
     }
@@ -618,39 +739,67 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl h-[90vh] flex flex-col p-0 gap-0">
-        <DialogHeader className="p-4 border-b border-border shrink-0">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-accent" />
-              {t('vault.book.title')}
+      <DialogContent className="max-w-4xl h-[90vh] sm:h-[90vh] flex flex-col p-0 gap-0">
+        {/* Hidden file inputs */}
+        <input
+          type="file"
+          ref={coverFileInputRef}
+          onChange={handleCoverImageUpload}
+          accept="image/*"
+          className="hidden"
+        />
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleInsertImagePage}
+          accept="image/*"
+          className="hidden"
+        />
+        
+        <DialogHeader className="p-2 sm:p-4 border-b border-border shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <DialogTitle className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+              <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-accent" />
+              <span className="truncate">{t('vault.book.title')}</span>
             </DialogTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isGenerating || pages.length === 0}
+                className="px-2 sm:px-3"
+              >
+                <ImagePlus className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">{t('vault.book.insertImage')}</span>
+              </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={addContextInfo}
                 disabled={isAddingContext || isGenerating}
+                className="px-2 sm:px-3"
               >
                 {isAddingContext ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 sm:mr-2 animate-spin" />
                 ) : (
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="h-4 w-4 sm:mr-2" />
                 )}
-                {t('vault.book.addContext')}
+                <span className="hidden sm:inline">{t('vault.book.addContext')}</span>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={exportToPDF}
                 disabled={isExporting || isGenerating || pages.length === 0}
+                className="px-2 sm:px-3"
               >
                 {isExporting ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 sm:mr-2 animate-spin" />
                 ) : (
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="h-4 w-4 sm:mr-2" />
                 )}
-                PDF
+                <span className="hidden sm:inline">PDF</span>
               </Button>
             </div>
           </div>
@@ -666,13 +815,13 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
         >
           {isGenerating ? (
             <div className="h-full flex flex-col items-center justify-center">
-              <Loader2 className="h-12 w-12 animate-spin text-accent mb-4" />
-              <p className="text-muted-foreground">{t('vault.book.generating')}</p>
+              <Loader2 className="h-10 w-10 sm:h-12 sm:w-12 animate-spin text-accent mb-4" />
+              <p className="text-sm sm:text-base text-muted-foreground">{t('vault.book.generating')}</p>
             </div>
           ) : pages.length > 0 ? (
             <div className="h-full">
               {/* Page Display */}
-              <div className="h-full bg-background rounded-lg shadow-lg mx-4 my-4 overflow-hidden">
+              <div className="h-full bg-background rounded-lg shadow-lg mx-2 sm:mx-4 my-2 sm:my-4 overflow-hidden">
                 {renderPage(pages[currentPage], currentPage)}
               </div>
             </div>
@@ -685,31 +834,34 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
 
         {/* Navigation */}
         {pages.length > 0 && (
-          <div className="p-4 border-t border-border shrink-0 flex items-center justify-between bg-background">
+          <div className="p-2 sm:p-4 border-t border-border shrink-0 flex items-center justify-between bg-background">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
               disabled={currentPage === 0}
+              className="px-2 sm:px-3"
             >
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              {t('vault.book.previous')}
+              <ChevronLeft className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">{t('vault.book.previous')}</span>
             </Button>
             
-            <div className="flex items-center gap-2">
-              {pages.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentPage(idx)}
-                  className={cn(
-                    "w-2 h-2 rounded-full transition-all",
-                    idx === currentPage 
-                      ? "bg-accent w-4" 
-                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  )}
-                />
-              ))}
-              <span className="ml-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto max-w-[50%] sm:max-w-none">
+              {pages.length <= 10 ? (
+                pages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentPage(idx)}
+                    className={cn(
+                      "w-2 h-2 rounded-full transition-all shrink-0",
+                      idx === currentPage 
+                        ? "bg-accent w-3 sm:w-4" 
+                        : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    )}
+                  />
+                ))
+              ) : null}
+              <span className="ml-2 sm:ml-4 text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
                 {currentPage + 1} / {pages.length}
               </span>
             </div>
@@ -719,9 +871,10 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
               size="sm"
               onClick={() => setCurrentPage(p => Math.min(pages.length - 1, p + 1))}
               disabled={currentPage === pages.length - 1}
+              className="px-2 sm:px-3"
             >
-              {t('vault.book.next')}
-              <ChevronRight className="h-4 w-4 ml-2" />
+              <span className="hidden sm:inline">{t('vault.book.next')}</span>
+              <ChevronRight className="h-4 w-4 sm:ml-2" />
             </Button>
           </div>
         )}
