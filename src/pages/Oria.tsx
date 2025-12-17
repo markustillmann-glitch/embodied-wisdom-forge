@@ -610,29 +610,6 @@ const Oria = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-12 sm:py-16 border-t border-chapter-divider">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4 sm:space-y-6"
-          >
-            <p className="text-base sm:text-lg text-muted-foreground">
-              {t('oria.ready')}
-            </p>
-            <Link 
-              to="/seminare" 
-              onClick={() => window.scrollTo(0, 0)}
-              className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-colors text-sm sm:text-base"
-            >
-              {t('oria.toSeminars')}
-            </Link>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="py-6 sm:py-8 border-t border-chapter-divider">
