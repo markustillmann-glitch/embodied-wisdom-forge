@@ -735,10 +735,10 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         pdf.roundedRect(x, y, w, h, r, r, style);
       };
 
-      // Beyond Bias description for final page
+      // Beyond the Shallow description for final page
       const beyondBiasDescription = language === 'de' 
-        ? 'Beyond Bias through memories ist ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Es verbindet Erkenntnisse aus Neurowissenschaft, IFS (Internal Family Systems), GFK (Gewaltfreie Kommunikation) und somatischer Arbeit zu einem praktischen Werkzeug für persönliche Transformation und innere Klarheit.'
-        : 'Beyond Bias through memories is a memory-based action model for dealing with stress, bias, and conditioning. It combines insights from neuroscience, IFS (Internal Family Systems), NVC (Nonviolent Communication), and somatic work into a practical tool for personal transformation and inner clarity.';
+        ? 'Beyond the Shallow Through Memories – From Roles to Resonance ist ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Es verbindet Erkenntnisse aus Neurowissenschaft, IFS (Internal Family Systems), GFK (Gewaltfreie Kommunikation) und somatischer Arbeit zu einem praktischen Werkzeug für persönliche Transformation und innere Klarheit.'
+        : 'Beyond the Shallow Through Memories – From Roles to Resonance is a memory-based action model for dealing with stress, bias, and conditioning. It combines insights from neuroscience, IFS (Internal Family Systems), NVC (Nonviolent Communication), and somatic work into a practical tool for personal transformation and inner clarity.';
 
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
@@ -838,7 +838,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           pdf.text(quoteLines, pageWidth / 2, quoteY, { align: 'center' });
 
         } else if (page.type === 'ending') {
-          // Ending page - Beyond Bias description
+          // Ending page - Beyond the Shallow description
           drawCornerDecorations(0.12);
           
           const centerY = pageHeight * 0.25;
@@ -869,11 +869,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           pdf.line(margin + 30, dividerY, pageWidth - margin - 30, dividerY);
           pdf.setGState(pdf.GState({ opacity: 1 }));
           
-          // Beyond Bias section
+          // Beyond the Shallow section
           pdf.setFontSize(9);
           pdf.setFont(fontSerif, 'bold');
           pdf.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
-          pdf.text('Beyond Bias through memories', pageWidth / 2, dividerY + 12, { align: 'center' });
+          pdf.text('Beyond the Shallow Through Memories', pageWidth / 2, dividerY + 12, { align: 'center' });
           
           pdf.setFontSize(7);
           pdf.setFont(fontSans, 'normal');

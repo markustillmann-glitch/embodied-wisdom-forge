@@ -68,7 +68,7 @@ const Oria = () => {
             >
               {t('nav.seminars')}
             </Link>
-            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
+            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond the Shallow Through Memories</p>
             <LanguageSwitcher />
           </nav>
         </div>
@@ -638,7 +638,7 @@ const Oria = () => {
       <footer className="py-6 sm:py-8 border-t border-chapter-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-xs sm:text-sm text-muted-foreground mb-3">
-            © {new Date().getFullYear()} Beyond Bias through memories
+            © {new Date().getFullYear()} Beyond the Shallow Through Memories
           </p>
           <Link 
             to="/impressum" 

@@ -22,7 +22,7 @@ export const translations = {
       meetOria: 'Oria kennenlernen',
       discoverSeminars: 'Seminarangebot entdecken',
       tagline: 'Für mehr Klarheit in Zeiten konstanter Überforderung.',
-      taglineDesc: 'Das Handlungsmodell von Beyond Bias verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.',
+      taglineDesc: 'Das Handlungsmodell von Beyond the Shallow verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.',
       taglineNote: 'Kein Ratgeber oder Theoriemodell, sondern Landkarte, praktischer Wegweiser und Transformationshilfe für das menschliche Betriebssystem unter Druck.',
       
       // Chapters
@@ -297,11 +297,11 @@ export const translations = {
     
     // Oria page
     oria: {
-      symbolOf: 'Symbolfigur von Beyond Bias',
+      symbolOf: 'Symbolfigur von Beyond the Shallow',
       title: 'Das ist Oria',
       subtitle: 'Deine stille Begleiterin auf dem Weg zu dir selbst',
-      intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond Bias und Wegweiserin im Jahrescoaching.',
-      intro2: 'Sie steht für genau das, was Beyond Bias und das Jahresprogramm kultivieren:',
+      intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond the Shallow und Wegweiserin im Jahrescoaching.',
+      intro2: 'Sie steht für genau das, was Beyond the Shallow und das Jahresprogramm kultivieren:',
       intro2Bold: 'Präsenz, innere Führung, Tiefe.',
       intro3: 'Oria ist kein Maskottchen, sondern eine seelische Gefährtin – eine, die dich erinnert:',
       intro3Quote: '„Du trägst bereits alles in dir."',
@@ -338,7 +338,7 @@ export const translations = {
         title: 'Dein tiefes persönliches Profil',
         intro: 'Im Laufe deiner Arbeit mit Oria entwickelst du ein reichhaltiges persönliches Profil – eine detaillierte Landkarte deiner inneren Welt.',
         desc: 'Dieses Profil erfasst sieben Dimensionen: Emotionsregulation, Bedürfnistopografie, Zugehörigkeit, Erinnerungstyp, Leichtigkeit vs. Tiefe, Sprachpräferenzen und deine aktuelle Lebensphase.',
-        modelUse: 'Das Beyond Bias Modell und dein persönliches Profil fließen gemeinsam in jede Antwort von Oria ein – so erhältst du prägnante, verwertbare Ergebnisse, die genau auf dich zugeschnitten sind.',
+        modelUse: 'Das Beyond the Shallow Modell und dein persönliches Profil fließen gemeinsam in jede Antwort von Oria ein – so erhältst du prägnante, verwertbare Ergebnisse, die genau auf dich zugeschnitten sind.',
       },
       
       // Interactive capabilities
@@ -550,7 +550,7 @@ export const translations = {
       coachIntegration: {
         title: 'Frag Oria: Dein persönlicher AI-Coach',
         subtitle: 'Wie der Coach Teil des Jahresprogramms ist',
-        p1: 'Der AI-Coach „Frag Oria" ist dein täglicher Begleiter – verfügbar wann immer du ihn brauchst. Er unterstützt dich beim strukturierten Erfassen deiner relevanten Erinnerungen und bietet personalisierte Journaling-Templates basierend auf dem Beyond Bias Modell.',
+        p1: 'Der AI-Coach „Frag Oria" ist dein täglicher Begleiter – verfügbar wann immer du ihn brauchst. Er unterstützt dich beim strukturierten Erfassen deiner relevanten Erinnerungen und bietet personalisierte Journaling-Templates basierend auf dem Beyond the Shallow Modell.',
         p2: 'Im Jahresprogramm dient der Coach als Brücke zwischen den Präsenzphasen: Du kannst Erinnerungen festhalten, Muster erkennen und erste Impulse erhalten – und diese dann in den Seminaren mit erfahrenen Coaches vertiefen.',
         permanent: 'Dauerhafter Ratgeber',
         permanentDesc: 'Auch nach dem Jahresprogramm bleibt der Coach dein Begleiter. Nutze ihn jederzeit für Reflexion, Journaling und als Erinnerung an das Gelernte.',
@@ -568,7 +568,7 @@ export const translations = {
     impressum: {
       title: 'Impressum',
       founder: 'Gründer & Entwickler',
-      founderBio: 'Als Vater von drei Töchtern habe ich erfahren, wie tief unbewusste Vorurteile und Prägungen unser Leben beeinflussen. Mit Beyond Bias through memories verbinde ich diese Erkenntnis mit moderner Neurobiologie, somatischer Intelligenz und bewährten Methoden wie IFS und Gewaltfreier Kommunikation – für einen nachhaltigen Weg zu mehr Selbstwahrnehmung und innerer Führung.',
+      founderBio: 'Als Vater von drei Töchtern habe ich erfahren, wie tief unbewusste Vorurteile und Prägungen unser Leben beeinflussen. Mit Beyond the Shallow Through Memories verbinde ich diese Erkenntnis mit moderner Neurobiologie, somatischer Intelligenz und bewährten Methoden wie IFS und Gewaltfreier Kommunikation – für einen nachhaltigen Weg zu mehr Selbstwahrnehmung und innerer Führung.',
       legalTitle: 'Angaben gemäß § 5 TMG',
       responsible: 'Verantwortlich für den Inhalt',
       disclaimerTitle: 'Haftungsausschluss',
@@ -615,7 +615,7 @@ export const translations = {
 
     // Auth
     auth: {
-      title: 'Willkommen beim Beyond Bias Coach',
+      title: 'Willkommen beim Beyond the Shallow Coach',
       subtitle: 'Melden Sie sich an, um Ihre Gespräche zu speichern',
       signIn: 'Anmelden',
       signUp: 'Registrieren',
@@ -638,10 +638,10 @@ export const translations = {
 
     // Coach
     coach: {
-      title: 'Beyond Bias Coach',
+      title: 'Beyond the Shallow Coach',
       newConversation: 'Neue Unterhaltung',
       noConversation: 'Keine Unterhaltung ausgewählt',
-      welcome: 'Willkommen beim Beyond Bias Coach',
+      welcome: 'Willkommen beim Beyond the Shallow Coach',
       welcomeDesc: 'Teilen Sie Erinnerungen, Gefühle oder Song-Links – ich erstelle ein personalisiertes Journaling-Template für Sie.',
       inputPlaceholder: 'Nachricht eingeben oder Song-Link teilen...',
       hint: 'YouTube/Spotify-Links werden automatisch erkannt und analysiert',
@@ -1120,7 +1120,7 @@ export const translations = {
       meetOria: 'Meet Oria',
       discoverSeminars: 'Discover Seminars',
       tagline: 'For more clarity in times of constant overwhelm.',
-      taglineDesc: 'The Beyond Bias action model connects modern neurobiology and epigenetics with practical self-leadership skills.',
+      taglineDesc: 'The Beyond the Shallow action model connects modern neurobiology and epigenetics with practical self-leadership skills.',
       taglineNote: 'Not a guidebook or theoretical model, but a map, practical guide, and transformation tool for the human operating system under pressure.',
       
       // Chapters
@@ -1395,11 +1395,11 @@ export const translations = {
     
     // Oria page
     oria: {
-      symbolOf: 'Symbol Figure of Beyond Bias',
+      symbolOf: 'Symbol Figure of Beyond the Shallow',
       title: 'This is Oria',
       subtitle: 'Your quiet companion on the path to yourself',
-      intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Beyond Bias and guide in the annual coaching.',
-      intro2: 'She represents exactly what Beyond Bias and the annual program cultivate:',
+      intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Beyond the Shallow and guide in the annual coaching.',
+      intro2: 'She represents exactly what Beyond the Shallow and the annual program cultivate:',
       intro2Bold: 'Presence, inner leadership, depth.',
       intro3: 'Oria is not a mascot, but a soul companion—one who reminds you:',
       intro3Quote: '"You already carry everything within you."',
@@ -1436,7 +1436,7 @@ export const translations = {
         title: 'Your Deep Personal Profile',
         intro: 'Throughout your work with Oria, you develop a rich personal profile—a detailed map of your inner world.',
         desc: 'This profile captures seven dimensions: emotion regulation, needs topology, belonging, memory type, lightness vs. depth, language preferences, and your current life phase.',
-        modelUse: 'The Beyond Bias model and your personal profile flow together into every response from Oria—so you receive precise, actionable results tailored exactly to you.',
+        modelUse: 'The Beyond the Shallow model and your personal profile flow together into every response from Oria—so you receive precise, actionable results tailored exactly to you.',
       },
       
       // Interactive capabilities
@@ -1648,7 +1648,7 @@ export const translations = {
       coachIntegration: {
         title: 'Ask Oria: Your Personal AI Coach',
         subtitle: 'How the Coach is Part of the Annual Program',
-        p1: 'The AI coach "Ask Oria" is your daily companion—available whenever you need it. It supports you in systematically capturing your relevant memories and offers personalized journaling templates based on the Beyond Bias model.',
+        p1: 'The AI coach "Ask Oria" is your daily companion—available whenever you need it. It supports you in systematically capturing your relevant memories and offers personalized journaling templates based on the Beyond the Shallow model.',
         p2: 'In the annual program, the coach serves as a bridge between the in-person phases: You can capture memories, recognize patterns, and receive initial impulses—then deepen these with experienced coaches in the seminars.',
         permanent: 'Permanent Advisor',
         permanentDesc: 'Even after the annual program, the coach remains your companion. Use it anytime for reflection, journaling, and as a reminder of what you\'ve learned.',
@@ -1666,7 +1666,7 @@ export const translations = {
     impressum: {
       title: 'Legal Notice',
       founder: 'Founder & Developer',
-      founderBio: 'As a father of three daughters, I have experienced how deeply unconscious biases and conditioning influence our lives. With Beyond Bias through memories, I connect this insight with modern neurobiology, somatic intelligence, and proven methods like IFS and Nonviolent Communication—for a sustainable path to more self-awareness and inner leadership.',
+      founderBio: 'As a father of three daughters, I have experienced how deeply unconscious biases and conditioning influence our lives. With Beyond the Shallow Through Memories, I connect this insight with modern neurobiology, somatic intelligence, and proven methods like IFS and Nonviolent Communication—for a sustainable path to more self-awareness and inner leadership.',
       legalTitle: 'Information according to § 5 TMG',
       responsible: 'Responsible for content',
       disclaimerTitle: 'Disclaimer',
@@ -1713,7 +1713,7 @@ export const translations = {
 
     // Auth
     auth: {
-      title: 'Welcome to Beyond Bias Coach',
+      title: 'Welcome to Beyond the Shallow Coach',
       subtitle: 'Sign in to save your conversations',
       signIn: 'Sign In',
       signUp: 'Sign Up',
@@ -1736,10 +1736,10 @@ export const translations = {
 
     // Coach
     coach: {
-      title: 'Beyond Bias Coach',
+      title: 'Beyond the Shallow Coach',
       newConversation: 'New Conversation',
       noConversation: 'No conversation selected',
-      welcome: 'Welcome to Beyond Bias Coach',
+      welcome: 'Welcome to Beyond the Shallow Coach',
       welcomeDesc: 'Share memories, feelings, or song links – I will create a personalized journaling template for you.',
       inputPlaceholder: 'Enter message or share a song link...',
       hint: 'YouTube/Spotify links are automatically detected and analyzed',

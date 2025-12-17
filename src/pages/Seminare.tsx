@@ -182,7 +182,7 @@ const Seminare = () => {
             >
               {t('nav.oria')}
             </Link>
-            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond Bias through memories</p>
+            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond the Shallow Through Memories</p>
           </nav>
         </div>
       </header>
@@ -588,7 +588,7 @@ const Seminare = () => {
       <footer className="py-12 border-t border-chapter-divider">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Link to="/" onClick={() => window.scrollTo(0, 0)} className="font-serif text-xl text-foreground hover:text-accent transition-colors">
-            Beyond Bias through memories
+            Beyond the Shallow Through Memories
           </Link>
           <p className="text-muted-foreground text-sm mt-2 mb-4">
             {t('index.footer.subtitle')}
