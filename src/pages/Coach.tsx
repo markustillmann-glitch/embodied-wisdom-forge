@@ -175,7 +175,9 @@ const Coach = () => {
     for (const pattern of titlePatterns) {
       const match = recentAssistantMessages.match(pattern);
       if (match) {
-        suggestions.title = match[1].trim();
+        let title = match[1].trim().replace(/[*_]/g, '');
+        if (title.length > 80) title = title.slice(0, 77) + '...';
+        suggestions.title = title;
         break;
       }
     }
@@ -191,24 +193,37 @@ const Coach = () => {
     for (const pattern of summaryPatterns) {
       const match = recentAssistantMessages.match(pattern);
       if (match) {
-        suggestions.summary = match[1].trim();
+        let summary = match[1].trim().replace(/[*_]/g, '');
+        if (summary.length > 200) summary = summary.slice(0, 197) + '...';
+        suggestions.summary = summary;
         break;
       }
     }
     
-    // Look for emotion suggestions
+    // Look for emotion suggestions - limit to short, focused emotions
     const emotionPatterns = [
       /Gefühl[:\s]*[„"«]([^"»„]+)[»""]/i,
       /Emotion[:\s]*[„"«]([^"»„]+)[»""]/i,
-      /dominante[s]?\s*Gefühl[:\s]*([^\n.,]+)/i,
-      /\*\*Emotion\*\*[:\s]*([^\n]+)/i,
-      /\*\*Gefühl\*\*[:\s]*([^\n]+)/i,
+      /\*\*Emotion\*\*[:\s]*([^\n*]+)/i,
+      /\*\*Gefühl\*\*[:\s]*([^\n*]+)/i,
+      /dominante[s]?\s*Gefühl[:\s]*([^,.\n]{2,50})/i,
     ];
     
     for (const pattern of emotionPatterns) {
       const match = recentAssistantMessages.match(pattern);
       if (match) {
-        suggestions.emotion = match[1].trim();
+        let emotion = match[1].trim();
+        // Clean up and limit emotion to max 60 chars, take first word(s) only
+        emotion = emotion.replace(/[*_]/g, '').trim();
+        if (emotion.length > 60) {
+          // Take first meaningful part before comma or conjunction
+          const parts = emotion.split(/[,;–—]|\s+(und|and|or|oder)\s+/i);
+          emotion = parts[0].trim();
+        }
+        if (emotion.length > 60) {
+          emotion = emotion.slice(0, 57) + '...';
+        }
+        suggestions.emotion = emotion;
         break;
       }
     }
