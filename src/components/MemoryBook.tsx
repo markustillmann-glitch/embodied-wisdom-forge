@@ -182,12 +182,27 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
   const saveBook = async () => {
     setIsSaving(true);
     try {
+      // Serialize pages to ensure clean JSON (remove any non-serializable data)
+      const cleanPages = pages.map(page => ({
+        id: page.id,
+        type: page.type,
+        title: page.title || undefined,
+        content: page.content || undefined,
+        imageUrl: page.imageUrl || undefined,
+        subtitle: page.subtitle || undefined,
+      }));
+
       const { error } = await supabase
         .from('memories')
-        .update({ memory_book_data: pages as any })
+        .update({ memory_book_data: cleanPages })
         .eq('id', memory.id);
 
-      if (error) throw error;
+      if (error) {
+        if (import.meta.env.DEV) {
+          console.error('Supabase error saving book:', error);
+        }
+        throw error;
+      }
 
       setHasUnsavedChanges(false);
       toast({
@@ -196,7 +211,9 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
       });
       onBookSaved?.();
     } catch (error) {
-      console.error('Error saving book:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error saving book:', error);
+      }
       toast({
         title: t('vault.book.error'),
         description: t('vault.book.saveError'),
