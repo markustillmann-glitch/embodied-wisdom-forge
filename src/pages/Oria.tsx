@@ -75,7 +75,7 @@ const Oria = () => {
       </header>
 
       {/* Hero with Background Owl */}
-      <section className="pt-20 pb-16 sm:pt-24 sm:pb-20 md:pb-32 relative overflow-hidden min-h-[60vh] sm:min-h-[80vh] flex items-center">
+      <section className="pt-20 pb-12 sm:pt-24 sm:pb-16 md:pb-24 relative overflow-hidden min-h-[60vh] sm:min-h-[70vh] flex items-center">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
@@ -87,7 +87,7 @@ const Oria = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 0.25, scale: 1 }}
             transition={{ duration: 1.5 }}
-            className="w-[280px] sm:w-[400px] md:w-[650px] lg:w-[800px] h-auto object-contain"
+            className="w-[240px] sm:w-[360px] md:w-[500px] lg:w-[650px] h-auto object-contain"
           />
         </div>
         
@@ -99,7 +99,7 @@ const Oria = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-xs sm:text-sm font-sans tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground uppercase mb-4 sm:mb-6"
+              className="text-xs sm:text-sm font-sans tracking-[0.15em] sm:tracking-[0.2em] text-muted-foreground uppercase mb-4 sm:mb-5"
             >
               {t('oria.symbolOf')}
             </motion.p>
@@ -109,14 +109,14 @@ const Oria = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="flex flex-col sm:flex-row items-center gap-3 sm:gap-[30px] mb-4 sm:mb-6"
+              className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 md:gap-6 mb-4 sm:mb-5"
             >
               <img
                 src={bbOwlLogo}
                 alt="Oria - Die weise Eule"
-                className="h-10 sm:h-[2.5rem] md:h-[3rem] lg:h-[3.75rem] w-auto object-contain"
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain"
               />
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-foreground leading-tight tracking-tight">
                 {t('oria.title')}
               </h1>
             </motion.div>
@@ -125,7 +125,7 @@ const Oria = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="text-lg sm:text-xl md:text-2xl text-accent font-serif mb-6 sm:mb-8"
+              className="text-base sm:text-lg md:text-xl text-accent font-serif mb-5 sm:mb-6"
             >
               {t('oria.subtitle')}
             </motion.p>
@@ -133,7 +133,7 @@ const Oria = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-base sm:text-lg text-muted-foreground font-sans max-w-2xl leading-relaxed px-2"
+              className="text-sm sm:text-base text-muted-foreground font-sans max-w-xl leading-relaxed px-2"
             >
               {t('oria.intro')}
             </motion.p>

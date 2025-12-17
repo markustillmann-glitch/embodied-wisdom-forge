@@ -102,7 +102,7 @@ const Modell = () => {
       />
 
       {/* Hero / Cover */}
-      <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-12 md:pt-16 md:pb-0">
+      <section id="cover" className="min-h-[100svh] flex items-center justify-center relative overflow-hidden pt-20 pb-12 sm:pt-20 sm:pb-16 md:pt-16 md:pb-0">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
@@ -117,9 +117,9 @@ const Modell = () => {
           className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto"
         >
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-[30px] mb-4 sm:mb-6">
-            <img src={bbOwlLogo} alt="Beyond the Shallow Logo" className="h-16 sm:h-[5.5rem] md:h-[6.875rem] lg:h-[8.25rem] w-auto" />
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6">
+            <img src={bbOwlLogo} alt="Beyond the Shallow Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight text-center sm:text-left tracking-tight">
               Beyond the Shallow
               <br />
               <span className="text-accent whitespace-nowrap">Through Memories</span>
@@ -139,7 +139,7 @@ const Modell = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-base sm:text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto mt-4 sm:mt-8 leading-relaxed px-2"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground font-sans max-w-xl mx-auto mt-6 sm:mt-8 leading-relaxed px-2"
           >
             {t('index.heroSubtitle')}
           </motion.p>
@@ -148,7 +148,7 @@ const Modell = () => {
       </section>
 
       {/* Impressum & Intention */}
-      <section className="py-6 sm:py-10 border-t border-chapter-divider relative overflow-hidden">
+      <section className="py-8 sm:py-10 md:py-12 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="subtle" />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -158,13 +158,13 @@ const Modell = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <p className="text-xl sm:text-2xl md:text-3xl font-serif italic text-foreground/80 mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl font-serif italic text-foreground/80 mb-3 sm:mb-4">
               {t('index.tagline')}
             </p>
             <p className="text-sm sm:text-base text-muted-foreground font-sans leading-relaxed max-w-xl mx-auto">
               {t('index.taglineDesc')}
             </p>
-            <p className="text-muted-foreground font-sans mt-4 text-xs sm:text-sm">
+            <p className="text-muted-foreground font-sans mt-3 sm:mt-4 text-xs sm:text-sm">
               {t('index.taglineNote')}
             </p>
           </motion.div>
