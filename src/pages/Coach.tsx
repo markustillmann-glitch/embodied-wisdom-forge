@@ -683,8 +683,8 @@ const Coach = () => {
     // Add song context hint if detected
     if (songLink) {
       const songHint = language === 'en' 
-        ? `\n\n[A song link was shared: ${songLink}. Please analyze this song in the context of the Beyond Bias model.]`
-        : `\n\n[Ein Song-Link wurde geteilt: ${songLink}. Bitte analysiere diesen Song im Kontext des Beyond Bias Modells.]`;
+        ? `\n\n[A song link was shared: ${songLink}. Please analyze this song in the context of the Beyond the Shallow model.]`
+        : `\n\n[Ein Song-Link wurde geteilt: ${songLink}. Bitte analysiere diesen Song im Kontext des Beyond the Shallow Modells.]`;
       chatMessages[chatMessages.length - 1].content += songHint;
     }
 

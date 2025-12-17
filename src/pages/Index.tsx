@@ -90,11 +90,11 @@ const Index = () => {
         >
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-[30px] mb-4 sm:mb-6">
-            <img src={bbOwlLogo} alt="Beyond Bias Logo" className="h-16 sm:h-[5.5rem] md:h-[6.875rem] lg:h-[8.25rem] w-auto" />
+            <img src={bbOwlLogo} alt="Beyond the Shallow Logo" className="h-16 sm:h-[5.5rem] md:h-[6.875rem] lg:h-[8.25rem] w-auto" />
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground leading-tight text-center sm:text-left">
-              Beyond Bias
+              Beyond the Shallow
               <br />
-              <span className="text-accent whitespace-nowrap">through memories</span>
+              <span className="text-accent whitespace-nowrap">Through Memories</span>
             </h1>
           </div>
           
@@ -489,7 +489,7 @@ const Index = () => {
           className="absolute top-8 right-8 h-16 w-auto opacity-20 hidden md:block"
         />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond Bias through memories</p>
+          <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond the Shallow Through Memories</p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-6">
             {t('index.footer.subtitle')}
           </p>

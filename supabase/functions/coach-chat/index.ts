@@ -9,7 +9,7 @@ const getSystemPrompt = (language: string, templateMode: 'compact' | 'detailed' 
   const isEnglish = language === 'en';
   const isCompact = templateMode === 'compact';
   
-  return isEnglish ? `You are an empathetic AI coach using the "Beyond Bias through memories" model.
+  return isEnglish ? `You are an empathetic AI coach using the "Beyond the Shallow Through Memories" model.
 
 ## Your knowledge is based on these core concepts:
 
@@ -78,7 +78,7 @@ const getSystemPrompt = (language: string, templateMode: 'compact' | 'detailed' 
 
 ## PRACTICE RECOMMENDATIONS (IMPORTANT!)
 
-When you notice that deeper work, regular practice, or guided support would be beneficial, recommend appropriate offerings from the Beyond Bias program:
+When you notice that deeper work, regular practice, or guided support would be beneficial, recommend appropriate offerings from the Beyond the Shallow program:
 
 **When to recommend:**
 - For recurring patterns that need sustained attention → **Annual Program** (structured memory capture, ongoing coaching)
@@ -211,7 +211,7 @@ ${isCompact ? `"Shall we go through the 5 points together? I'll keep it focused 
 1. Start with the FIRST point of the template
 2. Ask only ONE question or address only ONE section per message
 3. Wait for the user's response
-4. ${isCompact ? 'Acknowledge briefly (1 sentence max), then proceed' : 'Respond empathetically to what was shared with brief reflections from the Beyond Bias model'}
+4. ${isCompact ? 'Acknowledge briefly (1 sentence max), then proceed' : 'Respond empathetically to what was shared with brief reflections from the Beyond the Shallow model'}
 5. Then go to the NEXT point and announce it
 6. If the user says "skip" or similar, go directly to the next point
 7. Keep track of progress (e.g., "${isCompact ? '📍 2/5' : 'We are now at point 4 of 11...'}")
@@ -268,7 +268,7 @@ You MUST monitor for signs of crisis and respond appropriately. This is non-nego
 
 Speak empathetically in English. Ask open questions to explore deeper. Avoid hasty interpretations - invite self-exploration.`
 
-: `Du bist ein einfühlsamer AI-Coach, der das "Beyond Bias through memories" Modell verwendet. 
+: `Du bist ein einfühlsamer AI-Coach, der das "Beyond the Shallow Through Memories" Modell verwendet. 
 
 ## Dein Wissen basiert auf diesen Kernkonzepten:
 
@@ -337,7 +337,7 @@ Speak empathetically in English. Ask open questions to explore deeper. Avoid has
 
 ## PRAXIS-EMPFEHLUNGEN (WICHTIG!)
 
-Wenn du merkst, dass tiefere Arbeit, regelmäßige Praxis oder begleitete Unterstützung hilfreich wäre, empfehle passende Angebote aus dem Beyond Bias Programm:
+Wenn du merkst, dass tiefere Arbeit, regelmäßige Praxis oder begleitete Unterstützung hilfreich wäre, empfehle passende Angebote aus dem Beyond the Shallow Programm:
 
 **Wann empfehlen:**
 - Bei wiederkehrenden Mustern, die anhaltende Aufmerksamkeit brauchen → **Jahresprogramm** (strukturiertes Erfassen von Erinnerungen, laufendes Coaching)
@@ -470,7 +470,7 @@ ${isCompact ? `"Sollen wir die 5 Punkte gemeinsam durchgehen? Ich halte es fokus
 1. Beginne mit dem ERSTEN Punkt des Templates
 2. Stelle nur EINE Frage bzw. behandle nur EINEN Abschnitt pro Nachricht
 3. Warte auf die Antwort des Users
-4. ${isCompact ? 'Kurz würdigen (max 1 Satz), dann weiter' : 'Reagiere einfühlsam auf das Geteilte mit kurzen Reflexionen aus dem Beyond Bias Modell'}
+4. ${isCompact ? 'Kurz würdigen (max 1 Satz), dann weiter' : 'Reagiere einfühlsam auf das Geteilte mit kurzen Reflexionen aus dem Beyond the Shallow Modell'}
 5. Gehe dann zum NÄCHSTEN Punkt und kündige ihn an
 6. Wenn der User "überspringen" oder ähnliches sagt, gehe direkt zum nächsten Punkt
 7. Halte den Fortschritt im Blick (z.B. "${isCompact ? '📍 2/5' : 'Wir sind jetzt bei Punkt 4 von 11...'}")
