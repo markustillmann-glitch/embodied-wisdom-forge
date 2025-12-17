@@ -17,7 +17,7 @@ export const translations = {
     
     // Index page
     index: {
-      heroSubtitle: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen',
+      heroSubtitle: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, inneren Begrenzungen und Prägungen',
       begin: 'Beginnen',
       meetOria: 'Oria kennenlernen',
       discoverSeminars: 'Seminarangebot entdecken',
@@ -290,7 +290,7 @@ export const translations = {
       
       // Footer
       footer: {
-        subtitle: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen',
+        subtitle: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, inneren Begrenzungen und Prägungen',
         copyright: 'Alle Rechte vorbehalten.',
       },
     },
@@ -578,7 +578,7 @@ export const translations = {
       linkLiabilityText: 'Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.',
       copyright: 'Urheberrecht',
       copyrightText: 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.',
-      aboutBB: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Das Konzept verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz – basierend auf Meditation, IFS (Internal Family Systems) und Gewaltfreier Kommunikation.',
+      aboutBB: 'Ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, inneren Begrenzungen und Prägungen. Das Konzept verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz – basierend auf Meditation, IFS (Internal Family Systems) und Gewaltfreier Kommunikation.',
     },
     
     // Contact form
@@ -1115,7 +1115,7 @@ export const translations = {
     
     // Index page
     index: {
-      heroSubtitle: 'A memory-based action model for dealing with stress, bias, and conditioning',
+      heroSubtitle: 'A memory-based action model for dealing with stress, inner limitations, and conditioning',
       begin: 'Begin',
       meetOria: 'Meet Oria',
       discoverSeminars: 'Discover Seminars',
@@ -1388,7 +1388,7 @@ export const translations = {
       
       // Footer
       footer: {
-        subtitle: 'A memory-based action model for dealing with stress, bias, and conditioning',
+        subtitle: 'A memory-based action model for dealing with stress, inner limitations, and conditioning',
         copyright: 'All rights reserved.',
       },
     },
@@ -1676,7 +1676,7 @@ export const translations = {
       linkLiabilityText: 'Our offer contains links to external third-party websites, over whose content we have no influence. Therefore, we cannot assume any liability for these external contents.',
       copyright: 'Copyright',
       copyrightText: 'The content and works created by the site operators on these pages are subject to German copyright law. Duplication, processing, distribution, and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator.',
-      aboutBB: 'A memory-based action model for dealing with stress, bias, and conditioning. The concept connects modern neurobiology and epigenetics with practical self-leadership skills—based on meditation, IFS (Internal Family Systems), and Nonviolent Communication.',
+      aboutBB: 'A memory-based action model for dealing with stress, inner limitations, and conditioning. The concept connects modern neurobiology and epigenetics with practical self-leadership skills—based on meditation, IFS (Internal Family Systems), and Nonviolent Communication.',
     },
     
     // Contact form
