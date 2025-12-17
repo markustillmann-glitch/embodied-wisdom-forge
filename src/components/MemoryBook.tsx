@@ -25,7 +25,8 @@ import {
   ImagePlus,
   Trash2,
   Save,
-  RefreshCw
+  RefreshCw,
+  RotateCw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import oriaOwlImage from '@/assets/oria-owl-fine.png';
@@ -55,7 +56,9 @@ interface BookPage {
   type: 'cover' | 'title' | 'chapter' | 'image' | 'quote' | 'context' | 'reflection' | 'ending';
   title?: string;
   content?: string;
+  contentExtended?: string; // Extended content for PDF version
   imageUrl?: string;
+  imageRotation?: number; // 0, 90, 180, 270 degrees
   subtitle?: string;
 }
 
@@ -190,7 +193,9 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         type: page.type,
         title: page.title || undefined,
         content: page.content || undefined,
+        contentExtended: page.contentExtended || undefined,
         imageUrl: page.imageUrl || undefined,
+        imageRotation: page.imageRotation || undefined,
         subtitle: page.subtitle || undefined,
       }));
 
@@ -223,6 +228,17 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
       });
     }
     setIsSaving(false);
+  };
+
+  const rotateImage = (pageIndex: number) => {
+    const newPages = [...pages];
+    const currentRotation = newPages[pageIndex].imageRotation || 0;
+    newPages[pageIndex] = {
+      ...newPages[pageIndex],
+      imageRotation: (currentRotation + 90) % 360,
+    };
+    setPages(newPages);
+    markUnsaved();
   };
 
   const markUnsaved = () => {
@@ -565,34 +581,68 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         });
       };
 
-      // Helper to add full-bleed image (cover entire page)
-      const addFullBleedImage = async (imageUrl: string): Promise<boolean> => {
+      // Helper to add full-bleed image (cover entire page) with rotation support
+      const addFullBleedImage = async (imageUrl: string, rotation: number = 0): Promise<boolean> => {
         return new Promise((resolve) => {
           try {
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = () => {
-              const imgRatio = img.width / img.height;
-              const pageRatio = pageWidth / pageHeight;
+              let finalImageUrl = imageUrl;
               
-              let drawWidth, drawHeight, drawX, drawY;
-              
-              // Cover the entire page (crop if necessary)
-              if (imgRatio > pageRatio) {
-                drawHeight = pageHeight;
-                drawWidth = pageHeight * imgRatio;
-                drawX = -(drawWidth - pageWidth) / 2;
-                drawY = 0;
-              } else {
-                drawWidth = pageWidth;
-                drawHeight = pageWidth / imgRatio;
-                drawX = 0;
-                drawY = -(drawHeight - pageHeight) / 2;
+              // If rotation is needed, rotate via canvas
+              if (rotation !== 0) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                  // For 90/270 rotation, swap canvas dimensions
+                  if (rotation === 90 || rotation === 270) {
+                    canvas.width = img.height;
+                    canvas.height = img.width;
+                  } else {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                  }
+                  
+                  ctx.translate(canvas.width / 2, canvas.height / 2);
+                  ctx.rotate((rotation * Math.PI) / 180);
+                  ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                  
+                  finalImageUrl = canvas.toDataURL('image/jpeg', 0.9);
+                }
               }
               
-              const format = getImageFormat(imageUrl);
-              pdf.addImage(imageUrl, format, drawX, drawY, drawWidth, drawHeight);
-              resolve(true);
+              // Now calculate dimensions with potentially rotated image
+              const finalImg = new Image();
+              finalImg.onload = () => {
+                const imgRatio = finalImg.width / finalImg.height;
+                const pageRatio = pageWidth / pageHeight;
+                
+                let drawWidth, drawHeight, drawX, drawY;
+                
+                // Cover the entire page (crop if necessary)
+                if (imgRatio > pageRatio) {
+                  drawHeight = pageHeight;
+                  drawWidth = pageHeight * imgRatio;
+                  drawX = -(drawWidth - pageWidth) / 2;
+                  drawY = 0;
+                } else {
+                  drawWidth = pageWidth;
+                  drawHeight = pageWidth / imgRatio;
+                  drawX = 0;
+                  drawY = -(drawHeight - pageHeight) / 2;
+                }
+                
+                const format = getImageFormat(finalImageUrl);
+                pdf.addImage(finalImageUrl, format, drawX, drawY, drawWidth, drawHeight);
+                resolve(true);
+              };
+              finalImg.onerror = () => {
+                const format = getImageFormat(imageUrl);
+                pdf.addImage(imageUrl, format, 0, 0, pageWidth, pageHeight);
+                resolve(true);
+              };
+              finalImg.src = finalImageUrl;
             };
             img.onerror = () => {
               // Fallback to simple add
@@ -692,7 +742,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         if (page.type === 'cover') {
           // Cover page - full bleed image with overlay
           if (page.imageUrl) {
-            await addFullBleedImage(page.imageUrl);
+            await addFullBleedImage(page.imageUrl, page.imageRotation || 0);
             
             // Dark gradient overlay at bottom
             pdf.setGState(pdf.GState({ opacity: 0.75 }));
@@ -733,7 +783,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         } else if (page.type === 'image') {
           // Image page - full bleed with optional caption
           if (page.imageUrl) {
-            await addFullBleedImage(page.imageUrl);
+            await addFullBleedImage(page.imageUrl, page.imageRotation || 0);
             
             // Caption overlay at bottom if title exists
             if (page.title) {
@@ -852,11 +902,13 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
             yPos += imgHeight + 10;
           }
 
-          if (page.content) {
+          if (page.content || page.contentExtended) {
             pdf.setFontSize(9);
             pdf.setFont(fontSans, 'normal');
             pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
-            const lines = pdf.splitTextToSize(page.content, contentWidth);
+            // Use extended content for PDF if available, otherwise fall back to regular content
+            const textContent = page.contentExtended || page.content || '';
+            const lines = pdf.splitTextToSize(textContent, contentWidth);
             pdf.text(lines, margin, yPos);
           }
           
@@ -932,6 +984,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     const isEditing = editingPage === index;
 
     if (page.type === 'cover') {
+      const rotationStyle = page.imageRotation ? { transform: `rotate(${page.imageRotation}deg)`, transformOrigin: 'center center' } : {};
       return (
         <div className="h-full relative overflow-hidden">
           {/* Full-bleed background image */}
@@ -940,6 +993,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
               src={page.imageUrl} 
               alt="" 
               className="absolute inset-0 w-full h-full object-cover"
+              style={rotationStyle}
             />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-b from-accent/20 to-background" />
@@ -997,6 +1051,17 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           {/* Edit controls at top */}
           {!isEditing && (
             <div className="absolute top-2 right-2 flex gap-1">
+              {page.imageUrl && (
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="shadow-md bg-white/90 hover:bg-white"
+                  onClick={() => rotateImage(index)}
+                  title={t('vault.book.rotateImage')}
+                >
+                  <RotateCw className="h-3 w-3 sm:h-4 sm:w-4" />
+                </Button>
+              )}
               <Button
                 size="sm"
                 variant="secondary"
@@ -1025,19 +1090,31 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     }
 
     if (page.type === 'image') {
+      const rotationStyle = page.imageRotation ? { transform: `rotate(${page.imageRotation}deg)` } : {};
       return (
         <div className="h-full flex flex-col items-center justify-center p-4 sm:p-8 relative">
           {page.imageUrl ? (
             <>
               <div 
-                className="w-full max-w-md rounded-xl overflow-hidden shadow-lg mb-4 cursor-pointer relative group"
-                onClick={() => {
-                  setEditingImagePageIndex(index);
-                  imagePageFileInputRef.current?.click();
-                }}
+                className="w-full max-w-md rounded-xl overflow-hidden shadow-lg mb-4 relative group"
               >
-                <img src={page.imageUrl} alt="" className="w-full object-cover" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <img 
+                  src={page.imageUrl} 
+                  alt="" 
+                  className="w-full object-cover cursor-pointer"
+                  style={rotationStyle}
+                  onClick={() => {
+                    setEditingImagePageIndex(index);
+                    imagePageFileInputRef.current?.click();
+                  }}
+                />
+                <div 
+                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                  onClick={() => {
+                    setEditingImagePageIndex(index);
+                    imagePageFileInputRef.current?.click();
+                  }}
+                >
                   <div className="text-white text-sm font-medium flex items-center gap-2">
                     <Upload className="h-5 w-5" />
                     {t('vault.book.changeImage')}
@@ -1101,8 +1178,18 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
               </div>
             </div>
           )}
-          {/* Edit/Delete buttons for image pages */}
+          {/* Edit/Delete/Rotate buttons for image pages */}
           <div className="absolute top-2 right-2 flex gap-1">
+            {page.imageUrl && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => rotateImage(index)}
+                title={t('vault.book.rotateImage')}
+              >
+                <RotateCw className="h-4 w-4" />
+              </Button>
+            )}
             <Button variant="ghost" size="sm" onClick={() => {
               setEditContent(page.title || '');
               setEditingPage(index);
