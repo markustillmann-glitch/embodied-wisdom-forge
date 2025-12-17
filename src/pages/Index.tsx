@@ -10,6 +10,7 @@ import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { AdminLink } from "@/components/AdminLink";
 import { useLanguage } from "@/contexts/LanguageContext";
 import oriaOwl from "@/assets/oria-owl.png";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
@@ -66,8 +67,9 @@ const Index = () => {
         onChapterClick={scrollToChapter}
       />
 
-      {/* Language Switcher - Fixed Position */}
-      <div className="fixed top-4 right-4 z-50">
+      {/* Language Switcher & Admin Link - Fixed Position */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <AdminLink />
         <LanguageSwitcher />
       </div>
 
