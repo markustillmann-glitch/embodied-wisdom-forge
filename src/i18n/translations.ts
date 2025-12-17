@@ -832,6 +832,11 @@ export const translations = {
         imageCaptionPlaceholder: 'Bildunterschrift eingeben...',
         subtitlePlaceholder: 'Untertitel...',
         changeImage: 'Bild ändern',
+        saved: 'Gespeichert',
+        savedDesc: 'Dein Buch wurde gespeichert.',
+        saveError: 'Buch konnte nicht gespeichert werden.',
+        saveBook: 'Buch speichern',
+        regenerate: 'Neu erstellen',
       },
     },
 
@@ -1922,6 +1927,11 @@ export const translations = {
         imageCaptionPlaceholder: 'Enter image caption...',
         subtitlePlaceholder: 'Subtitle...',
         changeImage: 'Change Image',
+        saved: 'Saved',
+        savedDesc: 'Your book has been saved.',
+        saveError: 'Could not save book.',
+        saveBook: 'Save Book',
+        regenerate: 'Regenerate',
       },
     },
 

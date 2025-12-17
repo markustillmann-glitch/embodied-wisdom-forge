@@ -65,6 +65,7 @@ interface Memory {
   image_url: string | null;
   feeling_after: string[] | null;
   needs_after: string[] | null;
+  memory_book_data?: unknown;
 }
 
 const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -812,7 +813,8 @@ const MemoryVault = () => {
         <MemoryBook 
           memory={selectedMemory} 
           open={bookOpen} 
-          onClose={() => setBookOpen(false)} 
+          onClose={() => setBookOpen(false)}
+          onBookSaved={loadMemories}
         />
       )}
     </div>
