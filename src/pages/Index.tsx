@@ -137,6 +137,13 @@ const Index = () => {
                 <span className="text-xs opacity-80">{t('nav.yourPersonalCoach')}</span>
               </a>
               <a
+                href="/modell"
+                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-foreground hover:text-accent transition-colors border border-border px-4 py-2 rounded-full"
+              >
+                <span>{language === 'de' ? 'Das Modell' : 'The Model'}</span>
+                <span>📖</span>
+              </a>
+              <a
                 href="/oria"
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
