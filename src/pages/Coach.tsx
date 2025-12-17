@@ -46,7 +46,8 @@ import {
   Brain,
   Download,
   FileText,
-  ShieldCheck
+  ShieldCheck,
+  BarChart3
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -1074,6 +1075,12 @@ const Coach = () => {
             <Button variant="ghost" size="sm" className="w-full justify-start">
               <Archive className="h-4 w-4 mr-2" />
               {t('vault.openVault')}
+            </Button>
+          </Link>
+          <Link to="/user-analytics">
+            <Button variant="ghost" size="sm" className="w-full justify-start">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              {t('vault.analytics')}
             </Button>
           </Link>
           <Link to="/anleitung">
