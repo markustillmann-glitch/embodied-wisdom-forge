@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
+import MemoryBook from '@/components/MemoryBook';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
@@ -44,7 +45,8 @@ import {
   Upload,
   Sparkles,
   Image as ImageIcon,
-  X
+  X,
+  BookMarked
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -113,6 +115,7 @@ const MemoryVault = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -552,6 +555,13 @@ const MemoryVault = () => {
                       </div>
                       <div className="flex items-center gap-1">
                         <button
+                          onClick={() => setBookOpen(true)}
+                          className="p-2 hover:bg-secondary rounded-lg transition-colors"
+                          title={t('vault.book.createBook')}
+                        >
+                          <BookMarked className="h-4 w-4 text-muted-foreground" />
+                        </button>
+                        <button
                           onClick={() => exportMemory(selectedMemory)}
                           className="p-2 hover:bg-secondary rounded-lg transition-colors"
                           title={t('vault.export')}
@@ -796,6 +806,15 @@ const MemoryVault = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Memory Book */}
+      {selectedMemory && (
+        <MemoryBook 
+          memory={selectedMemory} 
+          open={bookOpen} 
+          onClose={() => setBookOpen(false)} 
+        />
+      )}
     </div>
   );
 };
