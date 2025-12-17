@@ -61,20 +61,54 @@ const Modell = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header Navigation */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            {/* Logo/Home Link */}
+            <Link to="/" className="flex items-center gap-2 text-foreground hover:text-accent transition-colors">
+              <img src={bbOwlLogo} alt="Logo" className="h-8 sm:h-10 w-auto" />
+              <span className="hidden sm:inline font-serif text-sm">Beyond the Shallow</span>
+            </Link>
+            
+            {/* Navigation Links */}
+            <nav className="flex items-center gap-2 sm:gap-4">
+              <Link
+                to="/coach"
+                className="inline-flex flex-col items-center gap-0 text-xs sm:text-sm font-sans tracking-wider bg-accent text-accent-foreground px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-accent/90 transition-colors"
+              >
+                <span className="flex items-center gap-1 sm:gap-2">
+                  <span>{t('nav.askOria')}</span>
+                  <span className="hidden sm:inline">✦</span>
+                </span>
+              </Link>
+              <Link
+                to="/oria"
+                className="hidden sm:inline-flex items-center gap-2 text-sm font-sans text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span>{t('index.meetOria')}</span>
+              </Link>
+              <Link
+                to="/seminare"
+                className="hidden sm:inline-flex items-center gap-2 text-sm font-sans text-accent hover:text-accent/80 transition-colors"
+              >
+                <span>{t('index.discoverSeminars')}</span>
+              </Link>
+              <AdminLink />
+              <LanguageSwitcher />
+            </nav>
+          </div>
+        </div>
+      </header>
+
       <ChapterNav
         chapters={chapters}
         activeChapter={activeChapter}
         onChapterClick={scrollToChapter}
       />
 
-      {/* Language Switcher & Admin Link - Fixed Position */}
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
-        <AdminLink />
-        <LanguageSwitcher />
-      </div>
-
       {/* Hero / Cover */}
-      <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden py-12 md:py-0">
+      <section id="cover" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-12 md:pt-16 md:pb-0">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
@@ -134,32 +168,22 @@ const Modell = () => {
                 ↓
               </motion.span>
             </button>
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-              <a
-                href="/coach"
-                className="inline-flex flex-col items-center gap-0.5 text-sm font-sans tracking-wider bg-accent text-accent-foreground px-4 py-2 rounded-full hover:bg-accent/90 transition-colors"
-              >
-                <span className="flex items-center gap-2">
-                  <span>{t('nav.askOria')}</span>
-                  <span>✦</span>
-                </span>
-                <span className="text-xs opacity-80">{t('nav.yourPersonalCoach')}</span>
-              </a>
-              <a
-                href="/oria"
+            {/* Mobile navigation links */}
+            <div className="flex sm:hidden flex-col items-center gap-3">
+              <Link
+                to="/oria"
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
-                <img src={bbOwlLogo} alt="Oria" className="h-5 sm:h-6 w-auto opacity-70" />
+                <img src={bbOwlLogo} alt="Oria" className="h-5 w-auto opacity-70" />
                 <span>{t('index.meetOria')}</span>
-              </a>
-              <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-              <a
-                href="/seminare"
+              </Link>
+              <Link
+                to="/seminare"
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
               >
                 <span>{t('index.discoverSeminars')}</span>
                 <span>→</span>
-              </a>
+              </Link>
             </div>
           </motion.div>
         </motion.div>
