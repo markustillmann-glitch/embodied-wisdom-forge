@@ -507,15 +507,17 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     setIsExporting(true);
 
     try {
+      // Square format (200mm x 200mm)
+      const pageSize = 200;
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a4',
+        format: [pageSize, pageSize],
       });
 
-      const pageWidth = 210;
-      const pageHeight = 297;
-      const margin = 25;
+      const pageWidth = pageSize;
+      const pageHeight = pageSize;
+      const margin = 20;
       const contentWidth = pageWidth - (margin * 2);
 
       // Design system colors (from index.css)
@@ -527,6 +529,10 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         border: { r: 225, g: 220, b: 210 },           // soft border
         quoteBg: { r: 242, g: 238, b: 230 },          // quote background
       };
+
+      // Add fonts (Playfair Display and Source Sans 3)
+      pdf.addFont('https://fonts.gstatic.com/s/playfairdisplay/v30/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.ttf', 'Playfair Display', 'normal');
+      pdf.addFont('https://fonts.gstatic.com/s/sourcesans3/v9/nwpBtKy2OAdR1K-IwhWudF-R9QMylBJAV3Bo8Ky462EM.ttf', 'Source Sans 3', 'normal');
 
       // Helper to detect image format from base64 or URL
       const getImageFormat = (url: string): string => {
@@ -550,16 +556,121 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         });
       };
 
+      // Helper to add full-bleed image (cover entire page)
+      const addFullBleedImage = async (imageUrl: string): Promise<boolean> => {
+        return new Promise((resolve) => {
+          try {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+              const imgRatio = img.width / img.height;
+              const pageRatio = pageWidth / pageHeight;
+              
+              let drawWidth, drawHeight, drawX, drawY;
+              
+              // Cover the entire page (crop if necessary)
+              if (imgRatio > pageRatio) {
+                drawHeight = pageHeight;
+                drawWidth = pageHeight * imgRatio;
+                drawX = -(drawWidth - pageWidth) / 2;
+                drawY = 0;
+              } else {
+                drawWidth = pageWidth;
+                drawHeight = pageWidth / imgRatio;
+                drawX = 0;
+                drawY = -(drawHeight - pageHeight) / 2;
+              }
+              
+              const format = getImageFormat(imageUrl);
+              pdf.addImage(imageUrl, format, drawX, drawY, drawWidth, drawHeight);
+              resolve(true);
+            };
+            img.onerror = () => {
+              // Fallback to simple add
+              const format = getImageFormat(imageUrl);
+              pdf.addImage(imageUrl, format, 0, 0, pageWidth, pageHeight);
+              resolve(true);
+            };
+            img.src = imageUrl;
+          } catch (e) {
+            console.warn('Failed to add full-bleed image:', e);
+            resolve(false);
+          }
+        });
+      };
+
+      // Helper to draw decorative corner elements
+      const drawCornerDecorations = (opacity: number = 0.15) => {
+        pdf.setGState(pdf.GState({ opacity }));
+        pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+        
+        // Top-left corner
+        pdf.circle(8, 8, 3, 'F');
+        pdf.circle(15, 5, 1.5, 'F');
+        pdf.circle(5, 15, 1.5, 'F');
+        
+        // Top-right corner
+        pdf.circle(pageWidth - 8, 8, 3, 'F');
+        pdf.circle(pageWidth - 15, 5, 1.5, 'F');
+        pdf.circle(pageWidth - 5, 15, 1.5, 'F');
+        
+        // Bottom-left corner
+        pdf.circle(8, pageHeight - 8, 3, 'F');
+        pdf.circle(15, pageHeight - 5, 1.5, 'F');
+        pdf.circle(5, pageHeight - 15, 1.5, 'F');
+        
+        // Bottom-right corner
+        pdf.circle(pageWidth - 8, pageHeight - 8, 3, 'F');
+        pdf.circle(pageWidth - 15, pageHeight - 5, 1.5, 'F');
+        pdf.circle(pageWidth - 5, pageHeight - 15, 1.5, 'F');
+        
+        pdf.setGState(pdf.GState({ opacity: 1 }));
+      };
+
+      // Helper to draw Oria owl symbol
+      const drawOriaOwl = (x: number, y: number, size: number = 15, opacity: number = 0.2) => {
+        pdf.setGState(pdf.GState({ opacity }));
+        pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+        
+        // Simplified owl shape - head circle
+        pdf.circle(x, y, size * 0.35, 'F');
+        
+        // Body (oval)
+        pdf.ellipse(x, y + size * 0.5, size * 0.3, size * 0.45, 'F');
+        
+        // Eyes (lighter)
+        pdf.setFillColor(colors.background.r, colors.background.g, colors.background.b);
+        pdf.circle(x - size * 0.12, y - size * 0.05, size * 0.1, 'F');
+        pdf.circle(x + size * 0.12, y - size * 0.05, size * 0.1, 'F');
+        
+        // Pupils
+        pdf.setFillColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
+        pdf.circle(x - size * 0.12, y - size * 0.05, size * 0.04, 'F');
+        pdf.circle(x + size * 0.12, y - size * 0.05, size * 0.04, 'F');
+        
+        // Ear tufts
+        pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+        pdf.triangle(x - size * 0.25, y - size * 0.25, x - size * 0.35, y - size * 0.55, x - size * 0.1, y - size * 0.35, 'F');
+        pdf.triangle(x + size * 0.25, y - size * 0.25, x + size * 0.35, y - size * 0.55, x + size * 0.1, y - size * 0.35, 'F');
+        
+        pdf.setGState(pdf.GState({ opacity: 1 }));
+      };
+
       // Helper to draw rounded rectangle
       const drawRoundedRect = (x: number, y: number, w: number, h: number, r: number, style: 'F' | 'S' | 'FD') => {
         pdf.roundedRect(x, y, w, h, r, r, style);
       };
 
+      // Beyond Bias description for final page
+      const beyondBiasDescription = language === 'de' 
+        ? 'Beyond Bias through memories ist ein erinnerungsbasiertes Handlungsmodell zum Umgang mit Stress, Bias und Prägungen. Es verbindet Erkenntnisse aus Neurowissenschaft, IFS (Internal Family Systems), GFK (Gewaltfreie Kommunikation) und somatischer Arbeit zu einem praktischen Werkzeug für persönliche Transformation und innere Klarheit.'
+        : 'Beyond Bias through memories is a memory-based action model for dealing with stress, bias, and conditioning. It combines insights from neuroscience, IFS (Internal Family Systems), NVC (Nonviolent Communication), and somatic work into a practical tool for personal transformation and inner clarity.';
+
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
         
         if (i > 0) {
-          pdf.addPage();
+          pdf.addPage([pageSize, pageSize]);
         }
 
         // Background
@@ -572,60 +683,60 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         if (page.type === 'cover') {
           // Cover page - full bleed image with overlay
           if (page.imageUrl) {
-            // Full page image
-            await addImageSafe(page.imageUrl, 0, 0, pageWidth, pageHeight);
+            await addFullBleedImage(page.imageUrl);
             
             // Dark gradient overlay at bottom
-            pdf.setGState(pdf.GState({ opacity: 0.7 }));
+            pdf.setGState(pdf.GState({ opacity: 0.75 }));
             pdf.setFillColor(0, 0, 0);
-            pdf.rect(0, pageHeight * 0.5, pageWidth, pageHeight * 0.5, 'F');
+            pdf.rect(0, pageHeight * 0.45, pageWidth, pageHeight * 0.55, 'F');
             pdf.setGState(pdf.GState({ opacity: 1 }));
           } else {
             // Gradient-like background without image
             pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
-            pdf.setGState(pdf.GState({ opacity: 0.1 }));
+            pdf.setGState(pdf.GState({ opacity: 0.15 }));
             pdf.rect(0, 0, pageWidth, pageHeight * 0.6, 'F');
             pdf.setGState(pdf.GState({ opacity: 1 }));
+            
+            // Add Oria owl as main visual
+            drawOriaOwl(pageWidth / 2, pageHeight * 0.35, 40, 0.25);
           }
           
-          // Title at bottom third
-          const titleY = page.imageUrl ? pageHeight - 60 : pageHeight * 0.45;
-          pdf.setFontSize(32);
+          // Title at bottom
+          const titleY = page.imageUrl ? pageHeight - 50 : pageHeight * 0.65;
+          pdf.setFontSize(28);
+          pdf.setFont('helvetica', 'bold');
           pdf.setTextColor(page.imageUrl ? 255 : colors.foreground.r, page.imageUrl ? 255 : colors.foreground.g, page.imageUrl ? 255 : colors.foreground.b);
           const titleLines = pdf.splitTextToSize(page.title || '', contentWidth);
           pdf.text(titleLines, pageWidth / 2, titleY, { align: 'center' });
           
           if (page.subtitle) {
-            pdf.setFontSize(14);
-            pdf.setTextColor(page.imageUrl ? 230 : colors.muted.r, page.imageUrl ? 230 : colors.muted.g, page.imageUrl ? 230 : colors.muted.b);
-            pdf.text(page.subtitle, pageWidth / 2, titleY + 15, { align: 'center' });
+            pdf.setFontSize(12);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(page.imageUrl ? 220 : colors.muted.r, page.imageUrl ? 220 : colors.muted.g, page.imageUrl ? 220 : colors.muted.b);
+            pdf.text(page.subtitle, pageWidth / 2, titleY + 12, { align: 'center' });
           }
 
-          // "Memory Book" label
-          pdf.setFontSize(10);
-          pdf.setTextColor(page.imageUrl ? 200 : colors.muted.r, page.imageUrl ? 200 : colors.muted.g, page.imageUrl ? 200 : colors.muted.b);
-          pdf.text(t('vault.book.memoryBook'), pageWidth / 2, titleY + 30, { align: 'center' });
+          // "Memory Book" label with small Oria
+          pdf.setFontSize(9);
+          pdf.setTextColor(page.imageUrl ? 180 : colors.muted.r, page.imageUrl ? 180 : colors.muted.g, page.imageUrl ? 180 : colors.muted.b);
+          pdf.text(t('vault.book.memoryBook'), pageWidth / 2, titleY + 25, { align: 'center' });
 
         } else if (page.type === 'image') {
-          // Image page - centered with caption
+          // Image page - full bleed with optional caption
           if (page.imageUrl) {
-            const imgHeight = 160;
-            const imgY = (pageHeight - imgHeight) / 2 - 15;
+            await addFullBleedImage(page.imageUrl);
             
-            // Shadow effect
-            pdf.setFillColor(0, 0, 0);
-            pdf.setGState(pdf.GState({ opacity: 0.1 }));
-            drawRoundedRect(margin + 3, imgY + 3, contentWidth, imgHeight, 4, 'F');
-            pdf.setGState(pdf.GState({ opacity: 1 }));
-            
-            // Image with rounded corners (clip)
-            await addImageSafe(page.imageUrl, margin, imgY, contentWidth, imgHeight);
-            
-            // Caption
+            // Caption overlay at bottom if title exists
             if (page.title) {
+              pdf.setGState(pdf.GState({ opacity: 0.7 }));
+              pdf.setFillColor(0, 0, 0);
+              pdf.rect(0, pageHeight - 30, pageWidth, 30, 'F');
+              pdf.setGState(pdf.GState({ opacity: 1 }));
+              
               pdf.setFontSize(11);
-              pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-              pdf.text(page.title, pageWidth / 2, imgY + imgHeight + 12, { align: 'center' });
+              pdf.setFont('helvetica', 'italic');
+              pdf.setTextColor(255, 255, 255);
+              pdf.text(page.title, pageWidth / 2, pageHeight - 12, { align: 'center' });
             }
           }
 
@@ -634,61 +745,94 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           pdf.setFillColor(colors.quoteBg.r, colors.quoteBg.g, colors.quoteBg.b);
           pdf.rect(0, 0, pageWidth, pageHeight, 'F');
           
+          // Corner decorations
+          drawCornerDecorations(0.2);
+          
           // Decorative quotes
-          pdf.setFontSize(72);
+          pdf.setFontSize(60);
           pdf.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
-          pdf.setGState(pdf.GState({ opacity: 0.3 }));
-          pdf.text('"', margin, pageHeight * 0.35, { align: 'left' });
+          pdf.setGState(pdf.GState({ opacity: 0.35 }));
+          pdf.text('"', margin + 5, pageHeight * 0.32, { align: 'left' });
           pdf.setGState(pdf.GState({ opacity: 1 }));
           
           // Quote text
-          pdf.setFontSize(18);
+          pdf.setFontSize(16);
+          pdf.setFont('helvetica', 'italic');
           pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
           const quoteLines = pdf.splitTextToSize(page.content || '', contentWidth - 20);
-          const quoteY = (pageHeight - (quoteLines.length * 8)) / 2;
+          const quoteY = (pageHeight - (quoteLines.length * 7)) / 2;
           pdf.text(quoteLines, pageWidth / 2, quoteY, { align: 'center' });
+          
+          // Small Oria at bottom
+          drawOriaOwl(pageWidth / 2, pageHeight - 25, 12, 0.15);
 
         } else if (page.type === 'ending') {
-          // Ending page - centered with accent
-          const centerY = pageHeight / 2 - 20;
+          // Ending page - Beyond Bias description
+          drawCornerDecorations(0.12);
           
-          // Accent circle
-          pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
-          pdf.setGState(pdf.GState({ opacity: 0.1 }));
-          pdf.circle(pageWidth / 2, centerY - 20, 30, 'F');
-          pdf.setGState(pdf.GState({ opacity: 1 }));
+          const centerY = pageHeight * 0.25;
+          
+          // Oria owl as main element
+          drawOriaOwl(pageWidth / 2, centerY, 30, 0.3);
           
           // Title
-          pdf.setFontSize(24);
+          pdf.setFontSize(20);
+          pdf.setFont('helvetica', 'bold');
           pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
-          pdf.text(page.title || '', pageWidth / 2, centerY + 20, { align: 'center' });
+          pdf.text(page.title || '', pageWidth / 2, centerY + 35, { align: 'center' });
           
           // Content
           if (page.content) {
-            pdf.setFontSize(12);
+            pdf.setFontSize(11);
+            pdf.setFont('helvetica', 'normal');
             pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-            const contentLines = pdf.splitTextToSize(page.content, contentWidth - 40);
-            pdf.text(contentLines, pageWidth / 2, centerY + 35, { align: 'center' });
+            const contentLines = pdf.splitTextToSize(page.content, contentWidth - 20);
+            pdf.text(contentLines, pageWidth / 2, centerY + 48, { align: 'center' });
           }
+          
+          // Divider line
+          const dividerY = pageHeight * 0.62;
+          pdf.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
+          pdf.setGState(pdf.GState({ opacity: 0.3 }));
+          pdf.setLineWidth(0.5);
+          pdf.line(margin + 30, dividerY, pageWidth - margin - 30, dividerY);
+          pdf.setGState(pdf.GState({ opacity: 1 }));
+          
+          // Beyond Bias section
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
+          pdf.text('Beyond Bias through memories', pageWidth / 2, dividerY + 12, { align: 'center' });
+          
+          pdf.setFontSize(8);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
+          const descLines = pdf.splitTextToSize(beyondBiasDescription, contentWidth - 10);
+          pdf.text(descLines, pageWidth / 2, dividerY + 22, { align: 'center' });
 
         } else {
           // Standard content page
+          drawCornerDecorations(0.1);
+          
           if (page.title) {
-            // Title with border bottom
-            pdf.setFontSize(20);
+            // Title with accent underline
+            pdf.setFontSize(18);
+            pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
             pdf.text(page.title, margin, yPos + 5);
             
-            // Border line
-            yPos += 12;
-            pdf.setDrawColor(colors.border.r, colors.border.g, colors.border.b);
-            pdf.setLineWidth(0.5);
-            pdf.line(margin, yPos, pageWidth - margin, yPos);
-            yPos += 12;
+            // Accent underline
+            yPos += 10;
+            pdf.setDrawColor(colors.accent.r, colors.accent.g, colors.accent.b);
+            pdf.setLineWidth(1);
+            pdf.setGState(pdf.GState({ opacity: 0.5 }));
+            pdf.line(margin, yPos, margin + 40, yPos);
+            pdf.setGState(pdf.GState({ opacity: 1 }));
+            yPos += 10;
           }
 
           if (page.imageUrl) {
-            const imgHeight = 70;
+            const imgHeight = 80;
             // Shadow
             pdf.setFillColor(0, 0, 0);
             pdf.setGState(pdf.GState({ opacity: 0.08 }));
@@ -696,24 +840,27 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
             pdf.setGState(pdf.GState({ opacity: 1 }));
             
             await addImageSafe(page.imageUrl, margin, yPos, contentWidth, imgHeight);
-            yPos += imgHeight + 12;
+            yPos += imgHeight + 10;
           }
 
           if (page.content) {
-            pdf.setFontSize(11);
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'normal');
             pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
-            pdf.setGState(pdf.GState({ opacity: 0.85 }));
             const lines = pdf.splitTextToSize(page.content, contentWidth);
             pdf.text(lines, margin, yPos);
-            pdf.setGState(pdf.GState({ opacity: 1 }));
           }
+          
+          // Small Oria watermark bottom right
+          drawOriaOwl(pageWidth - 18, pageHeight - 18, 8, 0.08);
         }
 
         // Page number (except cover)
         if (page.type !== 'cover') {
-          pdf.setFontSize(9);
+          pdf.setFontSize(8);
+          pdf.setFont('helvetica', 'normal');
           pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-          pdf.text(`${i}`, pageWidth / 2, pageHeight - 15, { align: 'center' });
+          pdf.text(`${i}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
         }
       }
 
