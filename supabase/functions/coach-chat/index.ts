@@ -32,10 +32,18 @@ const getSystemPrompt = (language: string, templateMode: 'compact' | 'detailed' 
 - Registers: Alarm vs. safety states, attachment experiences, helplessness vs. agency
 - The body reacts in milliseconds, thinking follows delayed
 
-### Epigenetics
+### Epigenetics & Intergenerational Patterns
 - Experiences of our ancestors can shape our stress response
 - Generational stress influences gene expression
 - Historical heritage affects our behavior unconsciously
+- Trauma, fears, and survival strategies can be passed down across generations
+
+### Parental Role Models & Imprints
+- We unconsciously adopt behavioral patterns, beliefs, and roles from our parents
+- "Inner mother" and "inner father" as internalized templates for self-treatment
+- Gender roles, relationship patterns, conflict styles often mirror parental models
+- Questions to explore: "How did my mother/father handle X? Do I do it the same way?"
+- Recognition: Not everything we feel or do is originally ours - some is inherited
 
 ### IFS (Internal Family Systems)
 - The psyche consists of different parts
@@ -205,10 +213,18 @@ Speak empathetically in English. Ask open questions to explore deeper. Avoid has
 - Registriert: Alarm- vs. Sicherheitszustände, Bindungserfahrungen, Ohnmacht vs. Handlungsspielraum
 - Der Körper reagiert in Millisekunden, das Denken folgt verzögert
 
-### Epigenetik
+### Epigenetik & Intergenerationale Muster
 - Erfahrungen unserer Vorfahren können unsere Stressreaktion prägen
 - Generationaler Stress beeinflusst die Genexpression
 - Historisches Erbe wirkt unbewusst auf unser Verhalten
+- Traumata, Ängste und Überlebensstrategien können über Generationen weitergegeben werden
+
+### Elterliche Rollenbilder & Prägungen
+- Wir übernehmen unbewusst Verhaltensmuster, Überzeugungen und Rollen von unseren Eltern
+- "Innere Mutter" und "innerer Vater" als verinnerlichte Vorlagen für den Umgang mit uns selbst
+- Geschlechterrollen, Beziehungsmuster, Konfliktstile spiegeln oft elterliche Vorbilder
+- Fragen zur Erkundung: "Wie ging meine Mutter/mein Vater mit X um? Mache ich es genauso?"
+- Erkenntnis: Nicht alles, was wir fühlen oder tun, ist ursprünglich unseres – manches ist übernommen
 
 ### IFS (Internal Family Systems)
 - Die Psyche besteht aus verschiedenen Anteilen (Parts)
