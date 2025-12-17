@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
+import Modell from "./pages/Modell";
 import Seminare from "./pages/Seminare";
 import Oria from "./pages/Oria";
 import Anleitung from "./pages/Anleitung";
@@ -30,6 +31,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/modell" element={<Modell />} />
               <Route path="/seminare" element={<Seminare />} />
               <Route path="/oria" element={<Oria />} />
               <Route path="/anleitung" element={<Anleitung />} />
