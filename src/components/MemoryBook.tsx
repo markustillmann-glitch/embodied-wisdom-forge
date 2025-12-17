@@ -11,7 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
 import { 
   Loader2, 
   ChevronLeft, 
@@ -28,7 +27,6 @@ import {
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { de, enUS } from 'date-fns/locale';
-import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 interface Memory {
@@ -566,7 +564,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
               >
                 <Pencil className="h-4 w-4" />
               </Button>
-              {!page.imageUrl && page.type !== 'ending' && (
+              {!page.imageUrl && (
                 <Button
                   variant="ghost"
                   size="sm"
