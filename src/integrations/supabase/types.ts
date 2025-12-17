@@ -258,6 +258,42 @@ export type Database = {
         }
         Relationships: []
       }
+      token_usage: {
+        Row: {
+          created_at: string
+          estimated_cost_usd: number | null
+          function_name: string
+          id: string
+          input_tokens: number
+          model: string | null
+          output_tokens: number
+          total_tokens: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          estimated_cost_usd?: number | null
+          function_name: string
+          id?: string
+          input_tokens?: number
+          model?: string | null
+          output_tokens?: number
+          total_tokens?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          estimated_cost_usd?: number | null
+          function_name?: string
+          id?: string
+          input_tokens?: number
+          model?: string | null
+          output_tokens?: number
+          total_tokens?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           belonging_through: string[] | null

@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.generate-psychogram]
 verify_jwt = true
+
+[functions.log-token-usage]
+verify_jwt = false

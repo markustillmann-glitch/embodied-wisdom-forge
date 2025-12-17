@@ -6,6 +6,35 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Token tracking helper
+async function logTokenUsage(
+  supabase: any,
+  userId: string | null,
+  functionName: string,
+  model: string,
+  inputTokens: number,
+  outputTokens: number
+) {
+  const totalTokens = inputTokens + outputTokens;
+  // Gemini Flash pricing estimate: ~$0.075/1M input, ~$0.30/1M output
+  const estimatedCost = (inputTokens * 0.000000075) + (outputTokens * 0.0000003);
+  
+  try {
+    await supabase.from('token_usage').insert({
+      user_id: userId,
+      function_name: functionName,
+      model,
+      input_tokens: inputTokens,
+      output_tokens: outputTokens,
+      total_tokens: totalTokens,
+      estimated_cost_usd: estimatedCost,
+    });
+    console.log(`Token usage logged: ${functionName} - ${totalTokens} tokens, ~$${estimatedCost.toFixed(6)}`);
+  } catch (e) {
+    console.error("Failed to log token usage:", e);
+  }
+}
+
 const getSystemPrompt = (language: string, compact: boolean = false) => {
   const isEnglish = language === 'en';
   
@@ -221,6 +250,7 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY");
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     
     if (!LOVABLE_API_KEY || !SUPABASE_URL || !SUPABASE_ANON_KEY) {
       console.error("Missing environment variables");
@@ -235,6 +265,11 @@ serve(async (req) => {
         headers: { Authorization: authHeader },
       },
     });
+
+    // Create service role client for token logging
+    const supabaseAdmin = SUPABASE_SERVICE_ROLE_KEY 
+      ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+      : supabase;
 
     // Get the user
     const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -325,6 +360,19 @@ serve(async (req) => {
 
     const data = await response.json();
     const psychogram = data.choices?.[0]?.message?.content || "";
+
+    // Log token usage
+    const usage = data.usage;
+    if (usage) {
+      await logTokenUsage(
+        supabaseAdmin,
+        user.id,
+        'generate-psychogram',
+        'google/gemini-2.5-flash',
+        usage.prompt_tokens || 0,
+        usage.completion_tokens || 0
+      );
+    }
 
     console.log("Psychogram generated successfully");
 
