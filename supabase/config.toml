@@ -3,6 +3,9 @@ project_id = "hiyeumhhslcsrbtwcqyr"
 [functions.coach-chat]
 verify_jwt = false
 
+[functions.coach-learn]
+verify_jwt = true
+
 [functions.generate-memory-image]
 verify_jwt = false
 

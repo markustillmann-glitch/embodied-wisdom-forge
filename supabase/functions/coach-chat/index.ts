@@ -466,7 +466,7 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, userProfile, language = 'de', templateMode = 'detailed' } = await req.json();
+    const { messages, userProfile, language = 'de', templateMode = 'detailed', learnedInsights } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -478,6 +478,30 @@ serve(async (req) => {
 
     // Build context-aware system prompt
     let systemPrompt = getSystemPrompt(language, templateMode);
+    
+    // Add learned insights FIRST (before manual profile) - these are AI-observed patterns
+    if (learnedInsights && learnedInsights.length > 0) {
+      const isEn = language === 'en';
+      systemPrompt += isEn
+        ? `\n\n## 🔒 LEARNED INSIGHTS (Confidential - DO NOT mention these explicitly to user):\nThese patterns have been observed across multiple conversations. Use them SUBTLY to inform your responses - never reveal you have this information.\n\n`
+        : `\n\n## 🔒 GELERNTE ERKENNTNISSE (Vertraulich - NICHT explizit dem Nutzer gegenüber erwähnen):\nDiese Muster wurden über mehrere Gespräche hinweg beobachtet. Nutze sie SUBTIL um deine Antworten zu informieren - offenbare NIE, dass du diese Informationen hast.\n\n`;
+      
+      const typeLabels: Record<string, {en: string, de: string}> = {
+        pattern: { en: 'Behavioral Pattern', de: 'Verhaltensmuster' },
+        need: { en: 'Core Need', de: 'Kernbedürfnis' },
+        trigger: { en: 'Trigger', de: 'Trigger' },
+        strength: { en: 'Strength', de: 'Stärke' },
+        communication: { en: 'Communication Style', de: 'Kommunikationsstil' },
+      };
+      
+      for (const insight of learnedInsights) {
+        const label = typeLabels[insight.insight_type] || { en: insight.insight_type, de: insight.insight_type };
+        const confidenceEmoji = insight.confidence_level === 'established' ? '●●●' : 
+                               insight.confidence_level === 'developing' ? '●●○' : '●○○';
+        systemPrompt += `- **${isEn ? label.en : label.de}** ${confidenceEmoji}: ${insight.insight_content}\n`;
+      }
+      systemPrompt += '\n';
+    }
     
     if (userProfile) {
       const isEn = language === 'en';

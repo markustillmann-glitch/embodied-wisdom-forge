@@ -102,6 +102,14 @@ interface UserProfile {
   current_focus?: string[] | null;
 }
 
+interface LearnedInsight {
+  id: string;
+  insight_type: string;
+  insight_content: string;
+  confidence_level: string;
+  observation_count: number;
+}
+
 const Coach = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { t, language } = useLanguage();
@@ -116,6 +124,7 @@ const Coach = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [learnedInsights, setLearnedInsights] = useState<LearnedInsight[]>([]);
   
   // Save memory dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -302,6 +311,64 @@ const Coach = () => {
         current_focus: fullProfile.current_focus,
       } : {}),
     });
+    
+    // Load learned insights (discreetly)
+    await loadLearnedInsights();
+  };
+
+  const loadLearnedInsights = async () => {
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from('coach_insights')
+      .select('id, insight_type, insight_content, confidence_level, observation_count')
+      .eq('user_id', user.id)
+      .order('confidence_level', { ascending: false })
+      .order('observation_count', { ascending: false })
+      .limit(15); // Only use top 15 most relevant insights
+    
+    if (!error && data) {
+      setLearnedInsights(data);
+    }
+  };
+
+  // Trigger learning in background (discreet, no UI indication)
+  const triggerLearning = async (conversationMessages: Array<{role: string, content: string}>) => {
+    if (!user) return;
+    
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // Fire and forget - don't wait for response
+      fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/coach-learn`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ 
+            messages: conversationMessages, 
+            userId: user.id,
+            language 
+          }),
+        }
+      ).then(async (response) => {
+        if (response.ok) {
+          const result = await response.json();
+          if (result.learned && (result.newInsights > 0 || result.reinforcedInsights > 0)) {
+            // Silently reload insights for next conversation
+            loadLearnedInsights();
+          }
+        }
+      }).catch(() => {
+        // Silently fail - learning is non-critical
+      });
+    } catch {
+      // Silently fail
+    }
   };
 
   const loadConversations = async () => {
@@ -632,7 +699,13 @@ const Coach = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({ messages: chatMessages, userProfile, language, templateMode }),
+          body: JSON.stringify({ 
+            messages: chatMessages, 
+            userProfile, 
+            language, 
+            templateMode,
+            learnedInsights: learnedInsights.length > 0 ? learnedInsights : undefined,
+          }),
         }
       );
 
@@ -713,6 +786,13 @@ const Coach = () => {
         .from('conversations')
         .update({ updated_at: new Date().toISOString() })
         .eq('id', currentConversation);
+
+      // Trigger learning in background after meaningful conversations (5+ messages)
+      const allMessages = [...chatMessages, { role: 'assistant', content: assistantContent }];
+      if (allMessages.length >= 5 && allMessages.length % 3 === 0) {
+        // Learn every 3 exchanges after minimum threshold
+        triggerLearning(allMessages);
+      }
 
     } catch (error) {
       console.error('Streaming error:', error);
