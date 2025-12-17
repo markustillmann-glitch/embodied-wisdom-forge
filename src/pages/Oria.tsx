@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles, ShieldCheck, MessageCircle, User, Lock } from "lucide-react";
+import { ArrowLeft, Eye, Moon, Ear, Compass, Heart, Sparkles, ShieldCheck, MessageCircle, User, Lock, Brain, TrendingUp, Fingerprint } from "lucide-react";
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -372,6 +372,87 @@ const Oria = () => {
             <p className="text-sm sm:text-base text-foreground/90 italic">
               {t('oria.interactive.result')}
             </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Automatic Learning Section */}
+      <section className="py-12 sm:py-20 relative overflow-hidden">
+        <PolygonalBackground variant="section" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+              <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground">
+                {t('oria.autoLearning.title')}
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-4">
+              {t('oria.autoLearning.intro')}
+            </p>
+            <p className="text-sm sm:text-base text-foreground/90 max-w-2xl mx-auto">
+              {t('oria.autoLearning.desc')}
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8 mb-6"
+          >
+            <h3 className="text-base sm:text-lg font-serif text-foreground mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-accent" />
+              {t('oria.autoLearning.howTitle')}
+            </h3>
+            <ul className="space-y-3">
+              {[0, 1, 2, 3].map((idx) => (
+                <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-foreground/90">
+                  <Sparkles className="w-4 h-4 text-accent mt-1 shrink-0" />
+                  <span>{t(`oria.autoLearning.howItems.${idx}`)}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"
+          >
+            {[0, 1, 2].map((idx) => (
+              <div key={idx} className="flex items-start gap-3 p-4 bg-card rounded-lg border border-border">
+                <div className={`w-2 h-2 rounded-full mt-2 shrink-0 ${
+                  idx === 0 ? 'bg-muted-foreground' : idx === 1 ? 'bg-accent/60' : 'bg-accent'
+                }`} />
+                <span className="text-xs sm:text-sm text-foreground/90">{t(`oria.autoLearning.confidenceLevels.${idx}`)}</span>
+              </div>
+            ))}
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="bg-quote-bg p-5 sm:p-6 rounded-lg border-l-4 border-accent"
+          >
+            <div className="flex items-start gap-3">
+              <Fingerprint className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <p className="text-sm sm:text-base text-foreground/90 italic">
+                {t('oria.autoLearning.privacy')}
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>

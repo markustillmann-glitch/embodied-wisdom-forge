@@ -354,6 +354,27 @@ export const translations = {
         result: 'Durch diesen lebendigen Dialog werden die Ergebnisse immer besser – und dein persönliches Profil wird mit jeder Interaktion reichhaltiger und präziser.',
       },
       
+      // Automatic learning section
+      autoLearning: {
+        title: 'Diskretes Lernen im Hintergrund',
+        intro: 'Oria lernt still und achtsam mit – ohne dass du etwas tun musst.',
+        desc: 'Während eurer Gespräche erkennt Oria subtile Muster: wiederkehrende Themen, emotionale Tendenzen, Bedürfnisstrukturen und Kommunikationsstile. Diese Erkenntnisse fließen diskret in dein persönliches Profil ein.',
+        howTitle: 'So funktioniert das automatische Lernen:',
+        howItems: [
+          'Mustererkennung: Oria identifiziert wiederkehrende Themen und emotionale Muster über mehrere Gespräche hinweg',
+          'Bedürfnisanalyse: Deine tieferliegenden Bedürfnisse werden erkannt und in die Interaktion einbezogen',
+          'Konfidenzaufbau: Erkenntnisse werden erst dann handlungsleitend, wenn sie mehrfach bestätigt wurden',
+          'Hashbasierte Deduplizierung: Keine redundanten Erkenntnisse – nur echte neue Einsichten werden gespeichert'
+        ],
+        privacy: 'Diese Erkenntnisse sind ausschließlich für dich sichtbar. Oria erwähnt sie niemals explizit – sie wirken still im Hintergrund und machen jede Antwort präziser und relevanter für dich.',
+        confidenceTitle: 'Vertrauensstufen der Erkenntnisse:',
+        confidenceLevels: [
+          'Aufkommend: Erste Beobachtung, noch unbestätigt',
+          'Entwickelnd: Mehrfach beobachtet, zunehmend zuverlässig',
+          'Etabliert: Stabiles Muster, hohe Verlässlichkeit'
+        ],
+      },
+      
       // Security section
       security: {
         badge: 'Geprüfte Sicherheit',
@@ -1277,6 +1298,27 @@ export const translations = {
           'Bring in your own perspective'
         ],
         result: 'Through this living dialogue, results keep improving—and your personal profile becomes richer and more precise with every interaction.',
+      },
+      
+      // Automatic learning section
+      autoLearning: {
+        title: 'Discreet Learning in the Background',
+        intro: 'Oria quietly and mindfully learns alongside you—without you having to do anything.',
+        desc: 'During your conversations, Oria recognizes subtle patterns: recurring themes, emotional tendencies, need structures, and communication styles. These insights flow discreetly into your personal profile.',
+        howTitle: 'How automatic learning works:',
+        howItems: [
+          'Pattern Recognition: Oria identifies recurring themes and emotional patterns across multiple conversations',
+          'Needs Analysis: Your deeper needs are recognized and integrated into interactions',
+          'Confidence Building: Insights only become action-guiding once confirmed multiple times',
+          'Hash-based Deduplication: No redundant insights—only genuine new understanding is stored'
+        ],
+        privacy: 'These insights are visible only to you. Oria never mentions them explicitly—they work silently in the background, making every response more precise and relevant for you.',
+        confidenceTitle: 'Confidence levels of insights:',
+        confidenceLevels: [
+          'Emerging: First observation, not yet confirmed',
+          'Developing: Observed multiple times, increasingly reliable',
+          'Established: Stable pattern, high reliability'
+        ],
       },
       
       // Security section
