@@ -24,6 +24,7 @@ interface BookPage {
   type: 'cover' | 'title' | 'chapter' | 'image' | 'quote' | 'context' | 'reflection' | 'ending';
   title?: string;
   content?: string;
+  contentExtended?: string; // Extended content for PDF version
   imageUrl?: string;
   subtitle?: string;
 }
@@ -117,7 +118,7 @@ Respond as a JSON array with objects containing "id", "type" (always "context"),
     // Generate full book
     const systemPrompt = isGerman
       ? `Du bist ein einfühlsamer Autor, der persönliche Erinnerungen in wunderschöne Buchseiten verwandelt. 
-Erstelle ein Erinnerungsbuch mit ca. 15-20 Seiten. Jede Seite sollte kurz und prägnant sein.
+Erstelle ein Erinnerungsbuch mit ca. 15-20 Seiten. Jede Seite hat zwei Textversionen.
 
 Seitentypen:
 - "cover": Titelseite mit Titel und Untertitel
@@ -128,16 +129,20 @@ Seitentypen:
 - "reflection": Reflexion über Gefühle und Bedeutung
 - "ending": Abschlussseite
 
-Beachte:
-- Halte jeden Text kurz (max 200 Wörter pro Seite)
-- Extrahiere bedeutsame Zitate aus dem Inhalt
-- Erstelle emotionale Übergänge zwischen Seiten
-- Integriere Gefühle und Bedürfnisse sinnvoll
+Für jede Seite mit Textinhalt erstelle ZWEI Versionen:
+- "content": Kurze Version für mobile Vorschau (max 100 Wörter, knapp und prägnant)
+- "contentExtended": Ausführliche Version für PDF-Export (200-400 Wörter, detailliert und reflektierend)
+
+Die erweiterte Version sollte:
+- Mehr Details und Kontext enthalten
+- Tiefere emotionale Reflexionen bieten
+- Verbindungen zu Gefühlen und Bedürfnissen ausarbeiten
+- Poetischer und nachdenklicher formuliert sein
 
 Antworte nur mit einem JSON-Objekt: { "pages": [...] }
-Jede Seite braucht: id (string), type (string), und optional title, content, subtitle, imageUrl`
+Jede Seite braucht: id (string), type (string), und optional title, content, contentExtended, subtitle, imageUrl`
       : `You are an empathetic author who transforms personal memories into beautiful book pages.
-Create a memory book with about 15-20 pages. Each page should be concise.
+Create a memory book with about 15-20 pages. Each page has two text versions.
 
 Page types:
 - "cover": Title page with title and subtitle
@@ -148,14 +153,18 @@ Page types:
 - "reflection": Reflection on feelings and meaning
 - "ending": Closing page
 
-Notes:
-- Keep each text short (max 200 words per page)
-- Extract meaningful quotes from the content
-- Create emotional transitions between pages
-- Integrate feelings and needs meaningfully
+For each page with text content, create TWO versions:
+- "content": Short version for mobile preview (max 100 words, concise and punchy)
+- "contentExtended": Detailed version for PDF export (200-400 words, detailed and reflective)
+
+The extended version should:
+- Include more details and context
+- Offer deeper emotional reflections
+- Elaborate on connections to feelings and needs
+- Be more poetic and contemplative in tone
 
 Respond only with a JSON object: { "pages": [...] }
-Each page needs: id (string), type (string), and optionally title, content, subtitle, imageUrl`;
+Each page needs: id (string), type (string), and optionally title, content, contentExtended, subtitle, imageUrl`;
 
     const memoryPrompt = isGerman
       ? `Erstelle ein Erinnerungsbuch für diese Erinnerung:
