@@ -148,7 +148,7 @@ const Modell = () => {
       </section>
 
       {/* Impressum & Intention */}
-      <section className="py-12 sm:py-20 border-t border-chapter-divider relative overflow-hidden">
+      <section className="py-6 sm:py-10 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="subtle" />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
