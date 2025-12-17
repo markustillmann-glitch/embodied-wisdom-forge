@@ -837,6 +837,8 @@ export const translations = {
         saveError: 'Buch konnte nicht gespeichert werden.',
         saveBook: 'Buch speichern',
         regenerate: 'Neu erstellen',
+        pdfAvailable: 'PDF verfügbar',
+        openPdf: 'PDF öffnen',
       },
     },
 
@@ -1932,6 +1934,8 @@ export const translations = {
         saveError: 'Could not save book.',
         saveBook: 'Save Book',
         regenerate: 'Regenerate',
+        pdfAvailable: 'PDF available',
+        openPdf: 'Open PDF',
       },
     },
 

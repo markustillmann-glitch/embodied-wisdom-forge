@@ -46,6 +46,7 @@ interface Memory {
   feeling_after: string[] | null;
   needs_after: string[] | null;
   memory_book_data?: unknown;
+  pdf_url?: string | null;
 }
 
 interface BookPage {
@@ -618,14 +619,51 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         }
       }
 
-      pdf.save(`${memory.title.replace(/[^a-z0-9]/gi, '_')}_book.pdf`);
+      // Generate PDF blob
+      const pdfBlob = pdf.output('blob');
+      const fileName = `${memory.title.replace(/[^a-z0-9]/gi, '_')}_book.pdf`;
+
+      // Get current user for folder path
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
+      // Upload to Supabase Storage
+      const filePath = `${user.id}/${memory.id}_${Date.now()}.pdf`;
+      const { error: uploadError } = await supabase.storage
+        .from('memory-pdfs')
+        .upload(filePath, pdfBlob, {
+          contentType: 'application/pdf',
+          upsert: true,
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('memory-pdfs')
+        .getPublicUrl(filePath);
+
+      // Save URL to memory record
+      const { error: updateError } = await supabase
+        .from('memories')
+        .update({ pdf_url: urlData.publicUrl })
+        .eq('id', memory.id);
+
+      if (updateError) throw updateError;
+
+      // Also trigger download
+      pdf.save(fileName);
       
       toast({
         title: t('vault.book.exported'),
         description: t('vault.book.exportedDesc'),
       });
+
+      onBookSaved?.();
     } catch (error) {
-      console.error('Error exporting PDF:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error exporting PDF:', error);
+      }
       toast({
         title: t('vault.book.error'),
         description: t('vault.book.exportError'),

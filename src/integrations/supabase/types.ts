@@ -124,6 +124,7 @@ export type Database = {
           memory_date: string | null
           memory_type: string
           needs_after: string[] | null
+          pdf_url: string | null
           summary: string | null
           title: string
           updated_at: string | null
@@ -142,6 +143,7 @@ export type Database = {
           memory_date?: string | null
           memory_type?: string
           needs_after?: string[] | null
+          pdf_url?: string | null
           summary?: string | null
           title: string
           updated_at?: string | null
@@ -160,6 +162,7 @@ export type Database = {
           memory_date?: string | null
           memory_type?: string
           needs_after?: string[] | null
+          pdf_url?: string | null
           summary?: string | null
           title?: string
           updated_at?: string | null
