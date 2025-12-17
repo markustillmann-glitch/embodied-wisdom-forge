@@ -20,17 +20,15 @@ const Index = () => {
   const [activeChapter, setActiveChapter] = useState("cover");
 
   const chapters = [
-    { id: "cover", title: t('index.chapters.cover') },
-    { id: "vorwort", title: t('index.chapters.vorwort') },
-    { id: "kap1", title: t('index.chapters.erinnerung'), number: "1" },
-    { id: "kap2", title: t('index.chapters.bodyMemory'), number: "2" },
-    { id: "kap3", title: t('index.chapters.meditation'), number: "3" },
-    { id: "kap4", title: t('index.chapters.ifs'), number: "4" },
-    { id: "kap5", title: t('index.chapters.nvc'), number: "5" },
-    { id: "kap6", title: t('index.chapters.processModel'), number: "6" },
-    { id: "kap7", title: t('index.chapters.bias'), number: "7" },
-    { id: "kap8", title: t('index.chapters.journaling'), number: "8" },
-    { id: "fazit", title: t('index.chapters.fazit') },
+    { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
+    { id: "intro", title: language === 'de' ? 'Worum geht es?' : 'What is it about?' },
+    { id: "positive", title: language === 'de' ? 'Positive Erinnerungen' : 'Positive Memories' },
+    { id: "belastend", title: language === 'de' ? 'Belastende Erfahrungen' : 'Difficult Experiences' },
+    { id: "beziehungen", title: language === 'de' ? 'Beziehungen' : 'Relationships' },
+    { id: "konkret", title: language === 'de' ? 'Wie hilft das?' : 'How does it help?' },
+    { id: "oria", title: 'Oria' },
+    { id: "zielgruppe", title: language === 'de' ? 'Für wen?' : 'For whom?' },
+    { id: "fazit", title: language === 'de' ? 'Fazit' : 'Summary' },
   ];
 
   useEffect(() => {
@@ -189,300 +187,171 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Vorwort */}
-        <div id="vorwort" className="border-t border-chapter-divider">
-          <ChapterSection title={t('index.vorwort.title')}>
-            <p className="text-xl text-muted-foreground italic mb-8">
-              {t('index.vorwort.subtitle')}
+        {/* Worum geht es? */}
+        <div id="intro" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Worum geht es?' : 'What is it about?'}>
+            <p className="text-lg text-muted-foreground mb-6">
+              {language === 'de' 
+                ? 'Viele Menschen leben im Alltag vor allem an der Oberfläche: in Rollen, Erwartungen, schnellen Reaktionen und Gedankenschleifen. Gleichzeitig wirken Erinnerungen, Beziehungen und Körperempfindungen oft im Hintergrund weiter.'
+                : 'Many people live their daily lives mostly on the surface: in roles, expectations, quick reactions, and thought loops. At the same time, memories, relationships, and body sensations often continue to work in the background.'}
             </p>
-            <p>{t('index.vorwort.p1')}</p>
-            <Highlight>{t('index.vorwort.highlight1')}</Highlight>
-            <p>{t('index.vorwort.p2')}</p>
-            <Quote>{t('index.vorwort.quote1')}</Quote>
-            <p>{t('index.vorwort.p3')}</p>
-            <p className="font-medium text-foreground">{t('index.vorwort.p4')}</p>
+            <Highlight>
+              {language === 'de'
+                ? 'Beyond the Shallow lädt dazu ein, sanft hinter diese Oberfläche zu schauen – und über Erinnerungen wieder Zugang zu innerer Tiefe, Orientierung und Verbindung zu finden.'
+                : 'Beyond the Shallow invites you to gently look behind this surface – and through memories, find access to inner depth, orientation, and connection again.'}
+            </Highlight>
           </ChapterSection>
         </div>
 
-        {/* Kapitel 1 */}
-        <div id="kap1" className="border-t border-chapter-divider">
-          <ChapterSection number="1" title={t('index.kap1.title')}>
-            <SubSection number="1.1" title={t('index.kap1.s1.title')}>
-              <p>{t('index.kap1.s1.p1')}</p>
-              <Highlight>{t('index.kap1.s1.highlight')}</Highlight>
-              <p>{t('index.kap1.s1.p2')}</p>
-              <ListBlock items={tArray('index.kap1.s1.list')} />
-              <p className="text-accent font-medium mt-6">{t('index.kap1.s1.fazit')}</p>
-            </SubSection>
-
-            <SubSection number="1.2" title={t('index.kap1.s2.title')}>
-              <p>{t('index.kap1.s2.p1')}</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                <div className="bg-card p-4 sm:p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">
-                    1. {t('index.kap1.s2.explicit.title')}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">{t('index.kap1.s2.explicit.subtitle')}</p>
-                  <ListBlock items={tArray('index.kap1.s2.explicit.items')} />
-                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">{t('index.kap1.s2.explicit.example')}</p>
-                </div>
-                <div className="bg-card p-4 sm:p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2 text-sm sm:text-base">
-                    2. {t('index.kap1.s2.implicit.title')}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">{t('index.kap1.s2.implicit.subtitle')}</p>
-                  <ListBlock items={tArray('index.kap1.s2.implicit.items')} />
-                  <p className="text-xs sm:text-sm italic text-muted-foreground mt-3">{t('index.kap1.s2.implicit.example')}</p>
-                </div>
-              </div>
-              <Quote>{t('index.kap1.s2.quote')}</Quote>
-            </SubSection>
-
-            <SubSection number="1.3" title={t('index.kap1.s3.title')}>
-              <p>{t('index.kap1.s3.p1')}</p>
-              <div className="bg-quote-bg p-6 rounded-lg mt-4 text-center">
-                <p className="font-sans font-medium text-foreground">{t('index.kap1.s3.chain')}</p>
-                <p className="text-muted-foreground mt-3 text-sm">{t('index.kap1.s3.chainDesc')}</p>
-              </div>
-            </SubSection>
+        {/* Die Kraft positiver Erinnerungen */}
+        <div id="positive" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Die Kraft positiver Erinnerungen' : 'The Power of Positive Memories'}>
+            <p className="mb-4">
+              {language === 'de'
+                ? 'Positive Erinnerungen sind mehr als schöne Gedanken. Sie tragen gespeicherte Erfahrungen von:'
+                : 'Positive memories are more than beautiful thoughts. They carry stored experiences of:'}
+            </p>
+            <ListBlock items={language === 'de' 
+              ? ['Sicherheit', 'Nähe', 'Vertrauen', 'Freude', 'innerer Ruhe']
+              : ['Safety', 'Closeness', 'Trust', 'Joy', 'Inner calm']} 
+            />
+            <p className="mt-6">
+              {language === 'de'
+                ? 'Das Modell hilft dabei, diese wohltuenden Erinnerungen bewusst zu aktivieren und zu stärken. So können sie im Alltag wieder spürbarer werden – als innere Ressource, als Gegengewicht zu Stress, Unsicherheit oder Überforderung.'
+                : 'The model helps to consciously activate and strengthen these soothing memories. This way, they can become more palpable again in everyday life – as an inner resource, as a counterweight to stress, uncertainty, or overwhelm.'}
+            </p>
+            <Quote>
+              {language === 'de'
+                ? 'Was sich gut angefühlt hat, darf wieder Raum bekommen.'
+                : 'What felt good is allowed to have space again.'}
+            </Quote>
           </ChapterSection>
         </div>
 
-        {/* Kapitel 2 */}
-        <div id="kap2" className="border-t border-chapter-divider">
-          <ChapterSection number="2" title={t('index.kap2.title')}>
-            <SubSection number="2.1" title={t('index.kap2.s1.title')}>
-              <p>{t('index.kap2.s1.p1')}</p>
-              <ListBlock items={tArray('index.kap2.s1.list')} />
-              <Highlight>{t('index.kap2.s1.highlight')}</Highlight>
-            </SubSection>
-
-            <SubSection number="2.2" title={t('index.kap2.s2.title')}>
-              <p>{t('index.kap2.s2.p1')}</p>
-              <Quote>{t('index.kap2.s2.quote')}</Quote>
-              <p>{t('index.kap2.s2.p2')}</p>
-            </SubSection>
-
-            <SubSection number="2.3" title={t('index.kap2.s3.title')}>
-              <p>{t('index.kap2.s3.p1')}</p>
-            </SubSection>
-
-            <SubSection number="2.4" title={t('index.kap2.s4.title')}>
-              <p>{t('index.kap2.s4.p1')}</p>
-              <p className="font-medium text-foreground mt-4">{t('index.kap2.s4.p2')}</p>
-              <ListBlock items={tArray('index.kap2.s4.list')} />
-              <Quote>{t('index.kap2.s4.quote')}</Quote>
-            </SubSection>
+        {/* Auch für belastende Erfahrungen */}
+        <div id="belastend" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Auch für belastende Erfahrungen' : 'Also for Difficult Experiences'}>
+            <p className="mb-4">
+              {language === 'de'
+                ? 'Gleichzeitig berücksichtigt das Modell, dass viele Menschen mit:'
+                : 'At the same time, the model acknowledges that many people live with:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['wiederkehrenden, schwierigen Erinnerungen', 'Gedankenschleifen', 'Ängsten', 'unangenehmen Körperempfindungen']
+              : ['recurring, difficult memories', 'thought loops', 'fears', 'uncomfortable body sensations']}
+            />
+            <p className="mt-4 mb-2">
+              {language === 'de' ? 'leben.' : ''}
+            </p>
+            <p className="mb-4">
+              {language === 'de'
+                ? 'Statt diese Erfahrungen zu verdrängen oder zu analysieren, unterstützt das Modell dabei:'
+                : 'Instead of suppressing or analyzing these experiences, the model supports:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['ihnen achtsam und dosiert zu begegnen', 'innere Signale besser einzuordnen', 'erste Schritte zu mehr Entlastung zu finden']
+              : ['meeting them mindfully and in measured doses', 'better understanding inner signals', 'finding first steps toward more relief']}
+            />
+            <Highlight>
+              {language === 'de'
+                ? 'Dabei geht es nicht um „Lösen um jeden Preis", sondern um einen besseren Umgang und mehr Selbstregulation.'
+                : 'This is not about "solving at any cost," but about better coping and more self-regulation.'}
+            </Highlight>
           </ChapterSection>
         </div>
 
-        {/* Kapitel 3 */}
-        <div id="kap3" className="border-t border-chapter-divider">
-          <ChapterSection number="3" title={t('index.kap3.title')}>
-            <SubSection number="3.1" title={t('index.kap3.s1.title')}>
-              <p>{t('index.kap3.s1.p1')}</p>
-              <ListBlock ordered items={tArray('index.kap3.s1.list')} />
-              <Highlight>{t('index.kap3.s1.highlight')}</Highlight>
-            </SubSection>
-
-            <SubSection number="3.2" title={t('index.kap3.s2.title')}>
-              <p>{t('index.kap3.s2.p1')}</p>
-            </SubSection>
-
-            <SubSection number="3.3" title={t('index.kap3.s3.title')}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                <div className="bg-accent/10 p-4 sm:p-5 rounded-lg border border-accent/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-3 text-sm sm:text-base">
-                    {t('index.kap3.s3.integrative.title')}
-                  </h4>
-                  <ListBlock items={tArray('index.kap3.s3.integrative.items')} />
-                </div>
-                <div className="bg-destructive/10 p-4 sm:p-5 rounded-lg border border-destructive/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-3 text-sm sm:text-base">
-                    {t('index.kap3.s3.retraumatizing.title')}
-                  </h4>
-                  <ListBlock items={tArray('index.kap3.s3.retraumatizing.items')} />
-                </div>
-              </div>
-            </SubSection>
+        {/* Beziehungen bewusst gestalten */}
+        <div id="beziehungen" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Beziehungen bewusst gestalten' : 'Consciously Shaping Relationships'}>
+            <p className="mb-4">
+              {language === 'de'
+                ? 'Erinnerungen sind oft eng mit Beziehungen verbunden. Beyond the Shallow · Through Memories hilft dabei:'
+                : 'Memories are often closely connected to relationships. Beyond the Shallow · Through Memories helps with:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['wohltuende, stärkende Beziehungen bewusster wahrzunehmen', 'Nähe, Vertrauen und Verbundenheit zu aktivieren', 'zu erkennen, welche Begegnungen guttun']
+              : ['becoming more aware of nurturing, strengthening relationships', 'activating closeness, trust, and connection', 'recognizing which encounters are good for you']}
+            />
+            <p className="mt-6 mb-4">
+              {language === 'de'
+                ? 'Gleichzeitig unterstützt das Modell dabei, einen klareren und gesünderen Umgang mit belastenden Beziehungen zu entwickeln – zum Beispiel durch:'
+                : 'At the same time, the model supports developing a clearer and healthier way of dealing with difficult relationships – for example through:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['bessere innere Abgrenzung', 'Verständnis für eigene Reaktionen', 'neue Perspektiven auf wiederkehrende Beziehungsmuster']
+              : ['better inner boundaries', 'understanding your own reactions', 'new perspectives on recurring relationship patterns']}
+            />
           </ChapterSection>
         </div>
 
-        {/* Kapitel 4 */}
-        <div id="kap4" className="border-t border-chapter-divider">
-          <ChapterSection number="4" title={t('index.kap4.title')}>
-            <p>{t('index.kap4.intro')}</p>
-
-            <SubSection number="4.1" title={t('index.kap4.s1.title')}>
-              <p>{t('index.kap4.s1.p1')}</p>
-              <Highlight>{t('index.kap4.s1.highlight')}</Highlight>
-            </SubSection>
-
-            <SubSection number="4.2" title={t('index.kap4.s2.title')}>
-              <div className="space-y-4 my-6">
-                <div className="bg-card p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2">
-                    {t('index.kap4.s2.manager.title')} <span className="font-sans text-sm text-muted-foreground">{t('index.kap4.s2.manager.subtitle')}</span>
-                  </h4>
-                  <p className="text-muted-foreground">{t('index.kap4.s2.manager.desc')}</p>
-                </div>
-                <div className="bg-card p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2">
-                    {t('index.kap4.s2.firefighter.title')} <span className="font-sans text-sm text-muted-foreground">{t('index.kap4.s2.firefighter.subtitle')}</span>
-                  </h4>
-                  <p className="text-muted-foreground">{t('index.kap4.s2.firefighter.desc')}</p>
-                </div>
-                <div className="bg-card p-5 rounded-lg border border-border">
-                  <h4 className="font-serif font-semibold text-foreground mb-2">
-                    {t('index.kap4.s2.exile.title')} <span className="font-sans text-sm text-muted-foreground">{t('index.kap4.s2.exile.subtitle')}</span>
-                  </h4>
-                  <p className="text-muted-foreground">{t('index.kap4.s2.exile.desc')}</p>
-                </div>
-              </div>
-            </SubSection>
-
-            <SubSection number="4.3" title={t('index.kap4.s3.title')}>
-              <p>{t('index.kap4.s3.p1')}</p>
-            </SubSection>
-
-            <SubSection number="4.4" title={t('index.kap4.s4.title')}>
-              <p>{t('index.kap4.s4.p1')}</p>
-            </SubSection>
-
-            <SubSection number="4.5" title={t('index.kap4.s5.title')}>
-              <p>{t('index.kap4.s5.p1')}</p>
-              <ListBlock items={[
-                <span key="1"><strong>{t('index.kap4.s5.copiedManager')}</strong> {t('index.kap4.s5.copiedManagerDesc')}</span>,
-                <span key="2"><strong>{t('index.kap4.s5.inheritedFear')}</strong> {t('index.kap4.s5.inheritedFearDesc')}</span>,
-              ]} />
-              <Quote>{t('index.kap4.s5.quote')}</Quote>
-            </SubSection>
+        {/* Wie hilft das konkret? */}
+        <div id="konkret" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Wie hilft das konkret?' : 'How Does This Help Concretely?'}>
+            <p className="mb-4">
+              {language === 'de' ? 'Das Modell unterstützt dabei:' : 'The model helps with:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['innere Muster zu erkennen', 'zwischen Vergangenheit und Gegenwart zu unterscheiden', 'Körperempfindungen als Hinweise zu verstehen', 'Ressourcen, Beziehungen und Unterstützung gezielt zu nutzen']
+              : ['recognizing inner patterns', 'distinguishing between past and present', 'understanding body sensations as signals', 'purposefully using resources, relationships, and support']}
+            />
+            <p className="mt-6 mb-4">
+              {language === 'de' ? 'Daraus entstehen Ansätze, wie:' : 'This leads to approaches for:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['das eigene Wohlbefinden gestärkt werden kann', 'man sich Themen in einem passenden Tempo nähert', 'welche Form von Coaching oder Begleitung sinnvoll sein könnte']
+              : ['strengthening your own well-being', 'approaching topics at an appropriate pace', 'which form of coaching or support might be meaningful']}
+            />
           </ChapterSection>
         </div>
 
-        {/* Kapitel 5 */}
-        <div id="kap5" className="border-t border-chapter-divider">
-          <ChapterSection number="5" title={t('index.kap5.title')}>
-            <p>{t('index.kap5.intro')}</p>
-
-            <SubSection number="5.1" title={t('index.kap5.s1.title')}>
-              <p>{t('index.kap5.s1.p1')}</p>
-            </SubSection>
-
-            <SubSection number="5.2" title={t('index.kap5.s2.title')}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 my-6">
-                {[
-                  { num: "1", titleKey: 'index.kap5.s2.step1.title', descKey: 'index.kap5.s2.step1.desc' },
-                  { num: "2", titleKey: 'index.kap5.s2.step2.title', descKey: 'index.kap5.s2.step2.desc' },
-                  { num: "3", titleKey: 'index.kap5.s2.step3.title', descKey: 'index.kap5.s2.step3.desc' },
-                  { num: "4", titleKey: 'index.kap5.s2.step4.title', descKey: 'index.kap5.s2.step4.desc' },
-                ].map((step) => (
-                  <div key={step.num} className="bg-card p-3 sm:p-4 rounded-lg border border-border">
-                    <span className="inline-block w-7 h-7 sm:w-8 sm:h-8 bg-accent text-accent-foreground rounded-full text-center leading-7 sm:leading-8 font-semibold text-xs sm:text-sm mb-2">
-                      {step.num}
-                    </span>
-                    <h4 className="font-serif font-semibold text-foreground mb-1 text-sm sm:text-base">{t(step.titleKey)}</h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground">{t(step.descKey)}</p>
-                  </div>
-                ))}
-              </div>
-            </SubSection>
-
-            <SubSection number="5.3" title={t('index.kap5.s3.title')}>
-              <p>{t('index.kap5.s3.p1')}</p>
-            </SubSection>
+        {/* Oria – dein täglicher Begleiter */}
+        <div id="oria" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Oria – dein täglicher Begleiter' : 'Oria – Your Daily Companion'}>
+            <p className="mb-4">
+              {language === 'de'
+                ? 'Oria steht als alltägliche Unterstützung zur Seite:'
+                : 'Oria is there as everyday support:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['bei Fragen, Unsicherheiten oder innerer Unruhe', 'beim Reflektieren von Erinnerungen und Beziehungen', 'beim Stärken positiver Erfahrungen', 'beim Einordnen belastender Gedanken oder Situationen']
+              : ['with questions, uncertainties, or inner unrest', 'when reflecting on memories and relationships', 'when strengthening positive experiences', 'when contextualizing difficult thoughts or situations']}
+            />
+            <p className="mt-6 mb-4">
+              {language === 'de' ? 'Oria hilft dabei:' : 'Oria helps with:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['Zusammenhänge zu erkennen', 'kleine, machbare Schritte zu finden', 'und wahrzunehmen, wann professionelle therapeutische Unterstützung wichtig ist']
+              : ['recognizing connections', 'finding small, manageable steps', 'and perceiving when professional therapeutic support is important']}
+            />
+            <Highlight>
+              {language === 'de'
+                ? 'Oria ersetzt keine Therapie – unterstützt aber Orientierung, Selbstverständnis und Selbstfürsorge im Alltag.'
+                : 'Oria does not replace therapy – but supports orientation, self-understanding, and self-care in everyday life.'}
+            </Highlight>
           </ChapterSection>
         </div>
 
-        {/* Kapitel 6 */}
-        <div id="kap6" className="border-t border-chapter-divider">
-          <ChapterSection number="6" title={t('index.kap6.title')}>
-            <p>{t('index.kap6.intro')}</p>
-
-            <SubSection number="6.1" title={t('index.kap6.s1.title')}>
-              <ProcessFlow />
-            </SubSection>
-
-            <SubSection number="6.2" title={t('index.kap6.s2.title')}>
-              <div className="bg-card p-6 rounded-lg border border-border my-6">
-                <p className="font-medium text-foreground mb-4">
-                  <strong>{t('index.kap6.s2.situation')}</strong> {t('index.kap6.s2.situationDesc')}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 my-6">
-                <div className="bg-destructive/10 p-4 sm:p-5 rounded-lg border border-destructive/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">
-                    {t('index.kap6.s2.automatic.title')}
-                  </h4>
-                  <ListBlock items={[
-                    <span key="1"><strong>{t('index.kap6.s2.automatic.trigger')}</strong> {t('index.kap6.s2.automatic.triggerDesc')}</span>,
-                    <span key="2"><strong>{t('index.kap6.s2.automatic.somatic')}</strong> {t('index.kap6.s2.automatic.somaticDesc')}</span>,
-                    <span key="3"><strong>{t('index.kap6.s2.automatic.part')}</strong> {t('index.kap6.s2.automatic.partDesc')}</span>,
-                    <span key="4"><strong>{t('index.kap6.s2.automatic.reaction')}</strong> {t('index.kap6.s2.automatic.reactionDesc')}</span>,
-                  ]} />
-                </div>
-
-                <div className="bg-accent/10 p-4 sm:p-5 rounded-lg border border-accent/30">
-                  <h4 className="font-serif font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">
-                    {t('index.kap6.s2.integrated.title')}
-                  </h4>
-                  <ListBlock items={[
-                    <span key="1"><strong>{t('index.kap6.s2.integrated.trigger')}</strong> {t('index.kap6.s2.integrated.triggerDesc')}</span>,
-                    <span key="2"><strong>{t('index.kap6.s2.integrated.somatic')}</strong> {t('index.kap6.s2.integrated.somaticDesc')}</span>,
-                    <span key="3"><strong>{t('index.kap6.s2.integrated.pause')}</strong> {t('index.kap6.s2.integrated.pauseDesc')}</span>,
-                    <span key="4"><strong>{t('index.kap6.s2.integrated.translation')}</strong> {t('index.kap6.s2.integrated.translationDesc')}</span>,
-                    <span key="5"><strong>{t('index.kap6.s2.integrated.action')}</strong> {t('index.kap6.s2.integrated.actionDesc')}</span>,
-                  ]} />
-                </div>
-              </div>
-            </SubSection>
+        {/* Für wen ist das Modell geeignet? */}
+        <div id="zielgruppe" className="border-t border-chapter-divider">
+          <ChapterSection title={language === 'de' ? 'Für wen ist das Modell geeignet?' : 'Who Is the Model Suitable For?'}>
+            <p className="mb-4">
+              {language === 'de' ? 'Für Menschen, die:' : 'For people who:'}
+            </p>
+            <ListBlock items={language === 'de'
+              ? ['sich selbst besser verstehen möchten', 'positive Erfahrungen bewusster nutzen wollen', 'mit belastenden Erinnerungen oder Beziehungen umgehen möchten', 'mehr Verbindung, Leichtigkeit und Klarheit suchen', 'einen sanften, nicht überfordernden Zugang bevorzugen']
+              : ['want to understand themselves better', 'want to use positive experiences more consciously', 'want to deal with difficult memories or relationships', 'seek more connection, lightness, and clarity', 'prefer a gentle, non-overwhelming approach']}
+            />
           </ChapterSection>
         </div>
 
-        {/* Kapitel 7 */}
-        <div id="kap7" className="border-t border-chapter-divider">
-          <ChapterSection number="7" title={t('index.kap7.title')}>
-            <SubSection number="7.1" title={t('index.kap7.s1.title')}>
-              <p>{t('index.kap7.s1.p1')}</p>
-              <div className="bg-quote-bg p-6 rounded-lg my-6">
-                <p className="font-medium text-foreground mb-2">{t('index.kap7.s1.scan')}</p>
-                <ListBlock items={tArray('index.kap7.s1.items')} />
-              </div>
-              <Highlight>{t('index.kap7.s1.highlight')}</Highlight>
-            </SubSection>
-          </ChapterSection>
-        </div>
-
-        {/* Kapitel 8 */}
-        <div id="kap8" className="border-t border-chapter-divider">
-          <ChapterSection number="8" title={t('index.kap8.title')}>
-            <SubSection number="8.1" title={t('index.kap8.s1.title')}>
-              <p>{t('index.kap8.s1.p1')}</p>
-            </SubSection>
-
-            <SubSection number="8.2" title={t('index.kap8.s2.title')}>
-              <p>{t('index.kap8.s2.p1')}</p>
-              <p className="font-medium text-foreground mt-4 mb-2">{t('index.kap8.s2.p2')}</p>
-              <ListBlock items={tArray('index.kap8.s2.items')} />
-            </SubSection>
-          </ChapterSection>
-        </div>
-
-        {/* Fazit */}
+        {/* Fazit - In einem Satz */}
         <div id="fazit" className="border-t border-chapter-divider">
-          <ChapterSection title={t('index.fazit.adjacentTitle')}>
-            <p>{t('index.fazit.adjacentIntro')}</p>
-            <ListBlock items={tArray('index.fazit.adjacentItems')} />
-          </ChapterSection>
-
-          <ChapterSection title={t('index.fazit.thesisTitle')}>
-            <p>{t('index.fazit.thesisIntro')}</p>
-            <Quote>{t('index.fazit.thesisQuote')}</Quote>
-            <p>{t('index.fazit.thesisP1')}</p>
-            <Highlight>{t('index.fazit.thesisHighlight')}</Highlight>
-            <p className="mt-6">{t('index.fazit.thesisP2')}</p>
-            <ListBlock items={tArray('index.fazit.thesisItems')} />
+          <ChapterSection title={language === 'de' ? 'In einem Satz' : 'In One Sentence'}>
+            <Quote>
+              {language === 'de'
+                ? 'Beyond the Shallow · Through Memories ist ein Modell, das dabei hilft, stärkende Erinnerungen zu vertiefen, belastenden Erfahrungen achtsam zu begegnen und über Erinnerung, Körper und Beziehung Wege zu mehr Wohlbefinden, Klarheit und passender Unterstützung zu finden.'
+                : 'Beyond the Shallow · Through Memories is a model that helps deepen strengthening memories, mindfully meet difficult experiences, and find paths to more well-being, clarity, and appropriate support through memory, body, and relationship.'}
+            </Quote>
           </ChapterSection>
         </div>
       </main>
