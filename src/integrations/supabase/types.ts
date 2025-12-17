@@ -47,6 +47,45 @@ export type Database = {
         }
         Relationships: []
       }
+      coach_insights: {
+        Row: {
+          confidence_level: string | null
+          created_at: string
+          id: string
+          insight_content: string
+          insight_hash: string
+          insight_type: string
+          last_observed_at: string | null
+          observation_count: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          confidence_level?: string | null
+          created_at?: string
+          id?: string
+          insight_content: string
+          insight_hash: string
+          insight_type: string
+          last_observed_at?: string | null
+          observation_count?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          confidence_level?: string | null
+          created_at?: string
+          id?: string
+          insight_content?: string
+          insight_hash?: string
+          insight_type?: string
+          last_observed_at?: string | null
+          observation_count?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
