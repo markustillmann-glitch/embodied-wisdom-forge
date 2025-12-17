@@ -845,6 +845,17 @@ export const translations = {
         pdfAvailable: 'PDF verfügbar',
         openPdf: 'PDF öffnen',
       },
+      // Password protection
+      passwordProtection: 'Passwortschutz',
+      passwordRequired: 'Passwort erforderlich',
+      passwordRequiredDesc: 'Dieser Tresor ist passwortgeschützt. Bitte gib dein Passwort ein.',
+      passwordPlaceholder: 'Dein Tresor-Passwort...',
+      passwordUnlock: 'Entsperren',
+      passwordWrong: 'Falsches Passwort',
+      passwordWrongDesc: 'Das eingegebene Passwort ist nicht korrekt.',
+      passwordNotSet: 'Kein Passwort gesetzt',
+      passwordNotSetDesc: 'Du hast noch kein Tresor-Passwort in deinem Profil festgelegt.',
+      passwordSetInProfile: 'Im Profil festlegen',
     },
 
     // User Profile
@@ -855,6 +866,20 @@ export const translations = {
       saved: 'Gespeichert',
       savedDesc: 'Dein Profil wurde aktualisiert.',
       saveError: 'Profil konnte nicht gespeichert werden.',
+      
+      // Vault Password
+      vaultPassword: 'Tresor-Passwort',
+      vaultPasswordDesc: 'Schütze deinen Erinnerungs-Tresor mit einem Passwort',
+      vaultPasswordCurrent: 'Aktuelles Passwort',
+      vaultPasswordNew: 'Neues Passwort',
+      vaultPasswordConfirm: 'Passwort bestätigen',
+      vaultPasswordPlaceholder: 'Mindestens 4 Zeichen...',
+      vaultPasswordMismatch: 'Passwörter stimmen nicht überein',
+      vaultPasswordSet: 'Passwort ist gesetzt',
+      vaultPasswordNotSet: 'Kein Passwort gesetzt',
+      vaultPasswordRemove: 'Passwort entfernen',
+      vaultPasswordRemoved: 'Tresor-Passwort wurde entfernt',
+      
       
       // Basic Info
       basicInfo: 'Über mich',
@@ -1003,6 +1028,7 @@ export const translations = {
           profile: 'Profil vollständig ausfüllen – Die sieben Dimensionen sind entscheidend für präzise Analysen',
           environment: 'Ruhige Umgebung wählen – Erinnerungsarbeit erfordert ungestörte Zeit (30-45 Min. für detaillierte Templates)',
           grounded: 'Körperlich geerdet sein – Nicht hungrig, übermüdet oder in akutem Stress',
+          vaultPassword: 'Tresor-Passwort einrichten – Schütze deine privaten Erinnerungen mit einem Passwort im Profil',
         },
         during: {
           title: 'Während der Nutzung',
@@ -1947,6 +1973,17 @@ export const translations = {
         pdfAvailable: 'PDF available',
         openPdf: 'Open PDF',
       },
+      // Password protection
+      passwordProtection: 'Password Protection',
+      passwordRequired: 'Password Required',
+      passwordRequiredDesc: 'This vault is password protected. Please enter your password.',
+      passwordPlaceholder: 'Your vault password...',
+      passwordUnlock: 'Unlock',
+      passwordWrong: 'Wrong Password',
+      passwordWrongDesc: 'The entered password is incorrect.',
+      passwordNotSet: 'No Password Set',
+      passwordNotSetDesc: 'You have not set a vault password in your profile yet.',
+      passwordSetInProfile: 'Set in Profile',
     },
 
     // User Profile
@@ -1957,6 +1994,19 @@ export const translations = {
       saved: 'Saved',
       savedDesc: 'Your profile has been updated.',
       saveError: 'Could not save profile.',
+      
+      // Vault Password
+      vaultPassword: 'Vault Password',
+      vaultPasswordDesc: 'Protect your memory vault with a password',
+      vaultPasswordCurrent: 'Current Password',
+      vaultPasswordNew: 'New Password',
+      vaultPasswordConfirm: 'Confirm Password',
+      vaultPasswordPlaceholder: 'At least 4 characters...',
+      vaultPasswordMismatch: 'Passwords do not match',
+      vaultPasswordSet: 'Password is set',
+      vaultPasswordNotSet: 'No password set',
+      vaultPasswordRemove: 'Remove Password',
+      vaultPasswordRemoved: 'Vault password has been removed',
       
       // Basic Info
       basicInfo: 'About Me',
@@ -2105,6 +2155,7 @@ export const translations = {
           profile: 'Complete your profile – The seven dimensions are crucial for precise analyses',
           environment: 'Choose a quiet environment – Memory work requires undisturbed time (30-45 min for detailed templates)',
           grounded: 'Be physically grounded – Not hungry, overtired, or in acute stress',
+          vaultPassword: 'Set up vault password – Protect your private memories with a password in your profile',
         },
         during: {
           title: 'During Usage',

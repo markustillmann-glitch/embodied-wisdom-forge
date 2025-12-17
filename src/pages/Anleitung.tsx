@@ -11,7 +11,8 @@ import {
   Clock,
   MessageCircle,
   User,
-  Brain
+  Brain,
+  Lock
 } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -25,6 +26,7 @@ const Anleitung = () => {
     { icon: User, text: t('anleitung.optimal.before.profile') },
     { icon: Heart, text: t('anleitung.optimal.before.environment') },
     { icon: Brain, text: t('anleitung.optimal.before.grounded') },
+    { icon: Lock, text: t('anleitung.optimal.before.vaultPassword') },
   ];
 
   const optimalUsageDuring = [
