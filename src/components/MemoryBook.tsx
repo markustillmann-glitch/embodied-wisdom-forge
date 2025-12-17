@@ -29,7 +29,7 @@ import {
   RotateCw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import oriaOwlImage from '@/assets/oria-owl-fine.png';
+import oriaOwlImage from '@/assets/oria-owl.png';
 import { format } from 'date-fns';
 import { de, enUS } from 'date-fns/locale';
 import jsPDF from 'jspdf';
@@ -524,12 +524,13 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     setIsExporting(true);
 
     try {
-      // Square format (200mm x 200mm) - explicitly set as array for custom size
-      const pageSize = 200;
+      // Square format (200mm x 200mm) - use array [width, height] for custom size
+      const pageWidth = 200;
+      const pageHeight = 200;
       const pdf = new jsPDF({
-        orientation: 'p',
+        orientation: 'landscape', // Use landscape to ensure width comes first
         unit: 'mm',
-        format: [pageSize, pageSize],
+        format: [pageWidth, pageHeight], // Explicit square dimensions
         putOnlyUsedFonts: true,
         compress: true
       });
@@ -537,10 +538,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
       // Verify the page dimensions are correct
       const actualWidth = pdf.internal.pageSize.getWidth();
       const actualHeight = pdf.internal.pageSize.getHeight();
-      console.log('PDF dimensions:', actualWidth, 'x', actualHeight, 'mm');
-
-      const pageWidth = actualWidth;
-      const pageHeight = actualHeight;
+      console.log('PDF dimensions:', actualWidth, 'x', actualHeight, 'mm (expected 200x200)');
       const margin = 15;
       const contentWidth = pageWidth - (margin * 2);
 
