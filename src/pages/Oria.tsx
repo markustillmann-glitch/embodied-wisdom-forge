@@ -55,6 +55,13 @@ const Oria = () => {
           </Link>
           <nav className="flex items-center gap-3 sm:gap-6">
             <Link 
+              to="/anleitung" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t('anleitung.title').split(':')[0]}
+            </Link>
+            <Link 
               to="/seminare" 
               onClick={() => window.scrollTo(0, 0)}
               className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"

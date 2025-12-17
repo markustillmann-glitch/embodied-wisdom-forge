@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Seminare from "./pages/Seminare";
 import Oria from "./pages/Oria";
+import Anleitung from "./pages/Anleitung";
 import Impressum from "./pages/Impressum";
 import Auth from "./pages/Auth";
 import Coach from "./pages/Coach";
@@ -29,6 +30,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/seminare" element={<Seminare />} />
               <Route path="/oria" element={<Oria />} />
+              <Route path="/anleitung" element={<Anleitung />} />
+              <Route path="/impressum" element={<Impressum />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<Coach />} />
