@@ -1067,7 +1067,7 @@ const Coach = () => {
 
       {/* Main Chat Area */}
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 sm:h-18 border-b border-border flex items-center justify-between px-3 sm:px-4">
+        <header className="sticky top-0 z-10 bg-background h-16 sm:h-18 border-b border-border flex items-center justify-between px-3 sm:px-4">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
