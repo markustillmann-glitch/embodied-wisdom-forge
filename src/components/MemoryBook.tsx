@@ -74,6 +74,37 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [isGeneratingPageImage, setIsGeneratingPageImage] = useState(false);
+  
+  // Swipe handling
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe && currentPage < pages.length - 1) {
+      setCurrentPage(p => p + 1);
+    } else if (isRightSwipe && currentPage > 0) {
+      setCurrentPage(p => p - 1);
+    }
+    
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   useEffect(() => {
     if (open && memory) {
@@ -626,7 +657,13 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
         </DialogHeader>
 
         {/* Book Content */}
-        <div className="flex-1 relative overflow-hidden bg-secondary/30" ref={bookRef}>
+        <div 
+          className="flex-1 relative overflow-hidden bg-secondary/30" 
+          ref={bookRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {isGenerating ? (
             <div className="h-full flex flex-col items-center justify-center">
               <Loader2 className="h-12 w-12 animate-spin text-accent mb-4" />
