@@ -16,16 +16,16 @@ import {
   ChevronLeft, 
   ChevronRight,
   Download,
-  Sparkles,
   Pencil,
   Check,
   X,
   BookOpen,
   Image as ImageIcon,
-  Plus,
   Upload,
   ImagePlus,
-  Trash2
+  Trash2,
+  Save,
+  RefreshCw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -45,6 +45,7 @@ interface Memory {
   image_url: string | null;
   feeling_after: string[] | null;
   needs_after: string[] | null;
+  memory_book_data?: unknown;
 }
 
 interface BookPage {
@@ -60,9 +61,10 @@ interface MemoryBookProps {
   memory: Memory;
   open: boolean;
   onClose: () => void;
+  onBookSaved?: () => void;
 }
 
-const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
+const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSaved }) => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const bookRef = useRef<HTMLDivElement>(null);
@@ -73,6 +75,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isAddingContext, setIsAddingContext] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [editingPage, setEditingPage] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
@@ -116,13 +120,26 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
 
   useEffect(() => {
     if (open && memory) {
-      generateBook();
+      loadOrGenerateBook();
     }
   }, [open, memory]);
+
+  const loadOrGenerateBook = async () => {
+    // Check if there's saved book data
+    const bookData = memory.memory_book_data;
+    if (bookData && Array.isArray(bookData) && bookData.length > 0) {
+      setPages(bookData as BookPage[]);
+      setHasUnsavedChanges(false);
+      setCurrentPage(0);
+    } else {
+      generateBook();
+    }
+  };
 
   const generateBook = async () => {
     setIsGenerating(true);
     setCurrentPage(0);
+    setHasUnsavedChanges(true);
 
     try {
       const response = await supabase.functions.invoke('generate-memory-book', {
@@ -160,6 +177,37 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
     }
 
     setIsGenerating(false);
+  };
+
+  const saveBook = async () => {
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('memories')
+        .update({ memory_book_data: pages as any })
+        .eq('id', memory.id);
+
+      if (error) throw error;
+
+      setHasUnsavedChanges(false);
+      toast({
+        title: t('vault.book.saved'),
+        description: t('vault.book.savedDesc'),
+      });
+      onBookSaved?.();
+    } catch (error) {
+      console.error('Error saving book:', error);
+      toast({
+        title: t('vault.book.error'),
+        description: t('vault.book.saveError'),
+        variant: 'destructive',
+      });
+    }
+    setIsSaving(false);
+  };
+
+  const markUnsaved = () => {
+    setHasUnsavedChanges(true);
   };
 
   const createFallbackBook = () => {
@@ -255,6 +303,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
           newPages.push(...contextPages);
         }
         setPages(newPages);
+        markUnsaved();
         toast({
           title: t('vault.book.contextAdded'),
           description: t('vault.book.contextAddedDesc'),
@@ -289,6 +338,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
       content: editContent,
     };
     setPages(newPages);
+    markUnsaved();
     setEditingPage(null);
   };
 
@@ -324,6 +374,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
           imageUrl: imageUrl,
         };
         setPages(newPages);
+        markUnsaved();
         toast({
           title: t('vault.imageGenerated'),
           description: t('vault.imageGeneratedDesc'),
@@ -353,6 +404,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
         const newPages = [...pages];
         newPages[coverIndex] = { ...newPages[coverIndex], imageUrl };
         setPages(newPages);
+        markUnsaved();
       }
     };
     reader.readAsDataURL(file);
@@ -383,6 +435,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
       setPages(newPages);
       setCurrentPage(currentPage + 1);
       setShowInsertMenu(false);
+      markUnsaved();
       
       toast({
         title: t('vault.book.imageInserted'),
@@ -407,6 +460,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
       const newPages = [...pages];
       newPages[editingImagePageIndex] = { ...newPages[editingImagePageIndex], imageUrl };
       setPages(newPages);
+      markUnsaved();
       setEditingImagePageIndex(null);
     };
     reader.readAsDataURL(file);
@@ -422,6 +476,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
     
     const newPages = pages.filter((_, i) => i !== index);
     setPages(newPages);
+    markUnsaved();
     if (currentPage >= newPages.length) {
       setCurrentPage(Math.max(0, newPages.length - 1));
     }
@@ -445,6 +500,28 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
       const margin = 20;
       const contentWidth = pageWidth - (margin * 2);
 
+      // Helper to detect image format from base64 or URL
+      const getImageFormat = (url: string): string => {
+        if (url.includes('data:image/png')) return 'PNG';
+        if (url.includes('data:image/gif')) return 'GIF';
+        if (url.includes('data:image/webp')) return 'WEBP';
+        return 'JPEG';
+      };
+
+      // Helper to load and add image safely
+      const addImageSafe = async (imageUrl: string, x: number, y: number, w: number, h: number): Promise<boolean> => {
+        return new Promise((resolve) => {
+          try {
+            const format = getImageFormat(imageUrl);
+            pdf.addImage(imageUrl, format, x, y, w, h);
+            resolve(true);
+          } catch (e) {
+            console.warn('Failed to add image to PDF:', e);
+            resolve(false);
+          }
+        });
+      };
+
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
         
@@ -462,12 +539,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
         if (page.type === 'cover') {
           // Cover page
           if (page.imageUrl) {
-            try {
-              pdf.addImage(page.imageUrl, 'JPEG', margin, margin, contentWidth, 100);
-              yPos = margin + 110;
-            } catch (e) {
-              yPos = margin + 20;
-            }
+            const imageAdded = await addImageSafe(page.imageUrl, margin, margin, contentWidth, 100);
+            yPos = imageAdded ? margin + 110 : margin + 20;
           } else {
             yPos = pageHeight / 3;
           }
@@ -483,12 +556,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
           }
         } else if (page.type === 'image' && page.imageUrl) {
           // Image page
-          try {
-            pdf.addImage(page.imageUrl, 'JPEG', margin, margin, contentWidth, 150);
-            yPos = margin + 160;
-          } catch (e) {
-            // Skip image if failed
-          }
+          const imageAdded = await addImageSafe(page.imageUrl, margin, margin, contentWidth, 150);
+          yPos = imageAdded ? margin + 160 : margin + 20;
           
           if (page.title) {
             pdf.setFontSize(12);
@@ -500,7 +569,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
           yPos = pageHeight / 3;
           pdf.setFontSize(18);
           pdf.setTextColor(80, 80, 80);
-          const quoteLines = pdf.splitTextToSize(`"${page.content}"`, contentWidth - 20);
+          const quoteLines = pdf.splitTextToSize(`"${page.content || ''}"`, contentWidth - 20);
           pdf.text(quoteLines, pageWidth / 2, yPos, { align: 'center' });
         } else {
           // Standard page with title and content
@@ -512,12 +581,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
           }
 
           if (page.imageUrl) {
-            try {
-              pdf.addImage(page.imageUrl, 'JPEG', margin, yPos, contentWidth, 80);
-              yPos += 90;
-            } catch (e) {
-              // Skip image if failed
-            }
+            const imageAdded = await addImageSafe(page.imageUrl, margin, yPos, contentWidth, 80);
+            if (imageAdded) yPos += 90;
           }
 
           if (page.content) {
@@ -720,7 +785,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
                   {isGeneratingPageImage ? (
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   ) : (
-                    <Sparkles className="h-4 w-4 mr-2" />
+                    <ImageIcon className="h-4 w-4 mr-2" />
                   )}
                   {t('vault.generateImage')}
                 </Button>
@@ -876,45 +941,69 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose }) => {
             <DialogTitle className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
               <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-accent" />
               <span className="truncate">{t('vault.book.title')}</span>
+              {hasUnsavedChanges && <span className="text-xs text-muted-foreground">*</span>}
             </DialogTitle>
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex items-center gap-1 flex-wrap justify-end">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isGenerating || pages.length === 0}
-                className="px-2 sm:px-3"
+                className="px-2"
               >
-                <ImagePlus className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">{t('vault.book.insertImage')}</span>
+                <ImagePlus className="h-4 w-4" />
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={addContextInfo}
                 disabled={isAddingContext || isGenerating}
-                className="px-2 sm:px-3"
+                className="px-2 sm:px-3 text-xs"
               >
                 {isAddingContext ? (
-                  <Loader2 className="h-4 w-4 sm:mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <Plus className="h-4 w-4 sm:mr-2" />
+                  <span>+ {t('vault.book.addContext')}</span>
                 )}
-                <span className="hidden sm:inline">{t('vault.book.addContext')}</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={generateBook}
+                disabled={isGenerating}
+                className="px-2"
+                title={t('vault.book.regenerate')}
+              >
+                <RefreshCw className={cn("h-4 w-4", isGenerating && "animate-spin")} />
+              </Button>
+              <Button
+                variant={hasUnsavedChanges ? "default" : "outline"}
+                size="sm"
+                onClick={saveBook}
+                disabled={isSaving || isGenerating || pages.length === 0}
+                className="px-2 sm:px-3 text-xs"
+              >
+                {isSaving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 sm:mr-1" />
+                    <span className="hidden sm:inline">{t('vault.book.saveBook')}</span>
+                  </>
+                )}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={exportToPDF}
                 disabled={isExporting || isGenerating || pages.length === 0}
-                className="px-2 sm:px-3"
+                className="px-2"
               >
                 {isExporting ? (
-                  <Loader2 className="h-4 w-4 sm:mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <Download className="h-4 w-4 sm:mr-2" />
+                  <Download className="h-4 w-4" />
                 )}
-                <span className="hidden sm:inline">PDF</span>
               </Button>
             </div>
           </div>
