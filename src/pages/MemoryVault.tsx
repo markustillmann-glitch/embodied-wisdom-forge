@@ -46,7 +46,9 @@ import {
   Sparkles,
   Image as ImageIcon,
   X,
-  BookMarked
+  BookMarked,
+  FileText,
+  ExternalLink
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -66,6 +68,7 @@ interface Memory {
   feeling_after: string[] | null;
   needs_after: string[] | null;
   memory_book_data?: unknown;
+  pdf_url?: string | null;
 }
 
 const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -555,6 +558,18 @@ const MemoryVault = () => {
                         </span>
                       </div>
                       <div className="flex items-center gap-1">
+                        {selectedMemory.pdf_url && (
+                          <a
+                            href={selectedMemory.pdf_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 hover:bg-accent/10 rounded-lg transition-colors flex items-center gap-1"
+                            title={t('vault.book.openPdf')}
+                          >
+                            <FileText className="h-4 w-4 text-accent" />
+                            <ExternalLink className="h-3 w-3 text-accent" />
+                          </a>
+                        )}
                         <button
                           onClick={() => setBookOpen(true)}
                           className="p-2 hover:bg-secondary rounded-lg transition-colors"
