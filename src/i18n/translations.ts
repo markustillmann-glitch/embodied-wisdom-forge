@@ -943,6 +943,93 @@ export const translations = {
         meaningDirection: 'Sinn / Richtung',
       },
     },
+
+    // Anleitung page
+    anleitung: {
+      title: 'Bedienungsanleitung: Oria Coach',
+      subtitle: 'Wie du optimale Ergebnisse erzielst und wann menschliche Unterstützung sinnvoll ist.',
+      nav: {
+        backToOria: 'Zurück zu Oria',
+      },
+      optimal: {
+        title: 'Optimale Nutzung',
+        before: {
+          title: 'Vor dem Start',
+          profile: 'Profil vollständig ausfüllen – Die sieben Dimensionen sind entscheidend für präzise Analysen',
+          environment: 'Ruhige Umgebung wählen – Erinnerungsarbeit erfordert ungestörte Zeit (30-45 Min. für detaillierte Templates)',
+          grounded: 'Körperlich geerdet sein – Nicht hungrig, übermüdet oder in akutem Stress',
+        },
+        during: {
+          title: 'Während der Nutzung',
+          honest: 'Ehrlich und offen antworten – Oria lernt aus deinen Antworten',
+          ask: 'Bei Unklarheiten nachfragen – Der interaktive Dialog verbessert Ergebnisse',
+          modes: 'Compact-Modus für schnelle Sessions, Detailed-Modus für tiefe Exploration',
+          memories: 'Mindestens 20-25 Erinnerungen für zuverlässige Psychogramm-Analysen',
+        },
+      },
+      risks: {
+        title: 'Risiken und Grenzen',
+        notReplacement: {
+          title: 'Oria ist KEIN Ersatz für:',
+          therapy: 'Psychotherapie',
+          psychiatry: 'Psychiatrische Behandlung',
+          crisis: 'Krisenintervention',
+          diagnosis: 'Medizinische Diagnosen',
+        },
+        limitations: {
+          title: 'Bekannte Einschränkungen:',
+          context: 'KI kann Kontext missverstehen',
+          childhood: 'Frühe Kindheitserinnerungen sind fragmentarisch – Analysen sind Hypothesen',
+          epigenetics: 'Epigenetische/intergenerationale Muster erfordern professionelle Begleitung',
+        },
+      },
+      humanCoach: {
+        title: 'Wann menschliche Unterstützung suchen',
+        immediate: {
+          title: 'Sofort professionelle Hilfe suchen bei:',
+          suicidal: 'Suizidgedanken oder Selbstverletzung',
+          trauma: 'Akuten Traumareaktionen (Flashbacks, Dissoziation, Panikattacken)',
+          depression: 'Schweren Depressionen oder Angstzuständen',
+          addiction: 'Essstörungen oder Suchtverhalten',
+        },
+        recommended: {
+          title: 'Menschlicher Coach empfohlen bei:',
+          childhood: 'Tief verwurzelten Kindheitstraumata',
+          conflicts: 'Komplexen Beziehungskonflikten mit Eskalationspotenzial',
+          career: 'Beruflichen Krisen mit existenziellen Folgen',
+          reactions: 'Wenn Oria-Sessions wiederholt starke emotionale Reaktionen auslösen',
+          worse: 'Wenn du dich nach Sessions schlechter statt besser fühlst',
+          stuck: 'Bei Themen, die sich "festgefahren" anfühlen trotz mehrfacher Bearbeitung',
+        },
+      },
+      patterns: {
+        title: 'Empfohlene Nutzungsmuster',
+        situation: 'Situation',
+        recommendation: 'Empfehlung',
+        daily: {
+          situation: 'Tägliche Reflexion',
+          recommendation: 'Compact-Modus, leichte Themen',
+        },
+        deep: {
+          situation: 'Tiefe Musterarbeit',
+          recommendation: 'Detailed-Modus, mit Pausen',
+        },
+        stress: {
+          situation: 'Nach belastenden Events',
+          recommendation: 'Erst körperlich regulieren, dann journalen',
+        },
+        psychogram: {
+          situation: 'Psychogramm-Review',
+          recommendation: 'Mit Abstand lesen, nicht als "Wahrheit" nehmen',
+        },
+      },
+      finalNote: 'Oria ist ein Werkzeug zur Selbstreflexion – kein Therapeut.',
+      finalNoteDesc: 'Die wertvollsten Erkenntnisse entstehen oft in der Kombination aus digitaler Begleitung und menschlicher Expertise in den Seminaren.',
+      cta: {
+        coach: 'Mit Oria starten',
+        seminars: 'Seminare entdecken',
+      },
+    },
   },
   
   en: {
@@ -1887,6 +1974,93 @@ export const translations = {
         self: 'Self',
         relationship: 'Relationship',
         meaningDirection: 'Meaning / Direction',
+      },
+    },
+
+    // Anleitung page
+    anleitung: {
+      title: 'User Guide: Oria Coach',
+      subtitle: 'How to achieve optimal results and when to seek human support.',
+      nav: {
+        backToOria: 'Back to Oria',
+      },
+      optimal: {
+        title: 'Optimal Usage',
+        before: {
+          title: 'Before You Start',
+          profile: 'Complete your profile – The seven dimensions are crucial for precise analyses',
+          environment: 'Choose a quiet environment – Memory work requires undisturbed time (30-45 min for detailed templates)',
+          grounded: 'Be physically grounded – Not hungry, overtired, or in acute stress',
+        },
+        during: {
+          title: 'During Usage',
+          honest: 'Answer honestly and openly – Oria learns from your responses',
+          ask: 'Ask when unclear – Interactive dialogue improves results',
+          modes: 'Compact mode for quick sessions, Detailed mode for deep exploration',
+          memories: 'At least 20-25 memories for reliable psychogram analyses',
+        },
+      },
+      risks: {
+        title: 'Risks and Limits',
+        notReplacement: {
+          title: 'Oria is NOT a replacement for:',
+          therapy: 'Psychotherapy',
+          psychiatry: 'Psychiatric treatment',
+          crisis: 'Crisis intervention',
+          diagnosis: 'Medical diagnoses',
+        },
+        limitations: {
+          title: 'Known Limitations:',
+          context: 'AI can misunderstand context',
+          childhood: 'Early childhood memories are fragmentary – analyses are hypotheses',
+          epigenetics: 'Epigenetic/intergenerational patterns require professional support',
+        },
+      },
+      humanCoach: {
+        title: 'When to Seek Human Support',
+        immediate: {
+          title: 'Seek professional help immediately for:',
+          suicidal: 'Suicidal thoughts or self-harm',
+          trauma: 'Acute trauma reactions (flashbacks, dissociation, panic attacks)',
+          depression: 'Severe depression or anxiety',
+          addiction: 'Eating disorders or addictive behavior',
+        },
+        recommended: {
+          title: 'Human coach recommended for:',
+          childhood: 'Deep-rooted childhood trauma',
+          conflicts: 'Complex relationship conflicts with escalation potential',
+          career: 'Career crises with existential consequences',
+          reactions: 'When Oria sessions repeatedly trigger strong emotional reactions',
+          worse: 'When you feel worse after sessions instead of better',
+          stuck: 'Topics that feel "stuck" despite repeated work',
+        },
+      },
+      patterns: {
+        title: 'Recommended Usage Patterns',
+        situation: 'Situation',
+        recommendation: 'Recommendation',
+        daily: {
+          situation: 'Daily reflection',
+          recommendation: 'Compact mode, light topics',
+        },
+        deep: {
+          situation: 'Deep pattern work',
+          recommendation: 'Detailed mode, with breaks',
+        },
+        stress: {
+          situation: 'After stressful events',
+          recommendation: 'First regulate physically, then journal',
+        },
+        psychogram: {
+          situation: 'Psychogram review',
+          recommendation: 'Read with distance, not as "truth"',
+        },
+      },
+      finalNote: 'Oria is a tool for self-reflection – not a therapist.',
+      finalNoteDesc: 'The most valuable insights often emerge from combining digital guidance with human expertise in the seminars.',
+      cta: {
+        coach: 'Start with Oria',
+        seminars: 'Discover Seminars',
       },
     },
   },

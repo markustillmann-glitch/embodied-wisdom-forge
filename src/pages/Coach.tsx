@@ -1052,6 +1052,12 @@ const Coach = () => {
               {t('vault.openVault')}
             </Button>
           </Link>
+          <Link to="/anleitung">
+            <Button variant="ghost" size="sm" className="w-full justify-start">
+              <FileText className="h-4 w-4 mr-2" />
+              {t('anleitung.title').split(':')[0]}
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" onClick={signOut} className="w-full justify-start">
             <LogOut className="h-4 w-4 mr-2" />
             {t('auth.signOut')}
