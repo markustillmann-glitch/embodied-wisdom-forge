@@ -834,9 +834,9 @@ export const translations = {
       },
       
       // 2. Needs Topology
-      needsTopology: 'Bedürfnis-Topologie',
-      needsTopologyDesc: 'Was reguliert dich wirklich? (NVC)',
-      coreNeeds: 'Top 5 Kernbedürfnisse',
+      needsTopology: 'Deine Bedürfnisse',
+      needsTopologyDesc: 'Welche Bedürfnisse bewegen dich wirklich?',
+      coreNeeds: 'Deine 5 wichtigsten Bedürfnisse',
       coreNeedsPlaceholder: 'z.B. Authentizität, Verbindung, Ruhe, Sinn, Autonomie',
       neglectedNeeds: 'Bedürfnisse, die oft zu kurz kommen',
       neglectedNeedsPlaceholder: 'z.B. Ruhe, Spiel, Leichtigkeit',
@@ -853,17 +853,17 @@ export const translations = {
         acceptanceDifference: 'Durch Akzeptanz von Unterschied',
         achievement: 'Durch Leistung',
       },
-      reactionToExpectations: 'Wie reagierst du innerlich auf Erwartung?',
+      reactionToExpectations: 'Wie reagierst du innerlich auf Erwartungen?',
       reactionPlaceholder: 'z.B. Druck, Rückzug, Anpassung, Rebellion...',
-      harderClosenessOrBoundaries: 'Was ist schwieriger?',
+      harderClosenessOrBoundaries: 'Was fällt dir schwerer?',
       closeness: 'Nähe',
       boundaries: 'Abgrenzung',
       both: 'Beides',
       
       // 4. Memory Type
-      memoryType: 'Erinnerungstyp',
+      memoryType: 'Dein Erinnerungstyp',
       memoryTypeDesc: 'Wie arbeitet dein Gedächtnis?',
-      primaryMemoryChannel: 'Primärer Erinnerungskanal',
+      primaryMemoryChannel: 'Worüber erinnerst du am stärksten?',
       channel: {
         body: 'Körper',
         music: 'Musik',
@@ -871,22 +871,22 @@ export const translations = {
         language: 'Sprache',
         places: 'Orte',
       },
-      memoryEffect: 'Wie wirken Erinnerungen?',
+      memoryEffect: 'Wie wirken Erinnerungen auf dich?',
       effect: {
         regulating: 'Regulierend',
         intensifying: 'Intensivierend',
         melancholic: 'Melancholisierend',
       },
-      triggerSensitivity: 'Trigger-Sensibilität',
+      triggerSensitivity: 'Wie leicht wirst du getriggert?',
       sensitivity: {
-        low: 'Niedrig',
-        medium: 'Mittel',
-        high: 'Hoch',
+        low: 'Kaum',
+        medium: 'Manchmal',
+        high: 'Oft',
       },
       
       // 5. Lightness vs Depth
-      lightnessDepth: 'Leichtigkeit vs. Tiefe',
-      lightnessDepthDesc: 'Wann ist was nährend?',
+      lightnessVsDepth: 'Leichtigkeit & Tiefe',
+      lightnessVsDepthDesc: 'Wann ist was nährend für dich?',
       whenFeelsLight: 'Wann fühlt sich etwas "leicht" an?',
       whenFeelsLightPlaceholder: 'Beschreibe Situationen oder Qualitäten...',
       whenDepthNourishing: 'Wann ist Tiefe nährend?',
@@ -902,8 +902,8 @@ export const translations = {
       
       // 6. Language & Tonality
       languageTonality: 'Sprache & Tonalität',
-      languageTonalityDesc: 'Wie soll das Modell mit dir sprechen?',
-      preferredTone: 'Bevorzugter Ton',
+      languageTonalityDesc: 'Wie soll Oria mit dir sprechen?',
+      preferredTone: 'Welcher Ton passt zu dir?',
       tone: {
         calm: 'Ruhig',
         poetic: 'Poetisch',
@@ -911,36 +911,36 @@ export const translations = {
         analytical: 'Analytisch',
         questioning: 'Fragend',
       },
-      responsePreference: 'Reaktion auf',
+      responsePreference: 'Was hilft dir mehr?',
       response: {
         directRecommendations: 'Direkte Empfehlungen',
         openQuestions: 'Offene Fragen',
-        reflections: 'Spiegelungen',
+        mirroring: 'Spiegelungen',
       },
-      languageTriggers: 'Trigger durch Sprache',
+      languageTriggers: 'Welche Worte triggern dich?',
       languageTriggersPlaceholder: 'z.B. "müssen", "sollten", "optimieren"',
       
       // 7. Life Phase
       lifePhase: 'Aktuelle Lebensphase',
       lifePhaseDesc: 'Wo stehst du gerade?',
-      currentPhase: 'Phase',
-      phase: {
+      phase: 'In welcher Phase bist du?',
+      phases: {
         stabilization: 'Stabilisierung',
         integration: 'Integration',
         opening: 'Öffnung',
         transition: 'Übergang',
       },
-      energyLevel: 'Energielevel',
+      energyLevel: 'Wie ist dein Energielevel?',
       energy: {
         low: 'Niedrig',
         medium: 'Mittel',
         high: 'Hoch',
       },
-      currentFocus: 'Aktueller Fokus',
+      currentFocus: 'Worauf liegt dein Fokus?',
       focus: {
-        self: 'Selbst',
-        relationship: 'Beziehung',
-        meaningDirection: 'Sinn / Richtung',
+        self: 'Ich selbst',
+        relationship: 'Beziehungen',
+        meaning: 'Sinn & Richtung',
       },
     },
 
@@ -1867,9 +1867,9 @@ export const translations = {
       },
       
       // 2. Needs Topology
-      needsTopology: 'Needs Topology',
-      needsTopologyDesc: 'What truly regulates you? (NVC)',
-      coreNeeds: 'Top 5 Core Needs',
+      needsTopology: 'Your Needs',
+      needsTopologyDesc: 'Which needs truly move you?',
+      coreNeeds: 'Your 5 most important needs',
       coreNeedsPlaceholder: 'e.g. Authenticity, Connection, Peace, Meaning, Autonomy',
       neglectedNeeds: 'Needs often neglected',
       neglectedNeedsPlaceholder: 'e.g. Rest, Play, Lightness',
@@ -1888,15 +1888,15 @@ export const translations = {
       },
       reactionToExpectations: 'How do you react internally to expectations?',
       reactionPlaceholder: 'e.g. pressure, withdrawal, adaptation, rebellion...',
-      harderClosenessOrBoundaries: 'What is harder?',
+      harderClosenessOrBoundaries: 'What is harder for you?',
       closeness: 'Closeness',
       boundaries: 'Boundaries',
       both: 'Both',
       
       // 4. Memory Type
-      memoryType: 'Memory Type',
+      memoryType: 'Your Memory Type',
       memoryTypeDesc: 'How does your memory work?',
-      primaryMemoryChannel: 'Primary memory channel',
+      primaryMemoryChannel: 'What triggers your memories most?',
       channel: {
         body: 'Body',
         music: 'Music',
@@ -1910,16 +1910,16 @@ export const translations = {
         intensifying: 'Intensifying',
         melancholic: 'Melancholic',
       },
-      triggerSensitivity: 'Trigger sensitivity',
+      triggerSensitivity: 'How easily are you triggered?',
       sensitivity: {
-        low: 'Low',
-        medium: 'Medium',
-        high: 'High',
+        low: 'Rarely',
+        medium: 'Sometimes',
+        high: 'Often',
       },
       
       // 5. Lightness vs Depth
-      lightnessDepth: 'Lightness vs. Depth',
-      lightnessDepthDesc: 'When is what nourishing?',
+      lightnessVsDepth: 'Lightness & Depth',
+      lightnessVsDepthDesc: 'When is what nourishing for you?',
       whenFeelsLight: 'When does something feel "light"?',
       whenFeelsLightPlaceholder: 'Describe situations or qualities...',
       whenDepthNourishing: 'When is depth nourishing?',
@@ -1935,8 +1935,8 @@ export const translations = {
       
       // 6. Language & Tonality
       languageTonality: 'Language & Tonality',
-      languageTonalityDesc: 'How should the model speak to you?',
-      preferredTone: 'Preferred tone',
+      languageTonalityDesc: 'How should Oria speak to you?',
+      preferredTone: 'Which tone suits you?',
       tone: {
         calm: 'Calm',
         poetic: 'Poetic',
@@ -1944,36 +1944,36 @@ export const translations = {
         analytical: 'Analytical',
         questioning: 'Questioning',
       },
-      responsePreference: 'Response to',
+      responsePreference: 'What helps you more?',
       response: {
         directRecommendations: 'Direct recommendations',
         openQuestions: 'Open questions',
-        reflections: 'Reflections',
+        mirroring: 'Reflections',
       },
-      languageTriggers: 'Language triggers',
+      languageTriggers: 'Which words trigger you?',
       languageTriggersPlaceholder: 'e.g. "must", "should", "optimize"',
       
       // 7. Life Phase
       lifePhase: 'Current Life Phase',
       lifePhaseDesc: 'Where are you right now?',
-      currentPhase: 'Phase',
-      phase: {
+      phase: 'What phase are you in?',
+      phases: {
         stabilization: 'Stabilization',
         integration: 'Integration',
         opening: 'Opening',
         transition: 'Transition',
       },
-      energyLevel: 'Energy level',
+      energyLevel: 'What is your energy level?',
       energy: {
         low: 'Low',
         medium: 'Medium',
         high: 'High',
       },
-      currentFocus: 'Current focus',
+      currentFocus: 'What is your focus on?',
       focus: {
-        self: 'Self',
-        relationship: 'Relationship',
-        meaningDirection: 'Meaning / Direction',
+        self: 'Myself',
+        relationship: 'Relationships',
+        meaning: 'Meaning & Direction',
       },
     },
 
