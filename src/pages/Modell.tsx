@@ -83,14 +83,8 @@ const Modell = () => {
                 </span>
               </Link>
               <Link
-                to="/oria"
-                className="hidden sm:inline-flex items-center gap-2 text-sm font-sans text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <span>{t('index.meetOria')}</span>
-              </Link>
-              <Link
                 to="/seminare"
-                className="hidden sm:inline-flex items-center gap-2 text-sm font-sans text-accent hover:text-accent/80 transition-colors"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm font-sans text-accent hover:text-accent/80 transition-colors"
               >
                 <span>{t('index.discoverSeminars')}</span>
               </Link>
@@ -150,42 +144,6 @@ const Modell = () => {
             {t('index.heroSubtitle')}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="mt-8 sm:mt-16 flex flex-col items-center gap-4"
-          >
-            <button
-              onClick={() => scrollToChapter("vorwort")}
-              className="group inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span>{t('index.begin')}</span>
-              <motion.span
-                animate={{ y: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              >
-                ↓
-              </motion.span>
-            </button>
-            {/* Mobile navigation links */}
-            <div className="flex sm:hidden flex-col items-center gap-3">
-              <Link
-                to="/oria"
-                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <img src={bbOwlLogo} alt="Oria" className="h-5 w-auto opacity-70" />
-                <span>{t('index.meetOria')}</span>
-              </Link>
-              <Link
-                to="/seminare"
-                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors"
-              >
-                <span>{t('index.discoverSeminars')}</span>
-                <span>→</span>
-              </Link>
-            </div>
-          </motion.div>
         </motion.div>
       </section>
 
@@ -510,6 +468,31 @@ const Modell = () => {
             <p className="mt-6">{t('index.fazit.thesisP2')}</p>
             <ListBlock items={tArray('index.fazit.thesisItems')} />
           </ChapterSection>
+
+          {/* Oria Link Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mt-12 py-8 text-center border-t border-border/30"
+          >
+            <div className="flex flex-col items-center gap-4">
+              <img src={bbOwlLogo} alt="Oria" className="h-16 w-auto opacity-80" />
+              <p className="text-muted-foreground font-serif italic max-w-md">
+                {language === 'de' 
+                  ? 'Oria begleitet dich dabei, dieses Modell im Alltag anzuwenden – sanft, dosiert und auf deine Bedürfnisse abgestimmt.'
+                  : 'Oria accompanies you in applying this model in everyday life – gently, gradually, and tailored to your needs.'}
+              </p>
+              <Link
+                to="/oria"
+                className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-accent hover:text-accent/80 transition-colors mt-2"
+              >
+                <span>{t('index.meetOria')}</span>
+                <span>→</span>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </main>
 
