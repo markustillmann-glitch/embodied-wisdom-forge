@@ -515,8 +515,18 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
 
       const pageWidth = 210;
       const pageHeight = 297;
-      const margin = 20;
+      const margin = 25;
       const contentWidth = pageWidth - (margin * 2);
+
+      // Design system colors (from index.css)
+      const colors = {
+        background: { r: 250, g: 248, b: 243 },       // warm cream
+        foreground: { r: 29, g: 36, b: 44 },          // deep slate
+        muted: { r: 115, g: 115, b: 100 },            // muted text
+        accent: { r: 198, g: 155, b: 57 },            // gold accent
+        border: { r: 225, g: 220, b: 210 },           // soft border
+        quoteBg: { r: 242, g: 238, b: 230 },          // quote background
+      };
 
       // Helper to detect image format from base64 or URL
       const getImageFormat = (url: string): string => {
@@ -540,6 +550,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         });
       };
 
+      // Helper to draw rounded rectangle
+      const drawRoundedRect = (x: number, y: number, w: number, h: number, r: number, style: 'F' | 'S' | 'FD') => {
+        pdf.roundedRect(x, y, w, h, r, r, style);
+      };
+
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
         
@@ -548,74 +563,157 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         }
 
         // Background
-        pdf.setFillColor(250, 250, 248);
+        pdf.setFillColor(colors.background.r, colors.background.g, colors.background.b);
         pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
         let yPos = margin;
 
         // Handle different page types
         if (page.type === 'cover') {
-          // Cover page
+          // Cover page - full bleed image with overlay
           if (page.imageUrl) {
-            const imageAdded = await addImageSafe(page.imageUrl, margin, margin, contentWidth, 100);
-            yPos = imageAdded ? margin + 110 : margin + 20;
+            // Full page image
+            await addImageSafe(page.imageUrl, 0, 0, pageWidth, pageHeight);
+            
+            // Dark gradient overlay at bottom
+            pdf.setGState(pdf.GState({ opacity: 0.7 }));
+            pdf.setFillColor(0, 0, 0);
+            pdf.rect(0, pageHeight * 0.5, pageWidth, pageHeight * 0.5, 'F');
+            pdf.setGState(pdf.GState({ opacity: 1 }));
           } else {
-            yPos = pageHeight / 3;
+            // Gradient-like background without image
+            pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+            pdf.setGState(pdf.GState({ opacity: 0.1 }));
+            pdf.rect(0, 0, pageWidth, pageHeight * 0.6, 'F');
+            pdf.setGState(pdf.GState({ opacity: 1 }));
           }
           
-          pdf.setFontSize(28);
-          pdf.setTextColor(30, 30, 30);
-          pdf.text(page.title || '', pageWidth / 2, yPos, { align: 'center' });
+          // Title at bottom third
+          const titleY = page.imageUrl ? pageHeight - 60 : pageHeight * 0.45;
+          pdf.setFontSize(32);
+          pdf.setTextColor(page.imageUrl ? 255 : colors.foreground.r, page.imageUrl ? 255 : colors.foreground.g, page.imageUrl ? 255 : colors.foreground.b);
+          const titleLines = pdf.splitTextToSize(page.title || '', contentWidth);
+          pdf.text(titleLines, pageWidth / 2, titleY, { align: 'center' });
           
           if (page.subtitle) {
             pdf.setFontSize(14);
-            pdf.setTextColor(100, 100, 100);
-            pdf.text(page.subtitle, pageWidth / 2, yPos + 15, { align: 'center' });
+            pdf.setTextColor(page.imageUrl ? 230 : colors.muted.r, page.imageUrl ? 230 : colors.muted.g, page.imageUrl ? 230 : colors.muted.b);
+            pdf.text(page.subtitle, pageWidth / 2, titleY + 15, { align: 'center' });
           }
-        } else if (page.type === 'image' && page.imageUrl) {
-          // Image page
-          const imageAdded = await addImageSafe(page.imageUrl, margin, margin, contentWidth, 150);
-          yPos = imageAdded ? margin + 160 : margin + 20;
-          
-          if (page.title) {
-            pdf.setFontSize(12);
-            pdf.setTextColor(100, 100, 100);
-            pdf.text(page.title, pageWidth / 2, yPos, { align: 'center' });
+
+          // "Memory Book" label
+          pdf.setFontSize(10);
+          pdf.setTextColor(page.imageUrl ? 200 : colors.muted.r, page.imageUrl ? 200 : colors.muted.g, page.imageUrl ? 200 : colors.muted.b);
+          pdf.text(t('vault.book.memoryBook'), pageWidth / 2, titleY + 30, { align: 'center' });
+
+        } else if (page.type === 'image') {
+          // Image page - centered with caption
+          if (page.imageUrl) {
+            const imgHeight = 160;
+            const imgY = (pageHeight - imgHeight) / 2 - 15;
+            
+            // Shadow effect
+            pdf.setFillColor(0, 0, 0);
+            pdf.setGState(pdf.GState({ opacity: 0.1 }));
+            drawRoundedRect(margin + 3, imgY + 3, contentWidth, imgHeight, 4, 'F');
+            pdf.setGState(pdf.GState({ opacity: 1 }));
+            
+            // Image with rounded corners (clip)
+            await addImageSafe(page.imageUrl, margin, imgY, contentWidth, imgHeight);
+            
+            // Caption
+            if (page.title) {
+              pdf.setFontSize(11);
+              pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
+              pdf.text(page.title, pageWidth / 2, imgY + imgHeight + 12, { align: 'center' });
+            }
           }
+
         } else if (page.type === 'quote') {
-          // Quote page
-          yPos = pageHeight / 3;
+          // Quote page - centered with accent background
+          pdf.setFillColor(colors.quoteBg.r, colors.quoteBg.g, colors.quoteBg.b);
+          pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+          
+          // Decorative quotes
+          pdf.setFontSize(72);
+          pdf.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
+          pdf.setGState(pdf.GState({ opacity: 0.3 }));
+          pdf.text('"', margin, pageHeight * 0.35, { align: 'left' });
+          pdf.setGState(pdf.GState({ opacity: 1 }));
+          
+          // Quote text
           pdf.setFontSize(18);
-          pdf.setTextColor(80, 80, 80);
-          const quoteLines = pdf.splitTextToSize(`"${page.content || ''}"`, contentWidth - 20);
-          pdf.text(quoteLines, pageWidth / 2, yPos, { align: 'center' });
+          pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
+          const quoteLines = pdf.splitTextToSize(page.content || '', contentWidth - 20);
+          const quoteY = (pageHeight - (quoteLines.length * 8)) / 2;
+          pdf.text(quoteLines, pageWidth / 2, quoteY, { align: 'center' });
+
+        } else if (page.type === 'ending') {
+          // Ending page - centered with accent
+          const centerY = pageHeight / 2 - 20;
+          
+          // Accent circle
+          pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
+          pdf.setGState(pdf.GState({ opacity: 0.1 }));
+          pdf.circle(pageWidth / 2, centerY - 20, 30, 'F');
+          pdf.setGState(pdf.GState({ opacity: 1 }));
+          
+          // Title
+          pdf.setFontSize(24);
+          pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
+          pdf.text(page.title || '', pageWidth / 2, centerY + 20, { align: 'center' });
+          
+          // Content
+          if (page.content) {
+            pdf.setFontSize(12);
+            pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
+            const contentLines = pdf.splitTextToSize(page.content, contentWidth - 40);
+            pdf.text(contentLines, pageWidth / 2, centerY + 35, { align: 'center' });
+          }
+
         } else {
-          // Standard page with title and content
+          // Standard content page
           if (page.title) {
-            pdf.setFontSize(18);
-            pdf.setTextColor(30, 30, 30);
-            pdf.text(page.title, margin, yPos);
-            yPos += 15;
+            // Title with border bottom
+            pdf.setFontSize(20);
+            pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
+            pdf.text(page.title, margin, yPos + 5);
+            
+            // Border line
+            yPos += 12;
+            pdf.setDrawColor(colors.border.r, colors.border.g, colors.border.b);
+            pdf.setLineWidth(0.5);
+            pdf.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 12;
           }
 
           if (page.imageUrl) {
-            const imageAdded = await addImageSafe(page.imageUrl, margin, yPos, contentWidth, 80);
-            if (imageAdded) yPos += 90;
+            const imgHeight = 70;
+            // Shadow
+            pdf.setFillColor(0, 0, 0);
+            pdf.setGState(pdf.GState({ opacity: 0.08 }));
+            drawRoundedRect(margin + 2, yPos + 2, contentWidth, imgHeight, 3, 'F');
+            pdf.setGState(pdf.GState({ opacity: 1 }));
+            
+            await addImageSafe(page.imageUrl, margin, yPos, contentWidth, imgHeight);
+            yPos += imgHeight + 12;
           }
 
           if (page.content) {
             pdf.setFontSize(11);
-            pdf.setTextColor(60, 60, 60);
+            pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
+            pdf.setGState(pdf.GState({ opacity: 0.85 }));
             const lines = pdf.splitTextToSize(page.content, contentWidth);
             pdf.text(lines, margin, yPos);
+            pdf.setGState(pdf.GState({ opacity: 1 }));
           }
         }
 
-        // Page number
+        // Page number (except cover)
         if (page.type !== 'cover') {
-          pdf.setFontSize(10);
-          pdf.setTextColor(150, 150, 150);
-          pdf.text(`${i + 1}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+          pdf.setFontSize(9);
+          pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
+          pdf.text(`${i}`, pageWidth / 2, pageHeight - 15, { align: 'center' });
         }
       }
 
