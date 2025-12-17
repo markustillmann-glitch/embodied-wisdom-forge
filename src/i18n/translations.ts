@@ -830,6 +830,8 @@ export const translations = {
         imageInsertedDesc: 'Die Bildseite wurde nach der aktuellen Seite eingefügt.',
         pageDeleted: 'Seite gelöscht',
         imageCaptionPlaceholder: 'Bildunterschrift eingeben...',
+        subtitlePlaceholder: 'Untertitel...',
+        changeImage: 'Bild ändern',
       },
     },
 
@@ -1918,6 +1920,8 @@ export const translations = {
         imageInsertedDesc: 'The image page was inserted after the current page.',
         pageDeleted: 'Page Deleted',
         imageCaptionPlaceholder: 'Enter image caption...',
+        subtitlePlaceholder: 'Subtitle...',
+        changeImage: 'Change Image',
       },
     },
 
