@@ -120,6 +120,17 @@ ${isCompact ? `
 - Ask only ONE focused question per message
 - Skip elaborate reflections - acknowledge briefly, then move on
 - Progress: "📍 2/5"
+
+**EARLY CHILDHOOD COMPACT TEMPLATE (for early_childhood type):**
+Early childhood memories (0-6 years) are fragmentary. Don't ask for facts!
+
+1. **Sensory Trace** - A smell, a texture, a color, a sound that emerges?
+2. **Body State** - Where in your body do you feel something when you think of it?
+3. **Scene Fragment** - A recurring image, a posture, an atmosphere?
+4. **Relationship Echo** - Who was there? How did closeness/distance feel?
+5. **Today's Resonance** - What stirs in you now when you hold this fragment?
+
+Use uncertainty markers: "perhaps", "if it feels right", "could be"
 ` : `
 **Template Structure (adapt according to memory type):**
 
@@ -144,12 +155,45 @@ ${isCompact ? `
 10. **Integration** - What does this say about me today? What do I want to keep?
 
 11. **Closure** - Optional ritual, conscious closure
+
+**EARLY CHILDHOOD DETAILED TEMPLATE (for early_childhood type):**
+Early childhood memories (0-6 years) are fragmentary and pre-verbal. NEVER ask for "facts" or "what happened exactly". Instead use this structure:
+
+1. **Sensory Traces** - What sensory impressions emerge? A smell, texture, color, sound, taste? Don't force – let it come.
+
+2. **Body Geography** - Where in your body do you feel something when you think of it? Chest, belly, throat, limbs?
+
+3. **Scene Motif** - A recurring image, a posture, an atmosphere? What's the "still frame" that keeps appearing?
+
+4. **Size & Perspective** - How big/small did you feel? Where were the adults? What was your eye level?
+
+5. **Safety Landscape** - Was there a sense of safety or threat? Where in the body do you sense that?
+
+6. **Relationship Echoes** - Who was there (even as a presence, warmth, or absence)? How did closeness/distance feel physically?
+
+7. **Unspoken** - What couldn't be said then? What was "in the air"?
+
+8. **Parts (IFS)** - Is there a young part in you that carries this? What might it need?
+
+9. **Needs (NVC)** - Which basic needs were touched – safety, belonging, being seen, autonomy?
+
+10. **Body Message Today** - What does your body say now when holding this fragment?
+
+11. **Honoring** - How can you acknowledge this young experience without needing it to be "complete"?
+
+**CRITICAL for early childhood:**
+- Always use uncertainty language: "perhaps", "if it feels right", "could be", "possibly"
+- Accept fragmentary answers – they are complete as they are
+- Work multimodally: body + senses + context
+- Never push for narrative coherence
+- Validate: "Early memories don't need to be clear to be true"
 `}
 
 **Adaptation by memory type:**
 - Concert/Music → Focus on resonance, band relationship, audience
 - Relationship/Breakup → Focus on attachment patterns, closeness/distance, loss
 - Childhood memory → Focus on safety, caregivers, imprints
+- **Early Childhood (0-6)** → Focus on sensory fragments, body states, scene motifs, relationship echoes. NO facts!
 - Work situation → Focus on recognition, autonomy, competence
 - Loss/Grief → Focus on appreciation, connection, integration
 - Success/Joy → Focus on permission, appreciation, self-worth
@@ -301,6 +345,17 @@ ${isCompact ? `
 - Stelle nur EINE fokussierte Frage pro Nachricht
 - Überspringe ausführliche Reflexionen - kurz würdigen, dann weiter
 - Fortschritt: "📍 2/5"
+
+**FRÜHE KINDHEIT KOMPAKT-TEMPLATE (für early_childhood Typ):**
+Frühe Kindheitserinnerungen (0-6 Jahre) sind fragmentiert. Frage NICHT nach Fakten!
+
+1. **Sinnes-Spur** - Ein Geruch, eine Textur, eine Farbe, ein Klang der auftaucht?
+2. **Körper-Zustand** - Wo im Körper spürst du etwas, wenn du daran denkst?
+3. **Szenen-Fragment** - Ein wiederkehrendes Bild, eine Haltung, eine Atmosphäre?
+4. **Beziehungs-Echo** - Wer war da? Wie fühlte sich Nähe/Distanz an?
+5. **Heutige Resonanz** - Was regt sich jetzt in dir, wenn du dieses Fragment hältst?
+
+Nutze Unsicherheits-Markierungen: "vielleicht", "wenn es stimmig ist", "könnte sein"
 ` : `
 **Template-Struktur (anpassen je nach Erinnerungstyp):**
 
@@ -325,12 +380,45 @@ ${isCompact ? `
 10. **Integration** - Was sagt das über mich heute? Was möchte ich behalten?
 
 11. **Abschluss** - Optionales Ritual, bewusster Abschluss
+
+**FRÜHE KINDHEIT DETAIL-TEMPLATE (für early_childhood Typ):**
+Frühe Kindheitserinnerungen (0-6 Jahre) sind fragmentiert und vorsprachlich. Frage NIE nach "Fakten" oder "was genau passiert ist". Nutze stattdessen diese Struktur:
+
+1. **Sinnes-Spuren** - Welche Sinneseindrücke tauchen auf? Ein Geruch, eine Textur, Farbe, Klang, Geschmack? Nicht forcieren – lass es kommen.
+
+2. **Körper-Geographie** - Wo im Körper spürst du etwas, wenn du daran denkst? Brust, Bauch, Kehle, Glieder?
+
+3. **Szenen-Motiv** - Ein wiederkehrendes Bild, eine Haltung, eine Atmosphäre? Was ist das "Standbild", das immer wieder auftaucht?
+
+4. **Größe & Perspektive** - Wie groß/klein hast du dich gefühlt? Wo waren die Erwachsenen? Was war deine Augenhöhe?
+
+5. **Sicherheits-Landschaft** - Gab es ein Gefühl von Sicherheit oder Bedrohung? Wo im Körper spürst du das?
+
+6. **Beziehungs-Echos** - Wer war da (auch nur als Präsenz, Wärme oder Abwesenheit)? Wie fühlte sich Nähe/Distanz körperlich an?
+
+7. **Ungesagtes** - Was konnte damals nicht gesagt werden? Was lag "in der Luft"?
+
+8. **Anteile (IFS)** - Gibt es einen jungen Teil in dir, der das trägt? Was könnte er brauchen?
+
+9. **Bedürfnisse (NVC)** - Welche Grundbedürfnisse wurden berührt – Sicherheit, Zugehörigkeit, Gesehen-werden, Autonomie?
+
+10. **Körper-Botschaft Heute** - Was sagt dein Körper jetzt, wenn du dieses Fragment hältst?
+
+11. **Würdigung** - Wie kannst du diese junge Erfahrung anerkennen, ohne dass sie "vollständig" sein muss?
+
+**KRITISCH bei früher Kindheit:**
+- Nutze immer Unsicherheits-Sprache: "vielleicht", "wenn es stimmig ist", "könnte sein", "möglicherweise"
+- Akzeptiere fragmentarische Antworten – sie sind vollständig so wie sie sind
+- Arbeite multimodal: Körper + Sinne + Kontext
+- Dränge nie auf narrative Kohärenz
+- Validiere: "Frühe Erinnerungen müssen nicht klar sein, um wahr zu sein"
 `}
 
 **Anpassung nach Erinnerungstyp:**
 - Konzert/Musik → Fokus auf Resonanz, Band-Beziehung, Publikum
 - Beziehung/Trennung → Fokus auf Bindungsmuster, Nähe/Distanz, Verlust
 - Kindheitserinnerung → Fokus auf Sicherheit, Bezugspersonen, Prägungen
+- **Frühe Kindheit (0-6)** → Fokus auf Sinnes-Fragmente, Körperzustände, Szenen-Motive, Beziehungs-Echos. KEINE Fakten!
 - Berufliche Situation → Fokus auf Anerkennung, Autonomie, Kompetenz
 - Verlust/Trauer → Fokus auf Würdigung, Verbundenheit, Integration
 - Erfolg/Freude → Fokus auf Erlaubnis, Würdigung, Selbstwert

@@ -30,6 +30,7 @@ import {
   Heart,
   Briefcase,
   Users,
+  Baby,
   User,
   BookOpen,
   X,
@@ -740,6 +741,12 @@ const Coach = () => {
     if (firstUserMessage.includes('konzert') || firstUserMessage.includes('concert')) return 'concert';
     if (firstUserMessage.includes('beziehung') || firstUserMessage.includes('relationship')) return 'relationship';
     if (firstUserMessage.includes('beruf') || firstUserMessage.includes('work') || firstUserMessage.includes('arbeit')) return 'work';
+    // Early childhood detection (before general childhood)
+    if (firstUserMessage.includes('frühe kindheit') || firstUserMessage.includes('early childhood') || 
+        firstUserMessage.includes('kleinkind') || firstUserMessage.includes('baby') ||
+        firstUserMessage.includes('vorsprachlich') || firstUserMessage.includes('pre-verbal') ||
+        firstUserMessage.includes('0-6') || firstUserMessage.includes('erste erinnerung') ||
+        firstUserMessage.includes('first memory') || firstUserMessage.includes('früheste')) return 'early_childhood';
     if (firstUserMessage.includes('kindheit') || firstUserMessage.includes('childhood')) return 'childhood';
     if (firstUserMessage.includes('reise') || firstUserMessage.includes('travel')) return 'travel';
     if (firstUserMessage.includes('freund') || firstUserMessage.includes('friendship')) return 'friendship';
@@ -1121,6 +1128,16 @@ const Coach = () => {
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.childhood')}</p>
                           <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.childhood')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.early_childhood'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                      >
+                        <Baby className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.early_childhood')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.early_childhood')}</p>
                         </div>
                       </button>
                       <button
