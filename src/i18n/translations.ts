@@ -170,8 +170,12 @@ export const translations = {
           },
         },
         s3: {
-          title: 'Self-Energy (Das Selbst)',
-          p1: 'Das „Selbst" ist kein Teil, sondern ein Zustand von Präsenz: ruhig, neugierig, klar, mitfühlend. Führung (im Innen wie im Außen) aus dem „Selbst" heraus reguliert, ohne Druck auszuüben.',
+          title: 'Das Selbst (Self-Energy)',
+          p1: 'Das „Selbst" ist kein Teil, sondern die Kernessenz – ein Zustand von Präsenz und natürlicher Führungsqualität. Es ist immer da, wird aber oft von Teilen überlagert.',
+          p2: 'Die 8 C-Qualitäten des Selbst:',
+          qualities: ['Calm (Ruhe)', 'Curiosity (Neugier)', 'Clarity (Klarheit)', 'Compassion (Mitgefühl)', 'Confidence (Zuversicht)', 'Courage (Mut)', 'Creativity (Kreativität)', 'Connectedness (Verbundenheit)'],
+          p3: 'Wenn wir aus dem Selbst heraus handeln, können wir alle Teile mit Wohlwollen führen, ohne sie zu unterdrücken oder zu bekämpfen.',
+          goal: 'Ziel der Arbeit: Nicht die Teile loswerden, sondern Selbst-Führung entwickeln – die Fähigkeit, aus dieser Kernessenz heraus zu leben und alle Teile liebevoll zu integrieren.',
         },
         s4: {
           title: 'Verbindung zum Körper',
@@ -1268,8 +1272,12 @@ export const translations = {
           },
         },
         s3: {
-          title: 'Self-Energy (The Self)',
-          p1: 'The "Self" is not a part, but a state of presence: calm, curious, clear, compassionate. Leadership (inside and outside) from the "Self" regulates without exerting pressure.',
+          title: 'The Self (Self-Energy)',
+          p1: 'The "Self" is not a part, but the core essence—a state of presence and natural leadership quality. It is always there, but is often overshadowed by parts.',
+          p2: 'The 8 C-Qualities of the Self:',
+          qualities: ['Calm', 'Curiosity', 'Clarity', 'Compassion', 'Confidence', 'Courage', 'Creativity', 'Connectedness'],
+          p3: 'When we act from the Self, we can lead all parts with benevolence, without suppressing or fighting them.',
+          goal: 'Goal of the work: Not to get rid of parts, but to develop Self-leadership—the ability to live from this core essence and lovingly integrate all parts.',
         },
         s4: {
           title: 'Connection to the Body',

@@ -50,7 +50,11 @@ const getSystemPrompt = (language: string, templateMode: 'compact' | 'detailed' 
 - Managers: Preventive control and precaution
 - Firefighters: Emergency measures when overwhelmed
 - Exiles: Suppressed, wounded parts
-- The Self: Core essence with qualities like calm, curiosity, compassion
+- **The Self (Core Essence)**: Not a part, but our true nature – always present, often overshadowed
+  - 8 C-Qualities: Calm, Curiosity, Clarity, Compassion, Confidence, Courage, Creativity, Connectedness
+  - Goal: Self-leadership – leading all parts with benevolence from this core essence
+  - When parts step back, the Self naturally emerges
+  - Self-leadership means: conscious response instead of automatic reaction
 
 ### NVC (Nonviolent Communication)
 - Focus on feelings and needs instead of judgments
@@ -330,7 +334,11 @@ Speak empathetically in English. Ask open questions to explore deeper. Avoid has
 - Manager: Präventive Kontrolle und Vorsorge
 - Feuerwehrleute: Notfallmaßnahmen bei Überwältigung  
 - Exilanten: Verdrängte, verwundete Anteile
-- Das Selbst: Kernessenz mit Qualitäten wie Ruhe, Neugier, Mitgefühl
+- **Das Selbst (Kernessenz)**: Kein Teil, sondern unsere wahre Natur – immer präsent, oft überlagert
+  - 8 C-Qualitäten: Ruhe (Calm), Neugier (Curiosity), Klarheit (Clarity), Mitgefühl (Compassion), Zuversicht (Confidence), Mut (Courage), Kreativität (Creativity), Verbundenheit (Connectedness)
+  - Ziel: Selbst-Führung – alle Teile wohlwollend aus dieser Kernessenz heraus führen
+  - Wenn Teile zurücktreten, tritt das Selbst natürlich hervor
+  - Selbst-Führung bedeutet: bewusste Antwort statt automatischer Reaktion
 
 ### NVC (Gewaltfreie Kommunikation)
 - Fokus auf Gefühle und Bedürfnisse statt Bewertungen
