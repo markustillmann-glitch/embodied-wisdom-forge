@@ -28,6 +28,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import oriaOwlImage from '@/assets/oria-owl-fine.png';
 import { format } from 'date-fns';
 import { de, enUS } from 'date-fns/locale';
 import jsPDF from 'jspdf';
@@ -507,17 +508,24 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     setIsExporting(true);
 
     try {
-      // Square format (200mm x 200mm)
+      // Square format (200mm x 200mm) - explicitly set as array for custom size
       const pageSize = 200;
       const pdf = new jsPDF({
-        orientation: 'portrait',
+        orientation: 'p',
         unit: 'mm',
         format: [pageSize, pageSize],
+        putOnlyUsedFonts: true,
+        compress: true
       });
 
-      const pageWidth = pageSize;
-      const pageHeight = pageSize;
-      const margin = 20;
+      // Verify the page dimensions are correct
+      const actualWidth = pdf.internal.pageSize.getWidth();
+      const actualHeight = pdf.internal.pageSize.getHeight();
+      console.log('PDF dimensions:', actualWidth, 'x', actualHeight, 'mm');
+
+      const pageWidth = actualWidth;
+      const pageHeight = actualHeight;
+      const margin = 15;
       const contentWidth = pageWidth - (margin * 2);
 
       // Design system colors (from index.css)
@@ -530,9 +538,10 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         quoteBg: { r: 242, g: 238, b: 230 },          // quote background
       };
 
-      // Add fonts (Playfair Display and Source Sans 3)
-      pdf.addFont('https://fonts.gstatic.com/s/playfairdisplay/v30/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.ttf', 'Playfair Display', 'normal');
-      pdf.addFont('https://fonts.gstatic.com/s/sourcesans3/v9/nwpBtKy2OAdR1K-IwhWudF-R9QMylBJAV3Bo8Ky462EM.ttf', 'Source Sans 3', 'normal');
+      // Use Times for serif (titles) and Helvetica for sans-serif (body)
+      // These are built-in jsPDF fonts that work reliably
+      const fontSerif = 'times';
+      const fontSans = 'helvetica';
 
       // Helper to detect image format from base64 or URL
       const getImageFormat = (url: string): string => {
@@ -627,33 +636,33 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         pdf.setGState(pdf.GState({ opacity: 1 }));
       };
 
-      // Helper to draw Oria owl symbol
-      const drawOriaOwl = (x: number, y: number, size: number = 15, opacity: number = 0.2) => {
-        pdf.setGState(pdf.GState({ opacity }));
-        pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
-        
-        // Simplified owl shape - head circle
-        pdf.circle(x, y, size * 0.35, 'F');
-        
-        // Body (oval)
-        pdf.ellipse(x, y + size * 0.5, size * 0.3, size * 0.45, 'F');
-        
-        // Eyes (lighter)
-        pdf.setFillColor(colors.background.r, colors.background.g, colors.background.b);
-        pdf.circle(x - size * 0.12, y - size * 0.05, size * 0.1, 'F');
-        pdf.circle(x + size * 0.12, y - size * 0.05, size * 0.1, 'F');
-        
-        // Pupils
-        pdf.setFillColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
-        pdf.circle(x - size * 0.12, y - size * 0.05, size * 0.04, 'F');
-        pdf.circle(x + size * 0.12, y - size * 0.05, size * 0.04, 'F');
-        
-        // Ear tufts
-        pdf.setFillColor(colors.accent.r, colors.accent.g, colors.accent.b);
-        pdf.triangle(x - size * 0.25, y - size * 0.25, x - size * 0.35, y - size * 0.55, x - size * 0.1, y - size * 0.35, 'F');
-        pdf.triangle(x + size * 0.25, y - size * 0.25, x + size * 0.35, y - size * 0.55, x + size * 0.1, y - size * 0.35, 'F');
-        
-        pdf.setGState(pdf.GState({ opacity: 1 }));
+      // Load Oria owl image as base64 for PDF
+      let oriaImageBase64: string | null = null;
+      try {
+        const response = await fetch(oriaOwlImage);
+        const blob = await response.blob();
+        oriaImageBase64 = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+      } catch (e) {
+        console.warn('Failed to load Oria owl image:', e);
+      }
+
+      // Helper to add Oria owl image
+      const addOriaOwl = (x: number, y: number, size: number = 15, opacity: number = 0.8) => {
+        if (oriaImageBase64) {
+          try {
+            pdf.setGState(pdf.GState({ opacity }));
+            // Center the image at x, y
+            const halfSize = size / 2;
+            pdf.addImage(oriaImageBase64, 'PNG', x - halfSize, y - halfSize, size, size);
+            pdf.setGState(pdf.GState({ opacity: 1 }));
+          } catch (e) {
+            console.warn('Failed to add Oria image to PDF:', e);
+          }
+        }
       };
 
       // Helper to draw rounded rectangle
@@ -670,7 +679,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         const page = pages[i];
         
         if (i > 0) {
-          pdf.addPage([pageSize, pageSize]);
+          pdf.addPage([pageWidth, pageHeight]);
         }
 
         // Background
@@ -698,28 +707,28 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
             pdf.setGState(pdf.GState({ opacity: 1 }));
             
             // Add Oria owl as main visual
-            drawOriaOwl(pageWidth / 2, pageHeight * 0.35, 40, 0.25);
+            addOriaOwl(pageWidth / 2, pageHeight * 0.35, 50, 0.9);
           }
           
           // Title at bottom
           const titleY = page.imageUrl ? pageHeight - 50 : pageHeight * 0.65;
-          pdf.setFontSize(28);
-          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(26);
+          pdf.setFont(fontSerif, 'bold');
           pdf.setTextColor(page.imageUrl ? 255 : colors.foreground.r, page.imageUrl ? 255 : colors.foreground.g, page.imageUrl ? 255 : colors.foreground.b);
           const titleLines = pdf.splitTextToSize(page.title || '', contentWidth);
           pdf.text(titleLines, pageWidth / 2, titleY, { align: 'center' });
           
           if (page.subtitle) {
-            pdf.setFontSize(12);
-            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(11);
+            pdf.setFont(fontSans, 'normal');
             pdf.setTextColor(page.imageUrl ? 220 : colors.muted.r, page.imageUrl ? 220 : colors.muted.g, page.imageUrl ? 220 : colors.muted.b);
-            pdf.text(page.subtitle, pageWidth / 2, titleY + 12, { align: 'center' });
+            pdf.text(page.subtitle, pageWidth / 2, titleY + 11, { align: 'center' });
           }
 
-          // "Memory Book" label with small Oria
-          pdf.setFontSize(9);
+          // "Memory Book" label
+          pdf.setFontSize(8);
           pdf.setTextColor(page.imageUrl ? 180 : colors.muted.r, page.imageUrl ? 180 : colors.muted.g, page.imageUrl ? 180 : colors.muted.b);
-          pdf.text(t('vault.book.memoryBook'), pageWidth / 2, titleY + 25, { align: 'center' });
+          pdf.text(t('vault.book.memoryBook'), pageWidth / 2, titleY + 22, { align: 'center' });
 
         } else if (page.type === 'image') {
           // Image page - full bleed with optional caption
@@ -733,8 +742,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
               pdf.rect(0, pageHeight - 30, pageWidth, 30, 'F');
               pdf.setGState(pdf.GState({ opacity: 1 }));
               
-              pdf.setFontSize(11);
-              pdf.setFont('helvetica', 'italic');
+              pdf.setFontSize(10);
+              pdf.setFont(fontSans, 'italic');
               pdf.setTextColor(255, 255, 255);
               pdf.text(page.title, pageWidth / 2, pageHeight - 12, { align: 'center' });
             }
@@ -756,15 +765,15 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           pdf.setGState(pdf.GState({ opacity: 1 }));
           
           // Quote text
-          pdf.setFontSize(16);
-          pdf.setFont('helvetica', 'italic');
+          pdf.setFontSize(14);
+          pdf.setFont(fontSerif, 'italic');
           pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
           const quoteLines = pdf.splitTextToSize(page.content || '', contentWidth - 20);
-          const quoteY = (pageHeight - (quoteLines.length * 7)) / 2;
+          const quoteY = (pageHeight - (quoteLines.length * 6)) / 2;
           pdf.text(quoteLines, pageWidth / 2, quoteY, { align: 'center' });
           
           // Small Oria at bottom
-          drawOriaOwl(pageWidth / 2, pageHeight - 25, 12, 0.15);
+          addOriaOwl(pageWidth / 2, pageHeight - 25, 18, 0.5);
 
         } else if (page.type === 'ending') {
           // Ending page - Beyond Bias description
@@ -773,18 +782,18 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           const centerY = pageHeight * 0.25;
           
           // Oria owl as main element
-          drawOriaOwl(pageWidth / 2, centerY, 30, 0.3);
+          addOriaOwl(pageWidth / 2, centerY, 40, 0.9);
           
           // Title
-          pdf.setFontSize(20);
-          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(18);
+          pdf.setFont(fontSerif, 'bold');
           pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
           pdf.text(page.title || '', pageWidth / 2, centerY + 35, { align: 'center' });
           
           // Content
           if (page.content) {
-            pdf.setFontSize(11);
-            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(10);
+            pdf.setFont(fontSans, 'normal');
             pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
             const contentLines = pdf.splitTextToSize(page.content, contentWidth - 20);
             pdf.text(contentLines, pageWidth / 2, centerY + 48, { align: 'center' });
@@ -800,15 +809,15 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           
           // Beyond Bias section
           pdf.setFontSize(9);
-          pdf.setFont('helvetica', 'bold');
+          pdf.setFont(fontSerif, 'bold');
           pdf.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
           pdf.text('Beyond Bias through memories', pageWidth / 2, dividerY + 12, { align: 'center' });
           
-          pdf.setFontSize(8);
-          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(7);
+          pdf.setFont(fontSans, 'normal');
           pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
           const descLines = pdf.splitTextToSize(beyondBiasDescription, contentWidth - 10);
-          pdf.text(descLines, pageWidth / 2, dividerY + 22, { align: 'center' });
+          pdf.text(descLines, pageWidth / 2, dividerY + 20, { align: 'center' });
 
         } else {
           // Standard content page
@@ -816,8 +825,8 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           
           if (page.title) {
             // Title with accent underline
-            pdf.setFontSize(18);
-            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(16);
+            pdf.setFont(fontSerif, 'bold');
             pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
             pdf.text(page.title, margin, yPos + 5);
             
@@ -844,23 +853,23 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           }
 
           if (page.content) {
-            pdf.setFontSize(10);
-            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(9);
+            pdf.setFont(fontSans, 'normal');
             pdf.setTextColor(colors.foreground.r, colors.foreground.g, colors.foreground.b);
             const lines = pdf.splitTextToSize(page.content, contentWidth);
             pdf.text(lines, margin, yPos);
           }
           
           // Small Oria watermark bottom right
-          drawOriaOwl(pageWidth - 18, pageHeight - 18, 8, 0.08);
+          addOriaOwl(pageWidth - 15, pageHeight - 15, 12, 0.3);
         }
 
         // Page number (except cover)
         if (page.type !== 'cover') {
-          pdf.setFontSize(8);
-          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(7);
+          pdf.setFont(fontSans, 'normal');
           pdf.setTextColor(colors.muted.r, colors.muted.g, colors.muted.b);
-          pdf.text(`${i}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+          pdf.text(`${i}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
         }
       }
 
