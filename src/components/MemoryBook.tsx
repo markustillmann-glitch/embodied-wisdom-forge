@@ -685,8 +685,9 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         pdf.setGState(pdf.GState({ opacity: 1 }));
       };
 
-      // Load Oria owl image as base64 for PDF
+      // Load Oria owl image as base64 for PDF and calculate aspect ratio
       let oriaImageBase64: string | null = null;
+      let oriaImageAspect = 1;
       try {
         const response = await fetch(oriaOwlImage);
         const blob = await response.blob();
@@ -695,18 +696,33 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           reader.onloadend = () => resolve(reader.result as string);
           reader.readAsDataURL(blob);
         });
+        // Calculate aspect ratio
+        const img = new Image();
+        await new Promise<void>((resolve) => {
+          img.onload = () => {
+            oriaImageAspect = img.width / img.height;
+            resolve();
+          };
+          img.src = oriaImageBase64!;
+        });
       } catch (e) {
         console.warn('Failed to load Oria owl image:', e);
       }
 
-      // Helper to add Oria owl image
-      const addOriaOwl = (x: number, y: number, size: number = 15, opacity: number = 0.8) => {
+      // Helper to add Oria owl image with correct aspect ratio
+      const addOriaOwl = (x: number, y: number, maxSize: number = 15, opacity: number = 0.8) => {
         if (oriaImageBase64) {
           try {
             pdf.setGState(pdf.GState({ opacity }));
+            // Calculate dimensions preserving aspect ratio
+            let width = maxSize;
+            let height = maxSize / oriaImageAspect;
+            if (height > maxSize) {
+              height = maxSize;
+              width = maxSize * oriaImageAspect;
+            }
             // Center the image at x, y
-            const halfSize = size / 2;
-            pdf.addImage(oriaImageBase64, 'PNG', x - halfSize, y - halfSize, size, size);
+            pdf.addImage(oriaImageBase64, 'PNG', x - width / 2, y - height / 2, width, height);
             pdf.setGState(pdf.GState({ opacity: 1 }));
           } catch (e) {
             console.warn('Failed to add Oria image to PDF:', e);
@@ -820,9 +836,6 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           const quoteLines = pdf.splitTextToSize(page.content || '', contentWidth - 20);
           const quoteY = (pageHeight - (quoteLines.length * 6)) / 2;
           pdf.text(quoteLines, pageWidth / 2, quoteY, { align: 'center' });
-          
-          // Small Oria at bottom
-          addOriaOwl(pageWidth / 2, pageHeight - 25, 18, 0.5);
 
         } else if (page.type === 'ending') {
           // Ending page - Beyond Bias description
@@ -910,9 +923,6 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
             const lines = pdf.splitTextToSize(textContent, contentWidth);
             pdf.text(lines, margin, yPos);
           }
-          
-          // Small Oria watermark bottom right
-          addOriaOwl(pageWidth - 15, pageHeight - 15, 12, 0.3);
         }
 
         // Page number (except cover)
