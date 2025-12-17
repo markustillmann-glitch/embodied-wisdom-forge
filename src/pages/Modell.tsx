@@ -327,6 +327,18 @@ const Modell = () => {
 
             <SubSection number="4.3" title={t('index.kap4.s3.title')}>
               <p>{t('index.kap4.s3.p1')}</p>
+              <p className="font-medium text-foreground mt-4">{t('index.kap4.s3.p2')}</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 my-4">
+                {tArray('index.kap4.s3.qualities').map((quality, idx) => (
+                  <div key={idx} className="bg-accent/10 p-3 rounded-lg border border-accent/30 text-center">
+                    <span className="text-sm font-medium text-foreground">{quality}</span>
+                  </div>
+                ))}
+              </div>
+              <p>{t('index.kap4.s3.p3')}</p>
+              <div className="bg-quote-bg p-5 sm:p-6 rounded-lg border-l-4 border-accent mt-4">
+                <p className="text-base sm:text-lg font-serif text-foreground">{t('index.kap4.s3.goal')}</p>
+              </div>
             </SubSection>
 
             <SubSection number="4.4" title={t('index.kap4.s4.title')}>
