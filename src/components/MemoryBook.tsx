@@ -88,6 +88,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
   const [isGeneratingPageImage, setIsGeneratingPageImage] = useState(false);
   const [showInsertMenu, setShowInsertMenu] = useState(false);
   const [editingImagePageIndex, setEditingImagePageIndex] = useState<number | null>(null);
+  const [userProfile, setUserProfile] = useState<{
+    coach_tonality?: string;
+    interpretation_style?: string;
+    praise_level?: string;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverFileInputRef = useRef<HTMLInputElement>(null);
   const imagePageFileInputRef = useRef<HTMLInputElement>(null);
@@ -122,6 +127,24 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     touchStartX.current = null;
     touchEndX.current = null;
   };
+
+  // Fetch user profile for book generation preferences
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('user_profiles')
+          .select('coach_tonality, interpretation_style, praise_level')
+          .eq('user_id', user.id)
+          .single();
+        if (data) {
+          setUserProfile(data);
+        }
+      }
+    };
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     if (open && memory) {
@@ -162,6 +185,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
             image_url: memory.image_url,
           },
           language,
+          userProfile: userProfile ? {
+            coach_tonality: userProfile.coach_tonality,
+            interpretation_style: userProfile.interpretation_style,
+            praise_level: userProfile.praise_level,
+          } : undefined,
         },
       });
 
@@ -320,6 +348,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           },
           language,
           addContext: true,
+          userProfile: userProfile ? {
+            coach_tonality: userProfile.coach_tonality,
+            interpretation_style: userProfile.interpretation_style,
+            praise_level: userProfile.praise_level,
+          } : undefined,
         },
       });
 
