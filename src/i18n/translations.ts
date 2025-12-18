@@ -749,6 +749,16 @@ export const translations = {
           qualifications: 'Approbierte Psychotherapeutin, Supervisorin, Krisenintervention',
         },
       },
+      aiBoard: {
+        title: 'KI-Kontrollgremium',
+        subtitle: 'Unabhängige Aufsicht für verantwortungsvolle KI-Nutzung',
+        chairman: {
+          name: 'Prof. Dr. Hans-Werner Friedrichs',
+          role: 'Vorsitzender KI-Kontrollgremium',
+          bio: 'Nach 28 Jahren am Fraunhofer-Institut für Intelligente Analyse- und Informationssysteme (IAIS) bringt Prof. Friedrichs unvergleichliche Expertise in KI-Ethik und Datenschutz ein. Er hat die europäischen Richtlinien für vertrauenswürdige KI mitgestaltet und berät Bundesministerien in Fragen der KI-Governance. "Künstliche Intelligenz muss dem Menschen dienen – nicht umgekehrt. Bei sensiblen Anwendungen wie Coaching brauchen wir höchste Standards."',
+          qualifications: 'ehem. Bereichsleiter Fraunhofer IAIS, Mitglied EU High-Level Expert Group on AI, Beirat Deutscher Ethikrat KI',
+        },
+      },
       support: {
         title: 'Unser Support-Team',
         subtitle: 'Die Menschen, die im Hintergrund alles am Laufen halten',
@@ -2036,6 +2046,16 @@ export const translations = {
           role: 'Psychological Director',
           bio: 'Anna oversees the psychological safety of all programs. As an experienced psychotherapist, she recognizes early when someone needs professional support. "Self-development may be challenging—but never overwhelming."',
           qualifications: 'Licensed Psychotherapist, Supervisor, Crisis Intervention',
+        },
+      },
+      aiBoard: {
+        title: 'AI Control Board',
+        subtitle: 'Independent oversight for responsible AI use',
+        chairman: {
+          name: 'Prof. Dr. Hans-Werner Friedrichs',
+          role: 'Chairman AI Control Board',
+          bio: 'After 28 years at the Fraunhofer Institute for Intelligent Analysis and Information Systems (IAIS), Prof. Friedrichs brings unparalleled expertise in AI ethics and data protection. He has helped shape European guidelines for trustworthy AI and advises federal ministries on AI governance matters. "Artificial intelligence must serve humanity—not the other way around. For sensitive applications like coaching, we need the highest standards."',
+          qualifications: 'Former Division Head Fraunhofer IAIS, Member EU High-Level Expert Group on AI, Advisory Board German Ethics Council AI',
         },
       },
       support: {
