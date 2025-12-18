@@ -1,3 +1,4 @@
+// Language context for i18n support
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type Language = 'de' | 'en';
