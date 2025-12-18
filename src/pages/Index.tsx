@@ -106,18 +106,6 @@ const Index = () => {
             transition={{ delay: 1, duration: 0.8 }}
             className="mt-10 sm:mt-12 flex flex-col items-center gap-5 sm:gap-6"
           >
-            <button
-              onClick={() => scrollToChapter("vorwort")}
-              className="group inline-flex items-center gap-2 text-sm font-sans tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span>{t('index.begin')}</span>
-              <motion.span
-                animate={{ y: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              >
-                ↓
-              </motion.span>
-            </button>
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <a
                 href="/coach"
