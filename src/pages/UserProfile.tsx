@@ -481,7 +481,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.coreNeeds')}</Label>
               <Input
                 value={(profile.core_needs || []).join(', ')}
-                onChange={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('core_needs', e.target.value.split(','))}
                 onBlur={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.coreNeedsPlaceholder')}
                 className="mt-1.5 text-base"
@@ -492,7 +492,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.neglectedNeeds')}</Label>
               <Input
                 value={(profile.neglected_needs || []).join(', ')}
-                onChange={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('neglected_needs', e.target.value.split(','))}
                 onBlur={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.neglectedNeedsPlaceholder')}
                 className="mt-1.5 text-base"
@@ -503,7 +503,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.overFulfilledNeeds')}</Label>
               <Input
                 value={(profile.over_fulfilled_needs || []).join(', ')}
-                onChange={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('over_fulfilled_needs', e.target.value.split(','))}
                 onBlur={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.overFulfilledNeedsPlaceholder')}
                 className="mt-1.5 text-base"
@@ -638,7 +638,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.languageTriggers')}</Label>
               <Input
                 value={(profile.language_triggers || []).join(', ')}
-                onChange={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('language_triggers', e.target.value.split(','))}
                 onBlur={(e) => updateField('language_triggers', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.languageTriggersPlaceholder')}
                 className="mt-1.5 text-base"
@@ -689,7 +689,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.safePlaces')}</Label>
               <Input
                 value={(profile.safe_places || []).join(', ')}
-                onChange={(e) => updateField('safe_places', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('safe_places', e.target.value.split(','))}
                 onBlur={(e) => updateField('safe_places', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.safePlacesPlaceholder')}
                 className="mt-1.5 text-base"
@@ -700,7 +700,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.powerSources')}</Label>
               <Input
                 value={(profile.power_sources || []).join(', ')}
-                onChange={(e) => updateField('power_sources', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('power_sources', e.target.value.split(','))}
                 onBlur={(e) => updateField('power_sources', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.powerSourcesPlaceholder')}
                 className="mt-1.5 text-base"
@@ -711,7 +711,7 @@ const UserProfile = () => {
               <Label className="text-sm">{t('userProfile.bodyAnchors')}</Label>
               <Input
                 value={(profile.body_anchors || []).join(', ')}
-                onChange={(e) => updateField('body_anchors', e.target.value.split(',').map(s => s.trim()))}
+                onChange={(e) => updateField('body_anchors', e.target.value.split(','))}
                 onBlur={(e) => updateField('body_anchors', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                 placeholder={t('userProfile.bodyAnchorsPlaceholder')}
                 className="mt-1.5 text-base"
