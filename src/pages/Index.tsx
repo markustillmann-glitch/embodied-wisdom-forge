@@ -375,8 +375,8 @@ const Index = () => {
                 </h3>
                 <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4">
                   {language === 'de'
-                    ? 'Oria wurde von unabhängigen Experten für maximale Sicherheit entwickelt: IT-Sicherheitsexperten prüfen Datenschutz und Verschlüsselung, KI-Fachleute überwachen die Algorithmen, und Psychotherapeuten, GfK-Trainer sowie IFS-Coaches validieren die inhaltliche und psychologische Sicherheit.'
-                    : 'Oria was developed by independent experts for maximum security: IT security experts verify privacy and encryption, AI specialists monitor algorithms, and psychotherapists, NVC trainers, and IFS coaches validate content and psychological safety.'}
+                    ? 'Oria wird gemeinsam mit führenden IT-Sicherheitsexperten für maximale Sicherheit entwickelt. KI-Fachleute überwachen die Algorithmen, und Psychotherapeuten, GfK-Trainer sowie IFS-Coaches validieren die inhaltliche und psychologische Sicherheit.'
+                    : 'Oria is developed together with leading IT security experts for maximum security. AI specialists monitor algorithms, and psychotherapists, NVC trainers, and IFS coaches validate content and psychological safety.'}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="inline-flex items-center gap-1.5 text-xs bg-background/60 px-2.5 py-1 rounded-full text-muted-foreground">
