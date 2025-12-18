@@ -7,6 +7,7 @@ export const translations = {
       toHome: 'Zur Startseite',
       seminars: 'Seminare',
       oria: 'Oria',
+      team: 'Team',
       impressum: 'Impressum',
       discoverOria: 'Oria entdecken',
       seminarOffers: 'Seminarangebote',
@@ -552,14 +553,15 @@ export const translations = {
       detailSubtitle: 'Ein strukturierter Weg von der Selbstwahrnehmung zur Selbstführung',
       timeline: {
         start: { phase: 'Start', title: 'Auftakt-Wochenende', desc: 'Kennenlernen, Vertrauensaufbau und erste Einführung in Meditation, IFS und GFK. Einführung in den AI-Coach: Profil anlegen, wichtige Funktionen erkunden und angeleitete erste Arbeit mit dem Coach. Jeder formuliert eine persönliche Intention für das Jahr.' },
-        m1_3: { phase: 'Monat 1–3', title: 'Grundlagen der Selbstwahrnehmung', desc: 'Selbstkontakt entwickeln, Trigger und Reaktionsmuster verstehen, somatische Intelligenz und Körpergedächtnis erkunden.' },
-        m4_5: { phase: 'Monat 4–5', title: 'Innere Anteile (IFS)', desc: 'Manager-Anteile erkennen, Firefighter und Exiles verstehen. Erste Dialoge mit den inneren Beschützern.' },
-        m6: { phase: 'Monat 6', title: 'GFK-Grundlagen', desc: 'Gefühle benennen, Bedürfnisse navigieren. Das innere Erleben in beziehungsfähige Sprache übersetzen.' },
+        m1_3: { phase: 'Monat 1–3', title: 'Grundlagen der Selbstwahrnehmung', desc: 'Selbstkontakt entwickeln, Trigger und Reaktionsmuster verstehen, somatische Intelligenz und Körpergedächtnis erkunden. Angeleitet von erfahrenen Somatic- und Achtsamkeits-Coaches.' },
+        m4_5: { phase: 'Monat 4–5', title: 'Innere Anteile (IFS)', desc: 'Manager-Anteile erkennen, Firefighter und Exiles verstehen. Erste Dialoge mit den inneren Beschützern. Durchgeführt von zertifizierten IFS-Therapeuten.' },
+        m6: { phase: 'Monat 6', title: 'GFK-Grundlagen', desc: 'Gefühle benennen, Bedürfnisse navigieren. Das innere Erleben in beziehungsfähige Sprache übersetzen. Geleitet von ausgebildeten GFK-Trainern.' },
         mid: { phase: 'Mitte', title: 'Intensiv-Retreat (7 Tage)', desc: 'Tiefe Präsenzwoche mit Körperarbeit, Teile-Heilung, Visionsarbeit und Integration. Der Höhepunkt der ersten Programmhälfte.' },
         m7_9: { phase: 'Monat 7–9', title: 'Integration & Resilienz', desc: 'Selbstführung im Alltag verankern, authentische Kommunikation üben, Umgang mit Rückschlägen und Stress.' },
         m10_11: { phase: 'Monat 10–11', title: 'Ausrichtung & Vision', desc: 'Lebensvision und Werte klären, das neue Selbstbild festigen, Zukunftsplan erstellen.' },
         end: { phase: 'Abschluss', title: 'Abschluss-Wochenende', desc: 'Integration, Wertschätzungsrunden, symbolische Übergabe. Mit gestärkter Selbstverbindung in den Alltag zurückkehren.' },
       },
+      meetTeam: 'Unser Expertenteam kennenlernen',
       
       // Benefits
       benefitsTitle: 'Konkrete Mehrwerte des Jahresprogramms',
@@ -705,6 +707,52 @@ export const translations = {
       validationPhone: 'Telefonnummer zu lang',
       validationInterest: 'Bitte wählen Sie ein Seminarformat',
       validationMessage: 'Nachricht zu lang',
+    },
+
+    // Team page
+    team: {
+      title: 'Team Oria',
+      subtitle: 'Die Menschen hinter dem Programm',
+      intro: 'Unser interdisziplinäres Team vereint Expertise aus Psychologie, Körperarbeit, Meditation und Coaching – vereint durch die gemeinsame Überzeugung, dass echte Transformation ganzheitliche Begleitung braucht.',
+      experts: {
+        title: 'Unsere Fachexperten',
+        subtitle: 'Jeder Programmblock wird von spezialisierten Experten ihres Fachs durchgeführt',
+        somatic: {
+          role: 'Somatic & Achtsamkeit',
+          desc: 'Erfahrene Coaches für Körperwahrnehmung, Nervensystemregulation und achtsamkeitsbasierte Methoden.',
+        },
+        ifs: {
+          role: 'IFS-Therapie',
+          desc: 'Zertifizierte IFS-Therapeuten für die Arbeit mit inneren Anteilen und Teile-Heilung.',
+        },
+        nvc: {
+          role: 'Gewaltfreie Kommunikation',
+          desc: 'Ausgebildete GFK-Trainer für authentische Kommunikation und Bedürfnisnavigation.',
+        },
+        bodywork: {
+          role: 'Körperarbeit',
+          desc: 'Qualifizierte Körpertherapeuten für somatische Integration und Traumaarbeit.',
+        },
+        psychology: {
+          role: 'Psychologische Begleitung',
+          desc: 'Psychotherapeuten und Psychologen zur Sicherstellung der psychologischen Sicherheit.',
+        },
+      },
+      quality: {
+        title: 'Qualitätssicherung',
+        subtitle: 'Wie wir höchste Standards gewährleisten',
+        items: [
+          'Alle Experten verfügen über anerkannte Zertifizierungen in ihrem Fachgebiet',
+          'Regelmäßige Supervision und kollegiale Intervision',
+          'Kontinuierliche Weiterbildung und Austausch im Team',
+          'Enge Zusammenarbeit zwischen allen Fachbereichen',
+        ],
+      },
+      cta: {
+        title: 'Teil des Teams werden?',
+        desc: 'Wir sind immer auf der Suche nach qualifizierten Experten, die unsere Vision teilen.',
+        button: 'Kontakt aufnehmen',
+      },
     },
 
     // Auth
@@ -1276,6 +1324,7 @@ export const translations = {
       toHome: 'To Home',
       seminars: 'Seminars',
       oria: 'Oria',
+      team: 'Team',
       impressum: 'Legal Notice',
       discoverOria: 'Discover Oria',
       seminarOffers: 'Seminar Offerings',
@@ -1821,14 +1870,15 @@ export const translations = {
       detailSubtitle: 'A structured path from self-awareness to self-leadership',
       timeline: {
         start: { phase: 'Start', title: 'Kickoff Weekend', desc: 'Getting to know each other, building trust, and first introduction to meditation, IFS, and NVC. Introduction to the AI coach: setting up your profile, exploring key features, and guided first work with the coach. Everyone formulates a personal intention for the year.' },
-        m1_3: { phase: 'Month 1-3', title: 'Foundations of Self-Awareness', desc: 'Developing self-contact, understanding triggers and reaction patterns, exploring somatic intelligence and body memory.' },
-        m4_5: { phase: 'Month 4-5', title: 'Inner Parts (IFS)', desc: 'Recognizing manager parts, understanding firefighters and exiles. First dialogues with inner protectors.' },
-        m6: { phase: 'Month 6', title: 'NVC Basics', desc: 'Naming feelings, navigating needs. Translating inner experience into relational language.' },
+        m1_3: { phase: 'Month 1-3', title: 'Foundations of Self-Awareness', desc: 'Developing self-contact, understanding triggers and reaction patterns, exploring somatic intelligence and body memory. Guided by experienced somatic and mindfulness coaches.' },
+        m4_5: { phase: 'Month 4-5', title: 'Inner Parts (IFS)', desc: 'Recognizing manager parts, understanding firefighters and exiles. First dialogues with inner protectors. Led by certified IFS therapists.' },
+        m6: { phase: 'Month 6', title: 'NVC Basics', desc: 'Naming feelings, navigating needs. Translating inner experience into relational language. Facilitated by trained NVC trainers.' },
         mid: { phase: 'Middle', title: 'Intensive Retreat (7 days)', desc: 'Deep presence week with body work, parts healing, vision work, and integration. The highlight of the first half of the program.' },
         m7_9: { phase: 'Month 7-9', title: 'Integration & Resilience', desc: 'Anchoring self-leadership in everyday life, practicing authentic communication, dealing with setbacks and stress.' },
         m10_11: { phase: 'Month 10-11', title: 'Alignment & Vision', desc: 'Clarifying life vision and values, solidifying the new self-image, creating a future plan.' },
         end: { phase: 'Closing', title: 'Closing Weekend', desc: 'Integration, appreciation rounds, symbolic handover. Returning to everyday life with strengthened self-connection.' },
       },
+      meetTeam: 'Meet Our Expert Team',
       
       // Benefits
       benefitsTitle: 'Concrete Benefits of the Annual Program',
@@ -1925,6 +1975,52 @@ export const translations = {
       // Contact
       contactTitle: 'Interested?',
       contactDesc: 'Send us a non-binding inquiry—we will personally get back to you and answer your questions.',
+    },
+
+    // Team page
+    team: {
+      title: 'Team Oria',
+      subtitle: 'The People Behind the Program',
+      intro: 'Our interdisciplinary team combines expertise from psychology, bodywork, meditation, and coaching—united by the shared conviction that genuine transformation requires holistic guidance.',
+      experts: {
+        title: 'Our Expert Team',
+        subtitle: 'Each program block is led by specialized experts in their field',
+        somatic: {
+          role: 'Somatic & Mindfulness',
+          desc: 'Experienced coaches for body awareness, nervous system regulation, and mindfulness-based methods.',
+        },
+        ifs: {
+          role: 'IFS Therapy',
+          desc: 'Certified IFS therapists for working with inner parts and parts healing.',
+        },
+        nvc: {
+          role: 'Nonviolent Communication',
+          desc: 'Trained NVC trainers for authentic communication and needs navigation.',
+        },
+        bodywork: {
+          role: 'Bodywork',
+          desc: 'Qualified body therapists for somatic integration and trauma work.',
+        },
+        psychology: {
+          role: 'Psychological Support',
+          desc: 'Psychotherapists and psychologists to ensure psychological safety.',
+        },
+      },
+      quality: {
+        title: 'Quality Assurance',
+        subtitle: 'How we ensure the highest standards',
+        items: [
+          'All experts hold recognized certifications in their field',
+          'Regular supervision and collegial intervision',
+          'Continuous training and team exchange',
+          'Close collaboration between all specialties',
+        ],
+      },
+      cta: {
+        title: 'Want to Join the Team?',
+        desc: 'We are always looking for qualified experts who share our vision.',
+        button: 'Get in Touch',
+      },
     },
     
     // Impressum
