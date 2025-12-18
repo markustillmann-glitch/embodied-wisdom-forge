@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X, Sliders } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X, Sliders, Shield, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -43,6 +43,12 @@ interface UserProfileData {
   coach_tonality: string | null;
   interpretation_style: string | null;
   praise_level: string | null;
+  // Resource Onboarding
+  safe_places: string[] | null;
+  power_sources: string[] | null;
+  body_anchors: string[] | null;
+  self_qualities: string[] | null;
+  resource_onboarding_completed: boolean | null;
 }
 
 const defaultProfile: UserProfileData = {
@@ -75,6 +81,12 @@ const defaultProfile: UserProfileData = {
   coach_tonality: 'warm',
   interpretation_style: 'neutral',
   praise_level: 'moderate',
+  // Resource Onboarding
+  safe_places: [],
+  power_sources: [],
+  body_anchors: [],
+  self_qualities: [],
+  resource_onboarding_completed: false,
 };
 
 // Extracted components to prevent re-creation on every render
@@ -664,7 +676,86 @@ const UserProfile = () => {
             </div>
           </Section>
 
-          {/* 8. Coach AI Settings */}
+          {/* 8. Resources & Safety Anchors */}
+          <Section icon={Shield} title={t('userProfile.resources')} description={t('userProfile.resourcesDesc')}>
+            <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Zap className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium">{t('userProfile.resourcesWhy')}</span>
+              </div>
+              <p className="text-xs text-muted-foreground">{t('userProfile.resourcesWhyDesc')}</p>
+            </div>
+            <div>
+              <Label className="text-sm">{t('userProfile.safePlaces')}</Label>
+              <Input
+                value={(profile.safe_places || []).join(', ')}
+                onChange={(e) => updateField('safe_places', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('safe_places', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                placeholder={t('userProfile.safePlacesPlaceholder')}
+                className="mt-1.5 text-base"
+              />
+              <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
+            </div>
+            <div>
+              <Label className="text-sm">{t('userProfile.powerSources')}</Label>
+              <Input
+                value={(profile.power_sources || []).join(', ')}
+                onChange={(e) => updateField('power_sources', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('power_sources', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                placeholder={t('userProfile.powerSourcesPlaceholder')}
+                className="mt-1.5 text-base"
+              />
+              <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
+            </div>
+            <div>
+              <Label className="text-sm">{t('userProfile.bodyAnchors')}</Label>
+              <Input
+                value={(profile.body_anchors || []).join(', ')}
+                onChange={(e) => updateField('body_anchors', e.target.value.split(',').map(s => s.trim()))}
+                onBlur={(e) => updateField('body_anchors', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                placeholder={t('userProfile.bodyAnchorsPlaceholder')}
+                className="mt-1.5 text-base"
+              />
+              <p className="text-xs text-muted-foreground mt-1">{t('userProfile.commaSeparated')}</p>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm">{t('userProfile.selfQualities')}</Label>
+              <p className="text-xs text-muted-foreground mb-2">{t('userProfile.selfQualitiesDesc')}</p>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <CheckboxOption value="calm" label={t('userProfile.qualities.calm')} checked={(profile.self_qualities || []).includes('calm')} onToggle={() => toggleArrayField('self_qualities', 'calm')} />
+                <CheckboxOption value="curiosity" label={t('userProfile.qualities.curiosity')} checked={(profile.self_qualities || []).includes('curiosity')} onToggle={() => toggleArrayField('self_qualities', 'curiosity')} />
+                <CheckboxOption value="clarity" label={t('userProfile.qualities.clarity')} checked={(profile.self_qualities || []).includes('clarity')} onToggle={() => toggleArrayField('self_qualities', 'clarity')} />
+                <CheckboxOption value="compassion" label={t('userProfile.qualities.compassion')} checked={(profile.self_qualities || []).includes('compassion')} onToggle={() => toggleArrayField('self_qualities', 'compassion')} />
+                <CheckboxOption value="confidence" label={t('userProfile.qualities.confidence')} checked={(profile.self_qualities || []).includes('confidence')} onToggle={() => toggleArrayField('self_qualities', 'confidence')} />
+                <CheckboxOption value="courage" label={t('userProfile.qualities.courage')} checked={(profile.self_qualities || []).includes('courage')} onToggle={() => toggleArrayField('self_qualities', 'courage')} />
+                <CheckboxOption value="creativity" label={t('userProfile.qualities.creativity')} checked={(profile.self_qualities || []).includes('creativity')} onToggle={() => toggleArrayField('self_qualities', 'creativity')} />
+                <CheckboxOption value="connectedness" label={t('userProfile.qualities.connectedness')} checked={(profile.self_qualities || []).includes('connectedness')} onToggle={() => toggleArrayField('self_qualities', 'connectedness')} />
+              </div>
+            </div>
+            <div className="pt-2 border-t border-border">
+              <button
+                type="button"
+                onClick={() => updateField('resource_onboarding_completed', !profile.resource_onboarding_completed)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-3 rounded-lg border transition-all w-full justify-center min-h-[44px] touch-manipulation",
+                  profile.resource_onboarding_completed
+                    ? "bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-400"
+                    : "bg-secondary/50 border-border hover:bg-secondary"
+                )}
+              >
+                {profile.resource_onboarding_completed ? (
+                  <>
+                    <Check className="h-4 w-4" />
+                    <span className="text-sm">{t('userProfile.resourcesCompleted')}</span>
+                  </>
+                ) : (
+                  <span className="text-sm">{t('userProfile.resourcesMarkComplete')}</span>
+                )}
+              </button>
+            </div>
+          </Section>
+
+          {/* 9. Coach AI Settings */}
           <Section icon={Sliders} title={t('userProfile.coachSettings')} description={t('userProfile.coachSettingsDesc')}>
             <div>
               <Label className="mb-2 block text-sm">{t('userProfile.coachTonality')}</Label>

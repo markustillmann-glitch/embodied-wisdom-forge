@@ -304,6 +304,7 @@ export type Database = {
         Row: {
           belonging_through: string[] | null
           biggest_challenges: string | null
+          body_anchors: string[] | null
           coach_tonality: string | null
           core_needs: string[] | null
           created_at: string
@@ -322,12 +323,16 @@ export type Database = {
           over_fulfilled_needs: string[] | null
           overwhelm_signals: string | null
           photo_url: string | null
+          power_sources: string[] | null
           praise_level: string | null
           preferred_tone: string[] | null
           primary_memory_channel: string[] | null
           reaction_to_expectations: string | null
+          resource_onboarding_completed: boolean | null
           response_preference: string[] | null
+          safe_places: string[] | null
           safety_feeling: string | null
+          self_qualities: string[] | null
           trigger_sensitivity: string | null
           updated_at: string
           user_id: string
@@ -339,6 +344,7 @@ export type Database = {
         Insert: {
           belonging_through?: string[] | null
           biggest_challenges?: string | null
+          body_anchors?: string[] | null
           coach_tonality?: string | null
           core_needs?: string[] | null
           created_at?: string
@@ -357,12 +363,16 @@ export type Database = {
           over_fulfilled_needs?: string[] | null
           overwhelm_signals?: string | null
           photo_url?: string | null
+          power_sources?: string[] | null
           praise_level?: string | null
           preferred_tone?: string[] | null
           primary_memory_channel?: string[] | null
           reaction_to_expectations?: string | null
+          resource_onboarding_completed?: boolean | null
           response_preference?: string[] | null
+          safe_places?: string[] | null
           safety_feeling?: string | null
+          self_qualities?: string[] | null
           trigger_sensitivity?: string | null
           updated_at?: string
           user_id: string
@@ -374,6 +384,7 @@ export type Database = {
         Update: {
           belonging_through?: string[] | null
           biggest_challenges?: string | null
+          body_anchors?: string[] | null
           coach_tonality?: string | null
           core_needs?: string[] | null
           created_at?: string
@@ -392,12 +403,16 @@ export type Database = {
           over_fulfilled_needs?: string[] | null
           overwhelm_signals?: string | null
           photo_url?: string | null
+          power_sources?: string[] | null
           praise_level?: string | null
           preferred_tone?: string[] | null
           primary_memory_channel?: string[] | null
           reaction_to_expectations?: string | null
+          resource_onboarding_completed?: boolean | null
           response_preference?: string[] | null
+          safe_places?: string[] | null
           safety_feeling?: string | null
+          self_qualities?: string[] | null
           trigger_sensitivity?: string | null
           updated_at?: string
           user_id?: string
