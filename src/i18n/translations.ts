@@ -551,7 +551,7 @@ export const translations = {
       detailTitle: 'Das Jahresprogramm im Detail',
       detailSubtitle: 'Ein strukturierter Weg von der Selbstwahrnehmung zur Selbstführung',
       timeline: {
-        start: { phase: 'Start', title: 'Auftakt-Wochenende', desc: 'Kennenlernen, Vertrauensaufbau und erste Einführung in Meditation, IFS und GFK. Jeder formuliert eine persönliche Intention für das Jahr.' },
+        start: { phase: 'Start', title: 'Auftakt-Wochenende', desc: 'Kennenlernen, Vertrauensaufbau und erste Einführung in Meditation, IFS und GFK. Einführung in den AI-Coach: Profil anlegen, wichtige Funktionen erkunden und angeleitete erste Arbeit mit dem Coach. Jeder formuliert eine persönliche Intention für das Jahr.' },
         m1_3: { phase: 'Monat 1–3', title: 'Grundlagen der Selbstwahrnehmung', desc: 'Selbstkontakt entwickeln, Trigger und Reaktionsmuster verstehen, somatische Intelligenz und Körpergedächtnis erkunden.' },
         m4_5: { phase: 'Monat 4–5', title: 'Innere Anteile (IFS)', desc: 'Manager-Anteile erkennen, Firefighter und Exiles verstehen. Erste Dialoge mit den inneren Beschützern.' },
         m6: { phase: 'Monat 6', title: 'GFK-Grundlagen', desc: 'Gefühle benennen, Bedürfnisse navigieren. Das innere Erleben in beziehungsfähige Sprache übersetzen.' },
@@ -1820,7 +1820,7 @@ export const translations = {
       detailTitle: 'The Annual Program in Detail',
       detailSubtitle: 'A structured path from self-awareness to self-leadership',
       timeline: {
-        start: { phase: 'Start', title: 'Kickoff Weekend', desc: 'Getting to know each other, building trust, and first introduction to meditation, IFS, and NVC. Everyone formulates a personal intention for the year.' },
+        start: { phase: 'Start', title: 'Kickoff Weekend', desc: 'Getting to know each other, building trust, and first introduction to meditation, IFS, and NVC. Introduction to the AI coach: setting up your profile, exploring key features, and guided first work with the coach. Everyone formulates a personal intention for the year.' },
         m1_3: { phase: 'Month 1-3', title: 'Foundations of Self-Awareness', desc: 'Developing self-contact, understanding triggers and reaction patterns, exploring somatic intelligence and body memory.' },
         m4_5: { phase: 'Month 4-5', title: 'Inner Parts (IFS)', desc: 'Recognizing manager parts, understanding firefighters and exiles. First dialogues with inner protectors.' },
         m6: { phase: 'Month 6', title: 'NVC Basics', desc: 'Naming feelings, navigating needs. Translating inner experience into relational language.' },
