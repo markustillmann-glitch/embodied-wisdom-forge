@@ -343,7 +343,7 @@ const Security = () => {
               
               <ListBlock items={language === 'de'
                 ? [
-                  'Regelmäßige Überprüfung aller Coach-Antworten durch Psychologen',
+                  'Regelmäßige Überprüfung des Coaches und der Antworten durch Psychologen',
                   'Klare Abgrenzung von therapeutischen Interventionen',
                   'Integrierte Sicherheitsschwellen bei Krisenhinweisen',
                   'Automatische Weiterleitung an professionelle Hilfe bei Bedarf',
