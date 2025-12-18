@@ -335,7 +335,7 @@ const Security = () => {
                   </p>
                   <p className="text-muted-foreground text-sm">
                     {language === 'de'
-                      ? 'Approbierte Psychotherapeuten und klinische Psychologen überwachen kontinuierlich die psychische Sicherheit aller Inhalte und Interaktionen. Sie stellen sicher, dass der Coach innerhalb sicherer Grenzen operiert.'
+                      ? 'Approbierte Psychotherapeuten und klinische Psychologen überwachen kontinuierlich die psychische Sicherheit der Modelle und Interaktionen. Sie stellen sicher, dass der Coach innerhalb sicherer Grenzen operiert.'
                       : 'Licensed psychotherapists and clinical psychologists continuously monitor the psychological safety of all content and interactions. They ensure the coach operates within safe boundaries.'}
                   </p>
                 </div>
