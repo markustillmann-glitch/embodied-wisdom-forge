@@ -169,9 +169,16 @@ Erstelle ein Erinnerungsbuch mit ca. 15-20 Seiten. Jede Seite hat zwei Textversi
 - Fokussiere auf die Beziehung zwischen dem Ersteller und der/den beschenkten Person(en)
 - Erzähle die Geschichte so, dass die beschenkte Person im Mittelpunkt steht
 - Würdige die Rolle und Bedeutung der beschenkten Person in dieser Erinnerung
-- Vermeide zu persönliche Reflexionen, die nur der Ersteller verstehen würde
-- Schreibe so, dass es für die beschenkte Person schön zu lesen ist
+- Schreibe so, dass es für die beschenkte Person authentisch und berührend zu lesen ist
 - Betone was diese Person dem Ersteller bedeutet und was sie in der Erinnerung ausgemacht hat
+
+**KRITISCH - ESSENZ BEWAHREN**:
+- BEWAHRE DIE VOLLE ESSENZ DER ERINNERUNG, auch wenn sie schwierige, negative oder kritische Aspekte enthält
+- Konflikte, Herausforderungen, Trauer oder schwierige Momente sind oft der KERN einer bedeutsamen Erinnerung
+- Diese Aspekte machen die Erinnerung authentisch und zeigen die Tiefe der Beziehung
+- Präsentiere auch schwierige Aspekte respektvoll, aber VERFÄLSCHE oder BESCHÖNIGE sie NICHT
+- Eine Erinnerung an einen Konflikt, der überwunden wurde, oder an gemeinsam durchgestandene schwere Zeiten ist ein wertvolles Geschenk
+- Zeige, dass der Ersteller diese Erinnerung TROTZ oder WEGEN ihrer Komplexität teilen möchte
 
 **WICHTIG - STILANWEISUNG**: ${toneInstructions}
 
@@ -191,7 +198,8 @@ Für jede Seite mit Textinhalt erstelle ZWEI Versionen:
 Die erweiterte Version sollte:
 - Die beschenkte Person feiern und würdigen
 - Die gemeinsame Verbindung hervorheben
-- Wärme und Wertschätzung ausdrücken
+- Die volle emotionale Tiefe der Erinnerung bewahren, inkl. schwieriger Momente
+- Wärme und Wertschätzung ausdrücken, auch bei komplexen Erinnerungen
 
 Antworte nur mit einem JSON-Objekt: { "pages": [...] }
 Jede Seite braucht: id (string), type (string), und optional title, content, contentExtended, subtitle, imageUrl`
@@ -204,9 +212,16 @@ Create a memory book with about 15-20 pages. Each page has two text versions.
 - Focus on the relationship between the creator and the recipient(s)
 - Tell the story so that the recipient is at the center
 - Honor the role and significance of the recipient in this memory
-- Avoid overly personal reflections that only the creator would understand
-- Write in a way that's beautiful for the recipient to read
+- Write in a way that's authentic and touching for the recipient to read
 - Emphasize what this person means to the creator and their role in the memory
+
+**CRITICAL - PRESERVE THE ESSENCE**:
+- PRESERVE THE FULL ESSENCE OF THE MEMORY, even if it contains difficult, negative, or critical aspects
+- Conflicts, challenges, grief, or difficult moments are often the CORE of a meaningful memory
+- These aspects make the memory authentic and show the depth of the relationship
+- Present difficult aspects respectfully, but DO NOT FALSIFY or SUGARCOAT them
+- A memory of a conflict that was overcome, or of hard times faced together, is a valuable gift
+- Show that the creator wants to share this memory DESPITE or BECAUSE OF its complexity
 
 **IMPORTANT - STYLE INSTRUCTION**: ${toneInstructions}
 
@@ -226,7 +241,8 @@ For each page with text content, create TWO versions:
 The extended version should:
 - Celebrate and honor the recipient
 - Highlight the shared connection
-- Express warmth and appreciation
+- Preserve the full emotional depth of the memory, including difficult moments
+- Express warmth and appreciation, even for complex memories
 
 Respond only with a JSON object: { "pages": [...] }
 Each page needs: id (string), type (string), and optionally title, content, contentExtended, subtitle, imageUrl`;
@@ -310,8 +326,11 @@ ${memoryData.additional_thoughts ? `Zusätzliche Gedanken:\n${memoryData.additio
 
 WICHTIG: 
 - Fokussiere auf die Person(en) "${giftSettings.recipientNames}" und ihre Bedeutung in dieser Erinnerung
-- Schreibe so, dass es für sie schön zu lesen ist
+- Schreibe so, dass es für sie authentisch und berührend zu lesen ist
 - Hebe hervor, was sie für den Ersteller bedeuten
+- BEWAHRE DIE VOLLE ESSENZ der Erinnerung - auch negative, schwierige oder kritische Aspekte sind Teil des Geschenks
+- Konflikte, Herausforderungen oder schwere Zeiten zeigen die Tiefe der Verbindung
+- Beschönige NICHTS - die Authentizität macht dieses Geschenk wertvoll
 
 Erstelle jetzt das Geschenk-Erinnerungsbuch als JSON.`
           : `Create a GIFT memory book for "${giftSettings.recipientNames}":
@@ -332,8 +351,11 @@ ${memoryData.additional_thoughts ? `Additional thoughts:\n${memoryData.additiona
 
 IMPORTANT:
 - Focus on the person(s) "${giftSettings.recipientNames}" and their significance in this memory
-- Write in a way that's beautiful for them to read
+- Write in a way that's authentic and touching for them to read
 - Highlight what they mean to the creator
+- PRESERVE THE FULL ESSENCE of the memory - negative, difficult, or critical aspects are part of the gift
+- Conflicts, challenges, or hard times show the depth of the connection
+- DO NOT sugarcoat anything - authenticity makes this gift valuable
 
 Now create the gift memory book as JSON.`;
       } else {
