@@ -354,6 +354,60 @@ const Index = () => {
             </Quote>
           </ChapterSection>
         </div>
+
+        {/* Security Summary Section */}
+        <div className="border-t border-chapter-divider py-12 sm:py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-secondary/40 rounded-2xl p-6 sm:p-8 border border-border"
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-serif text-foreground mb-2">
+                  {language === 'de' ? 'Geprüfte Sicherheit' : 'Verified Security'}
+                </h3>
+                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4">
+                  {language === 'de'
+                    ? 'Oria wurde von unabhängigen Experten für maximale Sicherheit entwickelt: IT-Sicherheitsexperten prüfen Datenschutz und Verschlüsselung, KI-Fachleute überwachen die Algorithmen, und Psychotherapeuten, GfK-Trainer sowie IFS-Coaches validieren die inhaltliche und psychologische Sicherheit.'
+                    : 'Oria was developed by independent experts for maximum security: IT security experts verify privacy and encryption, AI specialists monitor algorithms, and psychotherapists, NVC trainers, and IFS coaches validate content and psychological safety.'}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="inline-flex items-center gap-1.5 text-xs bg-background/60 px-2.5 py-1 rounded-full text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                    {language === 'de' ? 'Datenverschlüsselung' : 'Data Encryption'}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-xs bg-background/60 px-2.5 py-1 rounded-full text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                    {language === 'de' ? 'KI-Audits' : 'AI Audits'}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-xs bg-background/60 px-2.5 py-1 rounded-full text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                    {language === 'de' ? 'Psychologische Aufsicht' : 'Psychological Oversight'}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-xs bg-background/60 px-2.5 py-1 rounded-full text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                    {language === 'de' ? 'Testgruppen-Validierung' : 'Test Group Validation'}
+                  </span>
+                </div>
+                <Link 
+                  to="/sicherheit"
+                  onClick={() => window.scrollTo(0, 0)}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/80 transition-colors"
+                >
+                  {language === 'de' ? 'Alle Sicherheitsstandards ansehen' : 'View all security standards'}
+                  <span>→</span>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </main>
 
       {/* Footer */}
