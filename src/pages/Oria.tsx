@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Eye, Moon, Ear, Compass, Heart, Sparkles, ShieldCheck, MessageCircle, User, Lock, Brain, TrendingUp, Fingerprint } from "lucide-react";
+import { Eye, Moon, Ear, Compass, Heart, Sparkles, ShieldCheck, MessageCircle, User, Lock, Brain, TrendingUp, Fingerprint, Users, ArrowRight, Target } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -459,6 +460,112 @@ const Oria = () => {
               <p className="text-sm sm:text-base text-foreground/90 italic">
                 {t('oria.autoLearning.privacy')}
               </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Expected Progress Section */}
+      <section className="py-12 sm:py-20 relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+              <Target className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground">
+                {t('oria.progress.title')}
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-3xl mx-auto">
+              {t('oria.progress.intro')}
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <Tabs defaultValue="hsp" className="w-full">
+              <TabsList className="flex flex-wrap justify-center gap-1 sm:gap-2 mb-6 bg-transparent h-auto">
+                {['hsp', 'crisis', 'therapy', 'mindfulness', 'creative'].map((key) => (
+                  <TabsTrigger 
+                    key={key} 
+                    value={key}
+                    className="text-xs sm:text-sm px-3 py-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-full border border-border data-[state=active]:border-accent"
+                  >
+                    {t(`oria.progress.groups.${key}.title`)}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              
+              {['hsp', 'crisis', 'therapy', 'mindfulness', 'creative'].map((key) => (
+                <TabsContent key={key} value={key} className="mt-0">
+                  <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Users className="w-5 h-5 text-accent" />
+                      <h3 className="text-base sm:text-lg font-serif text-foreground">
+                        {t(`oria.progress.groups.${key}.title`)}
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {[0, 1, 2, 3, 4].map((idx) => (
+                        <div key={idx} className="flex items-center gap-2 sm:gap-4 text-sm">
+                          <span className="flex-1 text-muted-foreground line-through opacity-70">
+                            {t(`oria.progress.groups.${key}.items.${idx}.before`)}
+                          </span>
+                          <ArrowRight className="w-4 h-4 text-accent shrink-0" />
+                          <span className="flex-1 text-foreground font-medium">
+                            {t(`oria.progress.groups.${key}.items.${idx}.after`)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </motion.div>
+          
+          {/* Universal Progress Table */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-8 sm:mt-10"
+          >
+            <h3 className="text-base sm:text-lg font-serif text-foreground text-center mb-4">
+              {t('oria.progress.universal.title')}
+            </h3>
+            <div className="bg-card rounded-xl border border-border overflow-hidden">
+              <div className="grid grid-cols-3 gap-2 p-3 bg-muted/30 text-xs sm:text-sm font-medium text-muted-foreground">
+                <span></span>
+                <span className="text-center">{t('oria.progress.beforeLabel')}</span>
+                <span className="text-center">{t('oria.progress.afterLabel')}</span>
+              </div>
+              {[0, 1, 2, 3, 4].map((idx) => (
+                <div key={idx} className="grid grid-cols-3 gap-2 p-3 border-t border-border text-xs sm:text-sm">
+                  <span className="text-foreground font-medium">
+                    {t(`oria.progress.universal.items.${idx}.area`)}
+                  </span>
+                  <span className="text-muted-foreground text-center">
+                    {t(`oria.progress.universal.items.${idx}.before`)}
+                  </span>
+                  <span className="text-accent text-center font-medium">
+                    {t(`oria.progress.universal.items.${idx}.after`)}
+                  </span>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
