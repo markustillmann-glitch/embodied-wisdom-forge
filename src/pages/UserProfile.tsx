@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X, Sliders } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -39,6 +39,10 @@ interface UserProfileData {
   life_phase: string | null;
   energy_level: string | null;
   current_focus: string[] | null;
+  // Coach AI Settings
+  coach_tonality: string | null;
+  interpretation_style: string | null;
+  praise_level: string | null;
 }
 
 const defaultProfile: UserProfileData = {
@@ -67,6 +71,10 @@ const defaultProfile: UserProfileData = {
   life_phase: null,
   energy_level: null,
   current_focus: [],
+  // Coach AI Settings
+  coach_tonality: 'warm',
+  interpretation_style: 'neutral',
+  praise_level: 'moderate',
 };
 
 // Extracted components to prevent re-creation on every render
@@ -652,6 +660,37 @@ const UserProfile = () => {
                 <CheckboxOption value="self" label={t('userProfile.focus.self')} checked={(profile.current_focus || []).includes('self')} onToggle={() => toggleArrayField('current_focus', 'self')} />
                 <CheckboxOption value="relationship" label={t('userProfile.focus.relationship')} checked={(profile.current_focus || []).includes('relationship')} onToggle={() => toggleArrayField('current_focus', 'relationship')} />
                 <CheckboxOption value="meaning" label={t('userProfile.focus.meaning')} checked={(profile.current_focus || []).includes('meaning')} onToggle={() => toggleArrayField('current_focus', 'meaning')} />
+              </div>
+            </div>
+          </Section>
+
+          {/* 8. Coach AI Settings */}
+          <Section icon={Sliders} title={t('userProfile.coachSettings')} description={t('userProfile.coachSettingsDesc')}>
+            <div>
+              <Label className="mb-2 block text-sm">{t('userProfile.coachTonality')}</Label>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <RadioOption value="formal" label={t('userProfile.tonality.formal')} selected={profile.coach_tonality === 'formal'} onSelect={() => updateField('coach_tonality', 'formal')} />
+                <RadioOption value="warm" label={t('userProfile.tonality.warm')} selected={profile.coach_tonality === 'warm'} onSelect={() => updateField('coach_tonality', 'warm')} />
+                <RadioOption value="casual" label={t('userProfile.tonality.casual')} selected={profile.coach_tonality === 'casual'} onSelect={() => updateField('coach_tonality', 'casual')} />
+                <RadioOption value="poetic" label={t('userProfile.tonality.poetic')} selected={profile.coach_tonality === 'poetic'} onSelect={() => updateField('coach_tonality', 'poetic')} />
+              </div>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm">{t('userProfile.interpretationStyle')}</Label>
+              <p className="text-xs text-muted-foreground mb-2">{t('userProfile.interpretationStyleDesc')}</p>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <RadioOption value="optimistic" label={t('userProfile.interpretation.optimistic')} selected={profile.interpretation_style === 'optimistic'} onSelect={() => updateField('interpretation_style', 'optimistic')} />
+                <RadioOption value="neutral" label={t('userProfile.interpretation.neutral')} selected={profile.interpretation_style === 'neutral'} onSelect={() => updateField('interpretation_style', 'neutral')} />
+                <RadioOption value="reserved" label={t('userProfile.interpretation.reserved')} selected={profile.interpretation_style === 'reserved'} onSelect={() => updateField('interpretation_style', 'reserved')} />
+              </div>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm">{t('userProfile.praiseLevel')}</Label>
+              <p className="text-xs text-muted-foreground mb-2">{t('userProfile.praiseLevelDesc')}</p>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <RadioOption value="minimal" label={t('userProfile.praise.minimal')} selected={profile.praise_level === 'minimal'} onSelect={() => updateField('praise_level', 'minimal')} />
+                <RadioOption value="moderate" label={t('userProfile.praise.moderate')} selected={profile.praise_level === 'moderate'} onSelect={() => updateField('praise_level', 'moderate')} />
+                <RadioOption value="generous" label={t('userProfile.praise.generous')} selected={profile.praise_level === 'generous'} onSelect={() => updateField('praise_level', 'generous')} />
               </div>
             </div>
           </Section>

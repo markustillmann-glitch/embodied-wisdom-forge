@@ -304,6 +304,7 @@ export type Database = {
         Row: {
           belonging_through: string[] | null
           biggest_challenges: string | null
+          coach_tonality: string | null
           core_needs: string[] | null
           created_at: string
           current_focus: string[] | null
@@ -311,6 +312,7 @@ export type Database = {
           goals_motivation: string | null
           harder_closeness_or_boundaries: string | null
           id: string
+          interpretation_style: string | null
           language_triggers: string[] | null
           life_phase: string | null
           lightness_depth_balance: string | null
@@ -320,6 +322,7 @@ export type Database = {
           over_fulfilled_needs: string[] | null
           overwhelm_signals: string | null
           photo_url: string | null
+          praise_level: string | null
           preferred_tone: string[] | null
           primary_memory_channel: string[] | null
           reaction_to_expectations: string | null
@@ -336,6 +339,7 @@ export type Database = {
         Insert: {
           belonging_through?: string[] | null
           biggest_challenges?: string | null
+          coach_tonality?: string | null
           core_needs?: string[] | null
           created_at?: string
           current_focus?: string[] | null
@@ -343,6 +347,7 @@ export type Database = {
           goals_motivation?: string | null
           harder_closeness_or_boundaries?: string | null
           id?: string
+          interpretation_style?: string | null
           language_triggers?: string[] | null
           life_phase?: string | null
           lightness_depth_balance?: string | null
@@ -352,6 +357,7 @@ export type Database = {
           over_fulfilled_needs?: string[] | null
           overwhelm_signals?: string | null
           photo_url?: string | null
+          praise_level?: string | null
           preferred_tone?: string[] | null
           primary_memory_channel?: string[] | null
           reaction_to_expectations?: string | null
@@ -368,6 +374,7 @@ export type Database = {
         Update: {
           belonging_through?: string[] | null
           biggest_challenges?: string | null
+          coach_tonality?: string | null
           core_needs?: string[] | null
           created_at?: string
           current_focus?: string[] | null
@@ -375,6 +382,7 @@ export type Database = {
           goals_motivation?: string | null
           harder_closeness_or_boundaries?: string | null
           id?: string
+          interpretation_style?: string | null
           language_triggers?: string[] | null
           life_phase?: string | null
           lightness_depth_balance?: string | null
@@ -384,6 +392,7 @@ export type Database = {
           over_fulfilled_needs?: string[] | null
           overwhelm_signals?: string | null
           photo_url?: string | null
+          praise_level?: string | null
           preferred_tone?: string[] | null
           primary_memory_channel?: string[] | null
           reaction_to_expectations?: string | null
