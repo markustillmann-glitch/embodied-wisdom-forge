@@ -435,7 +435,7 @@ const Oria = () => {
       </section>
 
       {/* Expected Progress Section */}
-      <section className="py-12 sm:py-20 relative overflow-hidden">
+      <section id="progress" className="py-12 sm:py-20 relative overflow-hidden">
         <PolygonalBackground variant="warm" />
         
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">

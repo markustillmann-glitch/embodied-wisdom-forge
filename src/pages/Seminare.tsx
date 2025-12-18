@@ -274,8 +274,8 @@ const Seminare = () => {
             className="text-center mt-8"
           >
             <Link
-              to="/oria"
-              onClick={() => window.scrollTo(0, 0)}
+              to="/oria#progress"
+              onClick={() => setTimeout(() => document.getElementById('progress')?.scrollIntoView({ behavior: 'smooth' }), 100)}
               className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
             >
               {t('seminare.targetGroups.learnMore')}
