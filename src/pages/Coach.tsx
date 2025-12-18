@@ -841,6 +841,53 @@ const Coach = () => {
         triggerLearning(allMessages);
       }
 
+      // Check for automatic memory save command from coach
+      const saveMemoryMatch = assistantContent.match(/\[SAVE_MEMORY\]\s*\{([^}]+)\}\s*\[\/SAVE_MEMORY\]/s);
+      if (saveMemoryMatch && user && currentConversation) {
+        try {
+          // Parse the JSON from the coach's response
+          const jsonStr = '{' + saveMemoryMatch[1] + '}';
+          const saveData = JSON.parse(jsonStr);
+          
+          // Compile conversation content for saving
+          const allConversationMessages = [...messages, { role: 'user', content: userMessage }, { role: 'assistant', content: assistantContent }];
+          const content = allConversationMessages.map(m => 
+            `${m.role === 'user' ? '👤' : '🦉'} ${m.content}`
+          ).join('\n\n---\n\n');
+          
+          const memoryData = {
+            user_id: user.id,
+            title: (saveData.title || 'Untitled Memory').slice(0, 80),
+            summary: saveData.summary || null,
+            content,
+            memory_type: detectMemoryType(),
+            emotion: saveData.emotion || null,
+            conversation_id: currentConversation,
+            memory_date: new Date().toISOString(),
+          };
+          
+          const { error: saveError } = await supabase
+            .from('memories')
+            .insert(memoryData);
+          
+          if (saveError) {
+            console.error('Auto-save memory error:', saveError);
+            toast({
+              title: t('vault.error'),
+              description: t('vault.saveError'),
+              variant: 'destructive',
+            });
+          } else {
+            toast({
+              title: t('vault.saved'),
+              description: t('vault.savedDesc'),
+            });
+          }
+        } catch (parseError) {
+          console.error('Failed to parse SAVE_MEMORY block:', parseError);
+        }
+      }
+
     } catch (error) {
       console.error('Streaming error:', error);
       toast({

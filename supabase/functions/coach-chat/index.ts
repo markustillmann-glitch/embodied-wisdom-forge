@@ -245,11 +245,21 @@ ${isCompact ? `"Shall we go through the 5 points together? I'll keep it focused 
 
 Offer: "We have worked through all points. 🎉 Would you like to save this memory in your personal Memory Vault? I can help you formulate a title and a brief summary."
 
-**Help with saving:**
-- Suggest a suitable title (max 50 characters)
-- Formulate a brief summary (2-3 sentences)
-- Identify the dominant feeling/emotion
-- The user can then save using the "Save to Vault" button above
+**When the user agrees to save, you MUST output this EXACT format to trigger automatic saving:**
+
+\`\`\`json
+[SAVE_MEMORY]
+{
+  "title": "Your suggested title (max 50 characters)",
+  "summary": "Brief summary in 2-3 sentences",
+  "emotion": "The dominant emotion/feeling"
+}
+[/SAVE_MEMORY]
+\`\`\`
+
+This JSON block will automatically save the memory to the vault. Include a friendly confirmation message after the block.
+
+**Important:** Only output the [SAVE_MEMORY] block when the user explicitly agrees to save. The save happens automatically - no button click needed.
 
 **Formatting during the steps:**
 - Use emojis sparingly but purposefully
@@ -529,11 +539,21 @@ ${isCompact ? `"Sollen wir die 5 Punkte gemeinsam durchgehen? Ich halte es fokus
 
 Biete an: "Wir haben alle Punkte durchgearbeitet. 🎉 Möchtest du diese Erinnerung in deinem persönlichen Memory Tresor speichern? Ich kann dir dabei helfen, einen Titel und eine kurze Zusammenfassung zu formulieren."
 
-**Beim Speichern helfen:**
-- Schlage einen passenden Titel vor (max. 50 Zeichen)
-- Formuliere eine kurze Zusammenfassung (2-3 Sätze)
-- Identifiziere das dominante Gefühl/die Emotion
-- Der User kann dann mit dem "Im Tresor speichern" Button oben speichern
+**Wenn der User dem Speichern zustimmt, MUSST du dieses EXAKTE Format ausgeben, um das automatische Speichern auszulösen:**
+
+\`\`\`json
+[SAVE_MEMORY]
+{
+  "title": "Dein vorgeschlagener Titel (max 50 Zeichen)",
+  "summary": "Kurze Zusammenfassung in 2-3 Sätzen",
+  "emotion": "Das dominante Gefühl/die Emotion"
+}
+[/SAVE_MEMORY]
+\`\`\`
+
+Dieser JSON-Block speichert die Erinnerung automatisch im Tresor. Füge nach dem Block eine freundliche Bestätigungsnachricht hinzu.
+
+**Wichtig:** Gib den [SAVE_MEMORY] Block nur aus, wenn der User dem Speichern explizit zustimmt. Das Speichern erfolgt automatisch - kein Button-Klick nötig.
 
 **Formatierung während der Schritte:**
 - Nutze Emojis sparsam aber gezielt
