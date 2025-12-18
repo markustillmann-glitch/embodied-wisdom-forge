@@ -177,6 +177,68 @@ const Team = () => {
         </div>
       </section>
 
+      {/* AI Control Board */}
+      <section className="py-16 relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.6 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-2xl sm:text-3xl font-serif text-foreground mb-3">
+              {t('team.aiBoard.title')}
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {t('team.aiBoard.subtitle')}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="bg-card rounded-xl border border-border overflow-hidden"
+          >
+            <div className="flex flex-col md:flex-row">
+              {/* Image */}
+              <div className="md:w-1/3 aspect-square md:aspect-auto">
+                <img
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face"
+                  alt={t('team.aiBoard.chairman.name')}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Content */}
+              <div className="md:w-2/3 p-6 sm:p-8 flex flex-col justify-center">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                    <Shield className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {t('team.aiBoard.chairman.role')}
+                  </span>
+                </div>
+                
+                <h3 className="text-xl sm:text-2xl font-serif text-foreground mb-3">
+                  {t('team.aiBoard.chairman.name')}
+                </h3>
+                
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  {t('team.aiBoard.chairman.bio')}
+                </p>
+                
+                <p className="text-sm text-accent font-medium">
+                  {t('team.aiBoard.chairman.qualifications')}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Support Team */}
       <section className="py-16 relative overflow-hidden">
         <PolygonalBackground variant="warm" />
