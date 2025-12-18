@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp } from "lucide-react";
+import { Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { PolygonalBackground, ConnectionLines, OwlSymbol, InsightSymbol, MoonSymbol, GrowthSpiral } from "@/components/PolygonalBackground";
 import { SeminarContactForm } from "@/components/SeminarContactForm";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 
@@ -161,34 +161,10 @@ const Seminare = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-chapter-divider">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          <Link 
-            to="/" 
-            onClick={() => window.scrollTo(0, 0)}
-            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden xs:inline">{t('nav.toCompendium')}</span>
-            <span className="xs:hidden">{t('nav.back')}</span>
-          </Link>
-          <nav className="flex items-center gap-3 sm:gap-6">
-            <LanguageSwitcher />
-            <Link 
-              to="/oria" 
-              onClick={() => window.scrollTo(0, 0)}
-              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
-            >
-              {t('nav.oria')}
-            </Link>
-            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond the Shallow Through Memories</p>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero */}
-      <section className="py-12 sm:py-16 md:py-24 relative overflow-hidden">
+      <section className="pt-20 pb-12 sm:pt-24 sm:pb-16 md:pb-24 relative overflow-hidden">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         

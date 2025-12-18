@@ -9,8 +9,7 @@ import { Highlight } from "@/components/Highlight";
 import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { AdminLink } from "@/components/AdminLink";
+import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import oriaOwl from "@/assets/oria-owl.png";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
@@ -59,20 +58,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header showAdminLink />
+      
       <ChapterNav
         chapters={chapters}
         activeChapter={activeChapter}
         onChapterClick={scrollToChapter}
       />
 
-      {/* Language Switcher & Admin Link - Fixed Position */}
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
-        <AdminLink />
-        <LanguageSwitcher />
-      </div>
-
       {/* Hero / Cover */}
-      <section id="cover" className="min-h-[100svh] flex items-center justify-center relative overflow-hidden py-16 sm:py-12 md:py-0">
+      <section id="cover" className="min-h-[100svh] flex items-center justify-center relative overflow-hidden pt-20 pb-12 sm:pt-16 md:pt-0 md:pb-0">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
