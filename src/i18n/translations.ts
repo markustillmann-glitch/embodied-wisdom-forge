@@ -379,6 +379,76 @@ export const translations = {
         ],
       },
       
+      // Expected progress section
+      progress: {
+        title: 'Was du erwarten kannst',
+        intro: 'Je nach deiner persönlichen Ausgangslage unterstützt Oria dich auf unterschiedliche Weise. Hier sind realistische Fortschritte, die du mit kontinuierlicher Arbeit erreichen kannst:',
+        groups: {
+          hsp: {
+            title: 'Hochsensible Menschen',
+            items: [
+              { before: 'Von Reizen überflutet', after: 'Überlastungssignale früher wahrnehmen' },
+              { before: 'Sensibilität als Schwäche', after: 'Sensibilität als Stärke erleben' },
+              { before: 'Grenzen schwer setzen', after: 'Nein sagen ohne Schuldgefühle' },
+              { before: 'Energieverlust', after: 'Bewusste Dosierung von Reizen' },
+              { before: 'Körpersignale ignoriert', after: 'Den eigenen Signalen vertrauen' },
+            ],
+          },
+          crisis: {
+            title: 'Menschen in Übergängen',
+            items: [
+              { before: 'Orientierungslos', after: 'Klarheit über Werte und Bedürfnisse' },
+              { before: 'Entscheidungsunsicher', after: 'Vertrauen in eigene Entscheidungen' },
+              { before: 'Festhalten am Alten', after: 'Abschied ohne Verdrängung' },
+              { before: 'Zukunftsangst', after: 'Hoffnung und konkrete nächste Schritte' },
+              { before: 'Innere Unruhe', after: 'Stabilität trotz äußerer Veränderung' },
+            ],
+          },
+          therapy: {
+            title: 'Therapieerfahrene',
+            items: [
+              { before: 'Erkenntnisse bleiben abstrakt', after: 'Alltagsintegration gelingt' },
+              { before: 'Abhängig von Begleitung', after: 'Muster eigenständig erkennen' },
+              { before: 'Rückfälle überraschend', after: 'Frühe Warnsignale erkennen' },
+              { before: 'Arbeit pausiert', after: 'Begonnene Arbeit fortführen' },
+              { before: 'Fortschritte instabil', after: 'Nachhaltige Stabilisierung' },
+            ],
+          },
+          mindfulness: {
+            title: 'Achtsamkeitspraktizierende',
+            items: [
+              { before: 'Nur Beobachtung', after: 'Emotionale Tiefe und Integration' },
+              { before: 'Muster ohne Verstehen', after: 'Das "Warum" verstehen' },
+              { before: 'Gegenwart ohne Kontext', after: 'Biografische Verknüpfungen' },
+              { before: 'Was fühle ich?', after: 'Was brauche ich wirklich?' },
+              { before: 'Einsicht ohne Handlung', after: 'Von Einsicht zu Veränderung' },
+            ],
+          },
+          creative: {
+            title: 'Kreative & Künstler',
+            items: [
+              { before: 'Kreative Blockaden', after: 'Zugang zu Inspirationsquellen' },
+              { before: 'Emotionen ungenutzt', after: 'Biografisches Material kreativ nutzen' },
+              { before: 'Fremde Stimmen', after: 'Eigene authentische Stimme' },
+              { before: 'Sich verlieren', after: 'Offen bleiben ohne Selbstverlust' },
+              { before: 'Erschöpfung', after: 'Kreativität und Selbstfürsorge vereinen' },
+            ],
+          },
+        },
+        beforeLabel: 'Vorher',
+        afterLabel: 'Nachher',
+        universal: {
+          title: 'Für alle: Was sich verändert',
+          items: [
+            { area: 'Selbstwahrnehmung', before: 'Reaktiv, überrascht', after: 'Proaktiv, verstehend' },
+            { area: 'Emotionsregulation', before: 'Überflutet oder abgeschnitten', after: 'Fließend, reguliert' },
+            { area: 'Beziehungen', before: 'Vermeidung oder Eskalation', after: 'Authentische Kommunikation' },
+            { area: 'Körperbezug', before: 'Ignoriert oder überinterpretiert', after: 'Vertrauensvolle Zusammenarbeit' },
+            { area: 'Entscheidungen', before: 'Unsicher, fremdbestimmt', after: 'Klar, bedürfnisorientiert' },
+          ],
+        },
+      },
+      
       // Security section
       security: {
         badge: 'Geprüfte Sicherheit',
@@ -1556,6 +1626,76 @@ export const translations = {
           'Developing: Observed multiple times, increasingly reliable',
           'Established: Stable pattern, high reliability'
         ],
+      },
+      
+      // Expected progress section
+      progress: {
+        title: 'What You Can Expect',
+        intro: 'Depending on your personal starting point, Oria supports you in different ways. Here are realistic progress you can achieve with continuous work:',
+        groups: {
+          hsp: {
+            title: 'Highly Sensitive People',
+            items: [
+              { before: 'Overwhelmed by stimuli', after: 'Recognize overload signals earlier' },
+              { before: 'Sensitivity as weakness', after: 'Experience sensitivity as strength' },
+              { before: 'Difficulty setting boundaries', after: 'Say no without guilt' },
+              { before: 'Energy depletion', after: 'Conscious dosing of stimuli' },
+              { before: 'Body signals ignored', after: 'Trust your own signals' },
+            ],
+          },
+          crisis: {
+            title: 'People in Transitions',
+            items: [
+              { before: 'Disoriented', after: 'Clarity about values and needs' },
+              { before: 'Decision uncertainty', after: 'Trust in your own decisions' },
+              { before: 'Holding onto the old', after: 'Farewell without suppression' },
+              { before: 'Fear of the future', after: 'Hope and concrete next steps' },
+              { before: 'Inner restlessness', after: 'Stability despite external change' },
+            ],
+          },
+          therapy: {
+            title: 'Therapy-Experienced',
+            items: [
+              { before: 'Insights remain abstract', after: 'Everyday integration succeeds' },
+              { before: 'Dependent on support', after: 'Recognize patterns independently' },
+              { before: 'Relapses surprising', after: 'Recognize early warning signs' },
+              { before: 'Work paused', after: 'Continue begun work' },
+              { before: 'Progress unstable', after: 'Sustainable stabilization' },
+            ],
+          },
+          mindfulness: {
+            title: 'Mindfulness Practitioners',
+            items: [
+              { before: 'Only observation', after: 'Emotional depth and integration' },
+              { before: 'Patterns without understanding', after: 'Understanding the "why"' },
+              { before: 'Present without context', after: 'Biographical connections' },
+              { before: 'What do I feel?', after: 'What do I really need?' },
+              { before: 'Insight without action', after: 'From insight to change' },
+            ],
+          },
+          creative: {
+            title: 'Creatives & Artists',
+            items: [
+              { before: 'Creative blocks', after: 'Access to sources of inspiration' },
+              { before: 'Emotions unused', after: 'Use biographical material creatively' },
+              { before: 'Foreign voices', after: 'Own authentic voice' },
+              { before: 'Losing yourself', after: 'Stay open without self-loss' },
+              { before: 'Exhaustion', after: 'Unite creativity and self-care' },
+            ],
+          },
+        },
+        beforeLabel: 'Before',
+        afterLabel: 'After',
+        universal: {
+          title: 'For Everyone: What Changes',
+          items: [
+            { area: 'Self-Awareness', before: 'Reactive, surprised', after: 'Proactive, understanding' },
+            { area: 'Emotion Regulation', before: 'Overwhelmed or disconnected', after: 'Flowing, regulated' },
+            { area: 'Relationships', before: 'Avoidance or escalation', after: 'Authentic communication' },
+            { area: 'Body Connection', before: 'Ignored or over-interpreted', after: 'Trusting collaboration' },
+            { area: 'Decisions', before: 'Uncertain, externally driven', after: 'Clear, needs-oriented' },
+          ],
+        },
       },
       
       // Security section
