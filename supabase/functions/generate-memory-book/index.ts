@@ -29,13 +29,20 @@ interface BookPage {
   subtitle?: string;
 }
 
+interface GiftBookSettings {
+  isGift: boolean;
+  recipientNames: string;
+  creatorName: string;
+  createdDate: string;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { memory, language = 'de', addContext = false, userProfile } = await req.json();
+    const { memory, language = 'de', addContext = false, userProfile, giftSettings } = await req.json();
     
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
@@ -44,6 +51,7 @@ serve(async (req) => {
 
     const memoryData = memory as Memory;
     const isGerman = language === 'de';
+    const isGiftBook = giftSettings?.isGift === true;
     
     // Extract coach preferences for book generation
     const coachTonality = userProfile?.coach_tonality || 'warm';
@@ -148,8 +156,83 @@ Respond as a JSON array with objects containing "id", "type" (always "context"),
     // Generate full book
     const toneInstructions = getToneInstructions();
     
-    const systemPrompt = isGerman
-      ? `Du bist ein einfühlsamer Autor, der persönliche Erinnerungen in wunderschöne Buchseiten verwandelt. 
+    // Different system prompts for personal vs gift book
+    const getSystemPrompt = () => {
+      if (isGiftBook) {
+        return isGerman
+          ? `Du bist ein einfühlsamer Autor, der persönliche Erinnerungen in wunderschöne Geschenk-Bücher verwandelt.
+WICHTIG: Dies ist ein GESCHENK-BUCH für "${giftSettings.recipientNames}". 
+
+Erstelle ein Erinnerungsbuch mit ca. 15-20 Seiten. Jede Seite hat zwei Textversionen.
+
+**WICHTIG - GESCHENK-STIL**:
+- Fokussiere auf die Beziehung zwischen dem Ersteller und der/den beschenkten Person(en)
+- Erzähle die Geschichte so, dass die beschenkte Person im Mittelpunkt steht
+- Würdige die Rolle und Bedeutung der beschenkten Person in dieser Erinnerung
+- Vermeide zu persönliche Reflexionen, die nur der Ersteller verstehen würde
+- Schreibe so, dass es für die beschenkte Person schön zu lesen ist
+- Betone was diese Person dem Ersteller bedeutet und was sie in der Erinnerung ausgemacht hat
+
+**WICHTIG - STILANWEISUNG**: ${toneInstructions}
+
+Seitentypen:
+- "cover": Titelseite mit Titel und Untertitel (NICHT selbst mit Namen füllen, das wird separat gehandhabt)
+- "title": Einführungsseite
+- "chapter": Inhaltsseite mit Titel und Text
+- "image": Platzhalter für ein Bild (nur imageUrl wenn vorhanden)
+- "quote": Zitat oder wichtiger Satz über die gemeinsame Verbindung
+- "reflection": Reflexion über die Beziehung und Bedeutung der Person
+- "ending": Abschlussseite (NICHT selbst mit Widmung füllen, das wird separat gehandhabt)
+
+Für jede Seite mit Textinhalt erstelle ZWEI Versionen:
+- "content": Kurze Version für mobile Vorschau (max 100 Wörter, knapp und prägnant)
+- "contentExtended": Ausführliche Version für PDF-Export (200-400 Wörter, detailliert und liebevoll)
+
+Die erweiterte Version sollte:
+- Die beschenkte Person feiern und würdigen
+- Die gemeinsame Verbindung hervorheben
+- Wärme und Wertschätzung ausdrücken
+
+Antworte nur mit einem JSON-Objekt: { "pages": [...] }
+Jede Seite braucht: id (string), type (string), und optional title, content, contentExtended, subtitle, imageUrl`
+          : `You are an empathetic author who transforms personal memories into beautiful gift books.
+IMPORTANT: This is a GIFT BOOK for "${giftSettings.recipientNames}".
+
+Create a memory book with about 15-20 pages. Each page has two text versions.
+
+**IMPORTANT - GIFT STYLE**:
+- Focus on the relationship between the creator and the recipient(s)
+- Tell the story so that the recipient is at the center
+- Honor the role and significance of the recipient in this memory
+- Avoid overly personal reflections that only the creator would understand
+- Write in a way that's beautiful for the recipient to read
+- Emphasize what this person means to the creator and their role in the memory
+
+**IMPORTANT - STYLE INSTRUCTION**: ${toneInstructions}
+
+Page types:
+- "cover": Title page with title and subtitle (DO NOT fill with names yourself, that's handled separately)
+- "title": Introduction page
+- "chapter": Content page with title and text
+- "image": Placeholder for an image (only imageUrl if available)
+- "quote": Quote or important sentence about the shared connection
+- "reflection": Reflection on the relationship and meaning of the person
+- "ending": Closing page (DO NOT fill with dedication yourself, that's handled separately)
+
+For each page with text content, create TWO versions:
+- "content": Short version for mobile preview (max 100 words, concise and punchy)
+- "contentExtended": Detailed version for PDF export (200-400 words, detailed and loving)
+
+The extended version should:
+- Celebrate and honor the recipient
+- Highlight the shared connection
+- Express warmth and appreciation
+
+Respond only with a JSON object: { "pages": [...] }
+Each page needs: id (string), type (string), and optionally title, content, contentExtended, subtitle, imageUrl`;
+      } else {
+        return isGerman
+          ? `Du bist ein einfühlsamer Autor, der persönliche Erinnerungen in wunderschöne Buchseiten verwandelt. 
 Erstelle ein Erinnerungsbuch mit ca. 15-20 Seiten. Jede Seite hat zwei Textversionen.
 
 **WICHTIG - STILANWEISUNG**: ${toneInstructions}
@@ -175,7 +258,7 @@ Die erweiterte Version sollte:
 
 Antworte nur mit einem JSON-Objekt: { "pages": [...] }
 Jede Seite braucht: id (string), type (string), und optional title, content, contentExtended, subtitle, imageUrl`
-      : `You are an empathetic author who transforms personal memories into beautiful book pages.
+          : `You are an empathetic author who transforms personal memories into beautiful book pages.
 Create a memory book with about 15-20 pages. Each page has two text versions.
 
 **IMPORTANT - STYLE INSTRUCTION**: ${toneInstructions}
@@ -201,9 +284,61 @@ The extended version should:
 
 Respond only with a JSON object: { "pages": [...] }
 Each page needs: id (string), type (string), and optionally title, content, contentExtended, subtitle, imageUrl`;
+      }
+    };
 
-    const memoryPrompt = isGerman
-      ? `Erstelle ein Erinnerungsbuch für diese Erinnerung:
+    const systemPrompt = getSystemPrompt();
+
+    const getMemoryPrompt = () => {
+      if (isGiftBook) {
+        return isGerman
+          ? `Erstelle ein GESCHENK-Erinnerungsbuch für "${giftSettings.recipientNames}":
+
+Titel: ${memoryData.title}
+Typ: ${memoryData.memory_type}
+Datum: ${memoryData.memory_date || 'nicht angegeben'}
+Zusammenfassung: ${memoryData.summary || 'keine'}
+Emotion während: ${memoryData.emotion || 'nicht angegeben'}
+Gefühle danach: ${memoryData.feeling_after?.join(', ') || 'keine'}
+Bedürfnisse: ${memoryData.needs_after?.join(', ') || 'keine'}
+${memoryData.image_url ? `Bild-URL: ${memoryData.image_url}` : ''}
+
+Hauptinhalt:
+${memoryData.content}
+
+${memoryData.additional_thoughts ? `Zusätzliche Gedanken:\n${memoryData.additional_thoughts}` : ''}
+
+WICHTIG: 
+- Fokussiere auf die Person(en) "${giftSettings.recipientNames}" und ihre Bedeutung in dieser Erinnerung
+- Schreibe so, dass es für sie schön zu lesen ist
+- Hebe hervor, was sie für den Ersteller bedeuten
+
+Erstelle jetzt das Geschenk-Erinnerungsbuch als JSON.`
+          : `Create a GIFT memory book for "${giftSettings.recipientNames}":
+
+Title: ${memoryData.title}
+Type: ${memoryData.memory_type}
+Date: ${memoryData.memory_date || 'not specified'}
+Summary: ${memoryData.summary || 'none'}
+Emotion during: ${memoryData.emotion || 'not specified'}
+Feelings after: ${memoryData.feeling_after?.join(', ') || 'none'}
+Needs: ${memoryData.needs_after?.join(', ') || 'none'}
+${memoryData.image_url ? `Image URL: ${memoryData.image_url}` : ''}
+
+Main content:
+${memoryData.content}
+
+${memoryData.additional_thoughts ? `Additional thoughts:\n${memoryData.additional_thoughts}` : ''}
+
+IMPORTANT:
+- Focus on the person(s) "${giftSettings.recipientNames}" and their significance in this memory
+- Write in a way that's beautiful for them to read
+- Highlight what they mean to the creator
+
+Now create the gift memory book as JSON.`;
+      } else {
+        return isGerman
+          ? `Erstelle ein Erinnerungsbuch für diese Erinnerung:
 
 Titel: ${memoryData.title}
 Typ: ${memoryData.memory_type}
@@ -220,7 +355,7 @@ ${memoryData.content}
 ${memoryData.additional_thoughts ? `Zusätzliche Gedanken:\n${memoryData.additional_thoughts}` : ''}
 
 Erstelle jetzt das Erinnerungsbuch als JSON.`
-      : `Create a memory book for this memory:
+          : `Create a memory book for this memory:
 
 Title: ${memoryData.title}
 Type: ${memoryData.memory_type}
@@ -237,8 +372,12 @@ ${memoryData.content}
 ${memoryData.additional_thoughts ? `Additional thoughts:\n${memoryData.additional_thoughts}` : ''}
 
 Now create the memory book as JSON.`;
+      }
+    };
 
-    console.log('Generating memory book...');
+    const memoryPrompt = getMemoryPrompt();
+
+    console.log('Generating memory book...', isGiftBook ? '(gift book)' : '(personal book)');
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -299,27 +438,51 @@ Now create the memory book as JSON.`;
 
     // Ensure we have at least basic pages
     if (pages.length === 0) {
-      pages = [
-        {
-          id: 'cover',
-          type: 'cover',
-          title: memoryData.title,
-          subtitle: memoryData.memory_date ? new Date(memoryData.memory_date).toLocaleDateString(isGerman ? 'de-DE' : 'en-US') : undefined,
-          imageUrl: memoryData.image_url || undefined,
-        },
-        {
-          id: 'main',
-          type: 'chapter',
-          title: isGerman ? 'Die Erinnerung' : 'The Memory',
-          content: memoryData.content?.substring(0, 500),
-        },
-        {
-          id: 'ending',
-          type: 'ending',
-          title: isGerman ? 'Ende' : 'The End',
-          content: isGerman ? 'Danke fürs Erinnern.' : 'Thank you for remembering.',
-        },
-      ];
+      if (isGiftBook) {
+        pages = [
+          {
+            id: 'cover',
+            type: 'cover',
+            title: memoryData.title,
+            subtitle: memoryData.memory_date ? new Date(memoryData.memory_date).toLocaleDateString(isGerman ? 'de-DE' : 'en-US') : undefined,
+            imageUrl: memoryData.image_url || undefined,
+          },
+          {
+            id: 'main',
+            type: 'chapter',
+            title: isGerman ? 'Unsere gemeinsame Erinnerung' : 'Our Shared Memory',
+            content: memoryData.content?.substring(0, 500),
+          },
+          {
+            id: 'ending',
+            type: 'ending',
+            title: isGerman ? 'Für Dich' : 'For You',
+            content: isGerman ? 'Ein Geschenk der Erinnerung.' : 'A gift of memory.',
+          },
+        ];
+      } else {
+        pages = [
+          {
+            id: 'cover',
+            type: 'cover',
+            title: memoryData.title,
+            subtitle: memoryData.memory_date ? new Date(memoryData.memory_date).toLocaleDateString(isGerman ? 'de-DE' : 'en-US') : undefined,
+            imageUrl: memoryData.image_url || undefined,
+          },
+          {
+            id: 'main',
+            type: 'chapter',
+            title: isGerman ? 'Die Erinnerung' : 'The Memory',
+            content: memoryData.content?.substring(0, 500),
+          },
+          {
+            id: 'ending',
+            type: 'ending',
+            title: isGerman ? 'Ende' : 'The End',
+            content: isGerman ? 'Danke fürs Erinnern.' : 'Thank you for remembering.',
+          },
+        ];
+      }
     }
 
     // Add image URL to cover if available
@@ -329,7 +492,7 @@ Now create the memory book as JSON.`;
 
     console.log(`Generated ${pages.length} book pages`);
 
-    return new Response(JSON.stringify({ pages }), {
+    return new Response(JSON.stringify({ pages, isGiftBook }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 

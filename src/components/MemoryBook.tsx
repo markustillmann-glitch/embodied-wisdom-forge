@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { 
   Loader2, 
@@ -26,7 +27,9 @@ import {
   Trash2,
   Save,
   RefreshCw,
-  RotateCw
+  RotateCw,
+  Gift,
+  User
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import oriaOwlImage from '@/assets/bb-owl-new.png';
@@ -62,6 +65,13 @@ interface BookPage {
   subtitle?: string;
 }
 
+interface GiftBookSettings {
+  isGift: boolean;
+  recipientNames: string;
+  creatorName: string;
+  createdDate: string;
+}
+
 interface MemoryBookProps {
   memory: Memory;
   open: boolean;
@@ -93,9 +103,16 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     interpretation_style?: string;
     praise_level?: string;
   } | null>(null);
+  const [displayName, setDisplayName] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverFileInputRef = useRef<HTMLInputElement>(null);
   const imagePageFileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Book type selection state
+  const [showBookTypeSelection, setShowBookTypeSelection] = useState(false);
+  const [selectedBookType, setSelectedBookType] = useState<'personal' | 'gift' | null>(null);
+  const [recipientNames, setRecipientNames] = useState('');
+  const [giftSettings, setGiftSettings] = useState<GiftBookSettings | null>(null);
   
   // Swipe handling
   const touchStartX = useRef<number | null>(null);
@@ -141,6 +158,15 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         if (data) {
           setUserProfile(data);
         }
+        // Also fetch display name from profiles
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('display_name')
+          .eq('user_id', user.id)
+          .single();
+        if (profileData?.display_name) {
+          setDisplayName(profileData.display_name);
+        }
       }
     };
     fetchUserProfile();
@@ -160,14 +186,38 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
       setHasUnsavedChanges(false);
       setCurrentPage(0);
     } else {
-      generateBook();
+      // Show book type selection dialog
+      setShowBookTypeSelection(true);
     }
   };
 
-  const generateBook = async () => {
+  const handleBookTypeConfirm = () => {
+    if (selectedBookType === 'gift' && !recipientNames.trim()) {
+      toast({
+        title: language === 'de' ? 'Name erforderlich' : 'Name required',
+        description: language === 'de' ? 'Bitte gib den Namen der beschenkten Person ein.' : 'Please enter the recipient\'s name.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    const settings: GiftBookSettings = {
+      isGift: selectedBookType === 'gift',
+      recipientNames: recipientNames.trim(),
+      creatorName: displayName || (language === 'de' ? 'Anonym' : 'Anonymous'),
+      createdDate: format(new Date(memory.created_at), 'PPP', { locale: dateLocale }),
+    };
+    setGiftSettings(settings);
+    setShowBookTypeSelection(false);
+    generateBook(settings);
+  };
+
+  const generateBook = async (settings?: GiftBookSettings) => {
     setIsGenerating(true);
     setCurrentPage(0);
     setHasUnsavedChanges(true);
+
+    const currentSettings = settings || giftSettings;
 
     try {
       const response = await supabase.functions.invoke('generate-memory-book', {
@@ -190,6 +240,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
             interpretation_style: userProfile.interpretation_style,
             praise_level: userProfile.praise_level,
           } : undefined,
+          giftSettings: currentSettings,
         },
       });
 
@@ -197,7 +248,35 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         throw new Error(response.error.message);
       }
 
-      setPages(response.data.pages || []);
+      let generatedPages = response.data.pages || [];
+      
+      // For gift books, customize cover and ending pages
+      if (currentSettings?.isGift && generatedPages.length > 0) {
+        const memoryDate = memory.memory_date ? new Date(memory.memory_date) : new Date(memory.created_at);
+        
+        // Customize cover page with gift dedication
+        if (generatedPages[0]?.type === 'cover') {
+          generatedPages[0].subtitle = `${t('vault.book.fromLabel')} ${currentSettings.creatorName} ${t('vault.book.forLabel')} ${currentSettings.recipientNames}`;
+        }
+        
+        // Customize or add ending page with dedication
+        const endingIndex = generatedPages.findIndex((p: BookPage) => p.type === 'ending');
+        const dedicationContent = `${t('vault.book.giftDedication')}\n\n${t('vault.book.yourName')} ${currentSettings.creatorName}\n\n${t('vault.book.createdOn')} ${format(memoryDate, 'PPP', { locale: dateLocale })}`;
+        
+        if (endingIndex >= 0) {
+          generatedPages[endingIndex].content = dedicationContent;
+          generatedPages[endingIndex].title = language === 'de' ? 'Für Dich' : 'For You';
+        } else {
+          generatedPages.push({
+            id: 'ending',
+            type: 'ending',
+            title: language === 'de' ? 'Für Dich' : 'For You',
+            content: dedicationContent,
+          });
+        }
+      }
+
+      setPages(generatedPages);
     } catch (error) {
       console.error('Error generating book:', error);
       toast({
@@ -1407,7 +1486,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
               <Button
                 variant="outline"
                 size="sm"
-                onClick={generateBook}
+                onClick={() => setShowBookTypeSelection(true)}
                 disabled={isGenerating}
                 className="px-2"
                 title={t('vault.book.regenerate')}
