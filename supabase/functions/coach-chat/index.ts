@@ -875,6 +875,57 @@ serve(async (req) => {
         systemPrompt += '\n';
       }
       
+      // 8. Resources & Safety Anchors (CRITICAL for safe exploration)
+      const hasResources = userProfile.safe_places?.length || userProfile.power_sources?.length || 
+                          userProfile.body_anchors?.length || userProfile.self_qualities?.length;
+      
+      if (hasResources) {
+        const qualityMap: Record<string, string> = {
+          calm: isEn ? 'Calm' : 'Ruhe',
+          curiosity: isEn ? 'Curiosity' : 'Neugier',
+          clarity: isEn ? 'Clarity' : 'Klarheit',
+          compassion: isEn ? 'Compassion' : 'Mitgefühl',
+          confidence: isEn ? 'Confidence' : 'Zuversicht',
+          courage: isEn ? 'Courage' : 'Mut',
+          creativity: isEn ? 'Creativity' : 'Kreativität',
+          connectedness: isEn ? 'Connectedness' : 'Verbundenheit'
+        };
+        
+        systemPrompt += `### ${isEn ? '🛡️ USER\'S RESOURCES & SAFETY ANCHORS (USE THESE!)' : '🛡️ RESSOURCEN & SICHERHEITSANKER DES NUTZERS (NUTZE DIESE!)'}:\n`;
+        systemPrompt += isEn 
+          ? `**When the user explores difficult content, ACTIVELY remind them of these resources to stay grounded:**\n`
+          : `**Wenn der Nutzer schwierige Inhalte erforscht, ERINNERE ihn AKTIV an diese Ressourcen um geerdet zu bleiben:**\n`;
+        
+        if (userProfile.safe_places?.length) {
+          systemPrompt += `- ${isEn ? 'Safe places (can visualize for grounding)' : 'Sichere Orte (zur Erdung visualisieren)'}: ${userProfile.safe_places.join(', ')}\n`;
+        }
+        if (userProfile.power_sources?.length) {
+          systemPrompt += `- ${isEn ? 'Power sources (people, activities, things that give strength)' : 'Kraftquellen (Menschen, Aktivitäten, die Kraft geben)'}: ${userProfile.power_sources.join(', ')}\n`;
+        }
+        if (userProfile.body_anchors?.length) {
+          systemPrompt += `- ${isEn ? 'Body anchors (physical sensations of safety)' : 'Körper-Anker (körperliche Empfindungen von Sicherheit)'}: ${userProfile.body_anchors.join(', ')}\n`;
+        }
+        if (userProfile.self_qualities?.length) {
+          systemPrompt += `- ${isEn ? 'Self qualities they\'ve accessed (IFS 8 C\'s)' : 'Selbst-Qualitäten, die sie kennen (IFS 8 C\'s)'}: ${userProfile.self_qualities.map((q: string) => qualityMap[q] || q).join(', ')}\n`;
+        }
+        systemPrompt += '\n';
+        
+        const firstQuality = userProfile.self_qualities?.[0] ? qualityMap[userProfile.self_qualities[0]] || userProfile.self_qualities[0] : (isEn ? 'calm' : 'Ruhe');
+        const firstSafePlace = userProfile.safe_places?.[0] || '';
+        
+        systemPrompt += isEn 
+          ? `**Example grounding phrases you can use:**\n- "Before we go deeper – can you feel your feet on the ground?"\n- "Remember your safe place${firstSafePlace ? ' (' + firstSafePlace + ')' : ''}? Can you visualize it for a moment?"\n- "Let's pause and connect with that sense of ${firstQuality} you mentioned."\n\n`
+          : `**Beispiel-Erdungssätze, die du nutzen kannst:**\n- "Bevor wir tiefer gehen – kannst du deine Füße auf dem Boden spüren?"\n- "Erinnerst du dich an deinen sicheren Ort${firstSafePlace ? ' (' + firstSafePlace + ')' : ''}? Kannst du ihn dir kurz vorstellen?"\n- "Lass uns kurz innehalten und uns mit dem Gefühl von ${firstQuality} verbinden."\n\n`;
+      }
+      
+      // Resource onboarding check - guide to positive memory first
+      if (!userProfile.resource_onboarding_completed && !hasResources) {
+        systemPrompt += `### ${isEn ? '⚠️ RESOURCE ONBOARDING NOT COMPLETE' : '⚠️ RESSOURCEN-ONBOARDING NICHT ABGESCHLOSSEN'}:\n`;
+        systemPrompt += isEn 
+          ? `This user hasn't mapped their resources yet. BEFORE exploring difficult memories:\n1. Gently encourage them to start with a POSITIVE memory first (success, joy, safety)\n2. Suggest they fill out the Resources section in their profile\n3. If they want to explore difficult content immediately, first help them identify at least one safe place or body anchor they can return to.\n\n`
+          : `Dieser Nutzer hat seine Ressourcen noch nicht kartiert. BEVOR schwierige Erinnerungen erforscht werden:\n1. Ermutige sanft, mit einer POSITIVEN Erinnerung zu beginnen (Erfolg, Freude, Sicherheit)\n2. Schlage vor, den Ressourcen-Bereich im Profil auszufüllen\n3. Wenn sie sofort schwierige Inhalte erkunden wollen, hilf ihnen zunächst, mindestens einen sicheren Ort oder Körper-Anker zu identifizieren.\n\n`;
+      }
+      
       // Previous topics
       if (userProfile.previousTopics && userProfile.previousTopics.length > 0) {
         systemPrompt += `### ${isEn ? 'Previous conversation topics' : 'Frühere Gesprächsthemen'}: ${userProfile.previousTopics.join(', ')}\n`;
