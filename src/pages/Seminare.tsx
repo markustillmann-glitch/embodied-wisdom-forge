@@ -475,6 +475,21 @@ const Seminare = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Link to Team */}
+          <motion.div
+            {...fadeInUp}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="text-center mt-12"
+          >
+            <Link
+              to="/team"
+              className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
+            >
+              {t('seminare.meetTeam')}
+              <span>→</span>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
