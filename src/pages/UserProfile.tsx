@@ -142,6 +142,46 @@ const CheckboxOption = React.memo(({
 ));
 CheckboxOption.displayName = 'CheckboxOption';
 
+// Specialized input for comma-separated arrays that preserves cursor position
+const ArrayInput = React.memo(({ 
+  value, 
+  onChange, 
+  placeholder, 
+  className 
+}: { 
+  value: string[] | null; 
+  onChange: (value: string[]) => void; 
+  placeholder: string; 
+  className?: string;
+}) => {
+  const [localValue, setLocalValue] = React.useState(() => (value || []).join(', '));
+  
+  // Sync local value when external value changes (but not during typing)
+  React.useEffect(() => {
+    const externalValue = (value || []).join(', ');
+    // Only update if the parsed values are different (ignoring whitespace)
+    const localParsed = localValue.split(',').map(s => s.trim()).filter(Boolean).join(', ');
+    if (externalValue !== localParsed) {
+      setLocalValue(externalValue);
+    }
+  }, [value]);
+  
+  return (
+    <Input
+      value={localValue}
+      onChange={(e) => setLocalValue(e.target.value)}
+      onBlur={() => {
+        const parsed = localValue.split(',').map(s => s.trim()).filter(Boolean);
+        onChange(parsed);
+        setLocalValue(parsed.join(', '));
+      }}
+      placeholder={placeholder}
+      className={className}
+    />
+  );
+});
+ArrayInput.displayName = 'ArrayInput';
+
 const Section = React.memo(({ 
   icon: Icon, 
   title, 
@@ -479,10 +519,9 @@ const UserProfile = () => {
           <Section icon={Sparkles} title={t('userProfile.needsTopology')} description={t('userProfile.needsTopologyDesc')}>
             <div>
               <Label className="text-sm">{t('userProfile.coreNeeds')}</Label>
-              <Input
-                value={(profile.core_needs || []).join(', ')}
-                onChange={(e) => updateField('core_needs', e.target.value.split(','))}
-                onBlur={(e) => updateField('core_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+              <ArrayInput
+                value={profile.core_needs}
+                onChange={(val) => updateField('core_needs', val)}
                 placeholder={t('userProfile.coreNeedsPlaceholder')}
                 className="mt-1.5 text-base"
               />
@@ -490,10 +529,9 @@ const UserProfile = () => {
             </div>
             <div>
               <Label className="text-sm">{t('userProfile.neglectedNeeds')}</Label>
-              <Input
-                value={(profile.neglected_needs || []).join(', ')}
-                onChange={(e) => updateField('neglected_needs', e.target.value.split(','))}
-                onBlur={(e) => updateField('neglected_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+              <ArrayInput
+                value={profile.neglected_needs}
+                onChange={(val) => updateField('neglected_needs', val)}
                 placeholder={t('userProfile.neglectedNeedsPlaceholder')}
                 className="mt-1.5 text-base"
               />
@@ -501,10 +539,9 @@ const UserProfile = () => {
             </div>
             <div>
               <Label className="text-sm">{t('userProfile.overFulfilledNeeds')}</Label>
-              <Input
-                value={(profile.over_fulfilled_needs || []).join(', ')}
-                onChange={(e) => updateField('over_fulfilled_needs', e.target.value.split(','))}
-                onBlur={(e) => updateField('over_fulfilled_needs', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+              <ArrayInput
+                value={profile.over_fulfilled_needs}
+                onChange={(val) => updateField('over_fulfilled_needs', val)}
                 placeholder={t('userProfile.overFulfilledNeedsPlaceholder')}
                 className="mt-1.5 text-base"
               />

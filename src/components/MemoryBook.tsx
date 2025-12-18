@@ -1600,6 +1600,101 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           </div>
         )}
       </DialogContent>
+
+      {/* Book Type Selection Dialog */}
+      <Dialog open={showBookTypeSelection} onOpenChange={setShowBookTypeSelection}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-accent" />
+              {t('vault.book.chooseBookType')}
+            </DialogTitle>
+            <DialogDescription>
+              {t('vault.book.chooseBookTypeDesc')}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            {/* Personal Book Option */}
+            <button
+              type="button"
+              onClick={() => setSelectedBookType('personal')}
+              className={cn(
+                "w-full p-4 rounded-xl border-2 text-left transition-all",
+                selectedBookType === 'personal'
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:border-primary/50 hover:bg-secondary/50"
+              )}
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-secondary">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-medium">{t('vault.book.personalBook')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t('vault.book.personalBookDesc')}
+                  </p>
+                </div>
+              </div>
+            </button>
+            
+            {/* Gift Book Option */}
+            <button
+              type="button"
+              onClick={() => setSelectedBookType('gift')}
+              className={cn(
+                "w-full p-4 rounded-xl border-2 text-left transition-all",
+                selectedBookType === 'gift'
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:border-primary/50 hover:bg-secondary/50"
+              )}
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-accent/10">
+                  <Gift className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <h3 className="font-medium">{t('vault.book.giftBook')}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t('vault.book.giftBookDesc')}
+                  </p>
+                </div>
+              </div>
+            </button>
+            
+            {/* Recipient Name Input (for gift books) */}
+            {selectedBookType === 'gift' && (
+              <div className="pt-2">
+                <label className="text-sm font-medium">{t('vault.book.recipientName')}</label>
+                <Input
+                  value={recipientNames}
+                  onChange={(e) => setRecipientNames(e.target.value)}
+                  placeholder={t('vault.book.recipientNamePlaceholder')}
+                  className="mt-1.5"
+                />
+              </div>
+            )}
+          </div>
+          
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => {
+              setShowBookTypeSelection(false);
+              if (pages.length === 0) {
+                onClose();
+              }
+            }}>
+              {t('vault.cancel')}
+            </Button>
+            <Button 
+              onClick={handleBookTypeConfirm}
+              disabled={!selectedBookType || (selectedBookType === 'gift' && !recipientNames.trim())}
+            >
+              {t('vault.book.continueBtn')}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 };
