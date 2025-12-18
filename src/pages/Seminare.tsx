@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp } from "lucide-react";
+import { Calendar, Clock, Users, MapPin, CheckCircle2, Sparkles, Heart, TrendingUp, Brain, MessageCircle, Shield, ChevronDown, ChevronUp, Zap, RefreshCw, Palette, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { PolygonalBackground, ConnectionLines, OwlSymbol, InsightSymbol, MoonSymbol, GrowthSpiral } from "@/components/PolygonalBackground";
@@ -216,6 +216,71 @@ const Seminare = () => {
                 {t('seminare.forWhomQuote')}
               </p>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Compact Target Groups */}
+      <section className="py-12 sm:py-16 relative overflow-hidden">
+        <PolygonalBackground variant="subtle" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+          <motion.div {...fadeInUp} className="text-center mb-8 sm:mb-10">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground mb-3">
+              {t('seminare.targetGroups.title')}
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              {t('seminare.targetGroups.subtitle')}
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { key: 'hsp', icon: Zap },
+              { key: 'crisis', icon: RefreshCw },
+              { key: 'therapy', icon: Brain },
+              { key: 'mindfulness', icon: Eye },
+              { key: 'creative', icon: Palette },
+            ].map((group, index) => {
+              const Icon = group.icon;
+              return (
+                <motion.div
+                  key={group.key}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  className="bg-card rounded-xl border border-border p-4 sm:p-5"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-accent" />
+                    </div>
+                    <h3 className="text-sm sm:text-base font-serif text-foreground">
+                      {t(`oria.progress.groups.${group.key}.title`)}
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    {t(`seminare.targetGroups.${group.key}.desc`)}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <motion.div
+            {...fadeInUp}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="text-center mt-8"
+          >
+            <Link
+              to="/oria"
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
+            >
+              {t('seminare.targetGroups.learnMore')}
+              <span>→</span>
+            </Link>
           </motion.div>
         </div>
       </section>

@@ -491,6 +491,26 @@ export const translations = {
       forWhom: 'Für wen ist dieses Programm?',
       forWhomDesc: 'Das Programm richtet sich an entwicklungsorientierte Menschen in intensiven Lebensphasen – persönliche Übergänge, berufliche Neuorientierung, Beziehungskrisen oder andere Umbruchsituationen.',
       forWhomQuote: 'In solchen Phasen wissen wir oft theoretisch, was gut für uns wäre, fallen unter Stress aber in alte Autopilot-Muster zurück.',
+      targetGroups: {
+        title: 'Diese Zielgruppen profitieren besonders',
+        subtitle: 'Erkenne dich wieder und erfahre, welche Entwicklung möglich ist.',
+        learnMore: 'Mehr über Fortschrittsmöglichkeiten erfahren',
+        hsp: {
+          desc: 'Lerne Reizüberflutung zu regulieren und deine Sensibilität als Stärke zu nutzen.',
+        },
+        crisis: {
+          desc: 'Finde Orientierung und neue Stabilität in Übergängen und Neuanfängen.',
+        },
+        therapy: {
+          desc: 'Integriere therapeutische Erkenntnisse nachhaltig in deinen Alltag.',
+        },
+        mindfulness: {
+          desc: 'Vertiefe deine Praxis mit emotionaler Tiefe und biografischem Verstehen.',
+        },
+        creative: {
+          desc: 'Löse kreative Blockaden und finde Zugang zu authentischer Inspiration.',
+        },
+      },
       formats: 'Unsere Formate',
       
       // Taster evening
@@ -1740,6 +1760,26 @@ export const translations = {
       forWhom: 'Who Is This Program For?',
       forWhomDesc: 'The program is designed for development-oriented people in intensive life phases—personal transitions, career reorientation, relationship crises, or other upheaval situations.',
       forWhomQuote: 'In such phases, we often know theoretically what would be good for us, but fall back into old autopilot patterns under stress.',
+      targetGroups: {
+        title: 'These Groups Benefit Especially',
+        subtitle: 'See yourself reflected and discover what development is possible.',
+        learnMore: 'Learn more about progress possibilities',
+        hsp: {
+          desc: 'Learn to regulate overwhelm and use your sensitivity as a strength.',
+        },
+        crisis: {
+          desc: 'Find orientation and new stability in transitions and new beginnings.',
+        },
+        therapy: {
+          desc: 'Integrate therapeutic insights sustainably into your daily life.',
+        },
+        mindfulness: {
+          desc: 'Deepen your practice with emotional depth and biographical understanding.',
+        },
+        creative: {
+          desc: 'Release creative blocks and find access to authentic inspiration.',
+        },
+      },
       formats: 'Our Formats',
       
       // Taster evening
