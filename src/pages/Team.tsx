@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ArrowLeft, Sparkles, Brain, Heart, Users, Shield, CheckCircle, Mail, AlertCircle } from 'lucide-react';
@@ -39,9 +39,17 @@ const coachAreas = [
 
 const Team = () => {
   const { t } = useLanguage();
+  const location = useLocation();
+
+  // Scroll to top when navigating with #top hash
+  useEffect(() => {
+    if (location.hash === '#top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div id="top" className="min-h-screen bg-background">
       <Header />
 
       {/* Hero Section */}
