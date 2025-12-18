@@ -501,6 +501,59 @@ export type Database = {
       }
     }
     Functions: {
+      get_analytics_conversation_stats: {
+        Args: never
+        Returns: {
+          conversation_count: number
+          date: string
+        }[]
+      }
+      get_analytics_insight_patterns: {
+        Args: never
+        Returns: {
+          confidence_level: string
+          count: number
+          insight_type: string
+        }[]
+      }
+      get_analytics_memory_stats: {
+        Args: never
+        Returns: {
+          count: number
+          date: string
+          emotion: string
+          memory_type: string
+        }[]
+      }
+      get_analytics_message_stats: {
+        Args: never
+        Returns: {
+          avg_message_length: number
+          date: string
+          message_count: number
+          role: string
+        }[]
+      }
+      get_analytics_token_stats: {
+        Args: never
+        Returns: {
+          call_count: number
+          date: string
+          function_name: string
+          model: string
+          total_cost: number
+          total_input_tokens: number
+          total_output_tokens: number
+          total_tokens: number
+        }[]
+      }
+      get_analytics_user_segments: {
+        Args: never
+        Returns: {
+          segment: string
+          user_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

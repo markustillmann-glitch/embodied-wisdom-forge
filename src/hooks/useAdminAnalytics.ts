@@ -90,7 +90,7 @@ export function useAdminAnalytics() {
 
         setIsAdmin(true);
 
-        // Fetch all analytics data in parallel
+        // Fetch all analytics data using secure admin-only functions
         const [
           memoryRes,
           conversationRes,
@@ -99,13 +99,20 @@ export function useAdminAnalytics() {
           segmentRes,
           insightRes
         ] = await Promise.all([
-          supabase.from('analytics_memory_stats').select('*'),
-          supabase.from('analytics_conversation_stats').select('*'),
-          supabase.from('analytics_message_stats').select('*'),
-          supabase.from('analytics_token_stats').select('*'),
-          supabase.from('analytics_user_segments').select('*'),
-          supabase.from('analytics_insight_patterns').select('*')
+          supabase.rpc('get_analytics_memory_stats'),
+          supabase.rpc('get_analytics_conversation_stats'),
+          supabase.rpc('get_analytics_message_stats'),
+          supabase.rpc('get_analytics_token_stats'),
+          supabase.rpc('get_analytics_user_segments'),
+          supabase.rpc('get_analytics_insight_patterns')
         ]);
+
+        // Handle permission errors gracefully
+        if (memoryRes.error?.message?.includes('Access denied')) {
+          setError('Access denied: Admin role required');
+          setLoading(false);
+          return;
+        }
 
         if (memoryRes.error) throw memoryRes.error;
         if (conversationRes.error) throw conversationRes.error;
