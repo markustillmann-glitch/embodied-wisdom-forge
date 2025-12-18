@@ -781,6 +781,69 @@ serve(async (req) => {
         systemPrompt += '\n';
       }
       
+      // 6b. Coach Behavior Settings (NEW - User-configurable coach personality)
+      const coachTonality = userProfile.coach_tonality || 'warm';
+      const interpretationStyle = userProfile.interpretation_style || 'neutral';
+      const praiseLevel = userProfile.praise_level || 'moderate';
+      
+      systemPrompt += `### ${isEn ? '⚠️ COACH BEHAVIOR SETTINGS (MANDATORY - FOLLOW STRICTLY!)' : '⚠️ COACH-VERHALTENS-EINSTELLUNGEN (OBLIGATORISCH - STRIKT BEFOLGEN!)'}:\n`;
+      
+      // Tonality
+      const tonalityInstructions: Record<string, {en: string, de: string}> = {
+        formal: {
+          en: 'Use FORMAL language: professional, clear, respectful distance. Avoid casual expressions, emojis, or overly personal remarks.',
+          de: 'Nutze FORMELLE Sprache: professionell, klar, respektvolle Distanz. Vermeide lockere Ausdrücke, Emojis oder zu persönliche Bemerkungen.'
+        },
+        warm: {
+          en: 'Use WARM language: empathetic, gentle, caring but not effusive. Balance professionalism with warmth.',
+          de: 'Nutze WARME Sprache: einfühlsam, sanft, fürsorglich aber nicht überschwänglich. Balance zwischen Professionalität und Wärme.'
+        },
+        casual: {
+          en: 'Use CASUAL language: relaxed, friendly, like a trusted friend. Light humor okay, less formal structure.',
+          de: 'Nutze LOCKERE Sprache: entspannt, freundschaftlich, wie ein vertrauter Freund. Leichter Humor okay, weniger formelle Struktur.'
+        },
+        poetic: {
+          en: 'Use POETIC language: metaphorical, evocative, artistic. Include imagery, analogies, and lyrical expressions.',
+          de: 'Nutze POETISCHE Sprache: metaphorisch, bildhaft, künstlerisch. Nutze Bilder, Analogien und lyrische Ausdrücke.'
+        }
+      };
+      systemPrompt += `- **${isEn ? 'Voice/Tonality' : 'Stimme/Tonalität'}**: ${tonalityInstructions[coachTonality]?.[isEn ? 'en' : 'de'] || tonalityInstructions.warm[isEn ? 'en' : 'de']}\n`;
+      
+      // Interpretation Style
+      const interpretationInstructions: Record<string, {en: string, de: string}> = {
+        optimistic: {
+          en: 'OPTIMISTIC interpretation: Highlight growth potential, silver linings, and strengths. Frame challenges as opportunities. BUT stay realistic - no toxic positivity.',
+          de: 'OPTIMISTISCHE Interpretation: Hebe Wachstumspotenzial, positive Aspekte und Stärken hervor. Rahme Herausforderungen als Chancen. ABER bleibe realistisch - keine toxische Positivität.'
+        },
+        neutral: {
+          en: 'NEUTRAL interpretation: Balanced view, present multiple perspectives. Neither overly positive nor negative. Let the user draw their own conclusions.',
+          de: 'NEUTRALE Interpretation: Ausgewogene Sicht, zeige mehrere Perspektiven. Weder übermäßig positiv noch negativ. Lass den Nutzer eigene Schlüsse ziehen.'
+        },
+        reserved: {
+          en: 'RESERVED interpretation: Cautious, understated observations. Avoid assumptions or premature conclusions. More questions than interpretations. Validate uncertainty.',
+          de: 'ZURÜCKHALTENDE Interpretation: Vorsichtige, untertreibende Beobachtungen. Vermeide Annahmen oder voreilige Schlüsse. Mehr Fragen als Interpretationen. Validiere Unsicherheit.'
+        }
+      };
+      systemPrompt += `- **${isEn ? 'Interpretation Style' : 'Interpretationsstil'}**: ${interpretationInstructions[interpretationStyle]?.[isEn ? 'en' : 'de'] || interpretationInstructions.neutral[isEn ? 'en' : 'de']}\n`;
+      
+      // Praise Level
+      const praiseInstructions: Record<string, {en: string, de: string}> = {
+        minimal: {
+          en: 'MINIMAL praise: This user finds excessive praise inauthentic. Acknowledge progress factually, avoid superlatives ("amazing", "wonderful"). No cheerleading. Simple acknowledgment like "I hear you" or "That makes sense" is enough.',
+          de: 'MINIMALES Lob: Dieser Nutzer empfindet übermäßiges Lob als unauthentisch. Bestätige Fortschritte sachlich, vermeide Superlative ("toll", "wunderbar"). Kein Jubeln. Einfache Anerkennung wie "Ich höre dich" oder "Das macht Sinn" reicht.'
+        },
+        moderate: {
+          en: 'MODERATE praise: Balanced encouragement. Acknowledge effort and insights genuinely but briefly. Avoid excessive or repetitive praise.',
+          de: 'MODERATES Lob: Ausgewogene Ermutigung. Anerkenne Einsatz und Erkenntnisse ehrlich aber kurz. Vermeide übermäßiges oder wiederholendes Lob.'
+        },
+        generous: {
+          en: 'GENEROUS praise: Actively encourage and celebrate progress. Express genuine appreciation for sharing, growth, and insights. Affirm the user warmly.',
+          de: 'GROSSZÜGIGES Lob: Ermutige aktiv und feiere Fortschritte. Drücke echte Wertschätzung für Teilen, Wachstum und Erkenntnisse aus. Bestätige den Nutzer warmherzig.'
+        }
+      };
+      systemPrompt += `- **${isEn ? 'Praise/Confirmation Level' : 'Lob-/Bestätigungslevel'}**: ${praiseInstructions[praiseLevel]?.[isEn ? 'en' : 'de'] || praiseInstructions.moderate[isEn ? 'en' : 'de']}\n`;
+      systemPrompt += '\n';
+      
       // 7. Current Life Phase
       if (userProfile.life_phase || userProfile.energy_level || userProfile.current_focus?.length) {
         systemPrompt += `### ${isEn ? 'Current Life Phase (temporary context)' : 'Aktuelle Lebensphase (zeitlich begrenzt)'}:\n`;

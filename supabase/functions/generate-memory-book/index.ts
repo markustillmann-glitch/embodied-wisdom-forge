@@ -35,7 +35,7 @@ serve(async (req) => {
   }
 
   try {
-    const { memory, language = 'de', addContext = false } = await req.json();
+    const { memory, language = 'de', addContext = false, userProfile } = await req.json();
     
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
@@ -44,6 +44,36 @@ serve(async (req) => {
 
     const memoryData = memory as Memory;
     const isGerman = language === 'de';
+    
+    // Extract coach preferences for book generation
+    const coachTonality = userProfile?.coach_tonality || 'warm';
+    const interpretationStyle = userProfile?.interpretation_style || 'neutral';
+    const praiseLevel = userProfile?.praise_level || 'moderate';
+    
+    // Build tone instructions for book generation
+    const getToneInstructions = () => {
+      const tonalityMap: Record<string, {en: string, de: string}> = {
+        formal: { en: 'Use formal, professional language', de: 'Nutze formelle, professionelle Sprache' },
+        warm: { en: 'Use warm, empathetic language', de: 'Nutze warme, einfühlsame Sprache' },
+        casual: { en: 'Use casual, friendly language', de: 'Nutze lockere, freundschaftliche Sprache' },
+        poetic: { en: 'Use poetic, metaphorical language with imagery', de: 'Nutze poetische, metaphorische Sprache mit Bildern' }
+      };
+      
+      const interpretationMap: Record<string, {en: string, de: string}> = {
+        optimistic: { en: 'Focus on growth, strengths, and positive aspects', de: 'Fokussiere auf Wachstum, Stärken und positive Aspekte' },
+        neutral: { en: 'Present a balanced perspective', de: 'Präsentiere eine ausgewogene Perspektive' },
+        reserved: { en: 'Be understated and cautious in observations', de: 'Sei zurückhaltend und vorsichtig in Beobachtungen' }
+      };
+      
+      const praiseMap: Record<string, {en: string, de: string}> = {
+        minimal: { en: 'Avoid superlatives or excessive appreciation, be factual', de: 'Vermeide Superlative oder übertriebene Wertschätzung, sei sachlich' },
+        moderate: { en: 'Include balanced, genuine appreciation', de: 'Füge ausgewogene, echte Wertschätzung ein' },
+        generous: { en: 'Warmly celebrate the memory and the person', de: 'Feiere die Erinnerung und die Person warmherzig' }
+      };
+      
+      const lang = isGerman ? 'de' : 'en';
+      return `${tonalityMap[coachTonality]?.[lang] || tonalityMap.warm[lang]}. ${interpretationMap[interpretationStyle]?.[lang] || interpretationMap.neutral[lang]}. ${praiseMap[praiseLevel]?.[lang] || praiseMap.moderate[lang]}.`;
+    };
 
     if (addContext) {
       // Generate only context pages
@@ -84,7 +114,7 @@ Respond as a JSON array with objects containing "id", "type" (always "context"),
         body: JSON.stringify({
           model: 'google/gemini-2.5-flash',
           messages: [
-            { role: 'system', content: 'You are a helpful assistant that creates context pages for memory books. Always respond with valid JSON.' },
+            { role: 'system', content: `You are a helpful assistant that creates context pages for memory books. Always respond with valid JSON. IMPORTANT TONE: ${getToneInstructions()}` },
             { role: 'user', content: contextPrompt }
           ],
         }),
@@ -116,9 +146,13 @@ Respond as a JSON array with objects containing "id", "type" (always "context"),
     }
 
     // Generate full book
+    const toneInstructions = getToneInstructions();
+    
     const systemPrompt = isGerman
       ? `Du bist ein einfühlsamer Autor, der persönliche Erinnerungen in wunderschöne Buchseiten verwandelt. 
 Erstelle ein Erinnerungsbuch mit ca. 15-20 Seiten. Jede Seite hat zwei Textversionen.
+
+**WICHTIG - STILANWEISUNG**: ${toneInstructions}
 
 Seitentypen:
 - "cover": Titelseite mit Titel und Untertitel
@@ -137,12 +171,14 @@ Die erweiterte Version sollte:
 - Mehr Details und Kontext enthalten
 - Tiefere emotionale Reflexionen bieten
 - Verbindungen zu Gefühlen und Bedürfnissen ausarbeiten
-- Poetischer und nachdenklicher formuliert sein
+- Den gewünschten Ton und Stil konsequent einhalten
 
 Antworte nur mit einem JSON-Objekt: { "pages": [...] }
 Jede Seite braucht: id (string), type (string), und optional title, content, contentExtended, subtitle, imageUrl`
       : `You are an empathetic author who transforms personal memories into beautiful book pages.
 Create a memory book with about 15-20 pages. Each page has two text versions.
+
+**IMPORTANT - STYLE INSTRUCTION**: ${toneInstructions}
 
 Page types:
 - "cover": Title page with title and subtitle
@@ -161,7 +197,7 @@ The extended version should:
 - Include more details and context
 - Offer deeper emotional reflections
 - Elaborate on connections to feelings and needs
-- Be more poetic and contemplative in tone
+- Maintain the desired tone and style consistently
 
 Respond only with a JSON object: { "pages": [...] }
 Each page needs: id (string), type (string), and optionally title, content, contentExtended, subtitle, imageUrl`;
