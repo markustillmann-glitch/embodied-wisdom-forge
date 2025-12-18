@@ -990,6 +990,31 @@ export const translations = {
       languageTriggers: 'Welche Worte triggern dich?',
       languageTriggersPlaceholder: 'z.B. "müssen", "sollten", "optimieren"',
       
+      // 8. Coach AI Settings
+      coachSettings: 'Coach-Einstellungen',
+      coachSettingsDesc: 'Passe an, wie Oria mit dir kommuniziert',
+      coachTonality: 'Tonalität des Coaches',
+      tonality: {
+        formal: 'Förmlich',
+        warm: 'Warm',
+        casual: 'Locker',
+        poetic: 'Poetisch',
+      },
+      interpretationStyle: 'Interpretationsstil',
+      interpretationStyleDesc: 'Wie soll Oria deine Erinnerungen und Muster deuten?',
+      interpretation: {
+        optimistic: 'Optimistisch',
+        neutral: 'Neutral',
+        reserved: 'Zurückhaltend',
+      },
+      praiseLevel: 'Bestätigung & Lob',
+      praiseLevelDesc: 'Manche empfinden übermäßiges Lob als unauthentisch',
+      praise: {
+        minimal: 'Minimal',
+        moderate: 'Moderat',
+        generous: 'Großzügig',
+      },
+      
       // 7. Life Phase
       lifePhase: 'Aktuelle Lebensphase',
       lifePhaseDesc: 'Wo stehst du gerade?',
@@ -2116,6 +2141,31 @@ export const translations = {
       },
       languageTriggers: 'Which words trigger you?',
       languageTriggersPlaceholder: 'e.g. "must", "should", "optimize"',
+      
+      // 8. Coach AI Settings
+      coachSettings: 'Coach Settings',
+      coachSettingsDesc: 'Customize how Oria communicates with you',
+      coachTonality: 'Coach Tonality',
+      tonality: {
+        formal: 'Formal',
+        warm: 'Warm',
+        casual: 'Casual',
+        poetic: 'Poetic',
+      },
+      interpretationStyle: 'Interpretation Style',
+      interpretationStyleDesc: 'How should Oria interpret your memories and patterns?',
+      interpretation: {
+        optimistic: 'Optimistic',
+        neutral: 'Neutral',
+        reserved: 'Reserved',
+      },
+      praiseLevel: 'Praise & Affirmation',
+      praiseLevelDesc: 'Some find excessive praise inauthentic',
+      praise: {
+        minimal: 'Minimal',
+        moderate: 'Moderate',
+        generous: 'Generous',
+      },
       
       // 7. Life Phase
       lifePhase: 'Current Life Phase',
