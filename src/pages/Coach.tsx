@@ -58,6 +58,7 @@ import {
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
+import ChatMessage from '@/components/ChatMessage';
 
 interface Message {
   id: string;
@@ -1329,24 +1330,11 @@ const Coach = () => {
                 )}
                 
                 {messages.map((message) => (
-                  <div
+                  <ChatMessage
                     key={message.id}
-                    className={cn(
-                      "flex gap-2 sm:gap-3",
-                      message.role === 'user' ? "justify-end" : "justify-start"
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        "max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3",
-                        message.role === 'user'
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-secondary-foreground"
-                      )}
-                    >
-                      <p className="whitespace-pre-wrap text-base sm:text-sm">{message.content}</p>
-                    </div>
-                  </div>
+                    content={message.content}
+                    role={message.role as 'user' | 'assistant'}
+                  />
                 ))}
                 
                 {isStreaming && messages[messages.length - 1]?.role !== 'assistant' && (
