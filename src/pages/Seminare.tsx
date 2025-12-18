@@ -483,7 +483,7 @@ const Seminare = () => {
             className="text-center mt-12"
           >
             <Link
-              to="/team"
+              to="/team#top"
               className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
             >
               {t('seminare.meetTeam')}
