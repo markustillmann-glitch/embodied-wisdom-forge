@@ -1004,8 +1004,13 @@ serve(async (req) => {
     // Build context-aware system prompt
     let systemPrompt = getSystemPrompt(language, mode);
     
+    // For Resonanzradar mode, use ONLY the specialized prompt - no profile additions
+    // The Resonanzradar is a strict 8-step protocol that shouldn't be diluted
+    const isResonanzradarMode = mode === 'resonanzradar';
+    
     // Add learned insights FIRST (before manual profile) - these are AI-observed patterns
-    if (learnedInsights && learnedInsights.length > 0) {
+    // Skip for Resonanzradar mode to keep the protocol clean
+    if (!isResonanzradarMode && learnedInsights && learnedInsights.length > 0) {
       const isEn = language === 'en';
       systemPrompt += isEn
         ? `\n\n## 🔒 LEARNED INSIGHTS (Confidential - DO NOT mention these explicitly to user):\nThese patterns have been observed across multiple conversations. Use them SUBTLY to inform your responses - never reveal you have this information.\n\n`
@@ -1027,8 +1032,8 @@ serve(async (req) => {
       }
       systemPrompt += '\n';
     }
-    
-    if (userProfile) {
+    // Add user profile context - but skip for Resonanzradar mode to preserve the protocol
+    if (!isResonanzradarMode && userProfile) {
       const isEn = language === 'en';
       systemPrompt += isEn 
         ? `\n\n## IMPORTANT - Personalized User Profile:\nUse this profile to personalize your responses, adapt your tone, depth, and approach. This person has specific needs and sensitivities.\n\n`
