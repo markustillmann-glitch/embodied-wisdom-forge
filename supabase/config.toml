@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.generate-memory-book]
 verify_jwt = false
+
+[functions.profile-assistant]
+verify_jwt = false
