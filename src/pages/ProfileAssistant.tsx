@@ -88,32 +88,97 @@ const ProfileAssistant = () => {
   };
 
   const parseProfileUpdates = async (content: string) => {
-    const regex = /\[PROFILE_UPDATE\]\s*({[\s\S]*?})\s*\[\/PROFILE_UPDATE\]/g;
-    let match;
+    // Match both with and without code blocks, handle multiline JSON
+    const regexPatterns = [
+      /```json\s*\[PROFILE_UPDATE\]\s*(\{[\s\S]*?\})\s*\[\/PROFILE_UPDATE\]\s*```/g,
+      /```\s*\[PROFILE_UPDATE\]\s*(\{[\s\S]*?\})\s*\[\/PROFILE_UPDATE\]\s*```/g,
+      /\[PROFILE_UPDATE\]\s*(\{[\s\S]*?\})\s*\[\/PROFILE_UPDATE\]/g,
+    ];
+    
     const updates: { field_name: string; value: any }[] = [];
     
-    while ((match = regex.exec(content)) !== null) {
-      try {
-        const parsed = JSON.parse(match[1]);
-        updates.push(parsed);
-      } catch (e) {
-        console.error('Failed to parse profile update:', e);
+    for (const regex of regexPatterns) {
+      let match;
+      while ((match = regex.exec(content)) !== null) {
+        try {
+          // Clean the JSON string - remove newlines and extra spaces
+          const jsonStr = match[1].replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+          const parsed = JSON.parse(jsonStr);
+          
+          // Validate the parsed object has required fields
+          if (parsed.field_name && parsed.value !== undefined) {
+            // Check if we already have this field to avoid duplicates
+            if (!updates.some(u => u.field_name === parsed.field_name)) {
+              updates.push(parsed);
+              console.log('Parsed profile update:', parsed);
+            }
+          }
+        } catch (e) {
+          console.error('Failed to parse profile update JSON:', match[1], e);
+        }
       }
     }
     
     if (updates.length > 0 && user) {
-      const profileUpdate: Record<string, unknown> = { user_id: user.id };
+      // Build the update object
+      const profileUpdate: Record<string, unknown> = {};
       updates.forEach(update => {
-        profileUpdate[update.field_name] = update.value;
+        // Ensure array fields are properly formatted
+        const arrayFields = [
+          'core_needs', 'neglected_needs', 'over_fulfilled_needs', 'belonging_through',
+          'primary_memory_channel', 'preferred_tone', 'response_preference', 'language_triggers',
+          'current_focus', 'safe_places', 'power_sources', 'body_anchors', 'self_qualities'
+        ];
+        
+        if (arrayFields.includes(update.field_name)) {
+          // Ensure it's an array
+          if (typeof update.value === 'string') {
+            profileUpdate[update.field_name] = update.value.split(',').map((s: string) => s.trim());
+          } else if (Array.isArray(update.value)) {
+            profileUpdate[update.field_name] = update.value;
+          } else {
+            profileUpdate[update.field_name] = [String(update.value)];
+          }
+        } else {
+          // String fields
+          profileUpdate[update.field_name] = String(update.value);
+        }
       });
       
-      const { error } = await supabase
+      console.log('Saving profile update:', profileUpdate);
+      
+      // First check if profile exists
+      const { data: existingProfile } = await supabase
         .from('user_profiles')
-        .upsert(profileUpdate as never, { onConflict: 'user_id' });
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      
+      let error;
+      if (existingProfile) {
+        // Update existing profile
+        const result = await supabase
+          .from('user_profiles')
+          .update(profileUpdate)
+          .eq('user_id', user.id);
+        error = result.error;
+      } else {
+        // Insert new profile
+        const result = await supabase
+          .from('user_profiles')
+          .insert({ ...profileUpdate, user_id: user.id });
+        error = result.error;
+      }
       
       if (error) {
         console.error('Error updating profile:', error);
+        toast({
+          title: language === 'de' ? 'Fehler beim Speichern' : 'Save error',
+          description: error.message,
+          variant: 'destructive',
+        });
       } else {
+        console.log('Profile saved successfully');
         toast({
           title: language === 'de' ? 'Profil aktualisiert' : 'Profile updated',
           description: language === 'de' 
@@ -123,7 +188,12 @@ const ProfileAssistant = () => {
       }
     }
     
-    return content.replace(/```json\s*\[PROFILE_UPDATE\][\s\S]*?\[\/PROFILE_UPDATE\]\s*```/g, '').trim();
+    // Remove all PROFILE_UPDATE blocks from displayed content
+    let cleanedContent = content;
+    cleanedContent = cleanedContent.replace(/```json\s*\[PROFILE_UPDATE\][\s\S]*?\[\/PROFILE_UPDATE\]\s*```/g, '');
+    cleanedContent = cleanedContent.replace(/```\s*\[PROFILE_UPDATE\][\s\S]*?\[\/PROFILE_UPDATE\]\s*```/g, '');
+    cleanedContent = cleanedContent.replace(/\[PROFILE_UPDATE\][\s\S]*?\[\/PROFILE_UPDATE\]/g, '');
+    return cleanedContent.trim();
   };
 
   const sendMessage = async (messageText: string, selectedMode?: ProfileMode) => {
