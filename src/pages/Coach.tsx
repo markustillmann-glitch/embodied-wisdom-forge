@@ -152,8 +152,8 @@ const Coach = () => {
   const [isGeneratingPsychogram, setIsGeneratingPsychogram] = useState(false);
   const [psychogramCompact, setPsychogramCompact] = useState(false);
   
-  // Template mode state
-  const [templateMode, setTemplateMode] = useState<'compact' | 'detailed'>('detailed');
+  // Conversation mode state (renamed from templateMode)
+  const [conversationMode, setConversationMode] = useState<'compact' | 'detailed' | 'resonanzradar'>('detailed');
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -726,7 +726,7 @@ const Coach = () => {
             messages: chatMessages, 
             userProfile, 
             language, 
-            templateMode,
+            mode: conversationMode,
             learnedInsights: learnedInsights.length > 0 ? learnedInsights : undefined,
           }),
         }
@@ -1232,32 +1232,44 @@ const Coach = () => {
                     <p className="text-base sm:text-lg font-serif mb-2">{t('coach.welcome')}</p>
                     <p className="text-sm mb-4 sm:mb-6">{t('coach.welcomeDesc')}</p>
                     
-                    {/* Template mode selector */}
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                      <span className="text-xs text-muted-foreground">{t('coach.templateMode')}:</span>
+                    {/* Conversation mode selector */}
+                    <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+                      <span className="text-xs text-muted-foreground w-full sm:w-auto text-center sm:text-left mb-1 sm:mb-0">{t('coach.mode')}:</span>
                       <button
-                        onClick={() => setTemplateMode('compact')}
+                        onClick={() => setConversationMode('compact')}
                         className={cn(
-                          "px-3 py-1 text-xs rounded-full transition-colors",
-                          templateMode === 'compact' 
+                          "px-3 py-1.5 text-xs rounded-full transition-colors min-h-[36px] touch-manipulation",
+                          conversationMode === 'compact' 
                             ? "bg-primary text-primary-foreground" 
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                         )}
-                        title={t('coach.templateCompactDesc')}
+                        title={t('coach.modeCompactDesc')}
                       >
-                        {t('coach.templateCompact')}
+                        {t('coach.modeCompact')}
                       </button>
                       <button
-                        onClick={() => setTemplateMode('detailed')}
+                        onClick={() => setConversationMode('detailed')}
                         className={cn(
-                          "px-3 py-1 text-xs rounded-full transition-colors",
-                          templateMode === 'detailed' 
+                          "px-3 py-1.5 text-xs rounded-full transition-colors min-h-[36px] touch-manipulation",
+                          conversationMode === 'detailed' 
                             ? "bg-primary text-primary-foreground" 
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                         )}
-                        title={t('coach.templateDetailedDesc')}
+                        title={t('coach.modeDetailedDesc')}
                       >
-                        {t('coach.templateDetailed')}
+                        {t('coach.modeDetailed')}
+                      </button>
+                      <button
+                        onClick={() => setConversationMode('resonanzradar')}
+                        className={cn(
+                          "px-3 py-1.5 text-xs rounded-full transition-colors min-h-[36px] touch-manipulation",
+                          conversationMode === 'resonanzradar' 
+                            ? "bg-accent text-accent-foreground" 
+                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                        )}
+                        title={t('coach.modeResonanzradarDesc')}
+                      >
+                        {t('coach.modeResonanzradar')}
                       </button>
                     </div>
                     
