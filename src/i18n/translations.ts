@@ -837,6 +837,24 @@ export const translations = {
       signUpFailed: 'Registrierung fehlgeschlagen',
       welcome: 'Willkommen!',
       accountCreated: 'Ihr Konto wurde erstellt.',
+      // Password reset
+      forgotPassword: 'Passwort vergessen?',
+      forgotPasswordTitle: 'Passwort zurücksetzen',
+      forgotPasswordDesc: 'Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen.',
+      sendResetLink: 'Reset-Link senden',
+      resetLinkSent: 'Reset-Link gesendet',
+      resetLinkSentDesc: 'Bitte überprüfen Sie Ihre E-Mail für den Link zum Zurücksetzen.',
+      resetLinkFailed: 'Fehler beim Senden',
+      backToLogin: 'Zurück zur Anmeldung',
+      // Password change
+      changePassword: 'Passwort ändern',
+      currentPassword: 'Aktuelles Passwort',
+      newPassword: 'Neues Passwort',
+      confirmPassword: 'Passwort bestätigen',
+      passwordsDoNotMatch: 'Passwörter stimmen nicht überein',
+      passwordChanged: 'Passwort geändert',
+      passwordChangedDesc: 'Ihr Passwort wurde erfolgreich geändert.',
+      passwordChangeFailed: 'Passwortänderung fehlgeschlagen',
     },
 
     // Coach
@@ -1094,6 +1112,8 @@ export const translations = {
       vaultPasswordRemove: 'Passwort entfernen',
       vaultPasswordRemoved: 'Tresor-Passwort wurde entfernt',
       
+      // Account Password
+      changePasswordDesc: 'Ändere dein Anmelde-Passwort für Oria',
       
       // Basic Info
       basicInfo: 'Über mich',
@@ -2230,6 +2250,24 @@ export const translations = {
       signUpFailed: 'Sign up failed',
       welcome: 'Welcome!',
       accountCreated: 'Your account has been created.',
+      // Password reset
+      forgotPassword: 'Forgot password?',
+      forgotPasswordTitle: 'Reset Password',
+      forgotPasswordDesc: 'Enter your email address and we will send you a reset link.',
+      sendResetLink: 'Send Reset Link',
+      resetLinkSent: 'Reset Link Sent',
+      resetLinkSentDesc: 'Please check your email for the password reset link.',
+      resetLinkFailed: 'Failed to send',
+      backToLogin: 'Back to Login',
+      // Password change
+      changePassword: 'Change Password',
+      currentPassword: 'Current Password',
+      newPassword: 'New Password',
+      confirmPassword: 'Confirm Password',
+      passwordsDoNotMatch: 'Passwords do not match',
+      passwordChanged: 'Password Changed',
+      passwordChangedDesc: 'Your password has been successfully changed.',
+      passwordChangeFailed: 'Password change failed',
     },
 
     // Coach
@@ -2487,6 +2525,8 @@ export const translations = {
       vaultPasswordRemove: 'Remove Password',
       vaultPasswordRemoved: 'Vault password has been removed',
       
+      // Account Password
+      changePasswordDesc: 'Change your login password for Oria',
       // Basic Info
       basicInfo: 'About Me',
       basicInfoDesc: 'Basic information and goals',
