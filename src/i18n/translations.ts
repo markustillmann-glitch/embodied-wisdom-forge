@@ -44,13 +44,14 @@ export const translations = {
       // Vorwort
       vorwort: {
         title: 'Vorwort: Wenn viel auf dem Spiel steht',
-        subtitle: 'Weshalb dieses Wissen entscheidend ist für Führung und Selbststeuerung.',
+        subtitle: 'Weshalb dieses Wissen entscheidend ist für Führung, Selbststeuerung – und jeden neugierigen Menschen.',
         p1: 'In der modernen Führung – sei es von Unternehmen, Teams oder dem eigenen Leben – stoßen rein kognitive Strategien an ihre Grenzen. Wir wissen oft intellektuell, was die richtige Entscheidung oder die richtige Art der Kommunikation wäre. Doch unter Druck, Zeitmangel oder in Konflikten greifen wir auf automatisierte Muster zurück.',
         highlight1: 'Wir handeln nicht nach unserem besten Wissen, sondern nach unserem am tiefsten verankerten Zustand.',
         p2: 'Dieses Mini-Buch schließt die Lücke zwischen dem Anspruch („Ich will besonnen und strategisch handeln") und der Realität („Ich wurde getriggert und habe reagiert").',
         quote1: 'Der Mensch ist kein denkendes Wesen mit einem Körper – sondern ein verkörpertes Wesen, das denken gelernt hat.',
         p3: 'Erinnerungen, Impulse, Vorurteile (Bias) und Selbstbilder entstehen nicht primär im Kopf. Sie entstehen in einem Zusammenspiel aus Körperzustand, uralten Überlebensprogrammen, epigenetischem Erbe und inneren Anteilen.',
         p4: 'Wer führt, führt nicht nur Köpfe, sondern reguliert Nervensysteme – zuerst das eigene, dann das des Systems. Dieses Kompendium liefert die Architektur dafür.',
+        p5ForCurious: 'Doch dieses Wissen ist nicht nur für Führungskräfte oder Menschen in Krisen relevant. Es ist für jeden, der neugierig ist, sich selbst besser zu verstehen – unabhängig von Alter, Beruf oder Lebenssituation. Die Frage „Warum reagiere ich so, wie ich reagiere?" ist universell menschlich.',
       },
       
       // Chapter 1
@@ -291,6 +292,11 @@ export const translations = {
         thesisHighlight: 'Die Arbeit beginnt bei der Regulation des Zustands.',
         thesisP2: 'Wenn der Zustand reguliert ist:',
         thesisItems: ['werden Teile kooperativ.', 'werden Bedürfnisse verhandelbar.', 'können wir unterscheiden: Was ist mein Stress, und was ist altes Erbe?', 'wird echte Beziehung möglich.'],
+        forCuriousTitle: 'Für neugierige Menschen in jeder Lebenssituation',
+        forCuriousIntro: 'Du musst keine Krise erleben, um von diesem Wissen zu profitieren. Neugier auf dich selbst ist der beste Ausgangspunkt.',
+        forCuriousItems: ['Verstehe, warum du in bestimmten Situationen so reagierst, wie du reagierst', 'Entdecke verborgene Muster und Prägungen, die dein Verhalten formen', 'Entwickle ein tieferes Verständnis für deine Emotionen und Bedürfnisse', 'Finde mehr Gelassenheit im Alltag durch Selbsterkenntnis', 'Verbessere deine Beziehungen durch besseres Verstehen deiner selbst'],
+        forCuriousBenefits: 'Die Mehrwerte für neugierige Selbstentdecker',
+        forCuriousBenefitItems: ['Selbsterkenntnis: Lerne die Sprache deines Körpers und deiner Emotionen zu verstehen', 'Authentizität: Unterscheide zwischen echten Bedürfnissen und übernommenen Mustern', 'Gelassenheit: Reagiere bewusster statt automatisch', 'Beziehungstiefe: Verstehe dich selbst besser und kommuniziere klarer', 'Lebensqualität: Triff Entscheidungen, die wirklich zu dir passen'],
       },
       
       // Footer
@@ -307,6 +313,30 @@ export const translations = {
       subtitle: 'Deine stille Begleiterin auf dem Weg zu dir selbst',
       intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond the Shallow und Wegweiserin im Jahrescoaching.',
       intro2: 'Sie steht für genau das, was Beyond the Shallow und das Jahresprogramm kultivieren:',
+      forCurious: {
+        badge: 'Für alle Neugierigen',
+        title: 'Oria für neugierige Selbstentdecker',
+        subtitle: 'Du brauchst keine Krise, um dich selbst besser kennenzulernen',
+        intro: 'Vielleicht bist du einfach neugierig. Neugierig darauf, warum du so tickst, wie du tickst. Warum bestimmte Situationen dich triggern. Was hinter deinen Reaktionsmustern steckt. Das ist der beste Grund, Oria zu nutzen.',
+        benefits: [
+          'Entdecke verborgene Muster und verstehe, woher sie kommen',
+          'Lerne die Sprache deines Körpers und deiner Emotionen',
+          'Finde heraus, was du wirklich brauchst – jenseits von dem, was du gelernt hast zu wollen',
+          'Entwickle ein tieferes Verständnis für deine Beziehungen',
+          'Triff bewusstere Entscheidungen, die zu deinem authentischen Selbst passen'
+        ],
+        quote: 'Selbsterkenntnis ist kein Luxus für Krisenzeiten – sie ist ein Geschenk an dich selbst, das dein ganzes Leben bereichert.',
+        lifePhases: {
+          title: 'In jeder Lebensphase wertvoll',
+          items: [
+            { phase: 'Junge Erwachsene', benefit: 'Die eigene Identität jenseits von Erwartungen entdecken' },
+            { phase: 'Berufstätige', benefit: 'Balance finden zwischen Leistung und authentischem Selbst' },
+            { phase: 'Eltern', benefit: 'Eigene Prägungen verstehen, um sie nicht weiterzugeben' },
+            { phase: 'Lebensmitte', benefit: 'Bilanz ziehen und bewusst die zweite Lebenshälfte gestalten' },
+            { phase: 'Reifere Jahre', benefit: 'Integration von Lebenserfahrung und innerer Weisheit' }
+          ]
+        }
+      },
       intro2Bold: 'Präsenz, innere Führung, Tiefe.',
       intro3: 'Oria ist kein Maskottchen, sondern eine seelische Gefährtin – eine, die dich erinnert:',
       intro3Quote: '„Du trägst bereits alles in dir."',
@@ -1407,13 +1437,14 @@ export const translations = {
       // Vorwort
       vorwort: {
         title: 'Foreword: When Much Is at Stake',
-        subtitle: 'Why this knowledge is crucial for leadership and self-regulation.',
+        subtitle: 'Why this knowledge is crucial for leadership, self-regulation—and every curious person.',
         p1: 'In modern leadership—whether of companies, teams, or our own lives—purely cognitive strategies reach their limits. We often know intellectually what the right decision or the right way to communicate would be. But under pressure, time constraints, or in conflicts, we fall back on automated patterns.',
         highlight1: 'We don\'t act according to our best knowledge, but according to our most deeply anchored state.',
         p2: 'This mini-book bridges the gap between intention ("I want to act calmly and strategically") and reality ("I was triggered and reacted").',
         quote1: 'Humans are not thinking beings with a body—but embodied beings who have learned to think.',
         p3: 'Memories, impulses, biases, and self-images don\'t primarily originate in the head. They arise from an interplay of body states, ancient survival programs, epigenetic heritage, and inner parts.',
         p4: 'Those who lead don\'t just lead minds, they regulate nervous systems—first their own, then the system\'s. This compendium provides the architecture for that.',
+        p5ForCurious: 'But this knowledge isn\'t just for leaders or people in crisis. It\'s for anyone who is curious to understand themselves better—regardless of age, profession, or life situation. The question "Why do I react the way I react?" is universally human.',
       },
       
       // Chapter 1
@@ -1654,6 +1685,11 @@ export const translations = {
         thesisHighlight: 'The work begins with state regulation.',
         thesisP2: 'When the state is regulated:',
         thesisItems: ['parts become cooperative.', 'needs become negotiable.', 'we can distinguish: What is my stress, and what is old legacy?', 'real relationship becomes possible.'],
+        forCuriousTitle: 'For Curious People in Every Life Situation',
+        forCuriousIntro: 'You don\'t need to experience a crisis to benefit from this knowledge. Curiosity about yourself is the best starting point.',
+        forCuriousItems: ['Understand why you react the way you do in certain situations', 'Discover hidden patterns and conditioning that shape your behavior', 'Develop a deeper understanding of your emotions and needs', 'Find more serenity in everyday life through self-knowledge', 'Improve your relationships by understanding yourself better'],
+        forCuriousBenefits: 'Benefits for Curious Self-Discoverers',
+        forCuriousBenefitItems: ['Self-Knowledge: Learn to understand the language of your body and emotions', 'Authenticity: Distinguish between genuine needs and adopted patterns', 'Serenity: Respond more consciously instead of automatically', 'Relationship Depth: Understand yourself better and communicate more clearly', 'Quality of Life: Make decisions that truly fit you'],
       },
       
       // Footer
@@ -1670,6 +1706,30 @@ export const translations = {
       subtitle: 'Your quiet companion on the path to yourself',
       intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Beyond the Shallow and guide in the annual coaching.',
       intro2: 'She represents exactly what Beyond the Shallow and the annual program cultivate:',
+      forCurious: {
+        badge: 'For All Curious Minds',
+        title: 'Oria for Curious Self-Discoverers',
+        subtitle: 'You don\'t need a crisis to get to know yourself better',
+        intro: 'Maybe you\'re just curious. Curious about why you tick the way you do. Why certain situations trigger you. What\'s behind your reaction patterns. That\'s the best reason to use Oria.',
+        benefits: [
+          'Discover hidden patterns and understand where they come from',
+          'Learn the language of your body and emotions',
+          'Find out what you truly need—beyond what you\'ve learned to want',
+          'Develop a deeper understanding of your relationships',
+          'Make more conscious decisions that fit your authentic self'
+        ],
+        quote: 'Self-knowledge is not a luxury for times of crisis—it\'s a gift to yourself that enriches your entire life.',
+        lifePhases: {
+          title: 'Valuable in Every Life Phase',
+          items: [
+            { phase: 'Young Adults', benefit: 'Discover your own identity beyond expectations' },
+            { phase: 'Professionals', benefit: 'Find balance between performance and authentic self' },
+            { phase: 'Parents', benefit: 'Understand your own conditioning to avoid passing it on' },
+            { phase: 'Midlife', benefit: 'Take stock and consciously shape the second half of life' },
+            { phase: 'Mature Years', benefit: 'Integration of life experience and inner wisdom' }
+          ]
+        }
+      },
       intro2Bold: 'Presence, inner leadership, depth.',
       intro3: 'Oria is not a mascot, but a soul companion—one who reminds you:',
       intro3Quote: '"You already carry everything within you."',

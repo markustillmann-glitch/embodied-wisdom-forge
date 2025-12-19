@@ -136,6 +136,91 @@ const Oria = () => {
         </div>
       </section>
 
+      {/* NEW: Section for Curious People */}
+      <section className="py-12 sm:py-20 relative overflow-hidden">
+        <PolygonalBackground variant="section" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/30 rounded-full mb-6">
+              <Sparkles className="w-4 h-4 text-accent" />
+              <span className="text-sm font-medium text-accent">{t('oria.forCurious.badge')}</span>
+            </div>
+            
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-foreground mb-3 sm:mb-4">
+              {t('oria.forCurious.title')}
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-4">
+              {t('oria.forCurious.subtitle')}
+            </p>
+            <p className="text-sm sm:text-base text-foreground/90 max-w-2xl mx-auto">
+              {t('oria.forCurious.intro')}
+            </p>
+          </motion.div>
+          
+          {/* Benefits Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-8"
+          >
+            {[0, 1, 2, 3, 4].map((idx) => (
+              <div key={idx} className="flex items-start gap-3 p-4 bg-card rounded-lg border border-border">
+                <Sparkles className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                <span className="text-sm text-foreground/90">{t(`oria.forCurious.benefits.${idx}`)}</span>
+              </div>
+            ))}
+          </motion.div>
+          
+          {/* Quote */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-quote-bg p-5 sm:p-8 rounded-lg border-l-4 border-accent mb-8"
+          >
+            <p className="text-lg sm:text-xl font-serif italic text-foreground text-center">
+              {t('oria.forCurious.quote')}
+            </p>
+          </motion.div>
+          
+          {/* Life Phases */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8"
+          >
+            <h3 className="text-base sm:text-lg font-serif text-foreground mb-4 text-center">
+              {t('oria.forCurious.lifePhases.title')}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[0, 1, 2, 3, 4].map((idx) => (
+                <div key={idx} className="flex flex-col gap-1 p-3 bg-background/50 rounded-lg">
+                  <span className="text-sm font-medium text-accent">
+                    {t(`oria.forCurious.lifePhases.items.${idx}.phase`)}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {t(`oria.forCurious.lifePhases.items.${idx}.benefit`)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Warum eine Eule */}
       <section className="py-12 sm:py-20 relative overflow-hidden">
         <PolygonalBackground variant="section" />
