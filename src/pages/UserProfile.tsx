@@ -446,6 +446,22 @@ const UserProfile = () => {
 
       <ScrollArea className="h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)]">
         <main className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-8">
+          {/* Profile Assistant CTA */}
+          <Link to="/profile-assistant" className="block">
+            <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-4 sm:p-6 border border-primary/20 hover:border-primary/40 transition-all group">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-base sm:text-lg">{t('userProfile.assistantButton')}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{t('userProfile.assistantButtonDesc')}</p>
+                </div>
+                <ArrowLeft className="h-5 w-5 text-muted-foreground rotate-180 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
           {/* Photo & Basic Info */}
           <Section icon={User} title={t('userProfile.basicInfo')} description={t('userProfile.basicInfoDesc')}>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">

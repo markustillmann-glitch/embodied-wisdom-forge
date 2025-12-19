@@ -1297,6 +1297,24 @@ export const translations = {
       },
       resourcesCompleted: 'Ressourcen-Mapping abgeschlossen ✓',
       resourcesMarkComplete: 'Als abgeschlossen markieren',
+      
+      // Profile Assistant Link
+      assistantButton: 'Profil-Assistent starten',
+      assistantButtonDesc: 'Lass dir im Chat helfen, dein Profil auszufüllen',
+    },
+
+    // Profile Assistant
+    profileAssistant: {
+      title: 'Profil-Assistent',
+      backToProfile: 'Zurück zum Profil',
+      welcome: 'Willkommen beim Profil-Assistenten',
+      welcomeDesc: 'Ich helfe dir, dein persönliches Profil Schritt für Schritt zu erstellen oder zu aktualisieren. Dabei erkläre ich dir die Konzepte aus dem Beyond the Shallow Modell.',
+      createNew: 'Profil erstellen',
+      createNewDesc: 'Starte von Anfang an',
+      revise: 'Profil überarbeiten',
+      reviseDesc: 'Bestehendes Profil aktualisieren',
+      hint: 'Du kannst jederzeit Fragen stellen oder Abschnitte überspringen.',
+      inputPlaceholder: 'Deine Antwort eingeben...',
     },
 
     // Anleitung page
@@ -2709,6 +2727,24 @@ export const translations = {
       },
       resourcesCompleted: 'Resource mapping completed ✓',
       resourcesMarkComplete: 'Mark as complete',
+      
+      // Profile Assistant Link
+      assistantButton: 'Start Profile Assistant',
+      assistantButtonDesc: 'Get chat help filling out your profile',
+    },
+
+    // Profile Assistant
+    profileAssistant: {
+      title: 'Profile Assistant',
+      backToProfile: 'Back to Profile',
+      welcome: 'Welcome to the Profile Assistant',
+      welcomeDesc: 'I will help you create or update your personal profile step by step. I will explain the concepts from the Beyond the Shallow model along the way.',
+      createNew: 'Create Profile',
+      createNewDesc: 'Start from the beginning',
+      revise: 'Revise Profile',
+      reviseDesc: 'Update existing profile',
+      hint: 'You can ask questions or skip sections at any time.',
+      inputPlaceholder: 'Enter your answer...',
     },
 
     // Anleitung page
