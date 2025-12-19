@@ -152,6 +152,11 @@ const Modell = () => {
             <Quote>{t('index.vorwort.quote1')}</Quote>
             <p>{t('index.vorwort.p3')}</p>
             <p className="font-medium text-foreground">{t('index.vorwort.p4')}</p>
+            
+            {/* New section for curious people */}
+            <div className="mt-8 bg-accent/10 p-6 rounded-lg border border-accent/30">
+              <p className="text-foreground/90 leading-relaxed">{t('index.vorwort.p5ForCurious')}</p>
+            </div>
           </ChapterSection>
         </div>
 
@@ -446,6 +451,17 @@ const Modell = () => {
             <Highlight>{t('index.fazit.thesisHighlight')}</Highlight>
             <p className="mt-6">{t('index.fazit.thesisP2')}</p>
             <ListBlock items={tArray('index.fazit.thesisItems')} />
+          </ChapterSection>
+
+          {/* New section for curious people */}
+          <ChapterSection title={t('index.fazit.forCuriousTitle')}>
+            <p className="text-lg text-foreground/90 mb-6">{t('index.fazit.forCuriousIntro')}</p>
+            <ListBlock items={tArray('index.fazit.forCuriousItems')} />
+            
+            <div className="mt-8 bg-accent/10 p-6 rounded-lg border border-accent/30">
+              <h4 className="font-serif font-semibold text-foreground mb-4">{t('index.fazit.forCuriousBenefits')}</h4>
+              <ListBlock items={tArray('index.fazit.forCuriousBenefitItems')} />
+            </div>
           </ChapterSection>
 
           {/* Oria Link Section */}
