@@ -315,75 +315,78 @@ const ProfileAssistant = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-[100dvh] bg-background flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
-        <div className="max-w-4xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
-          <Link to="/profile" className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground transition-colors shrink-0">
-            <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            <span className="hidden sm:inline">{t('profileAssistant.backToProfile')}</span>
+    <div className="min-h-[100dvh] bg-background flex flex-col">
+      {/* Header - Mobile optimized with safe area */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border pt-[env(safe-area-inset-top)]">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 h-12 sm:h-14 flex items-center justify-between gap-2">
+          <Link 
+            to="/profile" 
+            className="flex items-center justify-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors min-w-[44px] min-h-[44px] -ml-2 pl-2"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            <span className="hidden sm:inline text-sm">{t('profileAssistant.backToProfile')}</span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {mode === 'quick' && hasStarted ? (
-              <Zap className="h-5 w-5 text-amber-500" />
+              <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
             ) : (
-              <Sparkles className="h-5 w-5 text-primary" />
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             )}
-            <h1 className="font-serif text-sm sm:text-lg">
+            <h1 className="font-serif text-sm sm:text-base truncate max-w-[180px] sm:max-w-none">
               {hasStarted && mode === 'quick' 
                 ? (language === 'de' ? 'Schnellprofil' : 'Quick Profile')
                 : t('profileAssistant.title')
               }
             </h1>
           </div>
-          <div className="w-10" />
+          <div className="w-11 sm:w-10" />
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
+      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full overflow-hidden">
         {!hasStarted ? (
-          /* Mode Selection */
-          <div className="flex-1 flex items-center justify-center p-4">
-            <div className="text-center space-y-6 max-w-lg">
-              <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto">
-                <Sparkles className="h-12 w-12 text-primary" />
+          /* Mode Selection - Mobile optimized */
+          <div className="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            <div className="text-center space-y-4 sm:space-y-6 max-w-lg w-full">
+              <div className="p-3 sm:p-4 rounded-full bg-primary/10 w-fit mx-auto">
+                <Sparkles className="h-8 w-8 sm:h-12 sm:w-12 text-primary" />
               </div>
-              <div>
-                <h2 className="text-2xl font-serif mb-2">{t('profileAssistant.welcome')}</h2>
-                <p className="text-muted-foreground">{t('profileAssistant.welcomeDesc')}</p>
+              <div className="px-2">
+                <h2 className="text-xl sm:text-2xl font-serif mb-2">{t('profileAssistant.welcome')}</h2>
+                <p className="text-sm sm:text-base text-muted-foreground">{t('profileAssistant.welcomeDesc')}</p>
               </div>
               
-              <div className="grid gap-3 pt-4">
-                {/* Quick Profile - Highlighted */}
+              <div className="grid gap-3 pt-2 sm:pt-4">
+                {/* Quick Profile - Highlighted with better touch target */}
                 <Button
                   onClick={() => startConversation('quick')}
-                  className="h-auto py-5 flex flex-col gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-0"
+                  className="h-auto min-h-[72px] py-4 sm:py-5 flex flex-col gap-1.5 sm:gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 active:from-amber-700 active:to-orange-700 text-white border-0 touch-manipulation"
                 >
                   <div className="flex items-center gap-2">
                     <Zap className="h-5 w-5" />
-                    <span className="font-medium">{language === 'de' ? 'Schnellprofil' : 'Quick Profile'}</span>
+                    <span className="font-medium text-base">{language === 'de' ? 'Schnellprofil' : 'Quick Profile'}</span>
                     <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">~3 min</span>
                   </div>
-                  <span className="text-xs text-white/90">
+                  <span className="text-xs sm:text-sm text-white/90">
                     {language === 'de' 
                       ? '5 wichtige Fragen für den schnellen Start'
                       : '5 key questions for a quick start'}
                   </span>
                 </Button>
 
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                   <Button
                     onClick={() => startConversation('initial')}
                     variant="outline"
-                    className="h-auto py-5 flex flex-col gap-2"
+                    className="h-auto min-h-[72px] py-4 sm:py-5 flex flex-col gap-1.5 sm:gap-2 touch-manipulation"
                   >
                     <User className="h-5 w-5" />
                     <span className="font-medium">{t('profileAssistant.createNew')}</span>
@@ -396,7 +399,7 @@ const ProfileAssistant = () => {
                     <Button
                       onClick={() => startConversation('revision')}
                       variant="outline"
-                      className="h-auto py-5 flex flex-col gap-2"
+                      className="h-auto min-h-[72px] py-4 sm:py-5 flex flex-col gap-1.5 sm:gap-2 touch-manipulation"
                     >
                       <RefreshCw className="h-5 w-5" />
                       <span className="font-medium">{t('profileAssistant.revise')}</span>
@@ -406,7 +409,7 @@ const ProfileAssistant = () => {
                 </div>
               </div>
               
-              <p className="text-sm text-muted-foreground pt-2">
+              <p className="text-xs sm:text-sm text-muted-foreground pt-2 px-4">
                 {language === 'de'
                   ? 'Das Schnellprofil ist der beste Start – du kannst es jederzeit erweitern.'
                   : 'The quick profile is the best start – you can expand it anytime.'}
@@ -414,10 +417,10 @@ const ProfileAssistant = () => {
             </div>
           </div>
         ) : (
-          /* Chat Interface */
+          /* Chat Interface - Mobile optimized */
           <>
-            <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-              <div className="space-y-4 max-w-3xl mx-auto pb-4">
+            <ScrollArea className="flex-1 px-3 sm:px-4 py-3" ref={scrollRef}>
+              <div className="space-y-3 sm:space-y-4 max-w-3xl mx-auto pb-2">
                 {messages.map((message, index) => (
                   <ChatMessage
                     key={index}
@@ -426,15 +429,15 @@ const ProfileAssistant = () => {
                   />
                 ))}
                 {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                  <div className="flex gap-3 justify-start">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <div className="flex gap-2 sm:gap-3 justify-start">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                       {mode === 'quick' ? (
-                        <Zap className="h-4 w-4 text-amber-500" />
+                        <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-500" />
                       ) : (
-                        <Sparkles className="h-4 w-4 text-primary" />
+                        <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                       )}
                     </div>
-                    <div className="bg-secondary rounded-2xl rounded-tl-sm px-4 py-3">
+                    <div className="bg-secondary rounded-2xl rounded-tl-sm px-3 sm:px-4 py-2.5 sm:py-3">
                       <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                     </div>
                   </div>
@@ -442,9 +445,9 @@ const ProfileAssistant = () => {
               </div>
             </ScrollArea>
 
-            {/* Input Area */}
-            <div className="border-t border-border bg-background p-4">
-              <form onSubmit={handleSubmit} className="max-w-3xl mx-auto flex gap-2">
+            {/* Input Area - Mobile optimized with safe area */}
+            <div className="border-t border-border bg-background px-3 sm:px-4 py-2 sm:py-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+              <form onSubmit={handleSubmit} className="max-w-3xl mx-auto flex gap-2 items-end">
                 <Textarea
                   ref={textareaRef}
                   value={input}
@@ -452,19 +455,19 @@ const ProfileAssistant = () => {
                   onKeyDown={handleKeyDown}
                   placeholder={t('profileAssistant.inputPlaceholder')}
                   disabled={isLoading}
-                  className="min-h-[44px] max-h-32 resize-none"
+                  className="min-h-[44px] max-h-28 sm:max-h-32 resize-none text-base leading-relaxed"
                   rows={1}
                 />
                 <Button
                   type="submit"
                   disabled={!input.trim() || isLoading}
                   size="icon"
-                  className="shrink-0 h-11 w-11"
+                  className="shrink-0 h-11 w-11 touch-manipulation"
                 >
                   {isLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
-                    <Send className="h-4 w-4" />
+                    <Send className="h-5 w-5" />
                   )}
                 </Button>
               </form>
