@@ -211,7 +211,7 @@ const Section = React.memo(({
 Section.displayName = 'Section';
 
 const UserProfile = () => {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, updatePassword } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -227,6 +227,12 @@ const UserProfile = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  
+  // Account password change state
+  const [accountNewPassword, setAccountNewPassword] = useState('');
+  const [accountConfirmPassword, setAccountConfirmPassword] = useState('');
+  const [showAccountPassword, setShowAccountPassword] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -883,6 +889,92 @@ const UserProfile = () => {
                   <p className="text-xs text-destructive mt-1">{t('userProfile.vaultPasswordMismatch')}</p>
                 )}
               </div>
+            </div>
+          </Section>
+
+          {/* Account Password Change Section */}
+          <Section
+            icon={Shield}
+            title={t('auth.changePassword')}
+            description={t('userProfile.changePasswordDesc') || 'Ändere dein Anmelde-Passwort für Oria'}
+          >
+            <div className="space-y-3">
+              <div>
+                <Label className="text-sm">{t('auth.newPassword')}</Label>
+                <div className="relative mt-1.5">
+                  <Input
+                    type={showAccountPassword ? 'text' : 'password'}
+                    value={accountNewPassword}
+                    onChange={(e) => setAccountNewPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="text-base pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowAccountPassword(!showAccountPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showAccountPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <Label className="text-sm">{t('auth.confirmPassword')}</Label>
+                <Input
+                  type={showAccountPassword ? 'text' : 'password'}
+                  value={accountConfirmPassword}
+                  onChange={(e) => setAccountConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="mt-1.5 text-base"
+                />
+                {accountNewPassword && accountConfirmPassword && accountNewPassword !== accountConfirmPassword && (
+                  <p className="text-xs text-destructive mt-1">{t('auth.passwordsDoNotMatch')}</p>
+                )}
+              </div>
+              
+              <Button
+                onClick={async () => {
+                  if (accountNewPassword.length < 6) {
+                    toast({
+                      title: t('auth.validationError'),
+                      description: t('auth.passwordTooShort'),
+                      variant: 'destructive',
+                    });
+                    return;
+                  }
+                  if (accountNewPassword !== accountConfirmPassword) {
+                    toast({
+                      title: t('auth.validationError'),
+                      description: t('auth.passwordsDoNotMatch'),
+                      variant: 'destructive',
+                    });
+                    return;
+                  }
+                  setIsChangingPassword(true);
+                  const { error } = await updatePassword(accountNewPassword);
+                  setIsChangingPassword(false);
+                  if (error) {
+                    toast({
+                      title: t('auth.passwordChangeFailed'),
+                      description: error.message,
+                      variant: 'destructive',
+                    });
+                  } else {
+                    toast({
+                      title: t('auth.passwordChanged'),
+                      description: t('auth.passwordChangedDesc'),
+                    });
+                    setAccountNewPassword('');
+                    setAccountConfirmPassword('');
+                  }
+                }}
+                disabled={isChangingPassword || !accountNewPassword || accountNewPassword !== accountConfirmPassword}
+                className="w-full sm:w-auto"
+              >
+                {isChangingPassword && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {t('auth.changePassword')}
+              </Button>
             </div>
           </Section>
 
