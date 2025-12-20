@@ -57,14 +57,19 @@ export const Header = ({ showAdminLink = false }: HeaderProps) => {
               <div className="absolute left-0 top-full mt-2 w-56 bg-card border border-border rounded-lg shadow-lg z-50 py-2">
                 {navItems.map((item) => {
                   const Icon = item.icon;
+                  const isAskOria = item.to === "/coach";
                   return (
                     <Link
                       key={item.to}
                       to={item.to}
                       onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-accent/10 hover:text-accent transition-colors"
+                      className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                        isAskOria 
+                          ? "text-accent font-medium hover:bg-accent/10" 
+                          : "text-foreground hover:bg-accent/10 hover:text-accent"
+                      }`}
                     >
-                      <Icon className="w-4 h-4 text-muted-foreground" />
+                      <Icon className={`w-4 h-4 ${isAskOria ? "text-accent" : "text-muted-foreground"}`} />
                       <span>{item.label}</span>
                     </Link>
                   );
