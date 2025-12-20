@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -9,24 +9,30 @@ import bbOwlLogo from "@/assets/bb-owl-new.png";
 const OriaApps = () => {
   const { t } = useLanguage();
 
-  const apps = [
+  const activeApps = [
+    {
+      icon: Heart,
+      title: t('oriaApps.apps.resonanzradar.title'),
+      description: t('oriaApps.apps.resonanzradar.desc'),
+      link: "/resonanzradar",
+    },
+  ];
+
+  const upcomingApps = [
     {
       icon: Sparkles,
       title: t('oriaApps.apps.breathwork.title'),
       description: t('oriaApps.apps.breathwork.desc'),
-      comingSoon: true,
     },
     {
       icon: Puzzle,
       title: t('oriaApps.apps.bodyCheck.title'),
       description: t('oriaApps.apps.bodyCheck.desc'),
-      comingSoon: true,
     },
     {
       icon: Sparkles,
       title: t('oriaApps.apps.gratitude.title'),
       description: t('oriaApps.apps.gratitude.desc'),
-      comingSoon: true,
     },
   ];
 
@@ -132,8 +138,8 @@ const OriaApps = () => {
         </div>
       </section>
 
-      {/* Apps Grid */}
-      <section className="py-12 sm:py-20 relative overflow-hidden">
+      {/* Active Apps */}
+      <section className="py-12 sm:py-16 relative overflow-hidden">
         <PolygonalBackground variant="section" />
         
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
@@ -142,18 +148,15 @@ const OriaApps = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 sm:mb-12"
+            className="text-center mb-8"
           >
             <h2 className="text-xl sm:text-2xl font-serif text-foreground mb-3">
               {t('oriaApps.availableApps')}
             </h2>
-            <p className="text-sm text-muted-foreground">
-              {t('oriaApps.comingSoonNote')}
-            </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {apps.map((app, index) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-12">
+            {activeApps.map((app, index) => {
               const Icon = app.icon;
               return (
                 <motion.div
@@ -162,18 +165,59 @@ const OriaApps = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className="bg-card rounded-xl border border-border p-6 relative"
                 >
-                  {app.comingSoon && (
-                    <div className="absolute top-3 right-3 px-2 py-1 bg-accent/10 rounded-full">
-                      <span className="text-xs font-medium text-accent">{t('oriaApps.comingSoon')}</span>
+                  <Link
+                    to={app.link}
+                    className="block bg-card rounded-xl border border-border p-6 hover:border-accent/50 hover:shadow-lg transition-all group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                      <Icon className="w-5 h-5 text-accent" />
                     </div>
-                  )}
-                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5 text-accent" />
+                    <h3 className="text-base font-serif text-foreground mb-2 group-hover:text-accent transition-colors">{app.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">{app.description}</p>
+                    <span className="inline-flex items-center gap-1 text-sm text-accent font-medium">
+                      {t('oriaApps.openApp')}
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Upcoming Apps */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-6"
+          >
+            <h3 className="text-lg font-serif text-muted-foreground">
+              {t('oriaApps.comingSoonNote')}
+            </h3>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {upcomingApps.map((app, index) => {
+              const Icon = app.icon;
+              return (
+                <motion.div
+                  key={app.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  className="bg-card/50 rounded-xl border border-border/50 p-5 relative opacity-60"
+                >
+                  <div className="absolute top-3 right-3 px-2 py-1 bg-muted rounded-full">
+                    <span className="text-xs font-medium text-muted-foreground">{t('oriaApps.comingSoon')}</span>
                   </div>
-                  <h3 className="text-base font-serif text-foreground mb-2">{app.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{app.description}</p>
+                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center mb-3">
+                    <Icon className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-sm font-serif text-foreground/70 mb-1">{app.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{app.description}</p>
                 </motion.div>
               );
             })}

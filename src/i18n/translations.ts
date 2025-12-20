@@ -15,9 +15,14 @@ export const translations = {
         desc: 'Wenn du möchtest, kannst du bestimmte Erkenntnisse oder Ergebnisse in deinem persönlichen Oria Tresor ablegen. So bleiben wertvolle Einsichten erhalten, geschützt durch dein Passwort.',
       },
       availableApps: 'Verfügbare Apps',
-      comingSoonNote: 'Diese Apps werden nach und nach freigeschaltet.',
+      comingSoonNote: 'Weitere Apps in Entwicklung',
       comingSoon: 'Bald verfügbar',
+      openApp: 'App öffnen',
       apps: {
+        resonanzradar: {
+          title: 'Resonanzradar',
+          desc: 'Finde das Kernbedürfnis hinter deinen Gefühlen mit der GFK "Peeling the Onion" Methode.',
+        },
         breathwork: {
           title: 'Atemübung',
           desc: 'Geführte Atemtechniken zur Regulation deines Nervensystems.',
@@ -31,6 +36,21 @@ export const translations = {
           desc: 'Einfache Übung zur täglichen Dankbarkeitspraxis.',
         },
       },
+    },
+    
+    // Resonanzradar
+    resonanzradar: {
+      title: 'Resonanzradar',
+      subtitle: 'Entdecke das Kernbedürfnis hinter deinen Gefühlen – Schritt für Schritt, mit der GFK-Methode.',
+      backToApps: 'Zurück zu Oria Apps',
+      welcomeTitle: 'Willkommen beim Resonanzradar',
+      welcomeDesc: 'Dieses Werkzeug hilft dir, das tieferliegende Bedürfnis hinter einem Gefühl oder einer Situation zu erkennen. Oria begleitet dich Schritt für Schritt durch den Prozess – langsam, wertfrei und ohne Interpretation.',
+      privacyNote: 'Deine Eingaben werden nicht gespeichert und nach Beendigung der Sitzung gelöscht.',
+      startButton: 'Sitzung beginnen',
+      connecting: 'Verbinde...',
+      inputPlaceholder: 'Schreibe hier deine Antwort...',
+      resetSession: 'Neue Sitzung starten',
+      disclaimer: 'Dieses Werkzeug ersetzt keine Therapie. Bei belastenden Themen suche professionelle Unterstützung.',
     },
     
     // Navigation
@@ -1504,22 +1524,42 @@ export const translations = {
         desc: 'If you wish, you can save certain insights or results in your personal Oria Vault. This way, valuable insights are preserved, protected by your password.',
       },
       availableApps: 'Available Apps',
-      comingSoonNote: 'These apps will be gradually released.',
+      comingSoonNote: 'More apps in development',
       comingSoon: 'Coming soon',
+      openApp: 'Open app',
       apps: {
+        resonanzradar: {
+          title: 'Resonance Radar',
+          desc: 'Find the core need behind your feelings using the NVC "Peeling the Onion" method.',
+        },
         breathwork: {
           title: 'Breathwork',
           desc: 'Guided breathing techniques to regulate your nervous system.',
         },
         bodyCheck: {
           title: 'Body Check',
-          desc: 'Quick body awareness scan to sense how you\'re feeling right now.',
+          desc: 'Quick body awareness scan to sense how you are feeling right now.',
         },
         gratitude: {
           title: 'Gratitude',
           desc: 'Simple exercise for daily gratitude practice.',
         },
       },
+    },
+    
+    // Resonanzradar
+    resonanzradar: {
+      title: 'Resonance Radar',
+      subtitle: 'Discover the core need behind your feelings – step by step, with the NVC method.',
+      backToApps: 'Back to Oria Apps',
+      welcomeTitle: 'Welcome to Resonance Radar',
+      welcomeDesc: 'This tool helps you recognize the deeper need behind a feeling or situation. Oria guides you step by step through the process – slowly, without judgment, and without interpretation.',
+      privacyNote: 'Your inputs are not stored and will be deleted after the session ends.',
+      startButton: 'Start session',
+      connecting: 'Connecting...',
+      inputPlaceholder: 'Write your response here...',
+      resetSession: 'Start new session',
+      disclaimer: 'This tool does not replace therapy. For distressing topics, seek professional support.',
     },
     
     // Navigation
