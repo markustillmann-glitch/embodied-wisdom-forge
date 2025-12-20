@@ -751,6 +751,35 @@ const Oria = () => {
         </div>
       </section>
 
+      {/* Oria Apps Section */}
+      <section className="py-12 sm:py-16 border-t border-chapter-divider">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <Sparkles className="w-5 h-5 text-accent" />
+              <h3 className="text-lg font-serif text-foreground">{t('oria.appsSection.title')}</h3>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground mb-6">
+              {t('oria.appsSection.desc')}
+            </p>
+            <Link 
+              to="/oria-apps" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+            >
+              {t('oria.appsSection.cta')}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Final Quote */}
       <section className="py-12 sm:py-20 relative overflow-hidden">
         <PolygonalBackground variant="subtle" />
