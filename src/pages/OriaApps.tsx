@@ -16,6 +16,12 @@ const OriaApps = () => {
       description: t('oriaApps.apps.resonanzradar.desc'),
       link: "/resonanzradar",
     },
+    {
+      icon: Users,
+      title: t('oriaApps.apps.oriaYouth.title'),
+      description: t('oriaApps.apps.oriaYouth.desc'),
+      link: "/oria-youth",
+    },
   ];
 
   const upcomingApps = [
@@ -28,11 +34,6 @@ const OriaApps = () => {
       icon: HeartHandshake,
       title: t('oriaApps.apps.selfEmpathy.title'),
       description: t('oriaApps.apps.selfEmpathy.desc'),
-    },
-    {
-      icon: Users,
-      title: t('oriaApps.apps.oriaYouth.title'),
-      description: t('oriaApps.apps.oriaYouth.desc'),
     },
     {
       icon: Sparkles,

@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.resonanzradar-chat]
 verify_jwt = false
+
+[functions.oria-youth-chat]
+verify_jwt = false
