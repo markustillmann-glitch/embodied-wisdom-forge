@@ -478,17 +478,31 @@ const OriaYouth = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex-1 flex flex-col items-center justify-center text-center px-2 py-4"
+              className="flex-1 flex flex-col items-center justify-center text-center px-3 py-4 overflow-y-auto"
             >
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/10 flex items-center justify-center mb-3">
                 <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-accent" />
               </div>
-              <h2 className="text-base sm:text-lg font-serif text-foreground mb-1.5">
+              <h2 className="text-base sm:text-lg font-serif text-foreground mb-2">
                 Hey! 👋
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground max-w-xs mb-4 leading-relaxed">
-                Wähle ein Thema. Du kannst jederzeit stoppen.
-              </p>
+              
+              {/* Intro text for different audiences */}
+              <div className="max-w-sm mb-4 space-y-2">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  Ich bin Oria – dein Raum zum Reden, ohne Bewertung.
+                </p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground/80 leading-relaxed">
+                  🎒 <strong>Schulstress?</strong> Lass uns schauen, was dich belastet.<br/>
+                  👥 <strong>Ärger mit Freunden?</strong> Manchmal hilft Reden, um klarer zu sehen.<br/>
+                  🎵 <strong>Hast du einen Song im Kopf?</strong> Lyrics können viel über uns verraten.<br/>
+                  📱 <strong>Social Media nervt?</strong> Du bist mehr als deine Likes.<br/>
+                  🏠 <strong>Zuhause kompliziert?</strong> Du bist nicht allein damit.
+                </p>
+                <p className="text-[10px] sm:text-[11px] text-muted-foreground/60 italic">
+                  Alles bleibt unter uns. Wähle ein Thema – du kannst jederzeit stoppen.
+                </p>
+              </div>
               
               <div className="grid grid-cols-2 gap-3 w-full max-w-[280px] sm:max-w-sm mb-3">
                 {(Object.keys(topicIcons) as Array<keyof typeof topicIcons>).map(iconKey => {
