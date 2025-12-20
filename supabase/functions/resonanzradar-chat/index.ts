@@ -1,12 +1,13 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const systemPrompt = `Du bist Oria, ein ruhiger, empathischer Begleiter für Selbstklärung auf Basis der Gewaltfreien Kommunikation (GFK).
+const baseSystemPrompt = `Du bist Oria, ein ruhiger, empathischer Begleiter für Selbstklärung auf Basis der Gewaltfreien Kommunikation (GFK).
 
 ROLLE & HALTUNG
 Deine Aufgabe ist nicht, Probleme zu lösen oder Ratschläge zu geben, sondern Menschen dabei zu unterstützen, das grundlegende Bedürfnis hinter Gefühlen, Gedanken und Wünschen zu erkennen.
@@ -101,14 +102,117 @@ SPRACHLICHE LEITPLANKEN
 
 WICHTIG: Antworte immer kurz und mit nur einer Frage pro Antwort. Halte den Raum offen und still.`;
 
+const buildProfileContext = (profile: any): string => {
+  if (!profile) return '';
+  
+  const sections: string[] = [];
+  
+  // Kernbedürfnisse und Bedürfnislandschaft
+  if (profile.core_needs?.length) {
+    sections.push(`Kernbedürfnisse: ${profile.core_needs.join(', ')}`);
+  }
+  if (profile.neglected_needs?.length) {
+    sections.push(`Vernachlässigte Bedürfnisse: ${profile.neglected_needs.join(', ')}`);
+  }
+  if (profile.over_fulfilled_needs?.length) {
+    sections.push(`Übererfüllte Bedürfnisse: ${profile.over_fulfilled_needs.join(', ')}`);
+  }
+  
+  // Ressourcen
+  if (profile.safe_places?.length) {
+    sections.push(`Sichere Orte: ${profile.safe_places.join(', ')}`);
+  }
+  if (profile.power_sources?.length) {
+    sections.push(`Kraftquellen: ${profile.power_sources.join(', ')}`);
+  }
+  if (profile.body_anchors?.length) {
+    sections.push(`Körperanker: ${profile.body_anchors.join(', ')}`);
+  }
+  
+  // Nervensystem & Tempo
+  if (profile.nervous_system_tempo) {
+    sections.push(`Tempo des Nervensystems: ${profile.nervous_system_tempo}`);
+  }
+  if (profile.overwhelm_signals) {
+    sections.push(`Überlastungssignale: ${profile.overwhelm_signals}`);
+  }
+  if (profile.safety_feeling) {
+    sections.push(`Sicherheitsgefühl: ${profile.safety_feeling}`);
+  }
+  
+  // Kommunikationspräferenzen
+  if (profile.coach_tonality) {
+    sections.push(`Bevorzugte Tonalität: ${profile.coach_tonality}`);
+  }
+  if (profile.preferred_tone?.length) {
+    sections.push(`Gewünschter Ton: ${profile.preferred_tone.join(', ')}`);
+  }
+  if (profile.praise_level) {
+    sections.push(`Lob-Niveau: ${profile.praise_level}`);
+  }
+  
+  // Trigger & Sensitivität
+  if (profile.trigger_sensitivity) {
+    sections.push(`Trigger-Sensitivität: ${profile.trigger_sensitivity}`);
+  }
+  if (profile.language_triggers?.length) {
+    sections.push(`Sprachliche Trigger vermeiden: ${profile.language_triggers.join(', ')}`);
+  }
+  
+  // Tiefe & Leichtigkeit
+  if (profile.lightness_depth_balance) {
+    sections.push(`Balance Leichtigkeit/Tiefe: ${profile.lightness_depth_balance}`);
+  }
+  if (profile.when_depth_nourishing) {
+    sections.push(`Tiefe nährt bei: ${profile.when_depth_nourishing}`);
+  }
+  if (profile.when_depth_burdening) {
+    sections.push(`Tiefe belastet bei: ${profile.when_depth_burdening}`);
+  }
+  
+  if (sections.length === 0) return '';
+  
+  return `
+
+NUTZER-PROFIL (Berücksichtige diese Informationen in deiner Begleitung):
+${sections.join('\n')}
+
+Nutze dieses Wissen subtil: Passe deinen Ton, dein Tempo und deine Fragen an die Präferenzen und Bedürfnisse der Person an. Vermeide bekannte Trigger und nutze Ressourcen zur Stabilisierung, wenn nötig.`;
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, userId } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    let userProfile = null;
+    
+    // Fetch user profile if userId is provided
+    if (userId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      try {
+        const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+        const { data, error } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('user_id', userId)
+          .single();
+        
+        if (!error && data) {
+          userProfile = data;
+          console.log("Loaded user profile for personalization");
+        }
+      } catch (profileError) {
+        console.log("Could not load user profile, continuing without:", profileError);
+      }
+    }
+
+    const systemPrompt = baseSystemPrompt + buildProfileContext(userProfile);
     
     if (!LOVABLE_API_KEY) {
       console.error("LOVABLE_API_KEY is not configured");
