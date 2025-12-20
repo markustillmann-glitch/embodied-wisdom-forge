@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.profile-assistant]
 verify_jwt = false
+
+[functions.resonanzradar-chat]
+verify_jwt = false
