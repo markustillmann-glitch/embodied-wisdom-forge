@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { 
   ArrowLeft, Send, Loader2, Plus, Trash2, Save, X, 
   MessageCircle, Backpack, Users, Trophy, Home, Smartphone,
-  ChevronLeft
+  ChevronLeft, Music
 } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
@@ -34,6 +34,7 @@ const topicIcons = {
   sports: Trophy,
   family: Home,
   social: Smartphone,
+  music: Music,
   general: MessageCircle,
 };
 
@@ -44,6 +45,7 @@ const topicLabels = {
     sports: "Sport/Hobby",
     family: "Familie",
     social: "Social Media",
+    music: "Songs",
     general: "Sonstiges",
   },
   en: {
@@ -52,6 +54,7 @@ const topicLabels = {
     sports: "Sports/Hobby",
     family: "Family",
     social: "Social Media",
+    music: "Songs",
     general: "Other",
   },
 };
