@@ -191,8 +191,11 @@ const OriaApps = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-6"
+            className="text-center mb-6 mt-8"
           >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full mb-2">
+              <span className="text-sm font-medium text-muted-foreground">{t('oriaApps.comingSoon')}</span>
+            </div>
             <h3 className="text-lg font-serif text-muted-foreground">
               {t('oriaApps.comingSoonNote')}
             </h3>
