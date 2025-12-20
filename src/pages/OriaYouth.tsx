@@ -347,7 +347,7 @@ const OriaYouth = () => {
       </section>
 
       {/* Main Content - Full Height */}
-      <section className="flex-1 flex max-w-4xl mx-auto w-full px-2 sm:px-6 pb-2 sm:pb-4 min-h-0 overflow-hidden">
+      <section className="flex-1 flex max-w-4xl mx-auto w-full px-4 sm:px-6 pb-2 sm:pb-4 min-h-0 overflow-hidden">
         {/* Sidebar - Topics List */}
         <AnimatePresence>
           {showSidebar && (
@@ -490,18 +490,18 @@ const OriaYouth = () => {
                 Wähle ein Thema. Du kannst jederzeit stoppen.
               </p>
               
-              <div className="grid grid-cols-2 gap-2 w-full max-w-xs sm:max-w-sm mb-3">
+              <div className="grid grid-cols-2 gap-3 w-full max-w-[280px] sm:max-w-sm mb-3">
                 {(Object.keys(topicIcons) as Array<keyof typeof topicIcons>).map(iconKey => {
                   const Icon = topicIcons[iconKey];
                   return (
                     <Button
                       key={iconKey}
                       variant="outline"
-                      className="flex flex-col items-center gap-1 h-auto py-2.5 sm:py-3 hover:border-accent/50 active:scale-[0.98] transition-transform"
+                      className="flex flex-col items-center gap-1.5 h-auto py-3 sm:py-3 hover:border-accent/50 active:scale-[0.98] transition-transform"
                       onClick={() => createNewTopic(iconKey)}
                     >
-                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
-                      <span className="text-[11px] sm:text-xs">{topicLabels[language as 'de' | 'en'][iconKey]}</span>
+                      <Icon className="w-5 h-5 sm:w-5 sm:h-5 text-muted-foreground" />
+                      <span className="text-xs sm:text-xs">{topicLabels[language as 'de' | 'en'][iconKey]}</span>
                     </Button>
                   );
                 })}
@@ -545,7 +545,7 @@ const OriaYouth = () => {
               </div>
 
               {/* Messages - Touch optimized */}
-              <div className="flex-1 overflow-y-auto py-3 space-y-3 min-h-0 overscroll-contain">
+              <div className="flex-1 overflow-y-auto py-3 px-1 space-y-3 min-h-0 overscroll-contain">
                 {messages.map((msg, idx) => (
                   <motion.div
                     key={idx}
@@ -555,7 +555,7 @@ const OriaYouth = () => {
                     className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 ${
+                      className={`max-w-[80%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 ${
                         msg.role === "user"
                           ? "bg-accent text-accent-foreground rounded-br-md"
                           : "bg-card border border-border rounded-bl-md"
