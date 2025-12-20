@@ -940,10 +940,8 @@ export const translations = {
       mode: 'Modus',
       modeCompact: 'Kompakt',
       modeDetailed: 'Ausführlich',
-      modeResonanzradar: 'Resonanzradar',
       modeCompactDesc: 'Kürzere Antworten, weniger Fragen',
       modeDetailedDesc: 'Tiefe Reflexion, alle 11 Punkte',
-      modeResonanzradarDesc: 'Geführte Bedürfnis-Erkundung in 8 Schritten',
     },
 
     // Memory Vault
@@ -2391,10 +2389,8 @@ export const translations = {
       mode: 'Mode',
       modeCompact: 'Compact',
       modeDetailed: 'Detailed',
-      modeResonanzradar: 'Resonance Radar',
       modeCompactDesc: 'Shorter responses, fewer questions',
       modeDetailedDesc: 'Deep reflection, all 11 points',
-      modeResonanzradarDesc: 'Guided needs exploration in 8 steps',
     },
 
     // Memory Vault

@@ -153,7 +153,7 @@ const Coach = () => {
   const [psychogramCompact, setPsychogramCompact] = useState(false);
   
   // Conversation mode state (renamed from templateMode)
-  const [conversationMode, setConversationMode] = useState<'compact' | 'detailed' | 'resonanzradar'>('detailed');
+  const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('detailed');
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -1288,18 +1288,6 @@ const Coach = () => {
                         title={t('coach.modeDetailedDesc')}
                       >
                         {t('coach.modeDetailed')}
-                      </button>
-                      <button
-                        onClick={() => setConversationMode('resonanzradar')}
-                        className={cn(
-                          "px-3 py-1.5 text-xs rounded-full transition-colors min-h-[36px] touch-manipulation",
-                          conversationMode === 'resonanzradar' 
-                            ? "bg-accent text-accent-foreground" 
-                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                        )}
-                        title={t('coach.modeResonanzradarDesc')}
-                      >
-                        {t('coach.modeResonanzradar')}
                       </button>
                     </div>
                     
