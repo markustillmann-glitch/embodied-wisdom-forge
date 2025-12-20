@@ -888,6 +888,36 @@ const Coach = () => {
         }
       }
 
+      // Check for deepen idea suggestion from coach
+      const deepenIdeaMatch = assistantContent.match(/\[DEEPEN_IDEA\]\s*\{([^}]+)\}\s*\[\/DEEPEN_IDEA\]/s);
+      if (deepenIdeaMatch && user && currentConversation) {
+        try {
+          const jsonStr = '{' + deepenIdeaMatch[1] + '}';
+          const ideaData = JSON.parse(jsonStr);
+          
+          const { error: ideaError } = await supabase
+            .from('deepen_ideas')
+            .insert({
+              user_id: user.id,
+              title: (ideaData.title || 'Untitled').slice(0, 60),
+              note: ideaData.note || null,
+              source: 'coach',
+              conversation_id: currentConversation,
+            });
+          
+          if (ideaError) {
+            console.error('Auto-save deepen idea error:', ideaError);
+          } else {
+            toast({
+              title: t('vault.deepenSaved'),
+              description: t('vault.deepenSavedDesc'),
+            });
+          }
+        } catch (parseError) {
+          console.error('Failed to parse DEEPEN_IDEA block:', parseError);
+        }
+      }
+
     } catch (error) {
       console.error('Streaming error:', error);
       toast({

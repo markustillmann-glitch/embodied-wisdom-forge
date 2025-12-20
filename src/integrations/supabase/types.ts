@@ -110,6 +110,50 @@ export type Database = {
         }
         Relationships: []
       }
+      deepen_ideas: {
+        Row: {
+          completed_at: string | null
+          conversation_id: string | null
+          created_at: string
+          id: string
+          is_completed: boolean | null
+          note: string | null
+          source: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          is_completed?: boolean | null
+          note?: string | null
+          source?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          is_completed?: boolean | null
+          note?: string | null
+          source?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deepen_ideas_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       memories: {
         Row: {
           additional_thoughts: string | null
