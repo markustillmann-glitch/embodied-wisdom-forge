@@ -23,6 +23,18 @@ export const translations = {
           title: 'Resonanzradar',
           desc: 'Finde das Kernbedürfnis hinter deinen Gefühlen mit der GFK "Peeling the Onion" Methode.',
         },
+        empatheticListening: {
+          title: 'Empathisch Zuhören',
+          desc: 'Übe empathisches Zuhören nach der GFK – lerne, Gefühle und Bedürfnisse anderer wahrzunehmen ohne zu bewerten.',
+        },
+        selfEmpathy: {
+          title: 'Selbstempathie',
+          desc: 'Verbinde dich mit deinen eigenen Gefühlen und Bedürfnissen in schwierigen Momenten – ein Weg zu mehr Selbstmitgefühl.',
+        },
+        oriaYouth: {
+          title: 'Oria Youth',
+          desc: 'Altersgerechte Version für Jugendliche – spielerischer Zugang zu Emotionen, Bedürfnissen und gewaltfreier Kommunikation.',
+        },
         breathwork: {
           title: 'Atemübung',
           desc: 'Geführte Atemtechniken zur Regulation deines Nervensystems.',
@@ -1531,6 +1543,18 @@ export const translations = {
         resonanzradar: {
           title: 'Resonance Radar',
           desc: 'Find the core need behind your feelings using the NVC "Peeling the Onion" method.',
+        },
+        empatheticListening: {
+          title: 'Empathic Listening',
+          desc: 'Practice empathic listening according to NVC – learn to perceive others\' feelings and needs without judgment.',
+        },
+        selfEmpathy: {
+          title: 'Self-Empathy',
+          desc: 'Connect with your own feelings and needs in difficult moments – a path to more self-compassion.',
+        },
+        oriaYouth: {
+          title: 'Oria Youth',
+          desc: 'Age-appropriate version for teenagers – playful access to emotions, needs, and nonviolent communication.',
         },
         breathwork: {
           title: 'Breathwork',
