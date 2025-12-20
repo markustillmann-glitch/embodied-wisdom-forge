@@ -29,6 +29,7 @@ export const Header = ({ showAdminLink = false }: HeaderProps) => {
 
   const navItems = [
     { to: "/", label: t('nav.toHome'), icon: Home },
+    { to: "/coach", label: t('nav.askOria'), icon: Sparkles },
     { to: "/oria", label: t('nav.discoverOria'), icon: BookOpen },
     { to: "/oria-apps", label: "Oria Apps", icon: Sparkles },
     { to: "/seminare", label: t('nav.seminarOffers'), icon: Users },
