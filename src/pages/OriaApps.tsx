@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -19,6 +19,21 @@ const OriaApps = () => {
   ];
 
   const upcomingApps = [
+    {
+      icon: Ear,
+      title: t('oriaApps.apps.empatheticListening.title'),
+      description: t('oriaApps.apps.empatheticListening.desc'),
+    },
+    {
+      icon: HeartHandshake,
+      title: t('oriaApps.apps.selfEmpathy.title'),
+      description: t('oriaApps.apps.selfEmpathy.desc'),
+    },
+    {
+      icon: Users,
+      title: t('oriaApps.apps.oriaYouth.title'),
+      description: t('oriaApps.apps.oriaYouth.desc'),
+    },
     {
       icon: Sparkles,
       title: t('oriaApps.apps.breathwork.title'),
