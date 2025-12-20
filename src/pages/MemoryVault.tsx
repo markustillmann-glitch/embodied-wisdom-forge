@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import MemoryBook from '@/components/MemoryBook';
+import DeepenIdeas from '@/components/DeepenIdeas';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
@@ -557,107 +558,114 @@ const MemoryVault = () => {
           <div className="flex items-center justify-center py-16">
             <Loader2 className="h-8 w-8 animate-spin text-accent" />
           </div>
-        ) : memories.length === 0 ? (
-          <div className="text-center py-16">
-            <Archive className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-            <h2 className="font-serif text-xl mb-2">{t('vault.empty')}</h2>
-            <p className="text-muted-foreground mb-6">{t('vault.emptyDesc')}</p>
-            <Button onClick={() => navigate('/coach')}>
-              {t('vault.startJourney')}
-            </Button>
-          </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Timeline */}
-            <div className="lg:col-span-2">
-              <h2 className="font-serif text-xl mb-6 flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-accent" />
-                {t('vault.timeline')}
-              </h2>
-              
-              <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
-                
-                {Object.entries(groupedMemories).map(([monthKey, monthMemories]) => {
-                  const date = new Date(monthKey + '-01');
-                  return (
-                    <div key={monthKey} className="mb-8">
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center z-10">
-                          <Calendar className="h-4 w-4 text-accent-foreground" />
-                        </div>
-                        <h3 className="font-serif text-lg text-foreground">
-                          {format(date, 'MMMM yyyy', { locale: dateLocale })}
-                        </h3>
-                      </div>
-                      
-                      <div className="ml-12 space-y-3">
-                        {monthMemories.map((memory) => {
-                          const IconComponent = memoryTypeIcons[memory.memory_type] || BookOpen;
-                          const memoryDate = memory.memory_date ? new Date(memory.memory_date) : new Date(memory.created_at);
-                          
-                          return (
-                            <div
-                              key={memory.id}
-                              onClick={() => setSelectedMemory(memory)}
-                              className={cn(
-                                "group p-4 rounded-lg border cursor-pointer transition-all",
-                                selectedMemory?.id === memory.id
-                                  ? "bg-secondary border-accent"
-                                  : "bg-card border-border hover:border-accent/50"
-                              )}
-                            >
-                              <div className="flex items-start gap-3">
-                                {memory.image_url ? (
-                                  <img 
-                                    src={memory.image_url} 
-                                    alt="" 
-                                    className="w-12 h-12 rounded-lg object-cover shrink-0"
-                                  />
-                                ) : (
-                                  <div className="p-2 rounded-lg bg-secondary shrink-0">
-                                    <IconComponent className="h-4 w-4 text-accent" />
-                                  </div>
-                                )}
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center justify-between gap-2">
-                                    <h4 className="font-medium text-foreground truncate">{memory.title}</h4>
-                                    <span className="text-xs text-muted-foreground shrink-0">
-                                      {format(memoryDate, 'd. MMM', { locale: dateLocale })}
-                                    </span>
-                                  </div>
-                                  {memory.summary && (
-                                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                                      {memory.summary}
-                                    </p>
-                                  )}
-                                  <div className="flex flex-wrap gap-1 mt-2">
-                                    {memory.emotion && (
-                                      <span className="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent">
-                                        {memory.emotion}
-                                      </span>
-                                    )}
-                                    {memory.feeling_after && memory.feeling_after.length > 0 && memory.feeling_after.slice(0, 2).map(feeling => (
-                                      <span key={feeling} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-                                        {t(`vault.nvcFeelings.${feeling}`) || feeling}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+          <>
+            {/* Deepen Ideas Section - Always visible */}
+            <div className="mb-8 p-6 rounded-lg border border-border bg-card">
+              <DeepenIdeas />
             </div>
 
-            {/* Detail Panel */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24">
+            {memories.length === 0 ? (
+              <div className="text-center py-16">
+                <Archive className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
+                <h2 className="font-serif text-xl mb-2">{t('vault.empty')}</h2>
+                <p className="text-muted-foreground mb-6">{t('vault.emptyDesc')}</p>
+                <Button onClick={() => navigate('/coach')}>
+                  {t('vault.startJourney')}
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Timeline */}
+                <div className="lg:col-span-2">
+                  <h2 className="font-serif text-xl mb-6 flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-accent" />
+                    {t('vault.timeline')}
+                  </h2>
+                  
+                  <div className="relative">
+                    <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
+                    
+                    {Object.entries(groupedMemories).map(([monthKey, monthMemories]) => {
+                      const date = new Date(monthKey + '-01');
+                      return (
+                        <div key={monthKey} className="mb-8">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center z-10">
+                              <Calendar className="h-4 w-4 text-accent-foreground" />
+                            </div>
+                            <h3 className="font-serif text-lg text-foreground">
+                              {format(date, 'MMMM yyyy', { locale: dateLocale })}
+                            </h3>
+                          </div>
+                          
+                          <div className="ml-12 space-y-3">
+                            {monthMemories.map((memory) => {
+                              const IconComponent = memoryTypeIcons[memory.memory_type] || BookOpen;
+                              const memoryDate = memory.memory_date ? new Date(memory.memory_date) : new Date(memory.created_at);
+                              
+                              return (
+                                <div
+                                  key={memory.id}
+                                  onClick={() => setSelectedMemory(memory)}
+                                  className={cn(
+                                    "group p-4 rounded-lg border cursor-pointer transition-all",
+                                    selectedMemory?.id === memory.id
+                                      ? "bg-secondary border-accent"
+                                      : "bg-card border-border hover:border-accent/50"
+                                  )}
+                                >
+                                  <div className="flex items-start gap-3">
+                                    {memory.image_url ? (
+                                      <img 
+                                        src={memory.image_url} 
+                                        alt="" 
+                                        className="w-12 h-12 rounded-lg object-cover shrink-0"
+                                      />
+                                    ) : (
+                                      <div className="p-2 rounded-lg bg-secondary shrink-0">
+                                        <IconComponent className="h-4 w-4 text-accent" />
+                                      </div>
+                                    )}
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center justify-between gap-2">
+                                        <h4 className="font-medium text-foreground truncate">{memory.title}</h4>
+                                        <span className="text-xs text-muted-foreground shrink-0">
+                                          {format(memoryDate, 'd. MMM', { locale: dateLocale })}
+                                        </span>
+                                      </div>
+                                      {memory.summary && (
+                                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                                          {memory.summary}
+                                        </p>
+                                      )}
+                                      <div className="flex flex-wrap gap-1 mt-2">
+                                        {memory.emotion && (
+                                          <span className="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent">
+                                            {memory.emotion}
+                                          </span>
+                                        )}
+                                        {memory.feeling_after && memory.feeling_after.length > 0 && memory.feeling_after.slice(0, 2).map(feeling => (
+                                          <span key={feeling} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                                            {t(`vault.nvcFeelings.${feeling}`) || feeling}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Detail Panel */}
+                <div className="lg:col-span-1">
+                  <div className="sticky top-24">
                 {selectedMemory ? (
                   <div className="bg-card border border-border rounded-lg p-6">
                     {/* Image */}
@@ -799,7 +807,9 @@ const MemoryVault = () => {
                 )}
               </div>
             </div>
-          </div>
+              </div>
+            )}
+          </>
         )}
       </main>
 
