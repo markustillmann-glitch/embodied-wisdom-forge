@@ -1,13 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Send, Loader2, RotateCcw, Heart } from "lucide-react";
+import { ArrowLeft, Send, Loader2, RotateCcw, Heart, Save, X } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 
@@ -22,6 +25,9 @@ const Resonanzradar = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [saveTitle, setSaveTitle] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -138,6 +144,50 @@ const Resonanzradar = () => {
   };
 
   const resetSession = () => {
+    if (messages.length > 2) {
+      setShowSaveDialog(true);
+    } else {
+      setMessages([]);
+      setHasStarted(false);
+    }
+  };
+
+  const saveToVault = async () => {
+    if (!user || !saveTitle.trim()) return;
+    
+    setIsSaving(true);
+    try {
+      const conversationContent = messages
+        .map(m => `${m.role === 'user' ? 'Du' : 'Oria'}: ${m.content}`)
+        .join('\n\n');
+      
+      const { error } = await supabase.from('memories').insert({
+        user_id: user.id,
+        title: saveTitle.trim(),
+        content: conversationContent,
+        memory_type: 'resonanzradar',
+        emotion: 'reflection',
+        summary: `Resonanzradar-Sitzung vom ${new Date().toLocaleDateString('de-DE')}`
+      });
+
+      if (error) throw error;
+
+      toast.success(t('resonanzradar.savedToVault'));
+      setShowSaveDialog(false);
+      setSaveTitle("");
+      setMessages([]);
+      setHasStarted(false);
+    } catch (error) {
+      console.error('Save to vault error:', error);
+      toast.error(t('resonanzradar.saveError'));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const skipSave = () => {
+    setShowSaveDialog(false);
+    setSaveTitle("");
     setMessages([]);
     setHasStarted(false);
   };
@@ -323,6 +373,60 @@ const Resonanzradar = () => {
           </>
         )}
       </section>
+
+      {/* Save to Vault Dialog */}
+      <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('resonanzradar.saveDialogTitle')}</DialogTitle>
+            <DialogDescription>
+              {t('resonanzradar.saveDialogDesc')}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {user ? (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <label htmlFor="save-title" className="text-sm font-medium">
+                  {t('resonanzradar.saveDialogLabel')}
+                </label>
+                <Input
+                  id="save-title"
+                  value={saveTitle}
+                  onChange={(e) => setSaveTitle(e.target.value)}
+                  placeholder={t('resonanzradar.saveDialogPlaceholder')}
+                  className="w-full"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="py-4 text-sm text-muted-foreground">
+              {t('resonanzradar.loginRequired')}
+            </div>
+          )}
+
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={skipSave} disabled={isSaving}>
+              <X className="w-4 h-4 mr-2" />
+              {t('resonanzradar.dontSave')}
+            </Button>
+            {user && (
+              <Button 
+                onClick={saveToVault} 
+                disabled={!saveTitle.trim() || isSaving}
+                className="bg-accent text-accent-foreground hover:bg-accent/90"
+              >
+                {isSaving ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4 mr-2" />
+                )}
+                {t('resonanzradar.saveToVault')}
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

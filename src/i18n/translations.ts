@@ -63,6 +63,15 @@ export const translations = {
       inputPlaceholder: 'Schreibe hier deine Antwort...',
       resetSession: 'Neue Sitzung starten',
       disclaimer: 'Dieses Werkzeug ersetzt keine Therapie. Bei belastenden Themen suche professionelle Unterstützung.',
+      saveDialogTitle: 'Im Tresor speichern?',
+      saveDialogDesc: 'Möchtest du diese Sitzung in deinem persönlichen Tresor speichern, um sie später wieder anzusehen?',
+      saveDialogLabel: 'Titel für den Eintrag',
+      saveDialogPlaceholder: 'z.B. Reflexion über Arbeitsstress',
+      saveToVault: 'Im Tresor speichern',
+      dontSave: 'Nicht speichern',
+      savedToVault: 'Sitzung wurde im Tresor gespeichert',
+      saveError: 'Fehler beim Speichern',
+      loginRequired: 'Du musst angemeldet sein, um Sitzungen zu speichern. Die Sitzung wird jetzt beendet.',
     },
     
     // Navigation
@@ -1584,6 +1593,15 @@ export const translations = {
       inputPlaceholder: 'Write your response here...',
       resetSession: 'Start new session',
       disclaimer: 'This tool does not replace therapy. For distressing topics, seek professional support.',
+      saveDialogTitle: 'Save to Vault?',
+      saveDialogDesc: 'Would you like to save this session to your personal vault to review later?',
+      saveDialogLabel: 'Title for the entry',
+      saveDialogPlaceholder: 'e.g. Reflection on work stress',
+      saveToVault: 'Save to Vault',
+      dontSave: "Don't save",
+      savedToVault: 'Session saved to vault',
+      saveError: 'Error saving session',
+      loginRequired: 'You must be logged in to save sessions. The session will end now.',
     },
     
     // Navigation
