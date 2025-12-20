@@ -1,5 +1,38 @@
 export const translations = {
   de: {
+    // Oria Apps page
+    oriaApps: {
+      title: 'Oria Apps',
+      subtitle: 'Zusätzliche Werkzeuge für deine Selbstentwicklung – schnell, fokussiert und datenschutzfreundlich.',
+      backToOria: 'Zurück zu Oria',
+      intro: 'Neben dem Oria Coach gibt es weitere nützliche Apps, die nicht direkt in Oria integriert sind, aber dir ad hoc helfen können. Diese kleinen Helfer unterstützen dich bei spezifischen Themen wie Atmung, Körperwahrnehmung oder Dankbarkeit.',
+      dataHandling: {
+        title: 'Datenschutz by Design',
+        desc: 'Die Inhalte, die du in diesen Apps erstellst, werden nach Benutzung automatisch gelöscht. Es werden keine Daten gespeichert – maximale Privatsphäre für maximale Offenheit.',
+      },
+      vaultOption: {
+        title: 'Optional: Im Tresor ablegen',
+        desc: 'Wenn du möchtest, kannst du bestimmte Erkenntnisse oder Ergebnisse in deinem persönlichen Oria Tresor ablegen. So bleiben wertvolle Einsichten erhalten, geschützt durch dein Passwort.',
+      },
+      availableApps: 'Verfügbare Apps',
+      comingSoonNote: 'Diese Apps werden nach und nach freigeschaltet.',
+      comingSoon: 'Bald verfügbar',
+      apps: {
+        breathwork: {
+          title: 'Atemübung',
+          desc: 'Geführte Atemtechniken zur Regulation deines Nervensystems.',
+        },
+        bodyCheck: {
+          title: 'Body Check',
+          desc: 'Schnelle Körperwahrnehmung um zu erfassen, wie du dich gerade fühlst.',
+        },
+        gratitude: {
+          title: 'Dankbarkeit',
+          desc: 'Einfache Übung zur täglichen Dankbarkeitspraxis.',
+        },
+      },
+    },
+    
     // Navigation
     nav: {
       back: 'Zurück',
@@ -510,6 +543,13 @@ export const translations = {
         whyText: 'Viele Prozesse gelingen begleitet besser, dauerhafter und mit weniger Risiko. Erfahrene Coaches in 1:1 und Gruppensituationen können das, was Oria beginnt, in sichere Tiefe führen.',
         coachRole: 'Der AI-Coach dient dem strukturierten Erfassen deiner relevanten Erinnerungen und steht dir dauerhaft als Ratgeber zur Verfügung. Die Präsenzseminare bieten den geschützten Raum, Techniken zu erlernen und Übungen gemeinsam zu praktizieren.',
         cta: 'Entdecke die Seminarangebote',
+      },
+      
+      // Apps section
+      appsSection: {
+        title: 'Oria Apps',
+        desc: 'Entdecke zusätzliche Werkzeuge, die nicht direkt in Oria integriert sind, aber dir ad hoc helfen können. Inhalte werden nach Benutzung gelöscht oder auf Wunsch im Tresor abgelegt.',
+        cta: 'Zu den Oria Apps',
       },
     },
     
@@ -1449,6 +1489,39 @@ export const translations = {
   },
   
   en: {
+    // Oria Apps page
+    oriaApps: {
+      title: 'Oria Apps',
+      subtitle: 'Additional tools for your self-development – fast, focused, and privacy-friendly.',
+      backToOria: 'Back to Oria',
+      intro: 'In addition to the Oria Coach, there are other useful apps that are not directly integrated into Oria but can help you ad hoc. These small helpers support you with specific topics like breathing, body awareness, or gratitude.',
+      dataHandling: {
+        title: 'Privacy by Design',
+        desc: 'The content you create in these apps is automatically deleted after use. No data is stored – maximum privacy for maximum openness.',
+      },
+      vaultOption: {
+        title: 'Optional: Save to Vault',
+        desc: 'If you wish, you can save certain insights or results in your personal Oria Vault. This way, valuable insights are preserved, protected by your password.',
+      },
+      availableApps: 'Available Apps',
+      comingSoonNote: 'These apps will be gradually released.',
+      comingSoon: 'Coming soon',
+      apps: {
+        breathwork: {
+          title: 'Breathwork',
+          desc: 'Guided breathing techniques to regulate your nervous system.',
+        },
+        bodyCheck: {
+          title: 'Body Check',
+          desc: 'Quick body awareness scan to sense how you\'re feeling right now.',
+        },
+        gratitude: {
+          title: 'Gratitude',
+          desc: 'Simple exercise for daily gratitude practice.',
+        },
+      },
+    },
+    
     // Navigation
     nav: {
       back: 'Back',
@@ -1959,6 +2032,13 @@ export const translations = {
         whyText: 'Many processes work better, more sustainably, and with less risk when accompanied. Experienced coaches in 1:1 and group settings can take what Oria begins into safe depth.',
         coachRole: 'The AI coach serves to structurally capture your relevant memories and is permanently available as your advisor. The in-person seminars provide the protected space to learn techniques and practice exercises together.',
         cta: 'Discover the Seminar Offerings',
+      },
+      
+      // Apps section
+      appsSection: {
+        title: 'Oria Apps',
+        desc: 'Discover additional tools that are not directly integrated into Oria but can help you ad hoc. Content is deleted after use or stored in the Vault upon request.',
+        cta: 'To Oria Apps',
       },
     },
     

@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Modell from "./pages/Modell";
 import Seminare from "./pages/Seminare";
 import Oria from "./pages/Oria";
+import OriaApps from "./pages/OriaApps";
 import Team from "./pages/Team";
 import Security from "./pages/Security";
 import Anleitung from "./pages/Anleitung";
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/modell" element={<Modell />} />
               <Route path="/seminare" element={<Seminare />} />
               <Route path="/oria" element={<Oria />} />
+              <Route path="/oria-apps" element={<OriaApps />} />
               <Route path="/team" element={<Team />} />
               <Route path="/sicherheit" element={<Security />} />
               <Route path="/anleitung" element={<Anleitung />} />
