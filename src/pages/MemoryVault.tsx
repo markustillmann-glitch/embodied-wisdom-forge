@@ -206,10 +206,13 @@ const MemoryVault = () => {
   };
 
   const loadMemories = async () => {
+    if (!user) return;
+    
     setLoading(true);
     const { data, error } = await supabase
       .from('memories')
       .select('*')
+      .eq('user_id', user.id)
       .order('memory_date', { ascending: false });
 
     if (error) {
