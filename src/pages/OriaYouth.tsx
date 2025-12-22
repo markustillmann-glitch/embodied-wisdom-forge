@@ -452,6 +452,21 @@ const OriaYouth = () => {
                   >
                     <Icon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                     <span className="text-xs truncate flex-1">{topic.title}</span>
+                    {topic.messages.length > 2 && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setTopicToSave(topic);
+                          setSaveTitle(topic.title);
+                          setShowSaveDialog(true);
+                        }}
+                      >
+                        <Save className="w-3 h-3 text-accent" />
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="icon"
@@ -547,6 +562,20 @@ const OriaYouth = () => {
                       {activeTopic.title}
                     </span>
                   </div>
+                )}
+                {activeTopic && activeTopic.messages.length > 2 && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 shrink-0"
+                    onClick={() => {
+                      setTopicToSave(activeTopic);
+                      setSaveTitle(activeTopic.title);
+                      setShowSaveDialog(true);
+                    }}
+                  >
+                    <Save className="w-4 h-4 text-accent" />
+                  </Button>
                 )}
                 <Button
                   variant="ghost"
