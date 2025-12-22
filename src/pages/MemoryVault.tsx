@@ -87,6 +87,7 @@ const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }
   meditation: Sparkles,
   song: Music2,
   general: BookOpen,
+  'oria-youth': Users,
 };
 
 const nvcFeelings = [
