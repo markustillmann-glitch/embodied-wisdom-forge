@@ -59,6 +59,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import ChatMessage from '@/components/ChatMessage';
+import VoiceChat from '@/components/VoiceChat';
 
 interface Message {
   id: string;
@@ -1433,7 +1434,7 @@ const Coach = () => {
             </ScrollArea>
 
             <div className="p-3 sm:p-4 border-t border-border safe-area-inset-bottom">
-              <div className="max-w-3xl mx-auto flex gap-2">
+              <div className="max-w-3xl mx-auto flex gap-2 items-end">
                 <Input
                   ref={inputRef}
                   value={input}
@@ -1442,6 +1443,17 @@ const Coach = () => {
                   placeholder={t('coach.inputPlaceholder')}
                   disabled={isStreaming}
                   className="flex-1 text-base"
+                />
+                <VoiceChat
+                  onTranscription={(text) => {
+                    setInput(text);
+                    // Auto-send after transcription
+                    setTimeout(() => sendMessage(text), 100);
+                  }}
+                  lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
+                  isProcessing={isStreaming}
+                  language={language as 'de' | 'en'}
+                  compact
                 />
                 <Button 
                   onClick={() => sendMessage()}
