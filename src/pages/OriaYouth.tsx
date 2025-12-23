@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { 
   ArrowLeft, Send, Loader2, Plus, Trash2, Save, X, 
   MessageCircle, Backpack, Users, Trophy, Home, Smartphone,
-  ChevronLeft, Music
+  ChevronLeft, Music, Phone
 } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
@@ -18,6 +18,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 import VoiceChat from "@/components/VoiceChat";
+import RealtimeVoiceChat from "@/components/RealtimeVoiceChat";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -75,6 +76,7 @@ const OriaYouth = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [topicToSave, setTopicToSave] = useState<Topic | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isRealtimeMode, setIsRealtimeMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -627,61 +629,105 @@ const OriaYouth = () => {
 
               {/* Input Area - Mobile optimized with safe area */}
               <div className="shrink-0 border-t border-border pt-2 pb-2 bg-background" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
-                <div className="flex gap-2 items-end">
-                  <VoiceChat
-                    onTranscription={(text) => {
-                      setInput(text);
-                      // Auto-send after transcription
-                      setTimeout(() => {
+                {isRealtimeMode ? (
+                  <div className="flex flex-col items-center gap-3 py-3">
+                    <p className="text-xs text-muted-foreground text-center">
+                      {language === 'de' 
+                        ? 'Sprich frei – Oria hört zu und antwortet direkt.' 
+                        : 'Speak freely – Oria listens and responds directly.'}
+                    </p>
+                    <RealtimeVoiceChat
+                      systemPrompt={`Du bist Oria, ein freundlicher und verständnisvoller Begleiter für Jugendliche. Du sprichst ${language === 'de' ? 'Deutsch' : 'Englisch'}. Sei empathisch, jugendlich und unterstützend. Halte deine Antworten kurz und natürlich für ein Gespräch. Thema: ${activeTopic?.title || 'Allgemeines'}`}
+                      voice="shimmer"
+                      language={language as 'de' | 'en'}
+                      onTranscript={(text, role) => {
                         if (text.trim() && activeTopicId) {
-                          const userMsg: Message = { role: "user", content: text.trim() };
-                          const newMessages = [...messages, userMsg];
+                          const newMsg: Message = { role, content: text };
                           setTopics(prev => prev.map(topic => 
                             topic.id === activeTopicId 
-                              ? { ...topic, messages: newMessages }
+                              ? { ...topic, messages: [...topic.messages, newMsg] }
                               : topic
                           ));
-                          setInput("");
-                          setIsLoading(true);
-                          streamChat(newMessages, activeTopicId)
-                            .catch(err => toast.error(err instanceof Error ? err.message : "Verbindungsfehler"))
-                            .finally(() => setIsLoading(false));
                         }
-                      }, 100);
-                    }}
-                    lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
-                    isProcessing={isLoading}
-                    language={language as 'de' | 'en'}
-                    compact
-                  />
-                  <div className="flex-1 relative">
-                    <Textarea
-                      ref={textareaRef}
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      placeholder="Schreib was dich beschäftigt..."
-                      disabled={isLoading}
-                      className="min-h-[44px] max-h-28 resize-none pr-12 text-[15px] sm:text-sm rounded-xl"
-                      rows={1}
+                      }}
                     />
                     <Button
-                      onClick={sendMessage}
-                      disabled={!input.trim() || isLoading}
-                      size="icon"
-                      className="absolute right-1.5 bottom-1.5 h-8 w-8 bg-accent text-accent-foreground hover:bg-accent/90 rounded-lg"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsRealtimeMode(false)}
+                      className="text-muted-foreground text-xs"
                     >
-                      {isLoading ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Send className="w-4 h-4" />
-                      )}
+                      {language === 'de' ? 'Zurück zum Text-Chat' : 'Back to text chat'}
                     </Button>
                   </div>
-                </div>
-                <p className="text-[9px] text-muted-foreground/60 text-center mt-1.5">
-                  Bei ernsten Themen: 116 111
-                </p>
+                ) : (
+                  <>
+                    <div className="flex gap-2 items-end">
+                      <VoiceChat
+                        onTranscription={(text) => {
+                          setInput(text);
+                          // Auto-send after transcription
+                          setTimeout(() => {
+                            if (text.trim() && activeTopicId) {
+                              const userMsg: Message = { role: "user", content: text.trim() };
+                              const newMessages = [...messages, userMsg];
+                              setTopics(prev => prev.map(topic => 
+                                topic.id === activeTopicId 
+                                  ? { ...topic, messages: newMessages }
+                                  : topic
+                              ));
+                              setInput("");
+                              setIsLoading(true);
+                              streamChat(newMessages, activeTopicId)
+                                .catch(err => toast.error(err instanceof Error ? err.message : "Verbindungsfehler"))
+                                .finally(() => setIsLoading(false));
+                            }
+                          }, 100);
+                        }}
+                        lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
+                        isProcessing={isLoading}
+                        language={language as 'de' | 'en'}
+                        compact
+                      />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setIsRealtimeMode(true)}
+                        title={language === 'de' ? 'Telefongespräch starten' : 'Start phone call'}
+                        className="shrink-0 h-10 w-10"
+                      >
+                        <Phone className="h-4 w-4" />
+                      </Button>
+                      <div className="flex-1 relative">
+                        <Textarea
+                          ref={textareaRef}
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          onKeyDown={handleKeyDown}
+                          placeholder="Schreib was dich beschäftigt..."
+                          disabled={isLoading}
+                          className="min-h-[44px] max-h-28 resize-none pr-12 text-[15px] sm:text-sm rounded-xl"
+                          rows={1}
+                        />
+                        <Button
+                          onClick={sendMessage}
+                          disabled={!input.trim() || isLoading}
+                          size="icon"
+                          className="absolute right-1.5 bottom-1.5 h-8 w-8 bg-accent text-accent-foreground hover:bg-accent/90 rounded-lg"
+                        >
+                          {isLoading ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Send className="w-4 h-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-[9px] text-muted-foreground/60 text-center mt-1.5">
+                      Bei ernsten Themen: 116 111
+                    </p>
+                  </>
+                )}
               </div>
             </>
           )}
