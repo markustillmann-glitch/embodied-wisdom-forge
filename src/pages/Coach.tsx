@@ -155,6 +155,77 @@ const Coach = () => {
   
   // Conversation mode state (renamed from templateMode)
   const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('detailed');
+  
+  // TTS state for read aloud functionality
+  const [isSpeakingMessage, setIsSpeakingMessage] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const TEXT_TO_VOICE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-voice`;
+
+  const speakMessage = async (text: string) => {
+    if (!text) return;
+
+    // Stop any currently playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      setIsSpeakingMessage(false);
+    }
+
+    // Truncate very long messages for TTS
+    const maxLength = 4000;
+    const truncatedText = text.length > maxLength 
+      ? text.substring(0, maxLength) + '...' 
+      : text;
+
+    setIsSpeakingMessage(true);
+
+    try {
+      const response = await fetch(TEXT_TO_VOICE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ 
+          text: truncatedText,
+          voice: 'shimmer',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('TTS failed');
+      }
+
+      const data = await response.json();
+      
+      if (data.audioContent) {
+        const audioUrl = `data:audio/mpeg;base64,${data.audioContent}`;
+        const audio = new Audio(audioUrl);
+        audioRef.current = audio;
+
+        audio.onended = () => {
+          setIsSpeakingMessage(false);
+          audioRef.current = null;
+        };
+
+        audio.onerror = () => {
+          setIsSpeakingMessage(false);
+          audioRef.current = null;
+        };
+
+        await audio.play();
+      }
+    } catch (error) {
+      console.error('TTS error:', error);
+      setIsSpeakingMessage(false);
+      toast({
+        variant: 'destructive',
+        title: 'Fehler',
+        description: 'Vorlesen fehlgeschlagen.',
+      });
+    }
+  };
+
   const extractCoachSuggestions = () => {
     // Look through recent assistant messages for suggestions
     const recentAssistantMessages = messages
@@ -1418,6 +1489,8 @@ const Coach = () => {
                     key={message.id}
                     content={message.content}
                     role={message.role as 'user' | 'assistant'}
+                    onSpeak={message.role === 'assistant' ? speakMessage : undefined}
+                    isSpeaking={isSpeakingMessage}
                   />
                 ))}
                 

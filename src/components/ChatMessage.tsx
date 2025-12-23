@@ -1,12 +1,16 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Volume2, Loader2 } from 'lucide-react';
 
 interface ChatMessageProps {
   content: string;
   role: 'user' | 'assistant';
+  onSpeak?: (text: string) => void;
+  isSpeaking?: boolean;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ content, role }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({ content, role, onSpeak, isSpeaking = false }) => {
   const formatContent = (text: string) => {
     // Split by double newlines to identify paragraphs/blocks
     const blocks = text.split(/\n\n+/);
@@ -145,6 +149,26 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ content, role }) => {
         )}>
           {formatContent(content)}
         </div>
+        
+        {/* Read aloud button for assistant messages */}
+        {role === 'assistant' && onSpeak && (
+          <div className="flex justify-end mt-2 pt-2 border-t border-border/30">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onSpeak(content)}
+              disabled={isSpeaking}
+              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+            >
+              {isSpeaking ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" />
+              ) : (
+                <Volume2 className="h-3.5 w-3.5 mr-1" />
+              )}
+              Vorlesen
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
