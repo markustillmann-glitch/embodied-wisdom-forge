@@ -20,10 +20,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ content, role, onSpeak, isSpe
       if (/^\d+\.\s/.test(block)) {
         const items = block.split(/\n(?=\d+\.\s)/);
         return (
-          <ol key={blockIndex} className="list-decimal list-outside ml-5 space-y-2 my-3">
+          <ol key={blockIndex} className="list-decimal list-outside ml-5 space-y-2 my-3 [counter-reset:list-counter]">
             {items.map((item, i) => {
               const content = item.replace(/^\d+\.\s*/, '');
-              return <li key={i} className="pl-1">{formatInline(content)}</li>;
+              return <li key={i} className="pl-1 [display:list-item]">{formatInline(content)}</li>;
             })}
           </ol>
         );
