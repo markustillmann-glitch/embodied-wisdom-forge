@@ -134,7 +134,7 @@ const CoachOverview = () => {
             <span className="text-sm">{language === 'de' ? 'Zurück' : 'Back'}</span>
           </Link>
           <div className="flex items-center gap-3">
-            <img src={bbOwlLogo} alt="Oria" className="w-10 h-10" />
+            <img src={bbOwlLogo} alt="Oria" className="h-10 w-auto object-contain" />
             <h1 className="font-serif text-xl font-medium text-foreground">
               {language === 'de' ? 'Frag Oria' : 'Ask Oria'}
             </h1>
