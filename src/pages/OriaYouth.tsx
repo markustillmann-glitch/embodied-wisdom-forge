@@ -17,7 +17,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
-import VoiceChat from "@/components/VoiceChat";
+
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -628,32 +628,6 @@ const OriaYouth = () => {
               {/* Input Area - Mobile optimized with safe area */}
               <div className="shrink-0 border-t border-border pt-2 pb-2 bg-background" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
                 <div className="flex gap-2 items-end">
-                  <VoiceChat
-                    onTranscription={(text) => {
-                      setInput(text);
-                      // Auto-send after transcription
-                      setTimeout(() => {
-                        if (text.trim() && activeTopicId) {
-                          const userMsg: Message = { role: "user", content: text.trim() };
-                          const newMessages = [...messages, userMsg];
-                          setTopics(prev => prev.map(topic => 
-                            topic.id === activeTopicId 
-                              ? { ...topic, messages: newMessages }
-                              : topic
-                          ));
-                          setInput("");
-                          setIsLoading(true);
-                          streamChat(newMessages, activeTopicId)
-                            .catch(err => toast.error(err instanceof Error ? err.message : "Verbindungsfehler"))
-                            .finally(() => setIsLoading(false));
-                        }
-                      }, 100);
-                    }}
-                    lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
-                    isProcessing={isLoading}
-                    language={language as 'de' | 'en'}
-                    compact
-                  />
                   <div className="flex-1 relative">
                     <Textarea
                       ref={textareaRef}
