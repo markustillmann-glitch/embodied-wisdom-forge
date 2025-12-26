@@ -48,7 +48,6 @@ import {
   FileText,
   ShieldCheck,
   BarChart3,
-  Phone
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -61,7 +60,7 @@ import { cn } from '@/lib/utils';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import ChatMessage from '@/components/ChatMessage';
 import VoiceChat from '@/components/VoiceChat';
-import RealtimeVoiceChat from '@/components/RealtimeVoiceChat';
+
 
 interface Message {
   id: string;
@@ -158,8 +157,6 @@ const Coach = () => {
   // Conversation mode state (renamed from templateMode)
   const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('detailed');
   
-  // Realtime voice chat state
-  const [isRealtimeMode, setIsRealtimeMode] = useState(false);
   
   // TTS state for read aloud functionality
   const [isSpeakingMessage, setIsSpeakingMessage] = useState(false);
@@ -1512,109 +1509,43 @@ const Coach = () => {
             </ScrollArea>
 
             <div className="p-3 sm:p-4 border-t border-border safe-area-inset-bottom">
-              {isRealtimeMode ? (
-                <div className="max-w-3xl mx-auto">
-                  <div className="flex flex-col items-center gap-4 py-4">
-                    <p className="text-sm text-muted-foreground text-center">
-                      {language === 'de' 
-                        ? 'Sprich frei – Oria hört zu und antwortet direkt.' 
-                        : 'Speak freely – Oria listens and responds directly.'}
-                    </p>
-                    <RealtimeVoiceChat
-                      systemPrompt={`Du bist ein einfühlsamer, warmherziger Coach namens Oria. Du sprichst ${language === 'de' ? 'Deutsch' : 'Englisch'}. Sei unterstützend, empathisch und hilf dem Nutzer bei seinen Anliegen. Halte deine Antworten kurz und prägnant für ein natürliches Gespräch.${userProfile?.displayName ? ` Der Nutzer heißt ${userProfile.displayName}.` : ''}`}
-                      voice="shimmer"
-                      language={language as 'de' | 'en'}
-                      onTranscript={(text, role) => {
-                        // Add transcripts to the conversation
-                        if (text.trim()) {
-                          const newMessage: Message = {
-                            id: crypto.randomUUID(),
-                            role,
-                            content: text,
-                            created_at: new Date().toISOString(),
-                          };
-                          setMessages(prev => [...prev, newMessage]);
-                          
-                          // Save to database
-                          if (currentConversation) {
-                            supabase.from('messages').insert({
-                              conversation_id: currentConversation,
-                              role,
-                              content: text,
-                            }).then(() => {
-                              // Update conversation timestamp
-                              supabase.from('conversations').update({ updated_at: new Date().toISOString() })
-                                .eq('id', currentConversation);
-                            });
-                          }
-                        }
-                      }}
-                      onConnectionChange={(connected) => {
-                        if (!connected && isRealtimeMode) {
-                          // Optionally keep in realtime mode after disconnect
-                        }
-                      }}
-                    />
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsRealtimeMode(false)}
-                      className="text-muted-foreground"
-                    >
-                      {language === 'de' ? 'Zurück zum Text-Chat' : 'Back to text chat'}
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="max-w-3xl mx-auto flex gap-2 items-end">
-                    <Input
-                      ref={inputRef}
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      placeholder={t('coach.inputPlaceholder')}
-                      disabled={isStreaming}
-                      className="flex-1 text-base"
-                    />
-                    <VoiceChat
-                      onTranscription={(text) => {
-                        setInput(text);
-                        // Auto-send after transcription
-                        setTimeout(() => sendMessage(text), 100);
-                      }}
-                      lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
-                      isProcessing={isStreaming}
-                      language={language as 'de' | 'en'}
-                      compact
-                    />
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setIsRealtimeMode(true)}
-                      title={language === 'de' ? 'Telefongespräch starten' : 'Start phone call'}
-                      className="shrink-0"
-                    >
-                      <Phone className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      onClick={() => sendMessage()}
-                      disabled={!input.trim() || isStreaming}
-                      size="default"
-                      className="shrink-0 px-3 sm:px-4"
-                    >
-                      {isStreaming ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Send className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground text-center mt-2 hidden sm:block">
-                    {t('coach.hint')}
-                  </p>
-                </>
-              )}
+              <div className="max-w-3xl mx-auto flex gap-2 items-end">
+                <Input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={t('coach.inputPlaceholder')}
+                  disabled={isStreaming}
+                  className="flex-1 text-base"
+                />
+                <VoiceChat
+                  onTranscription={(text) => {
+                    setInput(text);
+                    // Auto-send after transcription
+                    setTimeout(() => sendMessage(text), 100);
+                  }}
+                  lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
+                  isProcessing={isStreaming}
+                  language={language as 'de' | 'en'}
+                  compact
+                />
+                <Button 
+                  onClick={() => sendMessage()}
+                  disabled={!input.trim() || isStreaming}
+                  size="default"
+                  className="shrink-0 px-3 sm:px-4"
+                >
+                  {isStreaming ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground text-center mt-2 hidden sm:block">
+                {t('coach.hint')}
+              </p>
             </div>
           </>
         ) : (
