@@ -200,7 +200,7 @@ const Index = () => {
             </p>
             <p className="text-muted-foreground mb-6">
               {language === 'de'
-                ? 'Beyond Constant Overload richtet sich an Menschen, die spüren, dass konstante Überforderung kein persönliches Versagen ist, sondern ein Systemzustand – und dass der Weg darüber hinaus nicht schneller, sondern stimmiger wird.'
+                ? 'Beyond Constant Overload richtet sich an Menschen, die spüren, dass konstante Überforderung kein persönliches Versagen ist, sondern ein Systemzustand – und dass der Weg aus der Überforderung heraus nicht ist, mehr, schneller, effizienter zu werden sondern zu verstehen was einen in die Überforderung treibt und wie man dem stimmig begegnen kann.'
                 : 'This book is for people who sense that constant overload is not a personal failure, but a systemic state – and that the way beyond it becomes not faster, but more coherent.'}
             </p>
             <Highlight>
