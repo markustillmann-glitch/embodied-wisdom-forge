@@ -19,6 +19,7 @@ import Anleitung from "./pages/Anleitung";
 import Impressum from "./pages/Impressum";
 import Auth from "./pages/Auth";
 import Coach from "./pages/Coach";
+import CoachOverview from "./pages/CoachOverview";
 import MemoryVault from "./pages/MemoryVault";
 import UserProfile from "./pages/UserProfile";
 import Admin from "./pages/Admin";
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/oria-coach" element={<CoachOverview />} />
               <Route path="/coach" element={<Coach />} />
               <Route path="/vault" element={<MemoryVault />} />
               <Route path="/profile" element={<UserProfile />} />

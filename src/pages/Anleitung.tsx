@@ -88,7 +88,7 @@ const Anleitung = () => {
           </Link>
           <nav className="flex items-center gap-3 sm:gap-6">
             <Link 
-              to="/coach" 
+              to="/oria-coach" 
               onClick={() => window.scrollTo(0, 0)}
               className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -337,7 +337,7 @@ const Anleitung = () => {
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
-                to="/coach" 
+                to="/oria-coach" 
                 onClick={() => window.scrollTo(0, 0)}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-accent-foreground font-medium rounded-lg hover:bg-accent/90 transition-colors text-sm"
               >

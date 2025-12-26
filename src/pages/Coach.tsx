@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -120,19 +120,26 @@ const Coach = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const { isOnline, isSlowConnection } = useConnectionStatus();
+  
+  // URL parameters for navigation from CoachOverview
+  const conversationIdFromUrl = searchParams.get('conversation');
+  const startNewFromUrl = searchParams.get('new') === 'true';
+  const showHistoryFromUrl = searchParams.get('showHistory') === 'true';
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(showHistoryFromUrl);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [learnedInsights, setLearnedInsights] = useState<LearnedInsight[]>([]);
   const [retryMessage, setRetryMessage] = useState<string | null>(null);
+  const [urlParamsProcessed, setUrlParamsProcessed] = useState(false);
   
   // Save memory dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -482,10 +489,33 @@ const Coach = () => {
 
     setConversations(data || []);
     
-    if (data && data.length > 0 && !currentConversation) {
-      setCurrentConversation(data[0].id);
+    // Only auto-select if not coming from URL params
+    if (data && data.length > 0 && !currentConversation && !urlParamsProcessed) {
+      // Don't auto-select - let the URL params handler do it
     }
   };
+
+  // Handle URL parameters after conversations are loaded
+  useEffect(() => {
+    if (urlParamsProcessed || conversations.length === 0) return;
+    
+    if (conversationIdFromUrl) {
+      // Open specific conversation
+      const exists = conversations.find(c => c.id === conversationIdFromUrl);
+      if (exists) {
+        setCurrentConversation(conversationIdFromUrl);
+      }
+      setUrlParamsProcessed(true);
+    } else if (startNewFromUrl) {
+      // Create new conversation
+      createNewConversation();
+      setUrlParamsProcessed(true);
+    } else if (!currentConversation && conversations.length > 0) {
+      // Default: select first conversation
+      setCurrentConversation(conversations[0].id);
+      setUrlParamsProcessed(true);
+    }
+  }, [conversations, conversationIdFromUrl, startNewFromUrl, urlParamsProcessed]);
 
   const loadMessages = async (conversationId: string) => {
     const { data, error } = await supabase
