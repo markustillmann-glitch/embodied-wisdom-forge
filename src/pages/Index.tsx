@@ -211,9 +211,9 @@ const Index = () => {
           </ChapterSection>
         </div>
 
-        {/* Die Kraft positiver Erinnerungen */}
+        {/* Die Kraft positiver Erinnerungen nutzen */}
         <div id="positive" className="border-t border-chapter-divider">
-          <ChapterSection title={language === 'de' ? 'Die Kraft positiver Erinnerungen' : 'The Power of Positive Memories'}>
+          <ChapterSection title={language === 'de' ? 'Die Kraft positiver Erinnerungen nutzen' : 'Harnessing the Power of Positive Memories'}>
             <p className="mb-4">
               {language === 'de'
                 ? 'Positive Erinnerungen sind mehr als schöne Gedanken. Sie tragen gespeicherte Erfahrungen von:'
