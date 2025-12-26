@@ -236,9 +236,9 @@ const Index = () => {
           </ChapterSection>
         </div>
 
-        {/* Auch für belastende Erfahrungen */}
+        {/* Belastende Erfahrungen nicht ignorieren */}
         <div id="belastend" className="border-t border-chapter-divider">
-          <ChapterSection title={language === 'de' ? 'Auch für belastende Erfahrungen' : 'Also for Difficult Experiences'}>
+          <ChapterSection title={language === 'de' ? 'Belastende Erfahrungen nicht ignorieren' : "Don't Ignore Difficult Experiences"}>
             <p className="mb-4">
               {language === 'de'
                 ? 'Gleichzeitig berücksichtigt das Inner Compass Framework, dass viele Menschen mit:'
