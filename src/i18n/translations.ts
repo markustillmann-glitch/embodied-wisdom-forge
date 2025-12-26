@@ -941,10 +941,10 @@ export const translations = {
 
     // Coach
     coach: {
-      title: 'Beyond Constant Overload Coach',
+      title: 'Oria-Coach',
       newConversation: 'Neue Unterhaltung',
       noConversation: 'Keine Unterhaltung ausgewählt',
-      welcome: 'Willkommen beim Beyond Constant Overload Coach',
+      welcome: 'Willkommen beim Oria-Coach',
       welcomeDesc: 'Teilen Sie Erinnerungen, Gefühle oder Song-Links – ich erstelle ein personalisiertes Journaling-Template für Sie.',
       inputPlaceholder: 'Nachricht eingeben oder Song-Link teilen...',
       hint: 'YouTube/Spotify-Links werden automatisch erkannt und analysiert',
@@ -2472,10 +2472,10 @@ export const translations = {
 
     // Coach
     coach: {
-      title: 'Beyond Constant Overload Coach',
+      title: 'Oria Coach',
       newConversation: 'New Conversation',
       noConversation: 'No conversation selected',
-      welcome: 'Welcome to Beyond Constant Overload Coach',
+      welcome: 'Welcome to Oria Coach',
       welcomeDesc: 'Share memories, feelings, or song links – I will create a personalized journaling template for you.',
       inputPlaceholder: 'Enter message or share a song link...',
       hint: 'YouTube/Spotify links are automatically detected and analyzed',
