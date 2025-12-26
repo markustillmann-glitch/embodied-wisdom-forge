@@ -432,7 +432,7 @@ const Index = () => {
           className="absolute top-8 right-8 h-16 w-auto opacity-20 hidden md:block"
         />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="font-serif text-xl sm:text-2xl text-foreground mb-2 tracking-tight">Beyond the Shallow Through Memories</p>
+          <p className="font-serif text-xl sm:text-2xl text-foreground mb-2 tracking-tight">Beyond Constant Overload</p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-6">
             {t('index.footer.subtitle')}
           </p>
