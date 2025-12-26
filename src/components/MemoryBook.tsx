@@ -95,6 +95,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
   const [editingPage, setEditingPage] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
+  const [editContentExtended, setEditContentExtended] = useState('');
   const [isGeneratingPageImage, setIsGeneratingPageImage] = useState(false);
   const [showInsertMenu, setShowInsertMenu] = useState(false);
   const [editingImagePageIndex, setEditingImagePageIndex] = useState<number | null>(null);
@@ -472,6 +473,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     const page = pages[pageIndex];
     setEditTitle(page.title || '');
     setEditContent(page.content || '');
+    setEditContentExtended(page.contentExtended || '');
     setEditingPage(pageIndex);
   };
 
@@ -483,6 +485,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
       ...newPages[editingPage],
       title: editTitle,
       content: editContent,
+      contentExtended: editContentExtended || undefined,
     };
     setPages(newPages);
     markUnsaved();
@@ -493,6 +496,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
     setEditingPage(null);
     setEditTitle('');
     setEditContent('');
+    setEditContentExtended('');
   };
 
   const generatePageImage = async (pageIndex: number) => {
@@ -1364,12 +1368,28 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
               className="font-serif text-xl"
               placeholder={t('vault.book.titlePlaceholder')}
             />
-            <Textarea
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              className="min-h-[300px]"
-              placeholder={t('vault.book.contentPlaceholder')}
-            />
+            <div>
+              <label className="text-sm text-muted-foreground mb-1 block">
+                {language === 'de' ? 'Kurzversion (Vorschau)' : 'Short version (Preview)'}
+              </label>
+              <Textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="min-h-[120px]"
+                placeholder={t('vault.book.contentPlaceholder')}
+              />
+            </div>
+            <div>
+              <label className="text-sm text-muted-foreground mb-1 block">
+                {language === 'de' ? 'Erweiterte Version (PDF-Export)' : 'Extended version (PDF export)'}
+              </label>
+              <Textarea
+                value={editContentExtended}
+                onChange={(e) => setEditContentExtended(e.target.value)}
+                className="min-h-[180px]"
+                placeholder={language === 'de' ? 'Längerer Text für die PDF-Version...' : 'Longer text for the PDF version...'}
+              />
+            </div>
             <div className="flex gap-2">
               <Button size="sm" onClick={saveEdit}>
                 <Check className="h-4 w-4 mr-2" />
@@ -1397,6 +1417,16 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
               <p className="text-foreground/80 leading-relaxed whitespace-pre-wrap flex-1">
                 {page.content}
               </p>
+            )}
+            {page.contentExtended && (
+              <div className="mt-4 pt-4 border-t border-border/50">
+                <p className="text-xs text-muted-foreground mb-2">
+                  {language === 'de' ? 'Erweitert (PDF):' : 'Extended (PDF):'}
+                </p>
+                <p className="text-foreground/60 leading-relaxed whitespace-pre-wrap text-sm">
+                  {page.contentExtended}
+                </p>
+              </div>
             )}
             <div className="mt-4 flex justify-end gap-2">
               <Button
