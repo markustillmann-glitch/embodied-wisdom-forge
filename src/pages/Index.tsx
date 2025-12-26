@@ -185,7 +185,7 @@ const Index = () => {
             </Highlight>
             <p className="text-muted-foreground mt-6 mb-4">
               {language === 'de'
-                ? 'Auf der Grundlage des Inner Compass-Frameworks – Resonanz · Bedürfnisse · Körper · Erinnerung · Beziehung – zeigt dieses Buch, wie innere Klarheit und Regulation entstehen können, ohne analysiert, bewertet oder repariert zu werden. Es verbindet Erkenntnisse aus Bedürfnisarbeit, körperbasierter Selbstwahrnehmung, moderner Erinnerungsforschung und beziehungsorientierten Modellen zu einer sanften, alltagstauglichen Landkarte für innere Orientierung.'
+                ? 'Auf der Grundlage des Inner Compass-Frameworks – Resonanz · Bedürfnisse · Körper · Erinnerung · Beziehung – erklärt Beyond Constant Overload, wie innere Klarheit und Regulation entstehen können, ohne analysiert, bewertet oder repariert zu werden. Es verbindet Erkenntnisse aus Bedürfnisarbeit, körperbasierter Selbstwahrnehmung, moderner Erinnerungsforschung und beziehungsorientierten Modellen zu einer sanften, alltagstauglichen Landkarte für innere Orientierung.'
                 : 'Based on the Inner Compass Framework – Resonance · Needs · Body · Memory · Relationship – this book shows how inner clarity and regulation can emerge without being analyzed, judged, or repaired. It combines insights from needs work, body-based self-perception, modern memory research, and relationship-oriented models into a gentle, everyday-friendly map for inner orientation.'}
             </p>
             <p className="text-muted-foreground mb-4">
