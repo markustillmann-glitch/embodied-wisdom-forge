@@ -175,13 +175,38 @@ const Index = () => {
           <ChapterSection title={language === 'de' ? 'Worum geht es?' : 'What is it about?'}>
             <p className="text-lg text-muted-foreground mb-6">
               {language === 'de' 
-                ? 'Viele Menschen leben im Alltag vor allem an der Oberfläche: in Rollen, Erwartungen, schnellen Reaktionen und Gedankenschleifen. Gleichzeitig wirken Erinnerungen, Beziehungen und Körperempfindungen oft im Hintergrund weiter.'
-                : 'Many people live their daily lives mostly on the surface: in roles, expectations, quick reactions, and thought loops. At the same time, memories, relationships, and body sensations often continue to work in the background.'}
+                ? 'Wir leben in einer Zeit permanenter Überforderung. Nicht, weil wir zu schwach sind – sondern weil zu vieles gleichzeitig auf uns einwirkt: Erwartungen, Erinnerungen, innere Stimmen, ungelöste Bedürfnisse, ein Körper im Dauer-Alarm.'
+                : 'We live in a time of constant overload. Not because we are too weak – but because too much is affecting us simultaneously: expectations, memories, inner voices, unresolved needs, a body in permanent alarm.'}
             </p>
             <Highlight>
               {language === 'de'
-                ? 'Beyond Constant Overload lädt dazu ein, sanft hinter diese Oberfläche zu schauen – und über Erinnerungen wieder Zugang zu innerer Tiefe, Orientierung und Verbindung zu finden.'
-                : 'Beyond Constant Overload invites you to gently look behind this surface – and through memories, find access to inner depth, orientation, and connection again.'}
+                ? 'Beyond Constant Overload lädt dazu ein, diesen Zustand nicht länger zu bekämpfen oder zu optimieren, sondern ihn zu verstehen.'
+                : 'Beyond Constant Overload invites you to no longer fight or optimize this state, but to understand it.'}
+            </Highlight>
+            <p className="text-muted-foreground mt-6 mb-4">
+              {language === 'de'
+                ? 'Auf der Grundlage des Inner Compass-Frameworks – Resonanz · Bedürfnisse · Körper · Erinnerung · Beziehung – zeigt dieses Buch, wie innere Klarheit und Regulation entstehen können, ohne analysiert, bewertet oder repariert zu werden. Es verbindet Erkenntnisse aus Bedürfnisarbeit, körperbasierter Selbstwahrnehmung, moderner Erinnerungsforschung und beziehungsorientierten Modellen zu einer sanften, alltagstauglichen Landkarte für innere Orientierung.'
+                : 'Based on the Inner Compass Framework – Resonance · Needs · Body · Memory · Relationship – this book shows how inner clarity and regulation can emerge without being analyzed, judged, or repaired. It combines insights from needs work, body-based self-perception, modern memory research, and relationship-oriented models into a gentle, everyday-friendly map for inner orientation.'}
+            </p>
+            <p className="text-muted-foreground mb-4">
+              {language === 'de'
+                ? 'Im Mittelpunkt stehen keine Methoden, die „besser funktionieren" versprechen, sondern eine Haltung des Zuhörens:'
+                : 'The focus is not on methods that promise to "work better," but on an attitude of listening:'}
+            </p>
+            <p className="text-muted-foreground italic mb-4">
+              {language === 'de'
+                ? 'Was ist jetzt wirklich relevant? Was braucht Raum – und was darf leiser werden?'
+                : 'What is really relevant now? What needs space – and what can become quieter?'}
+            </p>
+            <p className="text-muted-foreground mb-6">
+              {language === 'de'
+                ? 'Dieses Buch richtet sich an Menschen, die spüren, dass konstante Überforderung kein persönliches Versagen ist, sondern ein Systemzustand – und dass der Weg darüber hinaus nicht schneller, sondern stimmiger wird.'
+                : 'This book is for people who sense that constant overload is not a personal failure, but a systemic state – and that the way beyond it becomes not faster, but more coherent.'}
+            </p>
+            <Highlight>
+              {language === 'de'
+                ? 'Beyond Constant Overload ist eine Einladung, wieder in Resonanz zu kommen – mit sich selbst, dem eigenen Körper, der eigenen Geschichte und den Beziehungen, die uns tragen.'
+                : 'Beyond Constant Overload is an invitation to come back into resonance – with yourself, your own body, your own history, and the relationships that support us.'}
             </Highlight>
           </ChapterSection>
         </div>
