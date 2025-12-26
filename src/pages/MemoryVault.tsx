@@ -525,7 +525,7 @@ const MemoryVault = () => {
             
             <div className="mt-6 pt-6 border-t border-border">
               <Link 
-                to="/coach" 
+                to="/oria-coach"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <ArrowLeft className="h-4 w-4 inline mr-1" />
@@ -544,7 +544,7 @@ const MemoryVault = () => {
       <header className="border-b border-border sticky top-0 bg-background/95 backdrop-blur z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/coach" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
+            <Link to="/oria-coach" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
               <ArrowLeft className="h-4 w-4" />
               {t('vault.backToCoach')}
             </Link>

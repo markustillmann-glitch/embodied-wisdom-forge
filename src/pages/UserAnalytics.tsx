@@ -195,7 +195,7 @@ const UserAnalytics = () => {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 bg-background border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/coach" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/oria-coach" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" />
             {t('nav.back')}
           </Link>

@@ -25,7 +25,7 @@ const Security = () => {
             <span className="font-serif text-lg hidden sm:inline">Beyond Constant Overload</span>
           </Link>
           <div className="flex items-center gap-3 sm:gap-4">
-            <Link to="/coach" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/oria-coach" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Coach
             </Link>
             <Link to="/oria" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

@@ -1248,9 +1248,9 @@ const Coach = () => {
       )}>
         <div className="p-4 border-b border-border">
           <div className="flex items-center justify-between mb-4">
-            <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
+            <Link to="/oria-coach" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
               <ArrowLeft className="h-4 w-4" />
-              {t('nav.toHome')}
+              {t('coach.backToOverview')}
             </Link>
             {isMobile && (
               <button
