@@ -161,6 +161,8 @@ const Coach = () => {
   // Conversation mode state (renamed from templateMode) - compact is default
   const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('compact');
   
+  // Conversation completion state - shows save button after coach offers to save
+  const [showSavePrompt, setShowSavePrompt] = useState(false);
   
   // TTS state for read aloud functionality
   const [isSpeakingMessage, setIsSpeakingMessage] = useState(false);
@@ -327,6 +329,7 @@ const Coach = () => {
   // Close sidebar on mobile when conversation is selected
   const selectConversation = (id: string) => {
     setCurrentConversation(id);
+    setShowSavePrompt(false);
     if (isMobile) {
       setSidebarOpen(false);
     }
@@ -520,6 +523,7 @@ const Coach = () => {
     setConversations(prev => [data, ...prev]);
     setCurrentConversation(data.id);
     setMessages([]);
+    setShowSavePrompt(false);
   };
 
   const deleteConversation = async (id: string) => {
@@ -976,6 +980,22 @@ const Coach = () => {
         } catch (parseError) {
           console.error('Failed to parse SAVE_MEMORY block:', parseError);
         }
+      }
+
+      // Check if coach is offering to save (Speichern/Vertiefen prompt)
+      const saveOfferPatterns = [
+        /Speichern.*oder.*Vertiefen/i,
+        /„Speichern".*„Vertiefen"/i,
+        /"Speichern".*"Vertiefen"/i,
+        /Möchtest du.*speichern.*oder.*vertiefen/i,
+        /Save.*or.*Deepen/i,
+        /"Save".*"Deepen"/i,
+        /Would you like to.*save.*or.*deepen/i,
+      ];
+      
+      const isOfferingSave = saveOfferPatterns.some(pattern => pattern.test(assistantContent));
+      if (isOfferingSave) {
+        setShowSavePrompt(true);
       }
 
       // Check for deepen idea suggestion from coach
@@ -1551,6 +1571,40 @@ const Coach = () => {
                   <div className="flex gap-2 sm:gap-3 justify-start">
                     <div className="bg-secondary rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3">
                       <Loader2 className="h-4 w-4 animate-spin" />
+                    </div>
+                  </div>
+                )}
+                
+                {/* Save prompt after conversation completion */}
+                {showSavePrompt && !isStreaming && messages.length > 0 && (
+                  <div className="flex justify-center py-4">
+                    <div className="bg-accent/10 border border-accent/20 rounded-lg p-4 max-w-md w-full">
+                      <p className="text-sm text-foreground mb-3 text-center">
+                        {language === 'en' 
+                          ? 'Would you like to save this conversation as a memory?' 
+                          : 'Möchtest du diese Unterhaltung als Erinnerung speichern?'}
+                      </p>
+                      <div className="flex gap-2 justify-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowSavePrompt(false)}
+                          className="text-muted-foreground"
+                        >
+                          {language === 'en' ? 'Later' : 'Später'}
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            setShowSavePrompt(false);
+                            openSaveDialog();
+                          }}
+                          className="gap-2"
+                        >
+                          <Save className="h-4 w-4" />
+                          {language === 'en' ? 'Save Memory' : 'Speichern'}
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}
