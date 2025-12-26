@@ -59,7 +59,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import ChatMessage from '@/components/ChatMessage';
-import VoiceChat from '@/components/VoiceChat';
+
 
 
 interface Message {
@@ -1518,17 +1518,6 @@ const Coach = () => {
                   placeholder={t('coach.inputPlaceholder')}
                   disabled={isStreaming}
                   className="flex-1 text-base"
-                />
-                <VoiceChat
-                  onTranscription={(text) => {
-                    setInput(text);
-                    // Auto-send after transcription
-                    setTimeout(() => sendMessage(text), 100);
-                  }}
-                  lastAssistantMessage={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
-                  isProcessing={isStreaming}
-                  language={language as 'de' | 'en'}
-                  compact
                 />
                 <Button 
                   onClick={() => sendMessage()}
