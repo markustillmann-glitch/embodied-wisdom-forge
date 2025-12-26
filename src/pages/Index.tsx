@@ -121,7 +121,7 @@ const Index = () => {
                 href="/modell"
                 className="inline-flex items-center gap-2 text-sm font-sans tracking-wider text-foreground hover:text-accent transition-colors border border-border px-4 py-2 rounded-full"
               >
-                <span>{language === 'de' ? 'Das Modell' : 'The Model'}</span>
+                <span>{language === 'de' ? 'Inner Compass' : 'Inner Compass'}</span>
                 <span>📖</span>
               </a>
               <a
@@ -200,8 +200,8 @@ const Index = () => {
             />
             <p className="mt-6">
               {language === 'de'
-                ? 'Das Modell hilft dabei, diese wohltuenden Erinnerungen bewusst zu aktivieren und zu stärken. So können sie im Alltag wieder spürbarer werden – als innere Ressource, als Gegengewicht zu Stress, Unsicherheit oder Überforderung.'
-                : 'The model helps to consciously activate and strengthen these soothing memories. This way, they can become more palpable again in everyday life – as an inner resource, as a counterweight to stress, uncertainty, or overwhelm.'}
+                ? 'Das Inner Compass Framework hilft dabei, diese wohltuenden Erinnerungen bewusst zu aktivieren und zu stärken. So können sie im Alltag wieder spürbarer werden – als innere Ressource, als Gegengewicht zu Stress, Unsicherheit oder Überforderung.'
+                : 'The Inner Compass Framework helps to consciously activate and strengthen these soothing memories. This way, they can become more palpable again in everyday life – as an inner resource, as a counterweight to stress, uncertainty, or overwhelm.'}
             </p>
             <Quote>
               {language === 'de'
@@ -216,8 +216,8 @@ const Index = () => {
           <ChapterSection title={language === 'de' ? 'Auch für belastende Erfahrungen' : 'Also for Difficult Experiences'}>
             <p className="mb-4">
               {language === 'de'
-                ? 'Gleichzeitig berücksichtigt das Modell, dass viele Menschen mit:'
-                : 'At the same time, the model acknowledges that many people live with:'}
+                ? 'Gleichzeitig berücksichtigt das Inner Compass Framework, dass viele Menschen mit:'
+                : 'At the same time, the Inner Compass Framework acknowledges that many people live with:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['wiederkehrenden, schwierigen Erinnerungen', 'Gedankenschleifen', 'Ängsten', 'unangenehmen Körperempfindungen']
@@ -228,8 +228,8 @@ const Index = () => {
             </p>
             <p className="mb-4">
               {language === 'de'
-                ? 'Statt diese Erfahrungen zu verdrängen oder zu analysieren, unterstützt das Modell dabei:'
-                : 'Instead of suppressing or analyzing these experiences, the model supports:'}
+                ? 'Statt diese Erfahrungen zu verdrängen oder zu analysieren, unterstützt das Inner Compass Framework dabei:'
+                : 'Instead of suppressing or analyzing these experiences, the Inner Compass Framework supports:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['ihnen achtsam und dosiert zu begegnen', 'innere Signale besser einzuordnen', 'erste Schritte zu mehr Entlastung zu finden']
@@ -257,8 +257,8 @@ const Index = () => {
             />
             <p className="mt-6 mb-4">
               {language === 'de'
-                ? 'Gleichzeitig unterstützt das Modell dabei, einen klareren und gesünderen Umgang mit belastenden Beziehungen zu entwickeln – zum Beispiel durch:'
-                : 'At the same time, the model supports developing a clearer and healthier way of dealing with difficult relationships – for example through:'}
+                ? 'Gleichzeitig unterstützt das Inner Compass Framework dabei, einen klareren und gesünderen Umgang mit belastenden Beziehungen zu entwickeln – zum Beispiel durch:'
+                : 'At the same time, the Inner Compass Framework supports developing a clearer and healthier way of dealing with difficult relationships – for example through:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['bessere innere Abgrenzung', 'Verständnis für eigene Reaktionen', 'neue Perspektiven auf wiederkehrende Beziehungsmuster']
@@ -271,7 +271,7 @@ const Index = () => {
         <div id="konkret" className="border-t border-chapter-divider">
           <ChapterSection title={language === 'de' ? 'Wie hilft das konkret?' : 'How Does This Help Concretely?'}>
             <p className="mb-4">
-              {language === 'de' ? 'Das Modell unterstützt dabei:' : 'The model helps with:'}
+              {language === 'de' ? 'Das Inner Compass Framework unterstützt dabei:' : 'The Inner Compass Framework helps with:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['innere Muster zu erkennen', 'zwischen Vergangenheit und Gegenwart zu unterscheiden', 'Körperempfindungen als Hinweise zu verstehen', 'Ressourcen, Beziehungen und Unterstützung gezielt zu nutzen']
@@ -319,9 +319,9 @@ const Index = () => {
           </ChapterSection>
         </div>
 
-        {/* Für wen ist das Modell geeignet? */}
+        {/* Für wen ist das Inner Compass Framework geeignet? */}
         <div id="zielgruppe" className="border-t border-chapter-divider">
-          <ChapterSection title={language === 'de' ? 'Für wen ist das Modell geeignet?' : 'Who Is the Model Suitable For?'}>
+          <ChapterSection title={language === 'de' ? 'Für wen ist das Inner Compass Framework geeignet?' : 'Who Is the Inner Compass Framework Suitable For?'}>
             <p className="mb-4">
               {language === 'de' ? 'Für Menschen, die:' : 'For people who:'}
             </p>
