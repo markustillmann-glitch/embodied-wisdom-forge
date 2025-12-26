@@ -276,12 +276,12 @@ const Security = () => {
           >
             <SubSection 
               number="3.1" 
-              title={language === 'de' ? 'Fachliche Fundierung des Modells' : 'Professional Foundation of the Model'}
+              title={language === 'de' ? 'Fachliche Fundierung des Inner Compass Framework' : 'Professional Foundation of the Inner Compass Framework'}
             >
               <p className="mb-4">
                 {language === 'de'
-                  ? 'Das Beyond the Shallow Modell basiert auf etablierten, wissenschaftlich fundierten Ansätzen und wird von Experten verschiedener Disziplinen validiert:'
-                  : 'The Beyond the Shallow model is based on established, scientifically grounded approaches and is validated by experts from various disciplines:'}
+                  ? 'Das Beyond the Shallow Inner Compass Framework basiert auf etablierten, wissenschaftlich fundierten Ansätzen und wird von Experten verschiedener Disziplinen validiert:'
+                  : 'The Beyond the Shallow Inner Compass Framework is based on established, scientifically grounded approaches and is validated by experts from various disciplines:'}
               </p>
               
               <div className="space-y-4 mb-6">

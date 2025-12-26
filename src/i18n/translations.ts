@@ -221,7 +221,7 @@ export const translations = {
       // Chapter 4
       kap4: {
         title: 'IFS: Die innere Architektur',
-        intro: 'Wenn wir verstehen, dass der Körper Erinnerungen speichert, hilft uns das Modell der „Internal Family Systems" (IFS), die daraus resultierenden Verhaltensweisen zu ordnen.',
+        intro: 'Wenn wir verstehen, dass der Körper Erinnerungen speichert, hilft uns das Framework der „Internal Family Systems" (IFS), die daraus resultierenden Verhaltensweisen zu ordnen.',
         s1: {
           title: 'Grundannahme von IFS',
           p1: 'Wir bestehen aus vielen verschiedenen inneren Anteilen (Teilen), ähnlich einem inneren Team.',

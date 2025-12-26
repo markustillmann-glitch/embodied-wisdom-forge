@@ -99,7 +99,7 @@ const Modell = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-serif italic max-w-2xl mx-auto mt-2"
           >
-            {language === 'de' ? 'Das Modell' : 'The Model'}
+            {language === 'de' ? 'Das Inner Compass Framework' : 'The Inner Compass Framework'}
           </motion.p>
 
           <motion.p
