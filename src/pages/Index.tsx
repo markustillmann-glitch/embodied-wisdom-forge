@@ -108,7 +108,7 @@ const Index = () => {
           >
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <a
-                href="/coach"
+                href="/oria-coach"
                 className="inline-flex flex-col items-center gap-0.5 text-sm font-sans tracking-wider bg-accent text-accent-foreground px-5 py-2.5 rounded-full hover:bg-accent/90 transition-colors"
               >
                 <span className="flex items-center gap-2">
