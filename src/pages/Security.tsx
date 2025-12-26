@@ -533,7 +533,7 @@ const Security = () => {
       <footer className="py-12 border-t border-chapter-divider relative overflow-hidden">
         <PolygonalBackground variant="warm" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <p className="font-serif text-xl text-foreground mb-2">Beyond the Shallow Through Memories</p>
+          <p className="font-serif text-xl text-foreground mb-2">Beyond Constant Overload</p>
           <div className="flex flex-wrap justify-center gap-4 mb-4">
             <Link to="/" className="text-sm text-muted-foreground hover:text-accent transition-colors">
               {language === 'de' ? 'Startseite' : 'Home'}

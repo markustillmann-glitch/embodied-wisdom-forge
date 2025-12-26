@@ -847,10 +847,10 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
         pdf.roundedRect(x, y, w, h, r, r, style);
       };
 
-      // Beyond the Shallow description for final page
+      // Beyond Constant Overload description for final page
       const beyondBiasDescription = language === 'de' 
-        ? 'Beyond the Shallow Through Memories – From Roles to Resonance basiert auf dem Inner Compass Framework zum Umgang mit Stress, inneren Begrenzungen und Prägungen. Es verbindet Erkenntnisse aus Neurowissenschaft, IFS (Internal Family Systems), GFK (Gewaltfreie Kommunikation) und somatischer Arbeit zu einem praktischen Werkzeug für persönliche Transformation und innere Klarheit.'
-        : 'Beyond the Shallow Through Memories – From Roles to Resonance is based on the Inner Compass Framework for dealing with stress, inner limitations, and conditioning. It combines insights from neuroscience, IFS (Internal Family Systems), NVC (Nonviolent Communication), and somatic work into a practical tool for personal transformation and inner clarity.';
+        ? 'Beyond Constant Overload – From Roles to Resonance basiert auf dem Inner Compass Framework zum Umgang mit Stress, inneren Begrenzungen und Prägungen. Es verbindet Erkenntnisse aus Neurowissenschaft, IFS (Internal Family Systems), GFK (Gewaltfreie Kommunikation) und somatischer Arbeit zu einem praktischen Werkzeug für persönliche Transformation und innere Klarheit.'
+        : 'Beyond Constant Overload – From Roles to Resonance is based on the Inner Compass Framework for dealing with stress, inner limitations, and conditioning. It combines insights from neuroscience, IFS (Internal Family Systems), NVC (Nonviolent Communication), and somatic work into a practical tool for personal transformation and inner clarity.';
 
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
@@ -950,7 +950,7 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           pdf.text(quoteLines, pageWidth / 2, quoteY, { align: 'center' });
 
         } else if (page.type === 'ending') {
-          // Ending page - Beyond the Shallow description
+          // Ending page - Beyond Constant Overload description
           drawCornerDecorations(0.12);
           
           const centerY = pageHeight * 0.25;
@@ -981,11 +981,11 @@ const MemoryBook: React.FC<MemoryBookProps> = ({ memory, open, onClose, onBookSa
           pdf.line(margin + 30, dividerY, pageWidth - margin - 30, dividerY);
           pdf.setGState(pdf.GState({ opacity: 1 }));
           
-          // Beyond the Shallow section
+          // Beyond Constant Overload section
           pdf.setFontSize(9);
           pdf.setFont(fontSerif, 'bold');
           pdf.setTextColor(colors.accent.r, colors.accent.g, colors.accent.b);
-          pdf.text('Beyond the Shallow Through Memories', pageWidth / 2, dividerY + 12, { align: 'center' });
+          pdf.text('Beyond Constant Overload', pageWidth / 2, dividerY + 12, { align: 'center' });
           
           pdf.setFontSize(7);
           pdf.setFont(fontSans, 'normal');

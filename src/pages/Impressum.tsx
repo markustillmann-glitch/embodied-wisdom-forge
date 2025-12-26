@@ -62,7 +62,7 @@ const Impressum = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-muted-foreground"
           >
-            Beyond the Shallow Through Memories
+            Beyond Constant Overload
           </motion.p>
         </div>
       </section>
@@ -176,7 +176,7 @@ const Impressum = () => {
             >
               <div className="flex items-center gap-3 mb-4">
                 <img src={bbOwlLogo} alt="Oria" className="h-8 w-auto" />
-                <h3 className="font-serif text-lg text-foreground">Beyond the Shallow Through Memories</h3>
+                <h3 className="font-serif text-lg text-foreground">Beyond Constant Overload</h3>
               </div>
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 {t('impressum.aboutBB')}
