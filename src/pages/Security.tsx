@@ -22,7 +22,7 @@ const Security = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-foreground hover:text-accent transition-colors">
             <img src={bbOwlLogo} alt="Oria" className="h-6 w-auto" />
-            <span className="font-serif text-lg hidden sm:inline">Beyond the Shallow</span>
+            <span className="font-serif text-lg hidden sm:inline">Beyond Constant Overload</span>
           </Link>
           <div className="flex items-center gap-3 sm:gap-4">
             <Link to="/coach" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -280,8 +280,8 @@ const Security = () => {
             >
               <p className="mb-4">
                 {language === 'de'
-                  ? 'Das Beyond the Shallow Inner Compass Framework basiert auf etablierten, wissenschaftlich fundierten Ansätzen und wird von Experten verschiedener Disziplinen validiert:'
-                  : 'The Beyond the Shallow Inner Compass Framework is based on established, scientifically grounded approaches and is validated by experts from various disciplines:'}
+                  ? 'Das Beyond Constant Overload Inner Compass Framework basiert auf etablierten, wissenschaftlich fundierten Ansätzen und wird von Experten verschiedener Disziplinen validiert:'
+                  : 'The Beyond Constant Overload Inner Compass Framework is based on established, scientifically grounded approaches and is validated by experts from various disciplines:'}
               </p>
               
               <div className="space-y-4 mb-6">

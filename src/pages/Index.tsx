@@ -83,9 +83,9 @@ const Index = () => {
         >
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6">
-            <img src={bbOwlLogo} alt="Beyond the Shallow Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
+            <img src={bbOwlLogo} alt="Beyond Constant Overload Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight text-center sm:text-left tracking-tight">
-              Beyond the Shallow
+              Beyond Constant Overload
               <br />
               <span className="text-accent whitespace-nowrap">Through Memories</span>
             </h1>
@@ -180,8 +180,8 @@ const Index = () => {
             </p>
             <Highlight>
               {language === 'de'
-                ? 'Beyond the Shallow lädt dazu ein, sanft hinter diese Oberfläche zu schauen – und über Erinnerungen wieder Zugang zu innerer Tiefe, Orientierung und Verbindung zu finden.'
-                : 'Beyond the Shallow invites you to gently look behind this surface – and through memories, find access to inner depth, orientation, and connection again.'}
+                ? 'Beyond Constant Overload lädt dazu ein, sanft hinter diese Oberfläche zu schauen – und über Erinnerungen wieder Zugang zu innerer Tiefe, Orientierung und Verbindung zu finden.'
+                : 'Beyond Constant Overload invites you to gently look behind this surface – and through memories, find access to inner depth, orientation, and connection again.'}
             </Highlight>
           </ChapterSection>
         </div>
@@ -248,8 +248,8 @@ const Index = () => {
           <ChapterSection title={language === 'de' ? 'Beziehungen bewusst gestalten' : 'Consciously Shaping Relationships'}>
             <p className="mb-4">
               {language === 'de'
-                ? 'Erinnerungen sind oft eng mit Beziehungen verbunden. Beyond the Shallow · Through Memories hilft dabei:'
-                : 'Memories are often closely connected to relationships. Beyond the Shallow · Through Memories helps with:'}
+                ? 'Erinnerungen sind oft eng mit Beziehungen verbunden. Beyond Constant Overload · Through Memories hilft dabei:'
+                : 'Memories are often closely connected to relationships. Beyond Constant Overload · Through Memories helps with:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['wohltuende, stärkende Beziehungen bewusster wahrzunehmen', 'Nähe, Vertrauen und Verbundenheit zu aktivieren', 'zu erkennen, welche Begegnungen guttun']

@@ -644,7 +644,7 @@ const Seminare = () => {
       <footer className="py-12 border-t border-chapter-divider">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Link to="/" onClick={() => window.scrollTo(0, 0)} className="font-serif text-xl text-foreground hover:text-accent transition-colors">
-            Beyond the Shallow Through Memories
+            Beyond Constant Overload Through Memories
           </Link>
           <p className="text-muted-foreground text-sm mt-2 mb-4">
             {t('index.footer.subtitle')}
