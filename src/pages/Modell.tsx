@@ -102,14 +102,6 @@ const Modell = () => {
             {language === 'de' ? 'Das Inner Compass Framework' : 'The Inner Compass Framework'}
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-sm sm:text-base md:text-lg text-muted-foreground font-sans max-w-xl mx-auto mt-6 sm:mt-8 leading-relaxed px-2"
-          >
-            {t('index.heroSubtitle')}
-          </motion.p>
 
         </motion.div>
       </section>
