@@ -598,8 +598,8 @@ export const translations = {
     // Seminare page
     seminare: {
       label: 'Seminarangebot',
-      title: 'Integrierte Selbstwahrnehmung',
-      titleAccent: '& Selbstführung',
+      title: 'Entdecke und stärke',
+      titleAccent: 'deinen Inneren Kompass',
       subtitle: 'Ein ganzheitlicher Entwicklungsprozess, der Denken, Fühlen, Körper und Kommunikation verbindet – basierend auf IFS, GFK und somatischer Intelligenz.',
       forWhom: 'Für wen ist dieses Programm?',
       forWhomDesc: 'Das Programm richtet sich an entwicklungsorientierte Menschen in intensiven Lebensphasen – persönliche Übergänge, berufliche Neuorientierung, Beziehungskrisen oder andere Umbruchsituationen.',
