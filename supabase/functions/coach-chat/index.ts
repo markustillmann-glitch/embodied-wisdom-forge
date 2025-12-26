@@ -240,7 +240,23 @@ ${isCompact ? `"Shall we go through the 5 points together? I'll keep it focused 
 6. If the user says "skip" or similar, go directly to the next point
 7. Keep track of progress (e.g., "${isCompact ? '📍 2/5' : 'We are now at point 4 of 11...'}")
 
-**After completing ALL points:**
+**After completing ALL points (CRITICAL IN COMPACT MODE!):**
+
+${isCompact ? `
+**IN COMPACT MODE you MUST ASK BEFORE saving:**
+
+"We've gone through all 5 points. 🎉
+
+How would you like to continue?
+1. **Save** - Store this memory in the Memory Vault
+2. **Deepen** - Explore one or two points more deeply
+
+What feels right for you?"
+
+Wait for the user's response:
+- If "Save" or similar → proceed with the saving process
+- If "Deepen" → ask which point they want to deepen and explore that aspect more deeply
+` : ''}
 
 Offer: "We have worked through all points. 🎉 Would you like to save this memory in your personal Memory Vault? I can help you formulate a title and a brief summary."
 
@@ -558,7 +574,23 @@ ${isCompact ? `"Sollen wir die 5 Punkte gemeinsam durchgehen? Ich halte es fokus
 6. Wenn der User "überspringen" oder ähnliches sagt, gehe direkt zum nächsten Punkt
 7. Halte den Fortschritt im Blick (z.B. "${isCompact ? '📍 2/5' : 'Wir sind jetzt bei Punkt 4 von 11...'}")
 
-**Nach Abschluss ALLER Punkte:**
+**Nach Abschluss ALLER Punkte (KRITISCH IM KOMPAKT-MODUS!):**
+
+${isCompact ? `
+**IM KOMPAKT-MODUS MUSST du VOR dem Speichern ZUERST fragen:**
+
+"Wir sind durch alle 5 Punkte gegangen. 🎉
+
+Wie möchtest du weitermachen?
+1. **Speichern** - Diese Erinnerung im Memory Tresor ablegen
+2. **Vertiefen** - Ein oder zwei Punkte nochmal tiefer erkunden
+
+Was fühlt sich stimmig an?"
+
+Warte auf die Antwort des Users:
+- Bei "Speichern" oder ähnlich → fahre mit dem Speicher-Prozess fort
+- Bei "Vertiefen" → frage welchen Punkt sie vertiefen möchten und gehe tiefer in diesen Aspekt
+` : ''}
 
 Biete an: "Wir haben alle Punkte durchgearbeitet. 🎉 Möchtest du diese Erinnerung in deinem persönlichen Memory Tresor speichern? Ich kann dir dabei helfen, einen Titel und eine kurze Zusammenfassung zu formulieren."
 

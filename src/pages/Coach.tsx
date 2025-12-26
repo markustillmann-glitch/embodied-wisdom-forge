@@ -154,8 +154,8 @@ const Coach = () => {
   const [isGeneratingPsychogram, setIsGeneratingPsychogram] = useState(false);
   const [psychogramCompact, setPsychogramCompact] = useState(false);
   
-  // Conversation mode state (renamed from templateMode)
-  const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('detailed');
+  // Conversation mode state (renamed from templateMode) - compact is default
+  const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('compact');
   
   
   // TTS state for read aloud functionality
