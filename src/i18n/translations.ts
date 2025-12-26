@@ -900,7 +900,7 @@ export const translations = {
 
     // Auth
     auth: {
-      title: 'Willkommen beim Beyond Constant Overload Coach',
+      title: 'Willkommen beim Oria-Coach',
       subtitle: 'Melden Sie sich an, um Ihre Gespräche zu speichern',
       signIn: 'Anmelden',
       signUp: 'Registrieren',
@@ -2431,7 +2431,7 @@ export const translations = {
 
     // Auth
     auth: {
-      title: 'Welcome to Beyond Constant Overload Coach',
+      title: 'Welcome to Oria Coach',
       subtitle: 'Sign in to save your conversations',
       signIn: 'Sign In',
       signUp: 'Sign Up',
