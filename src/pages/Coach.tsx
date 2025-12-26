@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -9,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useConnectionStatus, streamWithTimeout } from '@/hooks/useConnectionStatus';
+import ConnectionBanner from '@/components/ConnectionBanner';
 import {
   Dialog,
   DialogContent,
@@ -120,6 +122,7 @@ const Coach = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const { isOnline, isSlowConnection } = useConnectionStatus();
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
@@ -129,6 +132,7 @@ const Coach = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [learnedInsights, setLearnedInsights] = useState<LearnedInsight[]>([]);
+  const [retryMessage, setRetryMessage] = useState<string | null>(null);
   
   // Save memory dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -779,16 +783,27 @@ const Coach = () => {
     }
 
     setIsStreaming(true);
+    setRetryMessage(null);
     let assistantContent = '';
 
     try {
+      // Check connection before starting
+      if (!navigator.onLine) {
+        throw new Error(language === 'en' 
+          ? 'No internet connection. Please check your connection and try again.' 
+          : 'Keine Internetverbindung. Bitte überprüfe deine Verbindung und versuche es erneut.');
+      }
+
       // Get authenticated session token
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.access_token) {
         throw new Error(language === 'en' ? 'Not authenticated' : 'Nicht authentifiziert');
       }
 
-      const response = await fetch(
+      // Use streamWithTimeout for better timeout handling on slow connections
+      const timeoutDuration = isSlowConnection ? 120000 : 60000; // 2min for slow, 1min for normal
+      
+      const response = await streamWithTimeout(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/coach-chat`,
         {
           method: 'POST',
@@ -803,7 +818,8 @@ const Coach = () => {
             mode: conversationMode,
             learnedInsights: learnedInsights.length > 0 ? learnedInsights : undefined,
           }),
-        }
+        },
+        timeoutDuration
       );
 
       if (!response.ok) {
@@ -994,17 +1010,48 @@ const Coach = () => {
 
     } catch (error) {
       console.error('Streaming error:', error);
-      toast({
-        title: 'Fehler',
-        description: error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten.',
-        variant: 'destructive',
-      });
+      const errorMessage = error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten.';
+      
+      // Check if it's a connection/timeout error - offer retry
+      const isConnectionError = errorMessage.includes('timeout') || 
+                                 errorMessage.includes('Verbindung') || 
+                                 errorMessage.includes('connection') ||
+                                 errorMessage.includes('network') ||
+                                 errorMessage.includes('Netzwerk');
+      
+      if (isConnectionError) {
+        setRetryMessage(userMessage);
+        toast({
+          title: language === 'en' ? 'Connection Problem' : 'Verbindungsproblem',
+          description: language === 'en' 
+            ? 'The message could not be sent. Click "Retry" to try again.' 
+            : 'Die Nachricht konnte nicht gesendet werden. Klicke auf "Erneut versuchen".',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: language === 'en' ? 'Error' : 'Fehler',
+          description: errorMessage,
+          variant: 'destructive',
+        });
+      }
       // Remove streaming message on error
       setMessages(prev => prev.filter(m => !m.id.startsWith('streaming-')));
     } finally {
       setIsStreaming(false);
     }
   };
+
+  // Retry handler for failed messages
+  const retryLastMessage = useCallback(() => {
+    if (retryMessage) {
+      const msg = retryMessage;
+      setRetryMessage(null);
+      // Remove the failed user message and resend
+      setMessages(prev => prev.filter(m => m.content !== msg || m.role !== 'user'));
+      sendMessage(msg);
+    }
+  }, [retryMessage]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -1127,7 +1174,11 @@ const Coach = () => {
   }
 
   return (
-    <div className="h-screen flex bg-background relative">
+    <div className="h-screen flex flex-col bg-background relative">
+      {/* Connection Status Banner */}
+      <ConnectionBanner isOnline={isOnline} isSlowConnection={isSlowConnection} />
+      
+      <div className="flex-1 flex relative overflow-hidden">
       {/* Mobile Overlay */}
       {isMobile && sidebarOpen && (
         <div 
@@ -1509,19 +1560,51 @@ const Coach = () => {
             </ScrollArea>
 
             <div className="p-3 sm:p-4 border-t border-border safe-area-inset-bottom">
+              {/* Retry banner for failed messages */}
+              {retryMessage && !isStreaming && (
+                <div className="max-w-3xl mx-auto mb-3 p-3 bg-destructive/10 border border-destructive/20 rounded-lg flex items-center justify-between gap-3">
+                  <p className="text-sm text-destructive">
+                    {language === 'en' 
+                      ? 'Message could not be sent.' 
+                      : 'Nachricht konnte nicht gesendet werden.'}
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={retryLastMessage}
+                    className="shrink-0 border-destructive/30 text-destructive hover:bg-destructive/10"
+                  >
+                    {language === 'en' ? 'Retry' : 'Erneut versuchen'}
+                  </Button>
+                </div>
+              )}
+              
+              {/* Slow connection indicator in input area */}
+              {isSlowConnection && isStreaming && (
+                <div className="max-w-3xl mx-auto mb-2 text-center">
+                  <p className="text-xs text-amber-600 dark:text-amber-400 animate-pulse">
+                    {language === 'en' 
+                      ? 'Slow connection - this may take a moment...' 
+                      : 'Langsame Verbindung - das kann einen Moment dauern...'}
+                  </p>
+                </div>
+              )}
+              
               <div className="max-w-3xl mx-auto flex gap-2 items-end">
                 <Input
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={t('coach.inputPlaceholder')}
-                  disabled={isStreaming}
+                  placeholder={!isOnline 
+                    ? (language === 'en' ? 'Offline - Check connection' : 'Offline - Verbindung prüfen')
+                    : t('coach.inputPlaceholder')}
+                  disabled={isStreaming || !isOnline}
                   className="flex-1 text-base"
                 />
                 <Button 
                   onClick={() => sendMessage()}
-                  disabled={!input.trim() || isStreaming}
+                  disabled={!input.trim() || isStreaming || !isOnline}
                   size="default"
                   className="shrink-0 px-3 sm:px-4"
                 >
@@ -1802,6 +1885,7 @@ const Coach = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   );
 };

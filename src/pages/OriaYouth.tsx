@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
   ArrowLeft, Send, Loader2, Plus, Trash2, Save, X, 
   MessageCircle, Backpack, Users, Trophy, Home, Smartphone,
-  ChevronLeft, Music
+  ChevronLeft, Music, RefreshCw
 } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
@@ -17,6 +17,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
+import { useConnectionStatus, streamWithTimeout } from "@/hooks/useConnectionStatus";
+import ConnectionBanner from "@/components/ConnectionBanner";
 
 
 type Message = { role: "user" | "assistant"; content: string };
@@ -65,6 +67,7 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/oria-youth-c
 const OriaYouth = () => {
   const { t, language } = useLanguage();
   const { user } = useAuth();
+  const { isOnline, isSlowConnection } = useConnectionStatus();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [activeTopicId, setActiveTopicId] = useState<string | null>(null);
   const [input, setInput] = useState("");
@@ -75,6 +78,7 @@ const OriaYouth = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [topicToSave, setTopicToSave] = useState<Topic | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [retryMessage, setRetryMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -90,7 +94,15 @@ const OriaYouth = () => {
   }, [messages]);
 
   const streamChat = async (chatMessages: Message[], topicId: string) => {
-    const resp = await fetch(CHAT_URL, {
+    // Check connection before starting
+    if (!navigator.onLine) {
+      throw new Error("Keine Internetverbindung. Bitte überprüfe deine Verbindung.");
+    }
+
+    // Use timeout for slow connections
+    const timeoutDuration = isSlowConnection ? 120000 : 60000;
+    
+    const resp = await streamWithTimeout(CHAT_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,7 +113,7 @@ const OriaYouth = () => {
         userId: user?.id,
         topicId,
       }),
-    });
+    }, timeoutDuration);
 
     if (!resp.ok) {
       if (resp.status === 429) {
@@ -188,10 +200,11 @@ const OriaYouth = () => {
     }
   };
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading || !activeTopicId) return;
+  const sendMessage = async (messageToSend?: string) => {
+    const msgContent = messageToSend || input.trim();
+    if (!msgContent || isLoading || !activeTopicId) return;
 
-    const userMsg: Message = { role: "user", content: input.trim() };
+    const userMsg: Message = { role: "user", content: msgContent };
     const newMessages = [...messages, userMsg];
     
     setTopics(prev => prev.map(topic => 
@@ -201,16 +214,44 @@ const OriaYouth = () => {
     ));
     setInput("");
     setIsLoading(true);
+    setRetryMessage(null);
 
     try {
       await streamChat(newMessages, activeTopicId);
     } catch (error) {
       console.error("Send message error:", error);
-      toast.error(error instanceof Error ? error.message : "Verbindungsfehler");
+      const errorMessage = error instanceof Error ? error.message : "Verbindungsfehler";
+      
+      // Check if connection error - offer retry
+      const isConnectionError = errorMessage.includes('timeout') || 
+                                 errorMessage.includes('Verbindung') || 
+                                 errorMessage.includes('connection') ||
+                                 errorMessage.includes('Internetverbindung');
+      
+      if (isConnectionError) {
+        setRetryMessage(msgContent);
+        toast.error("Nachricht konnte nicht gesendet werden. Klicke auf 'Nochmal' zum Wiederholen.");
+      } else {
+        toast.error(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Retry handler
+  const retryLastMessage = useCallback(() => {
+    if (retryMessage && activeTopicId) {
+      const msg = retryMessage;
+      setRetryMessage(null);
+      // Remove the failed message and resend
+      setTopics(prev => prev.map(topic => {
+        if (topic.id !== activeTopicId) return topic;
+        return { ...topic, messages: topic.messages.filter(m => m.content !== msg || m.role !== 'user') };
+      }));
+      sendMessage(msg);
+    }
+  }, [retryMessage, activeTopicId]);
 
   const deleteTopic = (topicId: string) => {
     const topic = topics.find(t => t.id === topicId);
@@ -283,7 +324,7 @@ const OriaYouth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-hidden">
       <Header />
-
+      <ConnectionBanner isOnline={isOnline} isSlowConnection={isSlowConnection} />
       {/* Hero Section - Ultra Compact on Mobile */}
       <section className="pt-14 pb-2 sm:pt-20 sm:pb-4 relative overflow-hidden shrink-0">
         <PolygonalBackground variant="hero" />
@@ -627,6 +668,19 @@ const OriaYouth = () => {
 
               {/* Input Area - Mobile optimized with safe area */}
               <div className="shrink-0 border-t border-border pt-2 pb-2 bg-background" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
+                {/* Retry banner */}
+                {retryMessage && !isLoading && (
+                  <div className="flex items-center justify-between gap-2 mb-2 p-2 bg-destructive/10 border border-destructive/20 rounded-lg">
+                    <p className="text-xs text-destructive">Nachricht fehlgeschlagen</p>
+                    <Button variant="outline" size="sm" onClick={retryLastMessage} className="h-7 text-xs">
+                      <RefreshCw className="w-3 h-3 mr-1" /> Nochmal
+                    </Button>
+                  </div>
+                )}
+                {/* Slow connection hint */}
+                {isSlowConnection && isLoading && (
+                  <p className="text-xs text-amber-500 text-center mb-2 animate-pulse">Langsame Verbindung...</p>
+                )}
                 <div className="flex gap-2 items-end">
                   <div className="flex-1 relative">
                     <Textarea
@@ -634,14 +688,14 @@ const OriaYouth = () => {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Schreib was dich beschäftigt..."
-                      disabled={isLoading}
+                      placeholder={!isOnline ? "Offline - Verbindung prüfen" : "Schreib was dich beschäftigt..."}
+                      disabled={isLoading || !isOnline}
                       className="min-h-[44px] max-h-28 resize-none pr-12 text-[15px] sm:text-sm rounded-xl"
                       rows={1}
                     />
                     <Button
-                      onClick={sendMessage}
-                      disabled={!input.trim() || isLoading}
+                      onClick={() => sendMessage()}
+                      disabled={!input.trim() || isLoading || !isOnline}
                       size="icon"
                       className="absolute right-1.5 bottom-1.5 h-8 w-8 bg-accent text-accent-foreground hover:bg-accent/90 rounded-lg"
                     >
