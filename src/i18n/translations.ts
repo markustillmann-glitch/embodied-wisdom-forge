@@ -121,7 +121,7 @@ export const translations = {
         subtitle: 'Weshalb dieses Wissen entscheidend ist für Führung, Selbststeuerung – und jeden neugierigen Menschen.',
         p1: 'In der modernen Führung – sei es von Unternehmen, Teams oder dem eigenen Leben – stoßen rein kognitive Strategien an ihre Grenzen. Wir wissen oft intellektuell, was die richtige Entscheidung oder die richtige Art der Kommunikation wäre. Doch unter Druck, Zeitmangel oder in Konflikten greifen wir auf automatisierte Muster zurück.',
         highlight1: 'Wir handeln nicht nach unserem besten Wissen, sondern nach unserem am tiefsten verankerten Zustand.',
-        p2: 'Dieses Mini-Buch schließt die Lücke zwischen dem Anspruch („Ich will besonnen und strategisch handeln") und der Realität („Ich wurde getriggert und habe reagiert").',
+        p2: 'Dieses Framework schließt die Lücke zwischen dem Anspruch („Ich will besonnen und strategisch handeln") und der Realität („Ich wurde getriggert und habe reagiert").',
         quote1: 'Der Mensch ist kein denkendes Wesen mit einem Körper – sondern ein verkörpertes Wesen, das denken gelernt hat.',
         p3: 'Erinnerungen, Impulse, Vorurteile (Bias) und Selbstbilder entstehen nicht primär im Kopf. Sie entstehen in einem Zusammenspiel aus Körperzustand, uralten Überlebensprogrammen, epigenetischem Erbe und inneren Anteilen.',
         p4: 'Wer führt, führt nicht nur Köpfe, sondern reguliert Nervensysteme – zuerst das eigene, dann das des Systems. Dieses Kompendium liefert die Architektur dafür.',
