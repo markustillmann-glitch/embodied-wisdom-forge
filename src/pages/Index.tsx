@@ -337,8 +337,8 @@ const Index = () => {
           <ChapterSection title={language === 'de' ? 'In einem Satz' : 'In One Sentence'}>
             <Quote>
               {language === 'de'
-                ? 'Beyond the Shallow · Through Memories ist ein Modell, das dabei hilft, stärkende Erinnerungen zu vertiefen, belastenden Erfahrungen achtsam zu begegnen und über Erinnerung, Körper und Beziehung Wege zu mehr Wohlbefinden, Klarheit und passender Unterstützung zu finden.'
-                : 'Beyond the Shallow · Through Memories is a model that helps deepen strengthening memories, mindfully meet difficult experiences, and find paths to more well-being, clarity, and appropriate support through memory, body, and relationship.'}
+                ? 'Das Inner Compass Framework hilft dabei, stärkende Erinnerungen zu vertiefen, belastenden Erfahrungen achtsam zu begegnen und über Erinnerung, Körper und Beziehung Wege zu mehr Wohlbefinden, Klarheit und passender Unterstützung zu finden.'
+                : 'The Inner Compass Framework helps deepen strengthening memories, mindfully meet difficult experiences, and find paths to more well-being, clarity, and appropriate support through memory, body, and relationship.'}
             </Quote>
           </ChapterSection>
         </div>
