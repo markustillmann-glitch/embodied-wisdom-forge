@@ -69,7 +69,7 @@ const Modell = () => {
       />
 
       {/* Hero / Cover */}
-      <section id="cover" className="min-h-[100svh] flex items-center justify-center relative overflow-hidden pt-20 pb-12 sm:pt-20 sm:pb-16 md:pt-16 md:pb-0">
+      <section id="cover" className="min-h-[60svh] flex items-center justify-center relative overflow-hidden pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-28 md:pb-20">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
         
