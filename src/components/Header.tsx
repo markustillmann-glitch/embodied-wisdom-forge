@@ -81,7 +81,7 @@ export const Header = ({ showAdminLink = false }: HeaderProps) => {
           {/* Right Side - Ask Oria Button + Controls */}
           <nav className="flex items-center gap-2 sm:gap-4">
             <Link
-              to="/coach"
+              to="/oria-coach"
               className="inline-flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-sans tracking-wider bg-accent text-accent-foreground px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-accent/90 transition-colors"
             >
               <span>{t('nav.askOria')}</span>
