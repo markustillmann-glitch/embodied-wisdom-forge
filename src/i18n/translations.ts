@@ -758,7 +758,7 @@ export const translations = {
       coachIntegration: {
         title: 'Frag Oria: Dein persönlicher AI-Coach',
         subtitle: 'Wie der Coach Teil des Jahresprogramms ist',
-        p1: 'Der AI-Coach „Frag Oria" ist dein täglicher Begleiter – verfügbar wann immer du ihn brauchst. Er unterstützt dich beim strukturierten Erfassen deiner relevanten Erinnerungen und bietet personalisierte Journaling-Templates basierend auf dem Beyond Constant Overload Modell.',
+        p1: 'Der AI-Coach „Frag Oria" ist dein täglicher Begleiter – verfügbar wann immer du ihn brauchst. Er unterstützt dich beim strukturierten Erfassen deiner relevanten Erinnerungen und bietet personalisierte Journaling-Templates basierend auf dem Inner Compass Framework.',
         p2: 'Im Jahresprogramm dient der Coach als Brücke zwischen den Präsenzphasen: Du kannst Erinnerungen festhalten, Muster erkennen und erste Impulse erhalten – und diese dann in den Seminaren mit erfahrenen Coaches vertiefen.',
         permanent: 'Dauerhafter Ratgeber',
         permanentDesc: 'Auch nach dem Jahresprogramm bleibt der Coach dein Begleiter. Nutze ihn jederzeit für Reflexion, Journaling und als Erinnerung an das Gelernte.',
