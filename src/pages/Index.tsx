@@ -292,8 +292,8 @@ const Index = () => {
           <ChapterSection title={language === 'de' ? 'Oria – dein täglicher Begleiter' : 'Oria – Your Daily Companion'}>
             <p className="mb-6 text-lg text-muted-foreground">
               {language === 'de'
-                ? 'Oria wurde mit dem Ziel entwickelt, ein täglicher Begleiter zu sein – mit dem man schöne oder schwierige Erinnerungen erfassen, analysieren und vertiefen kann. Und das wann immer man möchte. Darüber hinaus lassen sich mit Oria Gedanken, die in Coaching Sessions, auf Seminaren oder einfach so im Alltag entstanden sind, leicht fortführen und vertiefen.'
-                : 'Oria was developed with the goal of being a daily companion – one that helps you capture, analyze, and deepen beautiful or difficult memories. Whenever you want. Beyond that, Oria makes it easy to continue and deepen thoughts that arose in coaching sessions, seminars, or simply in everyday life.'}
+                ? 'Oria wurde mit dem Ziel entwickelt, ein täglicher Begleiter zu sein – mit dem man schöne oder schwierige Erinnerungen erfassen, analysieren und vertiefen kann. Und das wann immer man möchte. Darüber hinaus lassen sich mit Oria Gedanken, die in Coaching Sessions, auf Seminaren oder einfach so im Alltag entstanden sind, leicht fortführen und vertiefen. Oria basiert auf dem Inner Compass Framework und verbindet dessen wissenschaftliche Grundlagen mit einer einfühlsamen, persönlichen Begleitung.'
+                : 'Oria was developed with the goal of being a daily companion – one that helps you capture, analyze, and deepen beautiful or difficult memories. Whenever you want. Beyond that, Oria makes it easy to continue and deepen thoughts that arose in coaching sessions, seminars, or simply in everyday life. Oria is based on the Inner Compass Framework and combines its scientific foundations with empathetic, personal guidance.'}
             </p>
             <p className="mb-4">
               {language === 'de'
