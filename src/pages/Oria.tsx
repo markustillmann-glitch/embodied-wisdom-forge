@@ -103,9 +103,17 @@ const Oria = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-sm sm:text-base text-muted-foreground font-sans max-w-xl leading-relaxed px-2"
+              className="text-sm sm:text-base text-muted-foreground font-sans max-w-xl leading-relaxed px-2 mb-3"
             >
               {t('oria.intro')}
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="text-xs sm:text-sm text-accent font-sans max-w-xl px-2"
+            >
+              {t('oria.basedOnFramework')}
             </motion.p>
           </div>
         </div>

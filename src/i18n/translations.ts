@@ -386,6 +386,7 @@ export const translations = {
       title: 'Das ist Oria',
       subtitle: 'Deine stille Begleiterin auf dem Weg zu dir selbst',
       intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond the Shallow und Wegweiserin im Jahrescoaching.',
+      basedOnFramework: 'Basierend auf dem Inner Compass Framework',
       intro2: 'Sie steht für genau das, was Beyond the Shallow und das Jahresprogramm kultivieren:',
       forCurious: {
         badge: 'Für alle Neugierigen',
@@ -1916,6 +1917,7 @@ export const translations = {
       title: 'This is Oria',
       subtitle: 'Your quiet companion on the path to yourself',
       intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Beyond the Shallow and guide in the annual coaching.',
+      basedOnFramework: 'Based on the Inner Compass Framework',
       intro2: 'She represents exactly what Beyond the Shallow and the annual program cultivate:',
       forCurious: {
         badge: 'For All Curious Minds',
