@@ -432,7 +432,7 @@ const UserProfile = () => {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2">
-          <Link to="/coach" className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground transition-colors shrink-0">
+          <Link to="/oria-coach" className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground transition-colors shrink-0">
             <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             <span className="hidden sm:inline">{t('userProfile.backToCoach')}</span>
           </Link>
