@@ -11,9 +11,34 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ content, role, onSpeak, isSpeaking = false }) => {
+  // Filter out internal command blocks that shouldn't be shown to users
+  const filterInternalBlocks = (text: string): string => {
+    let filtered = text;
+    
+    // Remove [SAVE_MEMORY]...[/SAVE_MEMORY] blocks (including JSON content)
+    filtered = filtered.replace(/```json\s*\[SAVE_MEMORY\][\s\S]*?\[\/SAVE_MEMORY\]\s*```/gi, '');
+    filtered = filtered.replace(/\[SAVE_MEMORY\][\s\S]*?\[\/SAVE_MEMORY\]/gi, '');
+    
+    // Remove [DEEPEN_IDEA]...[/DEEPEN_IDEA] blocks
+    filtered = filtered.replace(/```json\s*\[DEEPEN_IDEA\][\s\S]*?\[\/DEEPEN_IDEA\]\s*```/gi, '');
+    filtered = filtered.replace(/\[DEEPEN_IDEA\][\s\S]*?\[\/DEEPEN_IDEA\]/gi, '');
+    
+    // Remove any orphaned JSON code blocks that look like internal commands
+    filtered = filtered.replace(/```json\s*\{\s*"title"[\s\S]*?\}\s*```/gi, '');
+    
+    // Clean up excessive whitespace left behind
+    filtered = filtered.replace(/\n{3,}/g, '\n\n');
+    filtered = filtered.trim();
+    
+    return filtered;
+  };
+
   const formatContent = (text: string) => {
+    // First filter out internal blocks
+    const cleanedText = filterInternalBlocks(text);
+    
     // Split by double newlines to identify paragraphs/blocks
-    const blocks = text.split(/\n\n+/);
+    const blocks = cleanedText.split(/\n\n+/);
     
     return blocks.map((block, blockIndex) => {
       // Check if it's a numbered list block
