@@ -976,6 +976,7 @@ export const translations = {
         success: 'Erfolgsmoment',
         meditation: 'Meditationserfahrung',
         song: 'Song & Lyrics',
+        dream: 'Traum',
       },
       promptDesc: {
         concert: 'Musik & emotionale Momente',
@@ -988,6 +989,7 @@ export const translations = {
         success: 'Stolz, Überwindung, Wachstum',
         meditation: 'Innere Reisen & Erkenntnisse',
         song: 'Lyrics, Emotionen & Bedeutung',
+        dream: 'Nachtträume & Bilder',
       },
       prompts: {
         concert: 'Ich möchte eine Konzert-Erinnerung verarbeiten. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
@@ -1000,6 +1002,7 @@ export const translations = {
         success: 'Ich möchte einen Erfolgsmoment verarbeiten. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         meditation: 'Ich möchte eine Meditationserfahrung reflektieren. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         song: 'Ich möchte einen Song und dessen Lyrics verarbeiten, der mir wichtig ist. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
+        dream: 'Ich möchte einen Traum erkunden, der mich beschäftigt. Kannst du mir ein personalisiertes Journaling-Template erstellen, das sich am Beyond Constant Overload Modell orientiert?',
       },
       psychogram: 'Psychogramm',
       psychogramDesc: 'Erstelle ein strukturiertes psychologisches Profil basierend auf deinen Erinnerungen',
@@ -2508,6 +2511,7 @@ export const translations = {
         success: 'Success Moment',
         meditation: 'Meditation Experience',
         song: 'Song & Lyrics',
+        dream: 'Dream',
       },
       promptDesc: {
         concert: 'Music & emotional moments',
@@ -2520,6 +2524,7 @@ export const translations = {
         success: 'Pride, overcoming, growth',
         meditation: 'Inner journeys & insights',
         song: 'Lyrics, emotions & meaning',
+        dream: 'Night dreams & imagery',
       },
       prompts: {
         concert: 'I want to process a concert memory. Can you create a personalized journaling template for me?',
@@ -2532,6 +2537,7 @@ export const translations = {
         success: 'I want to process a success moment. Can you create a personalized journaling template for me?',
         meditation: 'I want to reflect on a meditation experience. Can you create a personalized journaling template for me?',
         song: 'I want to process a song and its lyrics that is important to me. Can you create a personalized journaling template for me?',
+        dream: 'I want to explore a dream that is on my mind. Can you create a personalized journaling template based on the Beyond Constant Overload model?',
       },
       psychogram: 'Psychogram',
       psychogramDesc: 'Create a structured psychological profile based on your memories',

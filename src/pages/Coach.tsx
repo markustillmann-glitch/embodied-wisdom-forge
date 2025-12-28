@@ -50,6 +50,7 @@ import {
   FileText,
   ShieldCheck,
   BarChart3,
+  Moon,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -1579,6 +1580,16 @@ const Coach = () => {
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.song')}</p>
                           <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.song')}</p>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => sendMessage(t('coach.prompts.dream'))}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary hover:bg-secondary/80 active:bg-secondary/70 transition-colors text-left"
+                      >
+                        <Moon className="h-5 w-5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-foreground">{t('coach.promptLabels.dream')}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t('coach.promptDesc.dream')}</p>
                         </div>
                       </button>
                     </div>
