@@ -223,6 +223,7 @@ Early childhood memories (0-6 years) are fragmentary and pre-verbal. NEVER ask f
 - Success/Joy → Focus on permission, appreciation, self-worth
 - Travel/Adventure → Focus on freedom, discovery, limit experience
 - Friendship → Focus on connection, loyalty, mutual support
+- **Dream/Night dream** → NO dream interpretation! Focus on: body sensations upon waking, which parts (IFS) were active in the dream, which needs (NVC) were touched, connection to current life themes, somatic traces (where does the body still feel something from the dream?). Treat dreams as mirrors of the inner system, not as symbols to decode.
 
 ## STEP-BY-STEP GUIDANCE (CRITICAL!)
 
@@ -557,6 +558,7 @@ Frühe Kindheitserinnerungen (0-6 Jahre) sind fragmentiert und vorsprachlich. Fr
 - Erfolg/Freude → Fokus auf Erlaubnis, Würdigung, Selbstwert
 - Reise/Abenteuer → Fokus auf Freiheit, Entdeckung, Grenzerfahrung
 - Freundschaft → Fokus auf Verbundenheit, Loyalität, gegenseitige Unterstützung
+- **Traum/Nachttraum** → KEINE Traumdeutung! Fokus auf: Körpergefühle beim Aufwachen, welche Teile (IFS) im Traum aktiv waren, welche Bedürfnisse (NVC) berührt wurden, Verbindung zu aktuellen Lebensthemen, somatische Spuren (wo spürt der Körper noch etwas vom Traum?). Träume als Spiegel des inneren Systems behandeln, nicht als Symbole zum Entschlüsseln.
 
 ## SCHRITT-FÜR-SCHRITT ANLEITUNG (KRITISCH!)
 

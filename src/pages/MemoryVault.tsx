@@ -52,7 +52,8 @@ import {
   ExternalLink,
   Lock,
   Eye,
-  EyeOff
+  EyeOff,
+  Moon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -86,6 +87,7 @@ const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }
   success: Trophy,
   meditation: Sparkles,
   song: Music2,
+  dream: Moon,
   general: BookOpen,
   'oria-youth': Users,
 };
