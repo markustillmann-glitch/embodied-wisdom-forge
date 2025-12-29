@@ -498,25 +498,26 @@ const Coach = () => {
 
   // Handle URL parameters after conversations are loaded
   useEffect(() => {
-    if (urlParamsProcessed || conversations.length === 0) return;
+    if (urlParamsProcessed) return;
     
     if (conversationIdFromUrl) {
-      // Open specific conversation
-      const exists = conversations.find(c => c.id === conversationIdFromUrl);
-      if (exists) {
-        setCurrentConversation(conversationIdFromUrl);
+      // Open specific conversation from URL
+      if (conversations.length > 0) {
+        const exists = conversations.find(c => c.id === conversationIdFromUrl);
+        if (exists) {
+          setCurrentConversation(conversationIdFromUrl);
+        }
+        setUrlParamsProcessed(true);
       }
-      setUrlParamsProcessed(true);
     } else if (startNewFromUrl) {
-      // Create new conversation
+      // Create new conversation when explicitly requested
       createNewConversation();
       setUrlParamsProcessed(true);
-    } else if (!currentConversation && conversations.length > 0) {
-      // Default: select first conversation
-      setCurrentConversation(conversations[0].id);
-      setUrlParamsProcessed(true);
+    } else if (!conversationIdFromUrl && !startNewFromUrl) {
+      // No URL parameters - redirect to overview page
+      navigate('/oria-coach');
     }
-  }, [conversations, conversationIdFromUrl, startNewFromUrl, urlParamsProcessed]);
+  }, [conversations, conversationIdFromUrl, startNewFromUrl, urlParamsProcessed, navigate]);
 
   const loadMessages = async (conversationId: string) => {
     const { data, error } = await supabase
