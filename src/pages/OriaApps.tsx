@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Sun } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -15,6 +15,12 @@ const OriaApps = () => {
       title: t('oriaApps.apps.resonanzradar.title'),
       description: t('oriaApps.apps.resonanzradar.desc'),
       link: "/resonanzradar",
+    },
+    {
+      icon: Sun,
+      title: "Daily Check-in",
+      description: "Entdecke dein Kernbedürfnis des Tages mit dem Peeling the Onion Modell. Speichere deine Erkenntnisse für die monatliche Reflexion.",
+      link: "/daily-checkin",
     },
     {
       icon: Users,
