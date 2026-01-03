@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.oria-youth-chat]
 verify_jwt = false
+
+[functions.daily-checkin-chat]
+verify_jwt = false
