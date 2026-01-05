@@ -536,12 +536,171 @@ const OriaLandkarte = () => {
         </div>
       </motion.section>
 
-      {/* Target Partners */}
+      {/* Core Values Section - NEW */}
       <motion.section 
         className="container mx-auto px-4 pb-16"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
+      >
+        <h2 className="text-2xl md:text-3xl font-serif text-center mb-4 text-foreground">
+          Die zentralen Mehrwerte von Oria
+        </h2>
+        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+          Was Oria von anderen Ansätzen unterscheidet
+        </p>
+
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Selbstkontakt */}
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-rose-500/10">
+                <Heart className="h-5 w-5 text-rose-500" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm">Selbstkontakt statt Selbstoptimierung</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Oria fragt: "Was ist gerade lebendig in dir?" – nicht "Was willst du erreichen?"
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />reduziert inneren Druck</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />stärkt Selbstmitgefühl</li>
+            </ul>
+          </div>
+
+          {/* Bedürfnislogik */}
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-emerald-500/10">
+                <Compass className="h-5 w-5 text-emerald-500" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm">Bedürfnisse als Orientierung (GfK)</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Gefühle → Bedürfnisse → Kontext statt Ziele, Verhalten, Symptome.
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />Konflikte werden verständlich</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />Entscheidungen werden stimmiger</li>
+            </ul>
+          </div>
+
+          {/* Körper */}
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-sky-500/10">
+                <Shield className="h-5 w-5 text-sky-500" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm">Körper als Informationsquelle</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Körpersignale, Spannungsorte und Energiezustände werden integriert.
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />Zugang auch ohne Worte</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />frühe Stresssignale</li>
+            </ul>
+          </div>
+
+          {/* Erinnerung */}
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-violet-500/10">
+                <RefreshCw className="h-5 w-5 text-violet-500" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm">Erinnerung als Ressource</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Gefühl + Bedürfnis + Körper werden gespeichert, nicht Details.
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />Muster sichtbar ohne Retraumatisierung</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />auch bei Demenz geeignet</li>
+            </ul>
+          </div>
+
+          {/* Sicherheit */}
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-amber-500/10">
+                <Lock className="h-5 w-5 text-amber-500" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm">Sicherheit & Niedrigschwelligkeit</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Langsam, nicht konfrontativ, ohne Bewertung oder "Challenge"-Logik.
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />nutzbar bei Überforderung</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />für vulnerable Gruppen</li>
+            </ul>
+          </div>
+
+          {/* Oria lernt */}
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Brain className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm">Oria lernt den Menschen</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">
+              Sprache, Tiefe & Rhythmus passen sich an – erlaubt Pausen & Unschärfe.
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />langfristige Nutzung</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="h-3 w-3 mt-0.5 text-primary shrink-0" />echte Beziehungserfahrung</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Comparison */}
+        <div className="max-w-3xl mx-auto mt-12 bg-muted/30 rounded-2xl p-6 border border-border">
+          <h4 className="font-semibold text-foreground text-center mb-6">Abgrenzung zu anderen Ansätzen</h4>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+            <div className="bg-background/50 rounded-lg p-3">
+              <p className="text-muted-foreground mb-1">KI-Assistenten</p>
+              <p className="text-foreground">Oria fragt, statt zu antworten</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-3">
+              <p className="text-muted-foreground mb-1">Coaching-Apps</p>
+              <p className="text-foreground">Oria verlangt kein Ziel</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-3">
+              <p className="text-muted-foreground mb-1">Mental-Health</p>
+              <p className="text-foreground">Oria pathologisiert nicht</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-3">
+              <p className="text-muted-foreground mb-1">Journaling</p>
+              <p className="text-foreground">Oria erkennt Muster</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-3">
+              <p className="text-muted-foreground mb-1">Quantified Self</p>
+              <p className="text-foreground">Oria misst nicht</p>
+            </div>
+            <div className="bg-background/50 rounded-lg p-3">
+              <p className="text-muted-foreground mb-1">IFS-Tools</p>
+              <p className="text-foreground">Oria ist alltagstauglicher</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Core difference */}
+        <div className="max-w-2xl mx-auto mt-8 text-center">
+          <p className="text-muted-foreground bg-primary/5 rounded-xl px-6 py-4 border border-primary/10">
+            <strong className="text-foreground">Der Kernunterschied:</strong><br />
+            Andere Assistenten helfen dir, dein Leben zu managen.<br />
+            <span className="text-primary font-medium">Oria hilft dir, in Beziehung mit deinem Leben zu bleiben.</span>
+          </p>
+        </div>
+      </motion.section>
+
+      {/* Target Partners */}
+      <motion.section 
+        className="container mx-auto px-4 pb-16"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
       >
         <h2 className="text-2xl md:text-3xl font-serif text-center mb-8 text-foreground">
           Für welche Partner Oria geeignet ist
@@ -566,16 +725,16 @@ const OriaLandkarte = () => {
         className="container mx-auto px-4 pb-24"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
+        transition={{ delay: 1.0 }}
       >
         <div className="max-w-3xl mx-auto text-center">
           <Quote className="h-10 w-10 text-primary/30 mx-auto mb-6" />
           <blockquote className="text-2xl md:text-3xl font-serif text-foreground mb-4 leading-relaxed">
-            „Oria macht Menschen bereit für Beziehung –<br />
+            "Oria macht Menschen bereit für Beziehung –<br />
             nicht für Optimierung."
           </blockquote>
           <p className="text-lg text-muted-foreground italic">
-            „Oria ist der Raum vor dem Raum."
+            "Oria ist der Raum vor dem Raum."
           </p>
         </div>
       </motion.section>
