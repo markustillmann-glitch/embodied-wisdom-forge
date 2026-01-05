@@ -400,7 +400,7 @@ export const translations = {
           'Entwickle ein tieferes Verständnis für deine Beziehungen',
           'Triff bewusstere Entscheidungen, die zu deinem authentischen Selbst passen'
         ],
-        quote: 'Selbsterkenntnis ist kein Luxus für Krisenzeiten – sie ist ein Geschenk an dich selbst, das dein ganzes Leben bereichert.',
+        quote: 'Selbsterkenntnis und mit sich selbst in Verbindung zu sein ist kein Luxus für Krisenzeiten – sie sind Geschenke an dich selbst, die dein ganzes Leben bereichern.',
         lifePhases: {
           title: 'In jeder Lebensphase wertvoll',
           items: [
