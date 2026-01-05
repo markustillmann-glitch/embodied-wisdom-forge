@@ -83,11 +83,11 @@ const Index = () => {
         >
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6">
-            <img src={bbOwlLogo} alt="Beyond Constant Overload Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
+            <img src={bbOwlLogo} alt="Inner Guidance Through Lived Memories Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight text-center sm:text-left tracking-tight">
-              Beyond Constant Overload
+              Inner Guidance
               <br />
-              <span className="text-accent whitespace-nowrap">Through Memories</span>
+              <span className="text-accent whitespace-nowrap">Through Lived Memories</span>
             </h1>
           </div>
           
@@ -180,12 +180,12 @@ const Index = () => {
             </p>
             <Highlight>
               {language === 'de'
-                ? 'Beyond Constant Overload lädt dazu ein, diesen Zustand nicht länger zu bekämpfen oder zu optimieren, sondern ihn zu verstehen.'
-                : 'Beyond Constant Overload invites you to no longer fight or optimize this state, but to understand it.'}
+                ? 'Inner Guidance Through Lived Memories lädt dazu ein, diesen Zustand nicht länger zu bekämpfen oder zu optimieren, sondern ihn zu verstehen.'
+                : 'Inner Guidance Through Lived Memories invites you to no longer fight or optimize this state, but to understand it.'}
             </Highlight>
             <p className="text-muted-foreground mt-6 mb-4">
               {language === 'de'
-                ? 'Auf der Grundlage des Inner Compass-Frameworks – Resonanz · Bedürfnisse · Körper · Erinnerung · Beziehung – erklärt Beyond Constant Overload, wie innere Klarheit und Regulation entstehen können, ohne analysiert, bewertet oder repariert zu werden. Es verbindet Erkenntnisse aus Bedürfnisarbeit, körperbasierter Selbstwahrnehmung, moderner Erinnerungsforschung und beziehungsorientierten Modellen zu einer sanften, alltagstauglichen Landkarte für innere Orientierung.'
+                ? 'Auf der Grundlage des Inner Compass-Frameworks – Resonanz · Bedürfnisse · Körper · Erinnerung · Beziehung – erklärt Inner Guidance Through Lived Memories, wie innere Klarheit und Regulation entstehen können, ohne analysiert, bewertet oder repariert zu werden. Es verbindet Erkenntnisse aus Bedürfnisarbeit, körperbasierter Selbstwahrnehmung, moderner Erinnerungsforschung und beziehungsorientierten Modellen zu einer sanften, alltagstauglichen Landkarte für innere Orientierung.'
                 : 'Based on the Inner Compass Framework – Resonance · Needs · Body · Memory · Relationship – this book shows how inner clarity and regulation can emerge without being analyzed, judged, or repaired. It combines insights from needs work, body-based self-perception, modern memory research, and relationship-oriented models into a gentle, everyday-friendly map for inner orientation.'}
             </p>
             <p className="text-muted-foreground mb-4">
@@ -200,13 +200,13 @@ const Index = () => {
             </p>
             <p className="text-muted-foreground mb-6">
               {language === 'de'
-                ? 'Beyond Constant Overload richtet sich an Menschen, die spüren, dass konstante Überforderung kein persönliches Versagen ist, sondern ein Systemzustand – und dass der Weg aus der Überforderung heraus nicht ist, mehr, schneller, effizienter zu werden, sondern zu verstehen, was einen in die Überforderung treibt und wie man dem stimmig begegnen kann.'
+                ? 'Inner Guidance Through Lived Memories richtet sich an Menschen, die spüren, dass konstante Überforderung kein persönliches Versagen ist, sondern ein Systemzustand – und dass der Weg aus der Überforderung heraus nicht ist, mehr, schneller, effizienter zu werden, sondern zu verstehen, was einen in die Überforderung treibt und wie man dem stimmig begegnen kann.'
                 : 'This book is for people who sense that constant overload is not a personal failure, but a systemic state – and that the way beyond it becomes not faster, but more coherent.'}
             </p>
             <Highlight>
               {language === 'de'
-                ? 'Beyond Constant Overload ist eine Einladung, wieder in Resonanz zu kommen – mit sich selbst, dem eigenen Körper, der eigenen Geschichte und den Beziehungen, die uns tragen.'
-                : 'Beyond Constant Overload is an invitation to come back into resonance – with yourself, your own body, your own history, and the relationships that support us.'}
+                ? 'Inner Guidance Through Lived Memories ist eine Einladung, wieder in Resonanz zu kommen – mit sich selbst, dem eigenen Körper, der eigenen Geschichte und den Beziehungen, die uns tragen.'
+                : 'Inner Guidance Through Lived Memories is an invitation to come back into resonance – with yourself, your own body, your own history, and the relationships that support us.'}
             </Highlight>
           </ChapterSection>
         </div>
@@ -273,8 +273,8 @@ const Index = () => {
           <ChapterSection title={language === 'de' ? 'Beziehungen bewusst gestalten' : 'Consciously Shaping Relationships'}>
             <p className="mb-4">
               {language === 'de'
-                ? 'Erinnerungen sind oft eng mit Beziehungen verbunden. Beyond Constant Overload · Through Memories hilft dabei:'
-                : 'Memories are often closely connected to relationships. Beyond Constant Overload · Through Memories helps with:'}
+                ? 'Erinnerungen sind oft eng mit Beziehungen verbunden. Inner Guidance Through Lived Memories hilft dabei:'
+                : 'Memories are often closely connected to relationships. Inner Guidance Through Lived Memories helps with:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['wohltuende, stärkende Beziehungen bewusster wahrzunehmen', 'Nähe, Vertrauen und Verbundenheit zu aktivieren', 'zu erkennen, welche Begegnungen guttun']
@@ -432,7 +432,7 @@ const Index = () => {
           className="absolute top-8 right-8 h-16 w-auto opacity-20 hidden md:block"
         />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="font-serif text-xl sm:text-2xl text-foreground mb-2 tracking-tight">Beyond Constant Overload</p>
+          <p className="font-serif text-xl sm:text-2xl text-foreground mb-2 tracking-tight">Inner Guidance Through Lived Memories</p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-6">
             {t('index.footer.subtitle')}
           </p>

@@ -813,8 +813,8 @@ const Coach = () => {
     // Add song context hint if detected
     if (songLink) {
       const songHint = language === 'en' 
-        ? `\n\n[A song link was shared: ${songLink}. Please analyze this song in the context of the Beyond Constant Overload model.]`
-        : `\n\n[Ein Song-Link wurde geteilt: ${songLink}. Bitte analysiere diesen Song im Kontext des Beyond Constant Overload Modells.]`;
+        ? `\n\n[A song link was shared: ${songLink}. Please analyze this song in the context of the Inner Guidance Through Lived Memories model.]`
+        : `\n\n[Ein Song-Link wurde geteilt: ${songLink}. Bitte analysiere diesen Song im Kontext des Inner Guidance Through Lived Memories Modells.]`;
       chatMessages[chatMessages.length - 1].content += songHint;
     }
 
