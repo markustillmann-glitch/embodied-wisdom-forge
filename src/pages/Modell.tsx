@@ -492,7 +492,7 @@ const Modell = () => {
           className="absolute top-8 right-8 h-16 w-auto opacity-20 hidden md:block"
         />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Beyond Constant Overload Through Memories</p>
+          <p className="font-serif text-lg sm:text-2xl text-foreground mb-2">Inner Guidance Through Lived Memories</p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-6">
             {t('index.footer.subtitle')}
           </p>
