@@ -15,6 +15,8 @@ import OriaYouth from "./pages/OriaYouth";
 import OriaLandkarte from "./pages/OriaLandkarte";
 import Resonanzradar from "./pages/Resonanzradar";
 import DailyCheckin from "./pages/DailyCheckin";
+import LifeCheckin from "./pages/LifeCheckin";
+import LifeCheckinModell from "./pages/LifeCheckinModell";
 import Team from "./pages/Team";
 import Security from "./pages/Security";
 import Anleitung from "./pages/Anleitung";
@@ -50,6 +52,8 @@ const App = () => (
               <Route path="/daily-checkin" element={<DailyCheckin />} />
               <Route path="/oria-landkarte" element={<OriaLandkarte />} />
               <Route path="/oria-youth" element={<OriaYouth />} />
+              <Route path="/life-checkin" element={<LifeCheckin />} />
+              <Route path="/life-checkin-modell" element={<LifeCheckinModell />} />
               <Route path="/team" element={<Team />} />
               <Route path="/sicherheit" element={<Security />} />
               <Route path="/anleitung" element={<Anleitung />} />
