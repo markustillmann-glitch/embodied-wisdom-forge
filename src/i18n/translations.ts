@@ -387,7 +387,7 @@ export const translations = {
       subtitle: 'Deine stille Begleiterin auf dem Weg zu dir selbst',
       intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond Constant Overload und Wegweiserin im Jahrescoaching.',
       basedOnFramework: 'Basierend auf dem Inner Compass Framework',
-      intro2: 'Sie steht für genau das, was Beyond Constant Overload und das Jahresprogramm kultivieren:',
+      intro2: 'Sie steht für genau das, was Beyond Constant Overload und das Jahresprogramm kultivieren: Verbindung zu Dir selbst aufnehmen und mit dem eigenen inneren Erleben in Beziehung zu bleiben und von dort aus stimmige Entscheidungen zu treffen – auch unter Unsicherheit, Spannung, Überforderung oder widersprüchlichen Impulsen.',
       forCurious: {
         badge: 'Für alle Neugierigen',
         title: 'Oria für neugierige Selbstentdecker',
