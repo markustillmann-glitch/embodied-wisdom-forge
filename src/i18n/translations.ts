@@ -511,7 +511,7 @@ export const translations = {
             ],
           },
           therapy: {
-            title: 'Therapieerfahrene',
+            title: 'Neugierige Menschen',
             items: [
               { before: 'Erkenntnisse bleiben abstrakt', after: 'Alltagsintegration gelingt' },
               { before: 'Abhängig von Begleitung', after: 'Muster eigenständig erkennen' },
@@ -616,7 +616,7 @@ export const translations = {
           desc: 'Finde Orientierung und neue Stabilität in Übergängen und Neuanfängen.',
         },
         therapy: {
-          desc: 'Integriere therapeutische Erkenntnisse nachhaltig in deinen Alltag.',
+          desc: 'Verstehe dich selbst und deine Körperreaktionen besser und sei bewusster in Deinem Alltag.',
         },
         mindfulness: {
           desc: 'Vertiefe deine Praxis mit emotionaler Tiefe und biografischem Verstehen.',
