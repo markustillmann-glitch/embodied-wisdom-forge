@@ -603,7 +603,7 @@ export const translations = {
       titleAccent: 'deinen Inneren Kompass',
       subtitle: 'Ein ganzheitlicher Entwicklungsprozess, der Denken, Fühlen, Körper und Kommunikation verbindet – basierend auf IFS, GFK und somatischer Intelligenz.',
       forWhom: 'Für wen ist dieses Programm?',
-      forWhomDesc: 'Das Programm richtet sich an entwicklungsorientierte Menschen in intensiven Lebensphasen – persönliche Übergänge, berufliche Neuorientierung, Beziehungskrisen oder andere Umbruchsituationen.',
+      forWhomDesc: 'Das Programm richtet sich an entwicklungsorientierte Menschen in intensiven Lebensphasen – persönliche Übergänge, berufliche Neuorientierung, Beziehungskrisen oder andere Umbruchsituationen und allgemein an Menschen die neugierig sind, ausgeglichener sein möchten, sich besser verstehen möchten und mehr mit sich in Kontakt sein möchten.',
       forWhomQuote: 'In solchen Phasen wissen wir oft theoretisch, was gut für uns wäre, fallen unter Stress aber in alte Autopilot-Muster zurück.',
       targetGroups: {
         title: 'Diese Zielgruppen profitieren besonders',
