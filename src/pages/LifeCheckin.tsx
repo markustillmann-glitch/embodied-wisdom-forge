@@ -40,6 +40,7 @@ const LifeCheckin = () => {
   const [showPastCheckins, setShowPastCheckins] = useState(false);
   const [loadingPast, setLoadingPast] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -176,6 +177,7 @@ const LifeCheckin = () => {
       toast.error(error instanceof Error ? error.message : "Verbindungsfehler");
     } finally {
       setIsLoading(false);
+      inputRef.current?.focus();
     }
   };
 
@@ -481,6 +483,7 @@ const LifeCheckin = () => {
 
                 <div className="flex-1 relative">
                   <Textarea
+                    ref={inputRef}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
