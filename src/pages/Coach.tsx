@@ -166,6 +166,24 @@ const Coach = () => {
   const [isGeneratingPsychogram, setIsGeneratingPsychogram] = useState(false);
   const [psychogramCompact, setPsychogramCompact] = useState(false);
   
+  // Saved coach memories state
+  const [savedCoachMemories, setSavedCoachMemories] = useState<Array<{
+    id: string;
+    title: string;
+    summary: string | null;
+    created_at: string;
+  }>>([]);
+  const [viewMemoryDialogOpen, setViewMemoryDialogOpen] = useState(false);
+  const [selectedMemory, setSelectedMemory] = useState<{
+    id: string;
+    title: string;
+    content: string;
+    summary: string | null;
+    emotion: string | null;
+    created_at: string;
+  } | null>(null);
+  const [loadingMemory, setLoadingMemory] = useState(false);
+  
   // Conversation mode state (renamed from templateMode) - compact is default
   const [conversationMode, setConversationMode] = useState<'compact' | 'detailed'>('compact');
   
@@ -358,8 +376,48 @@ const Coach = () => {
   useEffect(() => {
     if (user) {
       loadUserProfile();
+      loadSavedCoachMemories();
     }
   }, [user]);
+  
+  const loadSavedCoachMemories = async () => {
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from('memories')
+      .select('id, title, summary, created_at')
+      .eq('user_id', user.id)
+      .eq('memory_type', 'coach')
+      .order('created_at', { ascending: false })
+      .limit(10);
+    
+    if (!error && data) {
+      setSavedCoachMemories(data);
+    }
+  };
+  
+  const loadMemoryDetail = async (memoryId: string) => {
+    setLoadingMemory(true);
+    setViewMemoryDialogOpen(true);
+    
+    const { data, error } = await supabase
+      .from('memories')
+      .select('id, title, content, summary, emotion, created_at')
+      .eq('id', memoryId)
+      .single();
+    
+    if (!error && data) {
+      setSelectedMemory(data);
+    } else {
+      toast({
+        title: t('vault.error'),
+        description: t('vault.loadError'),
+        variant: 'destructive',
+      });
+      setViewMemoryDialogOpen(false);
+    }
+    setLoadingMemory(false);
+  };
 
   useEffect(() => {
     if (currentConversation) {
@@ -1114,23 +1172,8 @@ const Coach = () => {
 
   // Detect memory type from conversation
   const detectMemoryType = (): string => {
-    const firstUserMessage = messages.find(m => m.role === 'user')?.content.toLowerCase() || '';
-    if (firstUserMessage.includes('konzert') || firstUserMessage.includes('concert')) return 'concert';
-    if (firstUserMessage.includes('beziehung') || firstUserMessage.includes('relationship')) return 'relationship';
-    if (firstUserMessage.includes('beruf') || firstUserMessage.includes('work') || firstUserMessage.includes('arbeit')) return 'work';
-    // Early childhood detection (before general childhood)
-    if (firstUserMessage.includes('frühe kindheit') || firstUserMessage.includes('early childhood') || 
-        firstUserMessage.includes('kleinkind') || firstUserMessage.includes('baby') ||
-        firstUserMessage.includes('vorsprachlich') || firstUserMessage.includes('pre-verbal') ||
-        firstUserMessage.includes('0-6') || firstUserMessage.includes('erste erinnerung') ||
-        firstUserMessage.includes('first memory') || firstUserMessage.includes('früheste')) return 'early_childhood';
-    if (firstUserMessage.includes('kindheit') || firstUserMessage.includes('childhood')) return 'childhood';
-    if (firstUserMessage.includes('reise') || firstUserMessage.includes('travel')) return 'travel';
-    if (firstUserMessage.includes('freund') || firstUserMessage.includes('friendship')) return 'friendship';
-    if (firstUserMessage.includes('erfolg') || firstUserMessage.includes('success')) return 'success';
-    if (firstUserMessage.includes('meditation') || firstUserMessage.includes('meditieren') || firstUserMessage.includes('meditate')) return 'meditation';
-    if (firstUserMessage.includes('song') || firstUserMessage.includes('lied') || firstUserMessage.includes('lyrics') || firstUserMessage.includes('text')) return 'song';
-    return 'general';
+    // Coach conversations are always saved as 'coach' type
+    return 'coach';
   };
 
   // Save memory to vault
@@ -1210,6 +1253,8 @@ const Coach = () => {
       setMemoryTitle('');
       setMemorySummary('');
       setMemoryEmotion('');
+      // Refresh saved memories list
+      loadSavedCoachMemories();
     }
   };
 
@@ -1308,6 +1353,34 @@ const Coach = () => {
             ))}
           </div>
         </ScrollArea>
+
+        {/* Saved Coach Memories Section */}
+        {savedCoachMemories.length > 0 && (
+          <div className="border-t border-border">
+            <div className="p-3">
+              <div className="flex items-center gap-2 mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                <Archive className="h-3 w-3" />
+                {language === 'de' ? 'Gespeicherte Sitzungen' : 'Saved Sessions'}
+              </div>
+              <div className="space-y-1 max-h-32 overflow-y-auto">
+                {savedCoachMemories.slice(0, 5).map((memory) => (
+                  <button
+                    key={memory.id}
+                    onClick={() => loadMemoryDetail(memory.id)}
+                    className="w-full text-left p-2 rounded-lg hover:bg-secondary/50 transition-colors group"
+                  >
+                    <p className="text-xs font-medium text-foreground truncate group-hover:text-accent">
+                      {memory.title}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {new Date(memory.created_at).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US')}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="p-4 border-t border-border space-y-2">
           <DropdownMenu>
@@ -1977,6 +2050,96 @@ const Coach = () => {
             )}
             <Button onClick={() => setPsychogramDialogOpen(false)}>
               {t('coach.closePsychogram')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* View Saved Memory Dialog */}
+      <Dialog open={viewMemoryDialogOpen} onOpenChange={setViewMemoryDialogOpen}>
+        <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Archive className="h-5 w-5 text-accent" />
+              {selectedMemory?.title || (language === 'de' ? 'Gespeicherte Sitzung' : 'Saved Session')}
+            </DialogTitle>
+            {selectedMemory && (
+              <DialogDescription className="flex items-center gap-2">
+                {new Date(selectedMemory.created_at).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+                {selectedMemory.emotion && (
+                  <>
+                    <span className="text-muted-foreground">•</span>
+                    <span className="text-accent">{selectedMemory.emotion}</span>
+                  </>
+                )}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+          <div className="flex-1 min-h-0 overflow-y-auto max-h-[60vh] py-4 pr-2">
+            {loadingMemory ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-accent mb-4" />
+                <p className="text-muted-foreground">{language === 'de' ? 'Lade Erinnerung...' : 'Loading memory...'}</p>
+              </div>
+            ) : selectedMemory ? (
+              <div className="space-y-4">
+                {selectedMemory.summary && (
+                  <div className="bg-accent/10 rounded-lg p-4 mb-4">
+                    <p className="text-sm font-medium text-accent mb-1">
+                      {language === 'de' ? 'Zusammenfassung' : 'Summary'}
+                    </p>
+                    <p className="text-sm text-foreground">{selectedMemory.summary}</p>
+                  </div>
+                )}
+                <div className="space-y-3">
+                  {selectedMemory.content.split('\n\n---\n\n').map((block, index) => {
+                    const isUser = block.startsWith('👤');
+                    const isAssistant = block.startsWith('🦉');
+                    const content = block.replace(/^(👤|🦉)\s*/, '');
+                    
+                    if (isUser || isAssistant) {
+                      return (
+                        <div
+                          key={index}
+                          className={cn(
+                            "rounded-lg p-3",
+                            isUser
+                              ? "bg-primary/10 ml-8"
+                              : "bg-card border border-border mr-8"
+                          )}
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs font-medium text-muted-foreground">
+                              {isUser 
+                                ? (language === 'de' ? 'Du' : 'You')
+                                : 'Oria'}
+                            </span>
+                          </div>
+                          <p className="text-sm whitespace-pre-wrap">{content}</p>
+                        </div>
+                      );
+                    }
+                    return (
+                      <p key={index} className="text-sm text-muted-foreground whitespace-pre-wrap">
+                        {block}
+                      </p>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <DialogFooter className="pt-4 border-t border-border">
+            <Button variant="outline" onClick={() => navigate('/vault')}>
+              <Archive className="h-4 w-4 mr-2" />
+              {language === 'de' ? 'Alle Erinnerungen' : 'All Memories'}
+            </Button>
+            <Button onClick={() => setViewMemoryDialogOpen(false)}>
+              {language === 'de' ? 'Schließen' : 'Close'}
             </Button>
           </DialogFooter>
         </DialogContent>
