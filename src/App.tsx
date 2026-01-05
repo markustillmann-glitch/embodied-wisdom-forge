@@ -12,6 +12,7 @@ import Seminare from "./pages/Seminare";
 import Oria from "./pages/Oria";
 import OriaApps from "./pages/OriaApps";
 import OriaYouth from "./pages/OriaYouth";
+import OriaLandkarte from "./pages/OriaLandkarte";
 import Resonanzradar from "./pages/Resonanzradar";
 import DailyCheckin from "./pages/DailyCheckin";
 import Team from "./pages/Team";
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/oria-apps" element={<OriaApps />} />
               <Route path="/resonanzradar" element={<Resonanzradar />} />
               <Route path="/daily-checkin" element={<DailyCheckin />} />
+              <Route path="/oria-landkarte" element={<OriaLandkarte />} />
               <Route path="/oria-youth" element={<OriaYouth />} />
               <Route path="/team" element={<Team />} />
               <Route path="/sicherheit" element={<Security />} />
