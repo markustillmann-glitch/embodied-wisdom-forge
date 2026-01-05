@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Sun } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Sun, Compass } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -21,6 +21,12 @@ const OriaApps = () => {
       title: "Daily Check-in",
       description: "Entdecke dein Kernbedürfnis des Tages mit dem Peeling the Onion Modell. Speichere deine Erkenntnisse für die monatliche Reflexion.",
       link: "/daily-checkin",
+    },
+    {
+      icon: Compass,
+      title: "Life Check-in",
+      description: "Bedürfnis- und erinnerungsbasierter Selbstkontakt in 10 Lebensbereichen. Nicht messen, sondern spiegeln.",
+      link: "/life-checkin",
     },
     {
       icon: Users,
