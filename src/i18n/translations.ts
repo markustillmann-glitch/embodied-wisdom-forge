@@ -1923,7 +1923,7 @@ export const translations = {
       subtitle: 'Your quiet companion on the path to yourself',
       intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Inner Guidance Through Lived Memories and guide in the annual coaching.',
       basedOnFramework: 'Based on the Inner Compass Framework',
-      intro2: 'She represents exactly what Inner Guidance Through Lived Memories and the annual program cultivate:',
+      intro2: 'She represents exactly what Inner Guidance Through Lived Memories and the annual program cultivate: Connecting with yourself and staying in relationship with your own inner experience, and from there making aligned decisions – even under uncertainty, tension, overwhelm, or contradictory impulses.',
       forCurious: {
         badge: 'For All Curious Minds',
         title: 'Oria for Curious Self-Discoverers',
@@ -1932,11 +1932,11 @@ export const translations = {
         benefits: [
           'Discover hidden patterns and understand where they come from',
           'Learn the language of your body and emotions',
-          'Find out what you truly need—beyond what you\'ve learned to want',
+          'Find out what you truly need – beyond what you\'ve learned to want',
           'Develop a deeper understanding of your relationships',
           'Make more conscious decisions that fit your authentic self'
         ],
-        quote: 'Self-knowledge is not a luxury for times of crisis—it\'s a gift to yourself that enriches your entire life.',
+        quote: 'Self-knowledge and being connected with yourself is not a luxury for times of crisis – they are gifts to yourself that enrich your entire life.',
         lifePhases: {
           title: 'Valuable in Every Life Phase',
           items: [
@@ -1948,7 +1948,7 @@ export const translations = {
           ]
         }
       },
-      intro2Bold: 'Presence, inner leadership, depth.',
+      intro2Bold: '',
       intro3: 'Oria is not a mascot, but a soul companion—one who reminds you:',
       intro3Quote: '"You already carry everything within you."',
       whyOwl: 'Why an Owl?',
@@ -2024,56 +2024,56 @@ export const translations = {
       // Expected progress section
       progress: {
         title: 'What You Can Expect',
-        intro: 'Depending on your personal starting point, Oria supports you in different ways. Here are realistic progress you can achieve with continuous work:',
+        intro: 'The central benefit for everyone: Coming into and staying in connection with yourself. Depending on your personal starting point, Oria supports you in different ways:',
         groups: {
           hsp: {
             title: 'Highly Sensitive People',
             items: [
-              { before: 'Overwhelmed by stimuli', after: 'Recognize overload signals earlier' },
-              { before: 'Sensitivity as weakness', after: 'Experience sensitivity as strength' },
-              { before: 'Difficulty setting boundaries', after: 'Say no without guilt' },
-              { before: 'Energy depletion', after: 'Conscious dosing of stimuli' },
-              { before: 'Body signals ignored', after: 'Trust your own signals' },
+              { before: 'Overwhelmed by stimuli', after: 'Recognize overload signals earlier', description: 'Oria helps you recognize subtle body signals before overwhelm sets in – through regular check-ins with your nervous system.' },
+              { before: 'Sensitivity as weakness', after: 'Experience sensitivity as strength', description: 'Oria reflects how your perceptual depth is also a resource – not just a burden, but also access to nuances others miss.' },
+              { before: 'Difficulty setting boundaries', after: 'Say no without guilt', description: 'By understanding your needs, you learn to experience boundaries not as rejection but as self-care.' },
+              { before: 'Energy depletion', after: 'Conscious dosing of stimuli', description: 'Oria makes visible which situations cost energy and which nourish – so you can choose more consciously.' },
+              { before: 'Body signals ignored', after: 'Trust your own signals', description: 'Regular contact with your body experience strengthens trust in your inner wisdom.' },
             ],
           },
           crisis: {
             title: 'People in Transitions',
             items: [
-              { before: 'Disoriented', after: 'Clarity about values and needs' },
-              { before: 'Decision uncertainty', after: 'Trust in your own decisions' },
-              { before: 'Holding onto the old', after: 'Farewell without suppression' },
-              { before: 'Fear of the future', after: 'Hope and concrete next steps' },
-              { before: 'Inner restlessness', after: 'Stability despite external change' },
+              { before: 'Disoriented', after: 'Clarity about values and needs', description: 'Oria accompanies you in times of uncertainty and helps you feel and work out what is important to you.' },
+              { before: 'Decision uncertainty', after: 'Trust in your own decisions', description: 'Through repeated contact with your inner experience, trust grows that you know what is right for you.' },
+              { before: 'Holding onto the old', after: 'Farewell without suppression', description: 'Oria gives space for grief and appreciation of what was – without pushing or judging.' },
+              { before: 'Fear of the future', after: 'Hope and concrete next steps', description: 'Small, embodied steps emerge from contact with what is possible right now.' },
+              { before: 'Inner restlessness', after: 'Stability despite external change', description: 'Regular connection with yourself becomes an inner anchor, even when everything outside is in motion.' },
             ],
           },
           therapy: {
-            title: 'Therapy-Experienced',
+            title: 'Curious People',
             items: [
-              { before: 'Insights remain abstract', after: 'Everyday integration succeeds' },
-              { before: 'Dependent on support', after: 'Recognize patterns independently' },
-              { before: 'Relapses surprising', after: 'Recognize early warning signs' },
-              { before: 'Work paused', after: 'Continue begun work' },
-              { before: 'Progress unstable', after: 'Sustainable stabilization' },
+              { before: 'Insights remain abstract', after: 'Oria anchors insights in experience', description: 'Oria translates thoughts into feeling, body, and everyday situations. Insights are not just understood but become recognizable.' },
+              { before: 'Dependent on support', after: 'Recognize patterns independently', description: 'Through recurring check-ins, you learn to perceive and classify inner states yourself – without guidance, without judgment.' },
+              { before: 'Relapses surprising', after: 'Recognize early warning signs', description: 'Oria makes subtle precursors visible (body tension, mood, inner speech) before old patterns fully take hold.' },
+              { before: 'Work paused', after: 'Continue begun work', description: 'Oria maintains the connection between moments: What was recognized is not lost but remains accessible in everyday life.' },
+              { before: 'Progress unstable', after: 'Sustainable stabilization', description: 'Stability comes not through discipline but through repeated self-contact. Oria supports exactly this process – quietly, continuously.' },
             ],
           },
           mindfulness: {
             title: 'Mindfulness Practitioners',
             items: [
-              { before: 'Only observation', after: 'Emotional depth and integration' },
-              { before: 'Patterns without understanding', after: 'Understanding the "why"' },
-              { before: 'Present without context', after: 'Biographical connections' },
-              { before: 'What do I feel?', after: 'What do I really need?' },
-              { before: 'Insight without action', after: 'From insight to change' },
+              { before: 'Only observation', after: 'Emotional depth and integration', description: 'Oria complements mindful observation with emotional understanding – feelings are not just perceived but contextualized.' },
+              { before: 'Patterns without understanding', after: 'Understanding the "why"', description: 'Oria connects recurring patterns with their biographical meaning, making them changeable.' },
+              { before: 'Present without context', after: 'Biographical connections', description: 'The here and now becomes richer when connected to your history – Oria creates these bridges.' },
+              { before: 'What do I feel?', after: 'What do I really need?', description: 'From perception to need recognition: Oria helps you discover the underlying need behind the feeling.' },
+              { before: 'Insight without action', after: 'From insight to change', description: 'Oria accompanies the transition from recognition to embodied change in everyday life.' },
             ],
           },
           creative: {
             title: 'Creatives & Artists',
             items: [
-              { before: 'Creative blocks', after: 'Access to sources of inspiration' },
-              { before: 'Emotions unused', after: 'Use biographical material creatively' },
-              { before: 'Foreign voices', after: 'Own authentic voice' },
-              { before: 'Losing yourself', after: 'Stay open without self-loss' },
-              { before: 'Exhaustion', after: 'Unite creativity and self-care' },
+              { before: 'Creative blocks', after: 'Access to sources of inspiration', description: 'Oria helps you understand the emotional core behind blocks and get back into flow.' },
+              { before: 'Emotions unused', after: 'Use biographical material creatively', description: 'Oria helps integrate personal experiences and emotional themes into your creative work.' },
+              { before: 'Foreign voices', after: 'Own authentic voice', description: 'Oria helps distinguish between authentic expression and adopted expectations.' },
+              { before: 'Losing yourself', after: 'Stay open without self-loss', description: 'Oria supports staying connected to your center even in deep creative processes.' },
+              { before: 'Exhaustion', after: 'Unite creativity and self-care', description: 'Oria helps recognize energy limits early and integrate regenerative rituals.' },
             ],
           },
         },
@@ -2138,7 +2138,7 @@ export const translations = {
       titleAccent: '& Self-Leadership',
       subtitle: 'A holistic development process that connects thinking, feeling, body, and communication—based on IFS, NVC, and somatic intelligence.',
       forWhom: 'Who Is This Program For?',
-      forWhomDesc: 'The program is designed for development-oriented people in intensive life phases—personal transitions, career reorientation, relationship crises, or other upheaval situations.',
+      forWhomDesc: 'The program is designed for development-oriented people in intensive life phases—personal transitions, career reorientation, relationship crises, or other upheaval situations—and generally for people who are curious, want to be more balanced, want to understand themselves better, and want to be more connected with themselves.',
       forWhomQuote: 'In such phases, we often know theoretically what would be good for us, but fall back into old autopilot patterns under stress.',
       targetGroups: {
         title: 'These Groups Benefit Especially',
@@ -2151,7 +2151,7 @@ export const translations = {
           desc: 'Find orientation and new stability in transitions and new beginnings.',
         },
         therapy: {
-          desc: 'Integrate therapeutic insights sustainably into your daily life.',
+          desc: 'Understand yourself and your body reactions better and be more conscious in your everyday life.',
         },
         mindfulness: {
           desc: 'Deepen your practice with emotional depth and biographical understanding.',
