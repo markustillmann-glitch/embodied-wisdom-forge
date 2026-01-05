@@ -513,11 +513,11 @@ export const translations = {
           therapy: {
             title: 'Neugierige Menschen',
             items: [
-              { before: 'Erkenntnisse bleiben abstrakt', after: 'Alltagsintegration gelingt' },
-              { before: 'Abhängig von Begleitung', after: 'Muster eigenständig erkennen' },
-              { before: 'Rückfälle überraschend', after: 'Frühe Warnsignale erkennen' },
-              { before: 'Arbeit pausiert', after: 'Begonnene Arbeit fortführen' },
-              { before: 'Fortschritte instabil', after: 'Nachhaltige Stabilisierung' },
+              { before: 'Erkenntnisse bleiben abstrakt', after: 'Oria verankert Einsichten im Erleben', description: 'Oria übersetzt Gedanken in Gefühl, Körper und Alltagssituationen. Erkenntnisse werden nicht nur verstanden, sondern wiedererkennbar.' },
+              { before: 'Abhängig von Begleitung', after: 'Muster eigenständig erkennen', description: 'Durch wiederkehrende Check-ins lernt man, innere Zustände selbst wahrzunehmen und einzuordnen – ohne Anleitung, ohne Bewertung.' },
+              { before: 'Rückfälle überraschend', after: 'Frühe Warnsignale erkennen', description: 'Oria macht feine Vorzeichen sichtbar (Körperspannung, Stimmung, innere Sprache), bevor alte Muster voll greifen.' },
+              { before: 'Arbeit pausiert', after: 'Begonnene Arbeit fortführen', description: 'Oria hält die Verbindung zwischen den Momenten: Was erkannt wurde, geht nicht verloren, sondern bleibt anschlussfähig im Alltag.' },
+              { before: 'Fortschritte instabil', after: 'Nachhaltige Stabilisierung', description: 'Stabilität entsteht nicht durch Disziplin, sondern durch wiederholten Selbstkontakt. Oria unterstützt genau diesen Prozess – leise, kontinuierlich.' },
             ],
           },
           mindfulness: {

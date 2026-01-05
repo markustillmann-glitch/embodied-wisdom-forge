@@ -579,18 +579,29 @@ const Oria = () => {
                       </h3>
                     </div>
                     
-                    <div className="space-y-3">
-                      {[0, 1, 2, 3, 4].map((idx) => (
-                        <div key={idx} className="flex items-center gap-2 sm:gap-4 text-sm">
-                          <span className="flex-1 text-muted-foreground line-through opacity-70">
-                            {t(`oria.progress.groups.${key}.items.${idx}.before`)}
-                          </span>
-                          <ArrowRight className="w-4 h-4 text-accent shrink-0" />
-                          <span className="flex-1 text-foreground font-medium">
-                            {t(`oria.progress.groups.${key}.items.${idx}.after`)}
-                          </span>
-                        </div>
-                      ))}
+                    <div className="space-y-4">
+                      {[0, 1, 2, 3, 4].map((idx) => {
+                        const description = t(`oria.progress.groups.${key}.items.${idx}.description`);
+                        const hasDescription = description && !description.includes('.description');
+                        return (
+                          <div key={idx} className="space-y-1">
+                            <div className="flex items-center gap-2 sm:gap-4 text-sm">
+                              <span className="flex-1 text-muted-foreground line-through opacity-70">
+                                {t(`oria.progress.groups.${key}.items.${idx}.before`)}
+                              </span>
+                              <ArrowRight className="w-4 h-4 text-accent shrink-0" />
+                              <span className="flex-1 text-foreground font-medium">
+                                {t(`oria.progress.groups.${key}.items.${idx}.after`)}
+                              </span>
+                            </div>
+                            {hasDescription && (
+                              <p className="text-xs text-muted-foreground pl-0 sm:pl-4 leading-relaxed">
+                                {description}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </TabsContent>
