@@ -412,7 +412,7 @@ export const translations = {
           ]
         }
       },
-      intro2Bold: 'Präsenz, innere Führung, Tiefe.',
+      intro2Bold: '',
       intro3: 'Oria ist kein Maskottchen, sondern eine seelische Gefährtin – eine, die dich erinnert:',
       intro3Quote: '„Du trägst bereits alles in dir."',
       whyOwl: 'Warum eine Eule?',
