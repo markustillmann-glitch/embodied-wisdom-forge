@@ -488,7 +488,7 @@ export const translations = {
       // Expected progress section
       progress: {
         title: 'Was du erwarten kannst',
-        intro: 'Je nach deiner persönlichen Ausgangslage unterstützt Oria dich auf unterschiedliche Weise. Hier sind realistische Fortschritte, die du mit kontinuierlicher Arbeit erreichen kannst:',
+        intro: 'Der zentrale Mehrwert für alle: Mit dir selbst in Verbindung zu kommen und zu bleiben. Je nach deiner persönlichen Ausgangslage unterstützt Oria dich dabei auf unterschiedliche Weise:',
         groups: {
           hsp: {
             title: 'Hochsensible Menschen',
@@ -544,13 +544,14 @@ export const translations = {
         beforeLabel: 'Vorher',
         afterLabel: 'Nachher',
         universal: {
-          title: 'Für alle: Was sich verändert',
+          title: 'Für alle: Mit dir selbst in Verbindung',
           items: [
+            { area: 'Selbstverbindung', before: 'Von sich selbst abgeschnitten', after: 'Mit sich selbst in Kontakt' },
             { area: 'Selbstwahrnehmung', before: 'Reaktiv, überrascht', after: 'Proaktiv, verstehend' },
             { area: 'Emotionsregulation', before: 'Überflutet oder abgeschnitten', after: 'Fließend, reguliert' },
             { area: 'Beziehungen', before: 'Vermeidung oder Eskalation', after: 'Authentische Kommunikation' },
             { area: 'Körperbezug', before: 'Ignoriert oder überinterpretiert', after: 'Vertrauensvolle Zusammenarbeit' },
-            { area: 'Entscheidungen', before: 'Unsicher, fremdbestimmt', after: 'Klar, bedürfnisorientiert' },
+            { area: 'Entscheidungen', before: 'Unsicher, fremdbestimmt', after: 'Klar, aus innerer Verbindung heraus' },
           ],
         },
       },
