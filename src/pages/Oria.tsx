@@ -585,20 +585,22 @@ const Oria = () => {
                         const hasDescription = description && !description.includes('.description');
                         return (
                           <div key={idx} className="space-y-1">
-                            <div className="flex items-center gap-2 sm:gap-4 text-sm">
-                              <span className="flex-1 text-muted-foreground line-through opacity-70">
+                            <div className="flex items-start gap-2 sm:gap-4 text-sm">
+                              <span className="flex-1 text-muted-foreground line-through opacity-70 pt-0.5">
                                 {t(`oria.progress.groups.${key}.items.${idx}.before`)}
                               </span>
-                              <ArrowRight className="w-4 h-4 text-accent shrink-0" />
-                              <span className="flex-1 text-foreground font-medium">
-                                {t(`oria.progress.groups.${key}.items.${idx}.after`)}
-                              </span>
+                              <ArrowRight className="w-4 h-4 text-accent shrink-0 mt-1" />
+                              <div className="flex-1">
+                                <span className="text-foreground font-medium">
+                                  {t(`oria.progress.groups.${key}.items.${idx}.after`)}
+                                </span>
+                                {hasDescription && (
+                                  <p className="text-xs text-muted-foreground leading-relaxed mt-1">
+                                    {description}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                            {hasDescription && (
-                              <p className="text-xs text-muted-foreground pl-0 sm:pl-4 leading-relaxed">
-                                {description}
-                              </p>
-                            )}
                           </div>
                         );
                       })}
