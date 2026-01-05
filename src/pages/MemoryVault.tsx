@@ -90,6 +90,8 @@ const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }
   dream: Moon,
   general: BookOpen,
   'oria-youth': Users,
+  'life-checkin': Calendar,
+  'daily-checkin': Calendar,
 };
 
 const nvcFeelings = [

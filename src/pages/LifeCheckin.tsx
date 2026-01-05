@@ -191,7 +191,11 @@ const LifeCheckin = () => {
   };
 
   const saveToVault = async () => {
-    if (!user || !saveTitle.trim()) return;
+    if (!user) {
+      toast.error("Bitte melde dich an, um Check-ins zu speichern.");
+      return;
+    }
+    if (!saveTitle.trim()) return;
     
     setIsSaving(true);
     try {
@@ -224,7 +228,10 @@ const LifeCheckin = () => {
         memory_date: new Date().toISOString()
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase insert error:', error);
+        throw error;
+      }
 
       toast.success("Check-in gespeichert! 💫");
       setShowSaveDialog(false);
@@ -234,7 +241,7 @@ const LifeCheckin = () => {
       loadPastCheckins();
     } catch (error) {
       console.error('Save to vault error:', error);
-      toast.error("Speichern fehlgeschlagen");
+      toast.error("Speichern fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       setIsSaving(false);
     }
