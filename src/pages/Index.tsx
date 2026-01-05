@@ -460,6 +460,13 @@ const Index = () => {
             >
               {t('nav.impressum')}
             </Link>
+            <Link 
+              to="/oria-landkarte" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="text-sm text-muted-foreground hover:text-accent transition-colors"
+            >
+              Oria für Partner
+            </Link>
           </div>
           
           <p className="text-muted-foreground text-xs">
