@@ -503,7 +503,7 @@ export const translations = {
           crisis: {
             title: 'Menschen in Übergängen',
             items: [
-              { before: 'Orientierungslos', after: 'Klarheit über Werte und Bedürfnisse', description: 'Oria begleitet dich dabei, in der Unklarheit zu bleiben und trotzdem zu spüren, was dir wichtig ist.' },
+              { before: 'Orientierungslos', after: 'Klarheit über Werte und Bedürfnisse', description: 'Oria begleitet dich in Zeiten der Unklarheit und hilft Dir zu spüren und zu erarbeiten was dir wichtig ist.' },
               { before: 'Entscheidungsunsicher', after: 'Vertrauen in eigene Entscheidungen', description: 'Durch wiederholten Kontakt mit deinem inneren Erleben wächst das Vertrauen, dass du weißt, was richtig für dich ist.' },
               { before: 'Festhalten am Alten', after: 'Abschied ohne Verdrängung', description: 'Oria gibt Raum für Trauer und Würdigung dessen, was war – ohne zu drängen oder zu bewerten.' },
               { before: 'Zukunftsangst', after: 'Hoffnung und konkrete nächste Schritte', description: 'Kleine, verkörperte Schritte entstehen aus dem Kontakt mit dem, was jetzt gerade möglich ist.' },
