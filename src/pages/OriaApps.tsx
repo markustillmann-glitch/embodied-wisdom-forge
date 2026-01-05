@@ -12,7 +12,7 @@ const OriaApps = () => {
   const activeApps = [
     {
       icon: Heart,
-      title: "Daily Check-in",
+      title: "Resonanzradar",
       description: "Entdecke dein Kernbedürfnis des Tages mit dem Peeling the Onion Modell. Speichere deine Erkenntnisse für die monatliche Reflexion.",
       link: "/daily-checkin",
     },
