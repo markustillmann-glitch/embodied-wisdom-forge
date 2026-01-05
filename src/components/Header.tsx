@@ -48,7 +48,7 @@ export const Header = ({ showAdminLink = false }: HeaderProps) => {
               className="flex items-center gap-2 text-foreground hover:text-accent transition-colors"
             >
               <img src={bbOwlLogo} alt="Logo" className="h-8 sm:h-10 w-auto" />
-              <span className="hidden sm:inline font-serif text-sm">Beyond Constant Overload</span>
+              <span className="hidden sm:inline font-serif text-sm">Inner Guidance</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 

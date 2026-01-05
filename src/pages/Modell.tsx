@@ -85,11 +85,11 @@ const Modell = () => {
         >
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6">
-            <img src={bbOwlLogo} alt="Beyond Constant Overload Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
+            <img src={bbOwlLogo} alt="Inner Guidance Through Lived Memories Logo" className="h-14 sm:h-20 md:h-24 lg:h-28 w-auto" />
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground leading-tight text-center sm:text-left tracking-tight">
-              Beyond Constant Overload
+              Inner Guidance
               <br />
-              <span className="text-accent whitespace-nowrap">Through Memories</span>
+              <span className="text-accent whitespace-nowrap">Through Lived Memories</span>
             </h1>
           </div>
           

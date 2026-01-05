@@ -273,7 +273,7 @@ const OriaApps = () => {
       {/* Footer */}
       <footer className="py-6 sm:py-8 text-center border-t border-chapter-divider">
         <p className="text-xs sm:text-sm text-muted-foreground">
-          © 2025 Beyond Constant Overload. {t('nav.impressum')}: <Link to="/impressum" className="underline hover:text-accent transition-colors">Impressum</Link>
+          © 2025 Inner Guidance Through Lived Memories. {t('nav.impressum')}: <Link to="/impressum" className="underline hover:text-accent transition-colors">Impressum</Link>
         </p>
       </footer>
     </div>

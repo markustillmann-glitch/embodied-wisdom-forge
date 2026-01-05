@@ -97,7 +97,7 @@ export const translations = {
       meetOria: 'Oria kennenlernen',
       discoverSeminars: 'Seminarangebot entdecken',
       tagline: 'Für mehr Klarheit in Zeiten konstanter Überforderung.',
-      taglineDesc: 'Das Handlungsmodell von Beyond Constant Overload verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.',
+      taglineDesc: 'Das Handlungsmodell von Inner Guidance Through Lived Memories verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.',
       taglineNote: 'Kein Ratgeber oder Theoriemodell, sondern Landkarte, praktischer Wegweiser und Transformationshilfe für das menschliche Betriebssystem unter Druck.',
       
       // Chapters
@@ -382,12 +382,12 @@ export const translations = {
     
     // Oria page
     oria: {
-      symbolOf: 'Symbolfigur von Beyond Constant Overload',
+      symbolOf: 'Symbolfigur von Inner Guidance Through Lived Memories',
       title: 'Das ist Oria',
       subtitle: 'Deine stille Begleiterin auf dem Weg zu dir selbst',
-      intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Beyond Constant Overload und Wegweiserin im Jahrescoaching.',
+      intro: 'In der Tiefe der Nacht, wenn alles ruhig wird, öffnet sie ihre Augen: Oria, unsere Eule – Symbolfigur von Inner Guidance Through Lived Memories und Wegweiserin im Jahrescoaching.',
       basedOnFramework: 'Basierend auf dem Inner Compass Framework',
-      intro2: 'Sie steht für genau das, was Beyond Constant Overload und das Jahresprogramm kultivieren: Verbindung zu Dir selbst aufnehmen und mit dem eigenen inneren Erleben in Beziehung zu bleiben und von dort aus stimmige Entscheidungen zu treffen – auch unter Unsicherheit, Spannung, Überforderung oder widersprüchlichen Impulsen.',
+      intro2: 'Sie steht für genau das, was Inner Guidance Through Lived Memories und das Jahresprogramm kultivieren: Verbindung zu Dir selbst aufnehmen und mit dem eigenen inneren Erleben in Beziehung zu bleiben und von dort aus stimmige Entscheidungen zu treffen – auch unter Unsicherheit, Spannung, Überforderung oder widersprüchlichen Impulsen.',
       forCurious: {
         badge: 'Für alle Neugierigen',
         title: 'Oria für neugierige Selbstentdecker',
@@ -448,7 +448,7 @@ export const translations = {
         title: 'Dein tiefes persönliches Profil',
         intro: 'Im Laufe deiner Arbeit mit Oria entwickelst du ein reichhaltiges persönliches Profil – eine detaillierte Landkarte deiner inneren Welt.',
         desc: 'Dieses Profil erfasst sieben Dimensionen: Emotionsregulation, Bedürfnistopografie, Zugehörigkeit, Erinnerungstyp, Leichtigkeit vs. Tiefe, Sprachpräferenzen und deine aktuelle Lebensphase.',
-        modelUse: 'Das Beyond Constant Overload Modell und dein persönliches Profil fließen gemeinsam in jede Antwort von Oria ein – so erhältst du prägnante, verwertbare Ergebnisse, die genau auf dich zugeschnitten sind.',
+        modelUse: 'Das Inner Guidance Through Lived Memories Modell und dein persönliches Profil fließen gemeinsam in jede Antwort von Oria ein – so erhältst du prägnante, verwertbare Ergebnisse, die genau auf dich zugeschnitten sind.',
       },
       
       // Interactive capabilities
@@ -777,7 +777,7 @@ export const translations = {
     impressum: {
       title: 'Impressum',
       founder: 'Gründer & Entwickler',
-      founderBio: 'Als Vater von drei Töchtern habe ich erfahren, wie tief unbewusste Vorurteile und Prägungen unser Leben beeinflussen. Mit Beyond Constant Overload verbinde ich diese Erkenntnis mit moderner Neurobiologie, somatischer Intelligenz und bewährten Methoden wie IFS und Gewaltfreier Kommunikation – für einen nachhaltigen Weg zu mehr Selbstwahrnehmung und innerer Führung.',
+      founderBio: 'Als Vater von drei Töchtern habe ich erfahren, wie tief unbewusste Vorurteile und Prägungen unser Leben beeinflussen. Mit Inner Guidance Through Lived Memories verbinde ich diese Erkenntnis mit moderner Neurobiologie, somatischer Intelligenz und bewährten Methoden wie IFS und Gewaltfreier Kommunikation – für einen nachhaltigen Weg zu mehr Selbstwahrnehmung und innerer Führung.',
       legalTitle: 'Angaben gemäß § 5 TMG',
       responsible: 'Verantwortlich für den Inhalt',
       disclaimerTitle: 'Haftungsausschluss',
@@ -1003,7 +1003,7 @@ export const translations = {
         success: 'Ich möchte einen Erfolgsmoment verarbeiten. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         meditation: 'Ich möchte eine Meditationserfahrung reflektieren. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
         song: 'Ich möchte einen Song und dessen Lyrics verarbeiten, der mir wichtig ist. Kannst du mir ein personalisiertes Journaling-Template erstellen?',
-        dream: 'Ich möchte einen Traum erkunden, der mich beschäftigt. Kannst du mir ein personalisiertes Journaling-Template erstellen, das sich am Beyond Constant Overload Modell orientiert?',
+        dream: 'Ich möchte einen Traum erkunden, der mich beschäftigt. Kannst du mir ein personalisiertes Journaling-Template erstellen, das sich am Inner Guidance Through Lived Memories Modell orientiert?',
       },
       psychogram: 'Psychogramm',
       psychogramDesc: 'Erstelle ein strukturiertes psychologisches Profil basierend auf deinen Erinnerungen',
@@ -1413,7 +1413,7 @@ export const translations = {
       title: 'Profil-Assistent',
       backToProfile: 'Zurück zum Profil',
       welcome: 'Willkommen beim Profil-Assistenten',
-      welcomeDesc: 'Ich helfe dir, dein persönliches Profil Schritt für Schritt zu erstellen oder zu aktualisieren. Dabei erkläre ich dir die Konzepte aus dem Beyond Constant Overload Modell.',
+      welcomeDesc: 'Ich helfe dir, dein persönliches Profil Schritt für Schritt zu erstellen oder zu aktualisieren. Dabei erkläre ich dir die Konzepte aus dem Inner Guidance Through Lived Memories Modell.',
       createNew: 'Profil erstellen',
       createNewDesc: 'Starte von Anfang an',
       revise: 'Profil überarbeiten',
@@ -1633,7 +1633,7 @@ export const translations = {
       meetOria: 'Meet Oria',
       discoverSeminars: 'Discover Seminars',
       tagline: 'For more clarity in times of constant overwhelm.',
-      taglineDesc: 'The Beyond Constant Overload action model connects modern neurobiology and epigenetics with practical self-leadership skills.',
+      taglineDesc: 'The Inner Guidance Through Lived Memories action model connects modern neurobiology and epigenetics with practical self-leadership skills.',
       taglineNote: 'Not a guidebook or theoretical model, but a map, practical guide, and transformation tool for the human operating system under pressure.',
       
       // Chapters
@@ -1918,12 +1918,12 @@ export const translations = {
     
     // Oria page
     oria: {
-      symbolOf: 'Symbol Figure of Beyond Constant Overload',
+      symbolOf: 'Symbol Figure of Inner Guidance Through Lived Memories',
       title: 'This is Oria',
       subtitle: 'Your quiet companion on the path to yourself',
-      intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Beyond Constant Overload and guide in the annual coaching.',
+      intro: 'In the depth of night, when everything becomes quiet, she opens her eyes: Oria, our owl—symbol figure of Inner Guidance Through Lived Memories and guide in the annual coaching.',
       basedOnFramework: 'Based on the Inner Compass Framework',
-      intro2: 'She represents exactly what Beyond Constant Overload and the annual program cultivate:',
+      intro2: 'She represents exactly what Inner Guidance Through Lived Memories and the annual program cultivate:',
       forCurious: {
         badge: 'For All Curious Minds',
         title: 'Oria for Curious Self-Discoverers',
@@ -1984,7 +1984,7 @@ export const translations = {
         title: 'Your Deep Personal Profile',
         intro: 'Throughout your work with Oria, you develop a rich personal profile—a detailed map of your inner world.',
         desc: 'This profile captures seven dimensions: emotion regulation, needs topology, belonging, memory type, lightness vs. depth, language preferences, and your current life phase.',
-        modelUse: 'The Beyond Constant Overload model and your personal profile flow together into every response from Oria—so you receive precise, actionable results tailored exactly to you.',
+        modelUse: 'The Inner Guidance Through Lived Memories model and your personal profile flow together into every response from Oria—so you receive precise, actionable results tailored exactly to you.',
       },
       
       // Interactive capabilities
@@ -2294,7 +2294,7 @@ export const translations = {
       coachIntegration: {
         title: 'Ask Oria: Your Personal AI Coach',
         subtitle: 'How the Coach is Part of the Annual Program',
-        p1: 'The AI coach "Ask Oria" is your daily companion—available whenever you need it. It supports you in systematically capturing your relevant memories and offers personalized journaling templates based on the Beyond Constant Overload model.',
+        p1: 'The AI coach "Ask Oria" is your daily companion—available whenever you need it. It supports you in systematically capturing your relevant memories and offers personalized journaling templates based on the Inner Guidance Through Lived Memories model.',
         p2: 'In the annual program, the coach serves as a bridge between the in-person phases: You can capture memories, recognize patterns, and receive initial impulses—then deepen these with experienced coaches in the seminars.',
         permanent: 'Permanent Advisor',
         permanentDesc: 'Even after the annual program, the coach remains your companion. Use it anytime for reflection, journaling, and as a reminder of what you\'ve learned.',
@@ -2389,7 +2389,7 @@ export const translations = {
     impressum: {
       title: 'Legal Notice',
       founder: 'Founder & Developer',
-      founderBio: 'As a father of three daughters, I have experienced how deeply unconscious biases and conditioning influence our lives. With Beyond Constant Overload, I connect this insight with modern neurobiology, somatic intelligence, and proven methods like IFS and Nonviolent Communication—for a sustainable path to more self-awareness and inner leadership.',
+      founderBio: 'As a father of three daughters, I have experienced how deeply unconscious biases and conditioning influence our lives. With Inner Guidance Through Lived Memories, I connect this insight with modern neurobiology, somatic intelligence, and proven methods like IFS and Nonviolent Communication—for a sustainable path to more self-awareness and inner leadership.',
       legalTitle: 'Information according to § 5 TMG',
       responsible: 'Responsible for content',
       disclaimerTitle: 'Disclaimer',
@@ -2538,7 +2538,7 @@ export const translations = {
         success: 'I want to process a success moment. Can you create a personalized journaling template for me?',
         meditation: 'I want to reflect on a meditation experience. Can you create a personalized journaling template for me?',
         song: 'I want to process a song and its lyrics that is important to me. Can you create a personalized journaling template for me?',
-        dream: 'I want to explore a dream that is on my mind. Can you create a personalized journaling template based on the Beyond Constant Overload model?',
+        dream: 'I want to explore a dream that is on my mind. Can you create a personalized journaling template based on the Inner Guidance Through Lived Memories model?',
       },
       psychogram: 'Psychogram',
       psychogramDesc: 'Create a structured psychological profile based on your memories',
@@ -2947,7 +2947,7 @@ export const translations = {
       title: 'Profile Assistant',
       backToProfile: 'Back to Profile',
       welcome: 'Welcome to the Profile Assistant',
-      welcomeDesc: 'I will help you create or update your personal profile step by step. I will explain the concepts from the Beyond Constant Overload model along the way.',
+      welcomeDesc: 'I will help you create or update your personal profile step by step. I will explain the concepts from the Inner Guidance Through Lived Memories model along the way.',
       createNew: 'Create Profile',
       createNewDesc: 'Start from the beginning',
       revise: 'Revise Profile',

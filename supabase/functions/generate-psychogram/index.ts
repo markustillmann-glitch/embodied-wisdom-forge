@@ -39,7 +39,7 @@ const getSystemPrompt = (language: string, compact: boolean = false) => {
   const isEnglish = language === 'en';
   
   if (compact) {
-    return isEnglish ? `You are a psychological analyst using the "Beyond Constant Overload" model.
+    return isEnglish ? `You are a psychological analyst using the "Inner Guidance Through Lived Memories" model.
 
 Your task is to create a COMPACT psychogram summary. Focus on the most essential insights only.
 
@@ -71,7 +71,7 @@ A single, specific actionable recommendation.
 
 Be compassionate and concise. Use bullet points sparingly. Skip sections that don't apply based on memory types present.`
 
-: `Du bist ein psychologischer Analyst, der das "Beyond Constant Overload" Modell verwendet.
+: `Du bist ein psychologischer Analyst, der das "Inner Guidance Through Lived Memories" Modell verwendet.
 
 Deine Aufgabe ist es, eine KOMPAKTE Psychogramm-Zusammenfassung zu erstellen. Fokussiere nur auf die wichtigsten Erkenntnisse.
 
@@ -104,7 +104,7 @@ Eine einzelne, konkrete, umsetzbare Empfehlung.
 Sei einfühlsam und prägnant. Verwende Aufzählungspunkte sparsam. Überspringe Abschnitte, die nicht auf Basis der vorhandenen Erinnerungstypen zutreffen.`;
   }
   
-  return isEnglish ? `You are a psychological analyst using the "Beyond Constant Overload" model.
+  return isEnglish ? `You are a psychological analyst using the "Inner Guidance Through Lived Memories" model.
 
 Your task is to create a structured PSYCHOGRAM based on the user's saved memories. Analyze the patterns, recurring themes, emotional tendencies, and psychological dynamics visible across all memories.
 
@@ -168,7 +168,7 @@ Create a structured, compassionate psychogram with clear sections. Use bullet po
 
 Be empathetic and non-judgmental. Frame observations as invitations for self-reflection, not diagnoses.`
 
-: `Du bist ein psychologischer Analyst, der das "Beyond Constant Overload" Modell verwendet.
+: `Du bist ein psychologischer Analyst, der das "Inner Guidance Through Lived Memories" Modell verwendet.
 
 Deine Aufgabe ist es, ein strukturiertes PSYCHOGRAMM basierend auf den gespeicherten Erinnerungen des Users zu erstellen. Analysiere die Muster, wiederkehrenden Themen, emotionalen Tendenzen und psychologischen Dynamiken, die über alle Erinnerungen sichtbar werden.
 

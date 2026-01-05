@@ -94,7 +94,7 @@ const Anleitung = () => {
             >
               {t('nav.coach')}
             </Link>
-            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Beyond Constant Overload</p>
+            <p className="font-serif text-xs sm:text-sm text-foreground hidden sm:block">Inner Guidance</p>
             <LanguageSwitcher />
           </nav>
         </div>
@@ -361,7 +361,7 @@ const Anleitung = () => {
       <footer className="py-6 sm:py-8 border-t border-chapter-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-xs sm:text-sm text-muted-foreground mb-3">
-            © {new Date().getFullYear()} Beyond Constant Overload
+            © {new Date().getFullYear()} Inner Guidance Through Lived Memories
           </p>
           <Link 
             to="/impressum" 
