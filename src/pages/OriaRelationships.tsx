@@ -873,6 +873,36 @@ const OriaRelationships = () => {
                   <Save className="w-3 h-3 mr-1" />
                   Im Tresor speichern
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // Get last 6 messages for context
+                    const recentMessages = messages.slice(-6);
+                    const contextSummary = recentMessages
+                      .map(m => `${m.role === 'user' ? 'Ich' : 'Oria'}: ${m.content.slice(0, 300)}${m.content.length > 300 ? '...' : ''}`)
+                      .join('\n\n');
+                    
+                    const topic = selectedRelationship 
+                      ? `Beziehungsreflexion mit ${selectedRelationship.name}${selectedDimension ? ` – ${DIMENSIONS.find(d => d.key === selectedDimension)?.label}` : ''}`
+                      : selectedDimension 
+                        ? `Beziehungsreflexion – ${DIMENSIONS.find(d => d.key === selectedDimension)?.label}`
+                        : 'Beziehungsreflexion';
+                    
+                    // Use sessionStorage for reliable cross-page data transfer
+                    sessionStorage.setItem('coach-deepen-context', JSON.stringify({
+                      context: contextSummary,
+                      topic,
+                      source: 'oria-relationships'
+                    }));
+                    
+                    navigate('/coach');
+                  }}
+                  className="text-xs"
+                >
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  Im Coach vertiefen
+                </Button>
               </div>
 
               <p className="text-xs text-center text-muted-foreground">
