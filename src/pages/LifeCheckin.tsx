@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Send, Loader2, RotateCcw, Compass, Save, X, Calendar, ChevronDown, ChevronUp, Info } from "lucide-react";
+import { ArrowLeft, Send, Loader2, RotateCcw, Compass, Save, X, Calendar, ChevronDown, ChevronUp, Info, Heart } from "lucide-react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
@@ -477,6 +477,39 @@ const LifeCheckin = () => {
 
             {/* Input Area */}
             <div className="shrink-0 pt-2 sm:pt-4 pb-safe">
+              {/* Deepen in frag Oria button - show when there are enough messages */}
+              {messages.length >= 4 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-3"
+                >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      // Create context summary from conversation
+                      const contextSummary = messages
+                        .slice(-6) // Last 6 messages
+                        .map(m => `${m.role === 'user' ? 'Ich' : 'Oria'}: ${m.content}`)
+                        .join('\n\n');
+                      
+                      navigate('/oria-relationships', {
+                        state: {
+                          context: contextSummary,
+                          topic: 'Beziehungsthema aus Life Check-in',
+                          source: 'life-checkin'
+                        }
+                      });
+                    }}
+                    className="w-full text-xs gap-2 border-accent/30 text-accent hover:bg-accent/10"
+                  >
+                    <Heart className="w-3.5 h-3.5" />
+                    In "frag Oria" vertiefen (Beziehungsthemen)
+                  </Button>
+                </motion.div>
+              )}
+              
               <div className="flex gap-2 items-end">
                 <Button
                   variant="outline"
