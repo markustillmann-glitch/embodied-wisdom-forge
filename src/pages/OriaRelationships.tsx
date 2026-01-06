@@ -876,15 +876,29 @@ const OriaRelationships = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate('/coach', { 
-                    state: { 
-                      initialMessage: `Ich möchte ein Thema aus meiner Beziehungsreflexion vertiefen${selectedRelationship ? ` (Beziehung mit ${selectedRelationship.name})` : ''}${selectedDimension ? `. Es geht um die Dimension "${DIMENSIONS.find(d => d.key === selectedDimension)?.label}"` : ''}.`
-                    }
-                  })}
+                  onClick={() => {
+                    // Get last 6 messages for context
+                    const recentMessages = messages.slice(-6);
+                    const contextSummary = recentMessages
+                      .map(m => `${m.role === 'user' ? 'Ich' : 'Oria'}: ${m.content.slice(0, 300)}${m.content.length > 300 ? '...' : ''}`)
+                      .join('\n\n');
+                    
+                    navigate('/coach', { 
+                      state: { 
+                        context: contextSummary,
+                        topic: selectedRelationship 
+                          ? `Beziehungsreflexion mit ${selectedRelationship.name}${selectedDimension ? ` – ${DIMENSIONS.find(d => d.key === selectedDimension)?.label}` : ''}`
+                          : selectedDimension 
+                            ? `Beziehungsreflexion – ${DIMENSIONS.find(d => d.key === selectedDimension)?.label}`
+                            : 'Beziehungsreflexion',
+                        source: 'oria-relationships'
+                      }
+                    });
+                  }}
                   className="text-xs"
                 >
                   <Sparkles className="w-3 h-3 mr-1" />
-                  In Frag Oria vertiefen
+                  Im Coach vertiefen
                 </Button>
               </div>
 
