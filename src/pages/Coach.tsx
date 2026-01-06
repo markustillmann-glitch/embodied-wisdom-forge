@@ -150,6 +150,7 @@ const Coach = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(showHistoryFromUrl);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [profileLoaded, setProfileLoaded] = useState(false);
   const [learnedInsights, setLearnedInsights] = useState<LearnedInsight[]>([]);
   const [retryMessage, setRetryMessage] = useState<string | null>(null);
   const [urlParamsProcessed, setUrlParamsProcessed] = useState(false);
@@ -442,23 +443,41 @@ const Coach = () => {
   }, [messages]);
 
   // Handle incoming context from other chats (e.g., Oria Relationships)
+  // Combined into a single effect to avoid race conditions
   useEffect(() => {
     const state = location.state as DeepenState | null;
+    
+    // Only process if we have context and haven't processed it yet
     if (state?.context && !deepenProcessed) {
+      // Save the context immediately
       setDeepenContext(state);
       // Clear the location state to prevent re-processing on refresh
       window.history.replaceState({}, document.title);
     }
   }, [location.state, deepenProcessed]);
 
-  // Start conversation with deepen context once user and profile are loaded
+  // Start conversation with deepen context once user and profile are fully loaded
   useEffect(() => {
-    // Wait for userProfile to be loaded before starting the conversation
-    if (deepenContext?.context && user && userProfile && !deepenProcessed && !authLoading) {
+    const processDeepening = async () => {
+      // Wait for all required data to be available - use profileLoaded flag
+      if (!deepenContext?.context || !user || !profileLoaded || deepenProcessed || authLoading) {
+        console.log('Deepen check:', { 
+          hasContext: !!deepenContext?.context, 
+          hasUser: !!user, 
+          profileLoaded, 
+          deepenProcessed, 
+          authLoading 
+        });
+        return;
+      }
+      
+      console.log('Processing deepen context:', { topic: deepenContext.topic, hasContext: !!deepenContext.context });
       setDeepenProcessed(true);
-      startConversationWithContext(deepenContext.context, deepenContext.topic);
-    }
-  }, [deepenContext, user, userProfile, deepenProcessed, authLoading]);
+      await startConversationWithContext(deepenContext.context, deepenContext.topic);
+    };
+    
+    processDeepening();
+  }, [deepenContext, user, profileLoaded, deepenProcessed, authLoading]);
 
   const startConversationWithContext = async (context: string, topic?: string) => {
     if (!user) return;
@@ -651,6 +670,9 @@ const Coach = () => {
         current_focus: fullProfile.current_focus,
       } : {}),
     });
+    
+    // Mark profile as loaded
+    setProfileLoaded(true);
     
     // Load learned insights (discreetly)
     await loadLearnedInsights();
