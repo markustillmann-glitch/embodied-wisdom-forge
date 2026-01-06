@@ -558,6 +558,32 @@ const OriaRelationships = () => {
                 </Button>
               </div>
 
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-2 justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowSaveDialog(true)}
+                  className="text-xs"
+                >
+                  <Save className="w-3 h-3 mr-1" />
+                  Im Tresor speichern
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate('/coach', { 
+                    state: { 
+                      initialMessage: `Ich möchte ein Thema aus meiner Beziehungsreflexion vertiefen${selectedRelationship ? ` (Beziehung mit ${selectedRelationship.name})` : ''}${selectedDimension ? `. Es geht um die Dimension "${DIMENSIONS.find(d => d.key === selectedDimension)?.label}"` : ''}.`
+                    }
+                  })}
+                  className="text-xs"
+                >
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  In Frag Oria vertiefen
+                </Button>
+              </div>
+
               <p className="text-xs text-center text-muted-foreground">
                 Oria ersetzt keine Therapie. Bei belastenden Themen suche professionelle Unterstützung.
               </p>
