@@ -25,18 +25,121 @@ type Relationship = {
   created_at: string;
 };
 
-// 10 Dimensions with icons and descriptions
+// 10 Dimensions with icons, descriptions and characteristic keywords
 const DIMENSIONS = [
-  { key: 'toleranz', icon: Hand, label: 'Toleranz', desc: 'Unterschiedlichkeit aushalten ohne Selbstverleugnung' },
-  { key: 'verlaesslichkeit', icon: Shield, label: 'Verlässlichkeit', desc: 'Erlebte Kontinuität und Erwartungssicherheit' },
-  { key: 'vertrauen', icon: Lock, label: 'Vertrauen', desc: 'Wiederholte emotionale Sicherheit' },
-  { key: 'offenheit', icon: Eye, label: 'Offenheit', desc: 'Authentische Mitteilung ohne Schonungslosigkeit' },
-  { key: 'wertschaetzung', icon: Sparkles, label: 'Wertschätzung', desc: 'Gesehen-werden im eigenen Wesen' },
-  { key: 'respekt', icon: Hand, label: 'Respekt', desc: 'Achtung vor Grenzen – eigenen und fremden' },
-  { key: 'naehe', icon: Heart, label: 'Nähe', desc: 'Emotionale und körperliche Verbundenheit' },
-  { key: 'humor', icon: Smile, label: 'Humor', desc: 'Gemeinsame Leichtigkeit ohne Abwertung' },
-  { key: 'sicherheit', icon: Shield, label: 'Sicherheit', desc: 'Emotionale Grundstabilität in der Beziehung' },
-  { key: 'empathie', icon: MessageCircle, label: 'Empathie', desc: 'Sich gesehen fühlen – ohne Lösung' },
+  { 
+    key: 'toleranz', 
+    icon: Hand, 
+    label: 'Toleranz', 
+    desc: 'Unterschiedlichkeit aushalten ohne Selbstverleugnung',
+    keywords: [
+      'Anderssein akzeptieren', 'Eigenheiten respektieren', 'Meinungsverschiedenheiten aushalten',
+      'Unterschiedliche Werte würdigen', 'Raum für Verschiedenheit', 'Geduld mit Gewohnheiten',
+      'Grenzen des Erträglichen', 'Ohne Anpassungsdruck', 'Vielfalt als Bereicherung',
+      'Toleranz vs. Selbstverleugnung', 'Neugier statt Abwehr', 'Weite vs. Enge'
+    ]
+  },
+  { 
+    key: 'verlaesslichkeit', 
+    icon: Shield, 
+    label: 'Verlässlichkeit', 
+    desc: 'Erlebte Kontinuität und Erwartungssicherheit',
+    keywords: [
+      'Zusagen einhalten', 'Berechenbarkeit', 'Pünktlichkeit', 'Erreichbarkeit',
+      'Konstanz im Verhalten', 'Versprechen halten', 'Absprachen respektieren',
+      'Stabilität bieten', 'Erwartungen erfüllen', 'Kontinuität im Alltag',
+      'Zuverlässigkeit in Krisen', 'Regelmäßige Präsenz'
+    ]
+  },
+  { 
+    key: 'vertrauen', 
+    icon: Lock, 
+    label: 'Vertrauen', 
+    desc: 'Wiederholte emotionale Sicherheit',
+    keywords: [
+      'Geheimnisse bewahren', 'Ehrlichkeit', 'Transparenz', 'Verletzlichkeit zeigen',
+      'Keine Hintergedanken', 'Aufrichtigkeit', 'Loyalität', 'Treue',
+      'Glaubwürdigkeit', 'Sich fallen lassen', 'Vertrauen aufbauen',
+      'Nach Vertrauensbruch heilen'
+    ]
+  },
+  { 
+    key: 'offenheit', 
+    icon: Eye, 
+    label: 'Offenheit', 
+    desc: 'Authentische Mitteilung ohne Schonungslosigkeit',
+    keywords: [
+      'Gedanken teilen', 'Gefühle aussprechen', 'Wünsche äußern', 'Ängste zeigen',
+      'Echte Gespräche', 'Keine Tabuthemen', 'Authentisch sein', 'Verletzlichkeit wagen',
+      'Feedback geben', 'Zuhören können', 'Mut zur Wahrheit', 'Timing beachten'
+    ]
+  },
+  { 
+    key: 'wertschaetzung', 
+    icon: Sparkles, 
+    label: 'Wertschätzung', 
+    desc: 'Gesehen-werden im eigenen Wesen',
+    keywords: [
+      'Anerkennung zeigen', 'Dankbarkeit ausdrücken', 'Komplimente machen', 'Stärken sehen',
+      'Erfolge feiern', 'Bemühungen würdigen', 'Einzigartigkeit schätzen', 'Aufmerksamkeit schenken',
+      'Interesse zeigen', 'Wert bestätigen', 'Lob aussprechen', 'Gesehen werden'
+    ]
+  },
+  { 
+    key: 'respekt', 
+    icon: Hand, 
+    label: 'Respekt', 
+    desc: 'Achtung vor Grenzen – eigenen und fremden',
+    keywords: [
+      'Grenzen achten', 'Nein akzeptieren', 'Privatsphäre wahren', 'Meinungen respektieren',
+      'Würde bewahren', 'Keine Abwertung', 'Autonomie achten', 'Entscheidungen respektieren',
+      'Höflichkeit', 'Keine Übergriffe', 'Selbstachtung', 'Gegenseitige Achtung'
+    ]
+  },
+  { 
+    key: 'naehe', 
+    icon: Heart, 
+    label: 'Nähe', 
+    desc: 'Emotionale und körperliche Verbundenheit',
+    keywords: [
+      'Körperliche Berührung', 'Emotionale Intimität', 'Gemeinsame Zeit', 'Kuscheln',
+      'Tiefe Gespräche', 'Blickkontakt', 'Präsenz', 'Verbundenheit spüren',
+      'Seelische Nähe', 'Geborgenheit', 'Zusammengehörigkeit', 'Nähe-Distanz-Balance'
+    ]
+  },
+  { 
+    key: 'humor', 
+    icon: Smile, 
+    label: 'Humor', 
+    desc: 'Gemeinsame Leichtigkeit ohne Abwertung',
+    keywords: [
+      'Gemeinsam lachen', 'Leichtigkeit', 'Albernheit', 'Insider-Witze',
+      'Spielerisches Necken', 'Situationskomik', 'Ironie verstehen', 'Stress abbauen',
+      'Freude teilen', 'Spaß haben', 'Positive Stimmung', 'Lachen als Verbindung'
+    ]
+  },
+  { 
+    key: 'sicherheit', 
+    icon: Shield, 
+    label: 'Sicherheit', 
+    desc: 'Emotionale Grundstabilität in der Beziehung',
+    keywords: [
+      'Emotionaler Halt', 'Schutz bieten', 'Stabilität', 'Vorhersehbarkeit',
+      'Ruhe ausstrahlen', 'Konfliktfähigkeit', 'Keine Angst vor Verlassen', 'Beständigkeit',
+      'Sicherer Hafen', 'Nervensystem beruhigen', 'Ankerpunkt sein', 'Geborgenheit'
+    ]
+  },
+  { 
+    key: 'empathie', 
+    icon: MessageCircle, 
+    label: 'Empathie', 
+    desc: 'Sich gesehen fühlen – ohne Lösung',
+    keywords: [
+      'Mitfühlen', 'Verstehen wollen', 'Zuhören ohne Ratschlag', 'Perspektive wechseln',
+      'Gefühle validieren', 'Anteilnahme zeigen', 'Einfühlungsvermögen', 'Resonanz geben',
+      'Nicht bewerten', 'Da sein', 'Trost spenden', 'Emotionen halten'
+    ]
+  },
 ];
 
 const RELATIONSHIP_TYPES = [
@@ -67,16 +170,9 @@ const OriaRelationships = () => {
   const [selectedRelationship, setSelectedRelationship] = useState<Relationship | null>(null);
   const [showRelationshipSelector, setShowRelationshipSelector] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [previewDimension, setPreviewDimension] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   useEffect(() => {
     if (user) {
@@ -214,8 +310,14 @@ const OriaRelationships = () => {
     }
   };
 
+  const selectDimension = (dimension: string) => {
+    setPreviewDimension(dimension);
+  };
+
   const startSession = async (dimension?: string) => {
-    if (dimension) setSelectedDimension(dimension);
+    const dimToUse = dimension || previewDimension || undefined;
+    if (dimToUse) setSelectedDimension(dimToUse);
+    setPreviewDimension(null);
     setHasStarted(true);
     setMessages([]);
     setIsLoading(true);
@@ -223,8 +325,8 @@ const OriaRelationships = () => {
     try {
       const introMessage: Message = { 
         role: "user", 
-        content: dimension 
-          ? `Ich möchte über die Dimension "${DIMENSIONS.find(d => d.key === dimension)?.label}" in meiner Beziehung${selectedRelationship ? ` mit ${selectedRelationship.name}` : ''} reflektieren.`
+        content: dimToUse 
+          ? `Ich möchte über die Dimension "${DIMENSIONS.find(d => d.key === dimToUse)?.label}" in meiner Beziehung${selectedRelationship ? ` mit ${selectedRelationship.name}` : ''} reflektieren.`
           : `Ich möchte über meine Beziehung${selectedRelationship ? ` mit ${selectedRelationship.name}` : ''} reflektieren.`
       };
       await streamChat([introMessage]);
@@ -439,16 +541,25 @@ const OriaRelationships = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 mb-6">
                   {DIMENSIONS.map((dim) => {
                     const Icon = dim.icon;
+                    const isSelected = previewDimension === dim.key;
                     return (
                       <button
                         key={dim.key}
-                        onClick={() => startSession(dim.key)}
-                        className="group flex flex-col items-center p-3 rounded-lg bg-muted/50 hover:bg-accent/10 border border-transparent hover:border-accent/30 transition-all"
+                        onClick={() => selectDimension(dim.key)}
+                        className={`group flex flex-col items-center p-3 rounded-lg transition-all ${
+                          isSelected 
+                            ? 'bg-accent/20 border-accent/50 border' 
+                            : 'bg-muted/50 hover:bg-accent/10 border border-transparent hover:border-accent/30'
+                        }`}
                       >
-                        <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center mb-2 group-hover:bg-accent/20 transition-colors">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 transition-colors ${
+                          isSelected ? 'bg-accent/30' : 'bg-accent/10 group-hover:bg-accent/20'
+                        }`}>
                           <Icon className="w-4 h-4 text-accent" />
                         </div>
-                        <span className="text-xs font-medium text-foreground group-hover:text-accent transition-colors">
+                        <span className={`text-xs font-medium transition-colors ${
+                          isSelected ? 'text-accent' : 'text-foreground group-hover:text-accent'
+                        }`}>
                           {dim.label}
                         </span>
                       </button>
@@ -456,15 +567,73 @@ const OriaRelationships = () => {
                   })}
                 </div>
 
-                <div className="text-center">
-                  <Button
-                    onClick={() => startSession()}
-                    className="bg-accent text-accent-foreground hover:bg-accent/90"
+                {/* Dimension Keywords Preview */}
+                {previewDimension && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-6 bg-accent/5 rounded-lg border border-accent/20 p-4"
                   >
-                    <Heart className="w-4 h-4 mr-2" />
-                    Freie Reflexion starten
-                  </Button>
-                </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      {(() => {
+                        const dim = DIMENSIONS.find(d => d.key === previewDimension);
+                        if (!dim) return null;
+                        const Icon = dim.icon;
+                        return (
+                          <>
+                            <Icon className="w-5 h-5 text-accent" />
+                            <h4 className="text-sm font-medium text-foreground">{dim.label}</h4>
+                          </>
+                        );
+                      })()}
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      {DIMENSIONS.find(d => d.key === previewDimension)?.desc}
+                    </p>
+                    <p className="text-xs text-muted-foreground mb-2 font-medium">
+                      Typische Aspekte dieser Dimension:
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {DIMENSIONS.find(d => d.key === previewDimension)?.keywords.map((keyword, idx) => (
+                        <span 
+                          key={idx}
+                          className="px-2 py-0.5 bg-accent/10 text-accent text-xs rounded-full"
+                        >
+                          {keyword}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => startSession()}
+                        className="bg-accent text-accent-foreground hover:bg-accent/90"
+                        size="sm"
+                      >
+                        <Heart className="w-3 h-3 mr-1" />
+                        Reflexion starten
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setPreviewDimension(null)}
+                      >
+                        Andere wählen
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {!previewDimension && (
+                  <div className="text-center">
+                    <Button
+                      onClick={() => startSession()}
+                      className="bg-accent text-accent-foreground hover:bg-accent/90"
+                    >
+                      <Heart className="w-4 h-4 mr-2" />
+                      Freie Reflexion starten
+                    </Button>
+                  </div>
+                )}
               </div>
 
               {/* Philosophy Note */}
