@@ -1784,6 +1784,35 @@ const Coach = () => {
                   )}
                 </Button>
               </div>
+              
+              {/* Deepen in Oria Relationships button - only show after some conversation */}
+              {messages.length >= 4 && !isStreaming && (
+                <div className="max-w-3xl mx-auto mt-3 flex justify-center">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      // Get last 6 messages for context
+                      const recentMessages = messages.slice(-6);
+                      const contextSummary = recentMessages
+                        .map(m => `${m.role === 'user' ? 'Ich' : 'Coach'}: ${m.content.slice(0, 300)}${m.content.length > 300 ? '...' : ''}`)
+                        .join('\n\n');
+                      
+                      navigate('/oria-relationships', {
+                        state: {
+                          context: contextSummary,
+                          source: 'coach'
+                        }
+                      });
+                    }}
+                    className="gap-2 text-accent border-accent/30 hover:bg-accent/10"
+                  >
+                    <Heart className="h-4 w-4" />
+                    {language === 'de' ? 'In frag Oria vertiefen (Beziehungsthemen)' : 'Deepen in Ask Oria (Relationships)'}
+                  </Button>
+                </div>
+              )}
+              
               <p className="text-xs text-muted-foreground text-center mt-2 hidden sm:block">
                 {t('coach.hint')}
               </p>
