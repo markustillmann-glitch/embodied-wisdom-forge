@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { 
   ArrowLeft, Send, Loader2, RotateCcw, Heart, Save, X, 
   Users, Plus, ChevronDown, ChevronUp, Sparkles, Shield, 
@@ -202,9 +202,17 @@ const RELATIONSHIP_TYPES = [
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/relationships-chat`;
 
+// Type for navigation state when deepening from another chat
+type DeepenState = {
+  context?: string;
+  topic?: string;
+  source?: string;
+};
+
 const OriaRelationships = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -221,8 +229,21 @@ const OriaRelationships = () => {
   const [showRelationshipSelector, setShowRelationshipSelector] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [previewDimension, setPreviewDimension] = useState<string | null>(null);
+  const [deepenContext, setDeepenContext] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Check for deepen state from navigation
+  useEffect(() => {
+    const state = location.state as DeepenState | null;
+    if (state?.context) {
+      setDeepenContext(state.context);
+      // Auto-start session with the context
+      startSessionWithContext(state.context, state.topic);
+      // Clear the navigation state
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.state]);
 
   useEffect(() => {
     if (user) {
@@ -380,6 +401,27 @@ const OriaRelationships = () => {
         content: dimToUse 
           ? `Ich möchte über die Dimension "${DIMENSIONS.find(d => d.key === dimToUse)?.label}" in meiner Beziehung${selectedRelationship ? ` mit ${selectedRelationship.name}` : ''} reflektieren.`
           : `Ich möchte über meine Beziehung${selectedRelationship ? ` mit ${selectedRelationship.name}` : ''} reflektieren.`
+      };
+      await streamChat([introMessage]);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Verbindungsfehler");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Start session with context from another chat (e.g. Life Check-in)
+  const startSessionWithContext = async (context: string, topic?: string) => {
+    setHasStarted(true);
+    setMessages([]);
+    setIsLoading(true);
+
+    try {
+      const introMessage: Message = { 
+        role: "user", 
+        content: topic 
+          ? `Ich komme aus einem anderen Gespräch und möchte folgendes Thema hier vertiefen:\n\n**Thema:** ${topic}\n\n**Kontext aus dem vorherigen Gespräch:**\n${context}`
+          : `Ich komme aus einem anderen Gespräch und möchte folgendes hier vertiefen:\n\n${context}`
       };
       await streamChat([introMessage]);
     } catch (err: unknown) {
