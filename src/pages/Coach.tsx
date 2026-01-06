@@ -139,26 +139,19 @@ const Coach = () => {
   const startNewFromUrl = searchParams.get('new') === 'true';
   const showHistoryFromUrl = searchParams.get('showHistory') === 'true';
   
-// Track deepen context from other chats - capture immediately on mount
-  const deepenContextRef = useRef<DeepenState | null>(null);
-  const deepenCapturedRef = useRef(false);
-  const [deepenProcessed, setDeepenProcessed] = useState(false);
-  
-  // Capture deepen context on initial mount only (using ref to ensure it runs once)
-  useEffect(() => {
-    if (deepenCapturedRef.current) return;
-    
+// Track deepen context from other chats - capture immediately during initialization
+  // Use useState initializer to capture on first render, before any effects run
+  const [initialDeepenContext] = useState<DeepenState | null>(() => {
     const state = location.state as DeepenState | null;
-    console.log('[Coach] Initial mount - checking location.state:', state);
-    
     if (state?.context) {
-      console.log('[Coach] Captured deepen context:', { topic: state.topic, hasContext: !!state.context });
-      deepenContextRef.current = state;
-      deepenCapturedRef.current = true;
-      // Clear the location state to prevent re-processing on refresh
+      console.log('[Coach] Captured deepen context during init:', { topic: state.topic, hasContext: !!state.context });
+      // Clear the location state immediately to prevent re-processing
       window.history.replaceState({}, document.title);
+      return state;
     }
-  }, []); // Empty deps - run only on mount
+    return null;
+  });
+  const [deepenProcessed, setDeepenProcessed] = useState(false);
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
@@ -462,7 +455,7 @@ const Coach = () => {
 // Handle deepen context once user and profile are loaded
   useEffect(() => {
     console.log('[Coach] Deepen effect check:', { 
-      hasContext: !!deepenContextRef.current, 
+      hasContext: !!initialDeepenContext?.context, 
       deepenProcessed, 
       hasUser: !!user, 
       profileLoaded, 
@@ -470,16 +463,14 @@ const Coach = () => {
     });
     
     // Check if we have captured context and conditions are met
-    if (deepenContextRef.current && !deepenProcessed && user && profileLoaded && !authLoading) {
-      const { context, topic } = deepenContextRef.current;
-      console.log('[Coach] Processing deepen context now:', { topic, contextLength: context?.length });
-      // Mark as processed and clear ref
+    if (initialDeepenContext?.context && !deepenProcessed && user && profileLoaded && !authLoading) {
+      console.log('[Coach] Processing deepen context now:', { topic: initialDeepenContext.topic, contextLength: initialDeepenContext.context?.length });
+      // Mark as processed
       setDeepenProcessed(true);
-      deepenContextRef.current = null;
       // Start the conversation with the context
-      startConversationWithContext(context!, topic);
+      startConversationWithContext(initialDeepenContext.context, initialDeepenContext.topic);
     }
-  }, [user, profileLoaded, authLoading, deepenProcessed]);
+  }, [user, profileLoaded, authLoading, deepenProcessed, initialDeepenContext]);
 
   const startConversationWithContext = async (context: string, topic?: string) => {
     if (!user) return;
