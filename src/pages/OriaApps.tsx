@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Compass } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Compass, HeartPulse } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -21,6 +21,12 @@ const OriaApps = () => {
       title: "Life Check-in",
       description: "Bedürfnis- und erinnerungsbasierter Selbstkontakt in 10 Lebensbereichen. Nicht messen, sondern spiegeln.",
       link: "/life-checkin",
+    },
+    {
+      icon: HeartPulse,
+      title: "Oria Relationships",
+      description: "Reflexion, Begleitung und innere Führung in Beziehungen. 10 Dimensionen wie Vertrauen, Nähe und Respekt – nicht bewerten, sondern verstehen.",
+      link: "/oria-relationships",
     },
     {
       icon: Users,
