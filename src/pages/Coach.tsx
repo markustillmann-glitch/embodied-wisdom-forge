@@ -141,17 +141,24 @@ const Coach = () => {
   
 // Track deepen context from other chats - capture immediately on mount
   const deepenContextRef = useRef<DeepenState | null>(null);
+  const deepenCapturedRef = useRef(false);
   const [deepenProcessed, setDeepenProcessed] = useState(false);
   
-  // Capture deepen context immediately on mount (before any async operations)
-  if (!deepenContextRef.current && !deepenProcessed) {
+  // Capture deepen context on initial mount only (using ref to ensure it runs once)
+  useEffect(() => {
+    if (deepenCapturedRef.current) return;
+    
     const state = location.state as DeepenState | null;
+    console.log('[Coach] Initial mount - checking location.state:', state);
+    
     if (state?.context) {
+      console.log('[Coach] Captured deepen context:', { topic: state.topic, hasContext: !!state.context });
       deepenContextRef.current = state;
-      // Clear the location state immediately
+      deepenCapturedRef.current = true;
+      // Clear the location state to prevent re-processing on refresh
       window.history.replaceState({}, document.title);
     }
-  }
+  }, []); // Empty deps - run only on mount
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
@@ -454,9 +461,18 @@ const Coach = () => {
 
 // Handle deepen context once user and profile are loaded
   useEffect(() => {
+    console.log('[Coach] Deepen effect check:', { 
+      hasContext: !!deepenContextRef.current, 
+      deepenProcessed, 
+      hasUser: !!user, 
+      profileLoaded, 
+      authLoading 
+    });
+    
     // Check if we have captured context and conditions are met
     if (deepenContextRef.current && !deepenProcessed && user && profileLoaded && !authLoading) {
       const { context, topic } = deepenContextRef.current;
+      console.log('[Coach] Processing deepen context now:', { topic, contextLength: context?.length });
       // Mark as processed and clear ref
       setDeepenProcessed(true);
       deepenContextRef.current = null;
