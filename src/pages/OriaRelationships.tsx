@@ -25,7 +25,7 @@ type Relationship = {
   created_at: string;
 };
 
-// 10 Dimensions with icons, descriptions and characteristic keywords
+// 10 Dimensions with icons, descriptions and characteristic keywords (positive & negative)
 const DIMENSIONS = [
   { 
     key: 'toleranz', 
@@ -37,6 +37,11 @@ const DIMENSIONS = [
       'Unterschiedliche Werte würdigen', 'Raum für Verschiedenheit', 'Geduld mit Gewohnheiten',
       'Grenzen des Erträglichen', 'Ohne Anpassungsdruck', 'Vielfalt als Bereicherung',
       'Toleranz vs. Selbstverleugnung', 'Neugier statt Abwehr', 'Weite vs. Enge'
+    ],
+    negativeKeywords: [
+      'Ständige Kritik', 'Kein Raum für Anderssein', 'Anpassungsdruck', 'Abwertung von Unterschieden',
+      'Intoleranz bei Kleinigkeiten', 'Verachtung', 'Enge statt Weite', 'Ungeduld',
+      'Ablehnung von Eigenheiten', 'Missionieren wollen'
     ]
   },
   { 
@@ -49,6 +54,11 @@ const DIMENSIONS = [
       'Konstanz im Verhalten', 'Versprechen halten', 'Absprachen respektieren',
       'Stabilität bieten', 'Erwartungen erfüllen', 'Kontinuität im Alltag',
       'Zuverlässigkeit in Krisen', 'Regelmäßige Präsenz'
+    ],
+    negativeKeywords: [
+      'Gebrochene Versprechen', 'Unberechenbarkeit', 'Ständiges Zuspätkommen', 'Nicht erreichbar',
+      'Wechselhaftes Verhalten', 'Vergessene Absprachen', 'Ausreden', 'Instabilität',
+      'Enttäuschte Erwartungen', 'Plötzliches Verschwinden'
     ]
   },
   { 
@@ -61,6 +71,11 @@ const DIMENSIONS = [
       'Keine Hintergedanken', 'Aufrichtigkeit', 'Loyalität', 'Treue',
       'Glaubwürdigkeit', 'Sich fallen lassen', 'Vertrauen aufbauen',
       'Nach Vertrauensbruch heilen'
+    ],
+    negativeKeywords: [
+      'Lügen', 'Geheimnisse weitergeben', 'Hintergedanken', 'Misstrauen säen',
+      'Untreue', 'Manipulation', 'Kontrolle', 'Vertrauensbruch',
+      'Unehrlichkeit', 'Verrat', 'Versteckspiel'
     ]
   },
   { 
@@ -72,6 +87,11 @@ const DIMENSIONS = [
       'Gedanken teilen', 'Gefühle aussprechen', 'Wünsche äußern', 'Ängste zeigen',
       'Echte Gespräche', 'Keine Tabuthemen', 'Authentisch sein', 'Verletzlichkeit wagen',
       'Feedback geben', 'Zuhören können', 'Mut zur Wahrheit', 'Timing beachten'
+    ],
+    negativeKeywords: [
+      'Verschlossenheit', 'Gefühle unterdrücken', 'Mauern aufbauen', 'Tabuthemen',
+      'Schweigen als Strafe', 'Keine echten Gespräche', 'Fassade', 'Vermeidung',
+      'Unausgesprochenes', 'Rückzug bei Konflikten'
     ]
   },
   { 
@@ -83,6 +103,11 @@ const DIMENSIONS = [
       'Anerkennung zeigen', 'Dankbarkeit ausdrücken', 'Komplimente machen', 'Stärken sehen',
       'Erfolge feiern', 'Bemühungen würdigen', 'Einzigartigkeit schätzen', 'Aufmerksamkeit schenken',
       'Interesse zeigen', 'Wert bestätigen', 'Lob aussprechen', 'Gesehen werden'
+    ],
+    negativeKeywords: [
+      'Ignorieren', 'Selbstverständlichkeit', 'Kein Lob', 'Kritik statt Anerkennung',
+      'Bemühungen übersehen', 'Gleichgültigkeit', 'Herabsetzung', 'Vergleiche mit anderen',
+      'Unsichtbar fühlen', 'Mangelndes Interesse'
     ]
   },
   { 
@@ -94,6 +119,11 @@ const DIMENSIONS = [
       'Grenzen achten', 'Nein akzeptieren', 'Privatsphäre wahren', 'Meinungen respektieren',
       'Würde bewahren', 'Keine Abwertung', 'Autonomie achten', 'Entscheidungen respektieren',
       'Höflichkeit', 'Keine Übergriffe', 'Selbstachtung', 'Gegenseitige Achtung'
+    ],
+    negativeKeywords: [
+      'Grenzüberschreitungen', 'Nein ignorieren', 'Privatsphäre verletzen', 'Abwertung',
+      'Bevormundung', 'Demütigung', 'Übergriffe', 'Kontrolle ausüben',
+      'Respektlosigkeit', 'Würde verletzen'
     ]
   },
   { 
@@ -105,6 +135,11 @@ const DIMENSIONS = [
       'Körperliche Berührung', 'Emotionale Intimität', 'Gemeinsame Zeit', 'Kuscheln',
       'Tiefe Gespräche', 'Blickkontakt', 'Präsenz', 'Verbundenheit spüren',
       'Seelische Nähe', 'Geborgenheit', 'Zusammengehörigkeit', 'Nähe-Distanz-Balance'
+    ],
+    negativeKeywords: [
+      'Distanz', 'Kälte', 'Keine Berührung', 'Emotionale Abwesenheit',
+      'Keine gemeinsame Zeit', 'Oberflächlichkeit', 'Fremdheit', 'Einsamkeit zu zweit',
+      'Klammern', 'Erdrückende Nähe'
     ]
   },
   { 
@@ -116,6 +151,11 @@ const DIMENSIONS = [
       'Gemeinsam lachen', 'Leichtigkeit', 'Albernheit', 'Insider-Witze',
       'Spielerisches Necken', 'Situationskomik', 'Ironie verstehen', 'Stress abbauen',
       'Freude teilen', 'Spaß haben', 'Positive Stimmung', 'Lachen als Verbindung'
+    ],
+    negativeKeywords: [
+      'Verletzender Spott', 'Sarkasmus auf Kosten anderer', 'Kein gemeinsames Lachen',
+      'Schwere', 'Verbitterung', 'Auslachen', 'Zynismus', 'Witze auf Kosten des Partners',
+      'Humor als Waffe', 'Keine Leichtigkeit'
     ]
   },
   { 
@@ -127,6 +167,11 @@ const DIMENSIONS = [
       'Emotionaler Halt', 'Schutz bieten', 'Stabilität', 'Vorhersehbarkeit',
       'Ruhe ausstrahlen', 'Konfliktfähigkeit', 'Keine Angst vor Verlassen', 'Beständigkeit',
       'Sicherer Hafen', 'Nervensystem beruhigen', 'Ankerpunkt sein', 'Geborgenheit'
+    ],
+    negativeKeywords: [
+      'Angst vor Verlassenwerden', 'Emotionale Instabilität', 'Wutausbrüche', 'Drohungen',
+      'Unberechenbarkeit', 'Ständige Unsicherheit', 'Kein sicherer Hafen', 'Nervosität',
+      'Walking on eggshells', 'Fehlender Halt'
     ]
   },
   { 
@@ -138,6 +183,11 @@ const DIMENSIONS = [
       'Mitfühlen', 'Verstehen wollen', 'Zuhören ohne Ratschlag', 'Perspektive wechseln',
       'Gefühle validieren', 'Anteilnahme zeigen', 'Einfühlungsvermögen', 'Resonanz geben',
       'Nicht bewerten', 'Da sein', 'Trost spenden', 'Emotionen halten'
+    ],
+    negativeKeywords: [
+      'Kein Verständnis', 'Gefühle abtun', 'Sofort Ratschläge geben', 'Bagatellisieren',
+      'Nicht zuhören', 'Eigene Perspektive aufzwingen', 'Kälte', 'Desinteresse',
+      'Gefühle bewerten', 'Allein gelassen fühlen'
     ]
   },
 ];
@@ -689,15 +739,33 @@ const OriaRelationships = () => {
                     <span className="text-sm font-medium text-foreground">{activeDimension.label}</span>
                     <span className="text-xs text-muted-foreground">– {activeDimension.desc}</span>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {activeDimension.keywords.map((keyword, idx) => (
-                      <span 
-                        key={idx} 
-                        className="text-xs bg-background/80 text-muted-foreground px-2 py-0.5 rounded-full border border-border"
-                      >
-                        {keyword}
-                      </span>
-                    ))}
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-xs text-accent font-medium mb-1 block">Nährend:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activeDimension.keywords.map((keyword, idx) => (
+                          <span 
+                            key={idx} 
+                            className="text-xs bg-accent/20 text-foreground px-2 py-0.5 rounded-full border border-accent/30"
+                          >
+                            {keyword}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-xs text-destructive font-medium mb-1 block">Belastend:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activeDimension.negativeKeywords.map((keyword, idx) => (
+                          <span 
+                            key={idx} 
+                            className="text-xs bg-destructive/10 text-foreground px-2 py-0.5 rounded-full border border-destructive/30"
+                          >
+                            {keyword}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               )}
