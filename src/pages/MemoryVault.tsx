@@ -92,6 +92,8 @@ const memoryTypeIcons: Record<string, React.ComponentType<{ className?: string }
   'oria-youth': Users,
   'life-checkin': Calendar,
   'daily-checkin': Calendar,
+  'relationship-reflection': Heart,
+  'relationship-profile': Users,
 };
 
 const nvcFeelings = [
