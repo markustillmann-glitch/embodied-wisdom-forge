@@ -314,6 +314,8 @@ const OriaRelationships = () => {
     setPreviewDimension(dimension);
   };
 
+  const activeDimension = selectedDimension ? DIMENSIONS.find(d => d.key === selectedDimension) : null;
+
   const startSession = async (dimension?: string) => {
     const dimToUse = dimension || previewDimension || undefined;
     if (dimToUse) setSelectedDimension(dimToUse);
@@ -675,6 +677,31 @@ const OriaRelationships = () => {
               </div>
 
               {/* Messages */}
+              {/* Dimension Keywords Info Box */}
+              {activeDimension && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-accent/10 rounded-lg border border-accent/20 p-3"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <activeDimension.icon className="w-4 h-4 text-accent" />
+                    <span className="text-sm font-medium text-foreground">{activeDimension.label}</span>
+                    <span className="text-xs text-muted-foreground">– {activeDimension.desc}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {activeDimension.keywords.map((keyword, idx) => (
+                      <span 
+                        key={idx} 
+                        className="text-xs bg-background/80 text-muted-foreground px-2 py-0.5 rounded-full border border-border"
+                      >
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
               <div className="bg-card rounded-xl border border-border p-4 min-h-[400px] max-h-[500px] overflow-y-auto">
                 {messages.length === 0 && isLoading ? (
                   <div className="flex items-center justify-center h-full">
