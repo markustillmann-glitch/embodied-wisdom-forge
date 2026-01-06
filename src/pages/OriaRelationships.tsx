@@ -411,7 +411,7 @@ const OriaRelationships = () => {
   };
 
   // Start session with context from another chat (e.g. Life Check-in)
-  const startSessionWithContext = async (context: string, topic?: string) => {
+  const startSessionWithContext = async (context: string, _topic?: string) => {
     setHasStarted(true);
     setMessages([]);
     setIsLoading(true);
@@ -419,9 +419,7 @@ const OriaRelationships = () => {
     try {
       const introMessage: Message = { 
         role: "user", 
-        content: topic 
-          ? `Ich komme aus einem anderen Gespräch und möchte folgendes Thema hier vertiefen:\n\n**Thema:** ${topic}\n\n**Kontext aus dem vorherigen Gespräch:**\n${context}`
-          : `Ich komme aus einem anderen Gespräch und möchte folgendes hier vertiefen:\n\n${context}`
+        content: `Ich möchte ein Thema aus einem vorherigen Gespräch hier vertiefen. Hier ist der Kontext:\n\n${context}\n\nBitte hilf mir, dieses Beziehungsthema tiefer zu reflektieren.`
       };
       await streamChat([introMessage]);
     } catch (err: unknown) {
