@@ -139,8 +139,19 @@ const Coach = () => {
   const startNewFromUrl = searchParams.get('new') === 'true';
   const showHistoryFromUrl = searchParams.get('showHistory') === 'true';
   
-  // Track if context from other chats has been processed
+// Track deepen context from other chats - capture immediately on mount
+  const deepenContextRef = useRef<DeepenState | null>(null);
   const [deepenProcessed, setDeepenProcessed] = useState(false);
+  
+  // Capture deepen context immediately on mount (before any async operations)
+  if (!deepenContextRef.current && !deepenProcessed) {
+    const state = location.state as DeepenState | null;
+    if (state?.context) {
+      deepenContextRef.current = state;
+      // Clear the location state immediately
+      window.history.replaceState({}, document.title);
+    }
+  }
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
@@ -441,21 +452,18 @@ const Coach = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Handle incoming context from other chats (e.g., Oria Relationships)
-  // Single effect that handles both capturing and processing the deepen context
+// Handle deepen context once user and profile are loaded
   useEffect(() => {
-    const state = location.state as DeepenState | null;
-    
-    // Check if we have incoming context from navigation
-    if (state?.context && !deepenProcessed && user && profileLoaded && !authLoading) {
-      // Mark as processed immediately to prevent re-runs
+    // Check if we have captured context and conditions are met
+    if (deepenContextRef.current && !deepenProcessed && user && profileLoaded && !authLoading) {
+      const { context, topic } = deepenContextRef.current;
+      // Mark as processed and clear ref
       setDeepenProcessed(true);
-      // Clear the location state to prevent re-processing on refresh
-      window.history.replaceState({}, document.title);
+      deepenContextRef.current = null;
       // Start the conversation with the context
-      startConversationWithContext(state.context, state.topic);
+      startConversationWithContext(context!, topic);
     }
-  }, [location.state, deepenProcessed, user, profileLoaded, authLoading]);
+  }, [user, profileLoaded, authLoading, deepenProcessed]);
 
   const startConversationWithContext = async (context: string, topic?: string) => {
     if (!user) return;
