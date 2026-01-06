@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -117,10 +117,18 @@ interface LearnedInsight {
   observation_count: number;
 }
 
+// Type for deepen context from other chats
+interface DeepenState {
+  context?: string;
+  topic?: string;
+  source?: string;
+}
+
 const Coach = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -130,6 +138,10 @@ const Coach = () => {
   const conversationIdFromUrl = searchParams.get('conversation');
   const startNewFromUrl = searchParams.get('new') === 'true';
   const showHistoryFromUrl = searchParams.get('showHistory') === 'true';
+  
+  // Context from other chats (e.g., Oria Relationships, Life Check-in)
+  const [deepenContext, setDeepenContext] = useState<DeepenState | null>(null);
+  const [deepenProcessed, setDeepenProcessed] = useState(false);
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string | null>(null);
@@ -428,6 +440,169 @@ const Coach = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Handle incoming context from other chats (e.g., Oria Relationships)
+  useEffect(() => {
+    const state = location.state as DeepenState | null;
+    if (state?.context && !deepenProcessed) {
+      setDeepenContext(state);
+      // Clear the location state to prevent re-processing on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state, deepenProcessed]);
+
+  // Start conversation with deepen context once user and profile are loaded
+  useEffect(() => {
+    if (deepenContext?.context && user && !deepenProcessed && !authLoading) {
+      setDeepenProcessed(true);
+      startConversationWithContext(deepenContext.context, deepenContext.topic);
+    }
+  }, [deepenContext, user, deepenProcessed, authLoading]);
+
+  const startConversationWithContext = async (context: string, topic?: string) => {
+    if (!user) return;
+
+    // Create new conversation with topic as title
+    const title = topic || (language === 'de' ? 'Vertiefung aus Oria' : 'Deepening from Oria');
+    const { data, error } = await supabase
+      .from('conversations')
+      .insert({ user_id: user.id, title })
+      .select()
+      .single();
+
+    if (error) {
+      toast({
+        title: t('vault.error'),
+        description: t('coach.errorCreatingConversation'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setConversations(prev => [data, ...prev]);
+    setCurrentConversation(data.id);
+    setMessages([]);
+    setShowSavePrompt(false);
+
+    // Wait a tick for state to settle, then send the context message
+    setTimeout(() => {
+      const contextMessage = topic 
+        ? `Ich möchte ein Thema aus einem vorherigen Gespräch hier vertiefen.\n\n**Thema:** ${topic}\n\n**Kontext aus dem vorherigen Gespräch:**\n${context}\n\nBitte hilf mir, dieses Thema tiefer zu reflektieren.`
+        : `Ich möchte ein Thema aus einem vorherigen Gespräch hier vertiefen.\n\n**Kontext:**\n${context}\n\nBitte hilf mir, dieses Thema tiefer zu reflektieren.`;
+      
+      sendMessageDirect(contextMessage, data.id);
+    }, 100);
+  };
+
+  // Direct send message function that accepts conversation ID (for context start)
+  const sendMessageDirect = async (messageText: string, conversationId: string) => {
+    if (!messageText || !conversationId || isStreaming) return;
+
+    setIsStreaming(true);
+    setRetryMessage(null);
+    
+    const userMessage: Message = {
+      id: crypto.randomUUID(),
+      role: 'user',
+      content: messageText,
+      created_at: new Date().toISOString(),
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+
+    // Save user message to database
+    await supabase.from('messages').insert({
+      conversation_id: conversationId,
+      role: 'user',
+      content: messageText,
+    });
+
+    try {
+      const response = await streamWithTimeout(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/coach-chat`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({
+            messages: [{ role: 'user', content: messageText }],
+            userProfile,
+            language,
+            mode: conversationMode,
+            learnedInsights: learnedInsights.map(i => ({
+              type: i.insight_type,
+              content: i.insight_content,
+              confidence: i.confidence_level,
+            })),
+          }),
+        },
+        60000
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No reader');
+
+      const decoder = new TextDecoder();
+      let assistantContent = '';
+      const assistantId = crypto.randomUUID();
+
+      setMessages(prev => [...prev, {
+        id: assistantId,
+        role: 'assistant',
+        content: '',
+        created_at: new Date().toISOString(),
+      }]);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(data);
+              const content = parsed.choices?.[0]?.delta?.content;
+              if (content) {
+                assistantContent += content;
+                setMessages(prev => prev.map(m =>
+                  m.id === assistantId ? { ...m, content: assistantContent } : m
+                ));
+              }
+            } catch { /* ignore parse errors */ }
+          }
+        }
+      }
+
+      // Save assistant message
+      await supabase.from('messages').insert({
+        conversation_id: conversationId,
+        role: 'assistant',
+        content: assistantContent,
+      });
+
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setRetryMessage(messageText);
+      toast({
+        title: language === 'de' ? 'Verbindungsfehler' : 'Connection Error',
+        description: language === 'de' ? 'Nachricht konnte nicht gesendet werden.' : 'Message could not be sent.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsStreaming(false);
+    }
+  };
 
   const loadUserProfile = async () => {
     if (!user) return;
