@@ -497,7 +497,6 @@ const LifeCheckin = () => {
                       navigate('/oria-relationships', {
                         state: {
                           context: contextSummary,
-                          topic: 'Beziehungsthema aus Life Check-in',
                           source: 'life-checkin'
                         }
                       });
