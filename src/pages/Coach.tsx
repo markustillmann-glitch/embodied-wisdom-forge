@@ -453,11 +453,12 @@ const Coach = () => {
 
   // Start conversation with deepen context once user and profile are loaded
   useEffect(() => {
-    if (deepenContext?.context && user && !deepenProcessed && !authLoading) {
+    // Wait for userProfile to be loaded before starting the conversation
+    if (deepenContext?.context && user && userProfile && !deepenProcessed && !authLoading) {
       setDeepenProcessed(true);
       startConversationWithContext(deepenContext.context, deepenContext.topic);
     }
-  }, [deepenContext, user, deepenProcessed, authLoading]);
+  }, [deepenContext, user, userProfile, deepenProcessed, authLoading]);
 
   const startConversationWithContext = async (context: string, topic?: string) => {
     if (!user) return;
