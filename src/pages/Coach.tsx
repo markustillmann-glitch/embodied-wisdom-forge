@@ -139,15 +139,20 @@ const Coach = () => {
   const startNewFromUrl = searchParams.get('new') === 'true';
   const showHistoryFromUrl = searchParams.get('showHistory') === 'true';
   
-// Track deepen context from other chats - capture immediately during initialization
-  // Use useState initializer to capture on first render, before any effects run
+// Track deepen context from other chats - read from sessionStorage for reliable transfer
   const [initialDeepenContext] = useState<DeepenState | null>(() => {
-    const state = location.state as DeepenState | null;
-    if (state?.context) {
-      console.log('[Coach] Captured deepen context during init:', { topic: state.topic, hasContext: !!state.context });
-      // Clear the location state immediately to prevent re-processing
-      window.history.replaceState({}, document.title);
-      return state;
+    const stored = sessionStorage.getItem('coach-deepen-context');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        // Clear immediately to prevent re-processing
+        sessionStorage.removeItem('coach-deepen-context');
+        console.log('[Coach] Found deepen context in sessionStorage:', { topic: parsed.topic });
+        return parsed as DeepenState;
+      } catch (e) {
+        console.error('[Coach] Failed to parse deepen context:', e);
+        sessionStorage.removeItem('coach-deepen-context');
+      }
     }
     return null;
   });
