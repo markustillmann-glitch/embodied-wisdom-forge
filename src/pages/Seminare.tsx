@@ -146,7 +146,7 @@ const MehrwerteSection = () => {
 };
 
 const Seminare = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   const timelineItems = [
     { key: 'start', highlight: false },
@@ -194,10 +194,24 @@ const Seminare = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-sm sm:text-base md:text-lg text-muted-foreground font-sans max-w-xl mx-auto leading-relaxed px-2"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground font-sans max-w-xl mx-auto leading-relaxed px-2 mb-6"
           >
             {t('seminare.subtitle')}
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
+            <Link
+              to="/seminar-mehrwerte"
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
+            >
+              {language === 'de' ? 'Wie Oria Resilienz stärkt – Alle Mehrwerte entdecken' : 'How Oria strengthens resilience – Discover all benefits'}
+              <span>→</span>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
