@@ -31,6 +31,7 @@ import Admin from "./pages/Admin";
 import UserAnalytics from "./pages/UserAnalytics";
 import ProfileAssistant from "./pages/ProfileAssistant";
 import NotFound from "./pages/NotFound";
+import OriaUnternehmen from "./pages/OriaUnternehmen";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ const App = () => (
               <Route path="/profile-assistant" element={<ProfileAssistant />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/user-analytics" element={<UserAnalytics />} />
+              <Route path="/oria-unternehmen" element={<OriaUnternehmen />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

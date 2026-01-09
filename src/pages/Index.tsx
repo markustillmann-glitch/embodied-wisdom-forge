@@ -466,6 +466,13 @@ const Index = () => {
             >
               Oria für Partner
             </Link>
+            <Link 
+              to="/oria-unternehmen" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="text-sm text-muted-foreground hover:text-accent transition-colors"
+            >
+              {language === 'de' ? 'Oria für Unternehmen' : 'Oria for Companies'}
+            </Link>
           </div>
           
           <p className="text-muted-foreground text-xs">
