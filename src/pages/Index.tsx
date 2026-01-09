@@ -256,8 +256,8 @@ const Index = () => {
                 : 'Instead of suppressing or analyzing these experiences on a purely factual level, the Inner Compass Framework supports:'}
             </p>
             <ListBlock items={language === 'de'
-              ? ['ihnen achtsam und dosiert zu begegnen', 'innere Signale besser einzuordnen', 'erste Schritte zu mehr Entlastung zu finden']
-              : ['meeting them mindfully and in measured doses', 'better understanding inner signals', 'finding first steps toward more relief']}
+              ? ['ihnen achtsam und dosiert zu begegnen', 'innere Signale besser einzuordnen', 'die Gefühls- und Erinnerungsebene zu aktivieren', 'erste Schritte zu mehr Entlastung zu finden']
+              : ['meeting them mindfully and in measured doses', 'better understanding inner signals', 'activating the emotional and memory level', 'finding first steps toward more relief']}
             />
             <Highlight>
               {language === 'de'
