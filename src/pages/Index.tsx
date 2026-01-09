@@ -179,8 +179,8 @@ const Index = () => {
             </p>
             <Highlight>
               {language === 'de'
-                ? <><strong>Inner Guidance</strong> Through Lived Memories lädt dazu ein, diesen Zustand nicht länger zu bekämpfen oder zu optimieren, sondern ihn zu verstehen.</>
-                : <><strong>Inner Guidance</strong> Through Lived Memories invites you to no longer fight or optimize this state, but to understand it.</>}
+                ? <><strong>Inner Guidance</strong> Through Lived Memories lädt dazu ein, diesen Zustand nicht länger zu bekämpfen oder zu optimieren, sondern darunterliegende Ursachen zu verstehen und bewusste Haltungsänderungen zu ermöglichen.</>
+                : <><strong>Inner Guidance</strong> Through Lived Memories invites you to no longer fight or optimize this state, but to understand underlying causes and enable conscious shifts in attitude.</>}
             </Highlight>
             <p className="text-muted-foreground mt-6 mb-4">
               {language === 'de'
