@@ -252,8 +252,8 @@ const Index = () => {
             </p>
             <p className="mb-4">
               {language === 'de'
-                ? 'Statt diese Erfahrungen zu verdrängen oder zu analysieren, unterstützt das Inner Compass Framework dabei:'
-                : 'Instead of suppressing or analyzing these experiences, the Inner Compass Framework supports:'}
+                ? 'Statt diese Erfahrungen zu verdrängen oder auf der Sachebene zu analysieren, unterstützt das Inner Compass Framework dabei:'
+                : 'Instead of suppressing or analyzing these experiences on a purely factual level, the Inner Compass Framework supports:'}
             </p>
             <ListBlock items={language === 'de'
               ? ['ihnen achtsam und dosiert zu begegnen', 'innere Signale besser einzuordnen', 'erste Schritte zu mehr Entlastung zu finden']
