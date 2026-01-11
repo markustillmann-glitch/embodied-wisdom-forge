@@ -507,6 +507,199 @@ const Seminare = () => {
         </div>
       </section>
 
+      {/* Oria Buddy Section */}
+      <section className="py-20 relative overflow-hidden">
+        <PolygonalBackground variant="warm" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
+          <motion.div {...fadeInUp} className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Users className="w-8 h-8 text-accent" />
+              <span className="text-xs font-sans tracking-wider text-accent uppercase">Optional im Jahresprogramm</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-4">
+              Der Oria Buddy
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Für den Oria-Prozess empfehlen wir einen Buddy, der nicht zur engsten privaten Beziehung gehört.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Why this recommendation */}
+            <motion.div 
+              {...fadeInUp}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="bg-card p-6 rounded-lg border border-border"
+            >
+              <h3 className="font-serif text-lg text-foreground mb-4 flex items-center gap-2">
+                <Heart className="w-5 h-5 text-accent" />
+                Warum diese Empfehlung?
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                Oria ist ein Raum für Selbstklärung, innere Führung und ehrliche Begegnung mit sich selbst.
+                Dafür braucht es Freiheit von Rollen, Erwartungen und Beziehungsgeschichte.
+              </p>
+              <p className="text-sm text-muted-foreground mb-4">
+                Ein Buddy, den man noch nicht oder nur wenig kennt, ermöglicht:
+              </p>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Offenheit ohne Rücksichtnahme</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Ehrlichkeit ohne Beziehungsmanagement</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Nähe ohne Verstrickung</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Resonanz ohne Interpretation</span>
+                </li>
+              </ul>
+              <p className="text-sm text-accent mt-4 italic">
+                Das Nervensystem bleibt freier, der innere Prozess klarer.
+              </p>
+            </motion.div>
+
+            {/* What a Buddy offers */}
+            <motion.div 
+              {...fadeInUp}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="bg-card p-6 rounded-lg border border-border"
+            >
+              <h3 className="font-serif text-lg text-foreground mb-4 flex items-center gap-2">
+                <Shield className="w-5 h-5 text-accent" />
+                Was ein Oria Buddy bietet
+              </h3>
+              <ul className="space-y-3 text-sm text-muted-foreground mb-6">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Einen geschützten Resonanzraum</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Präsentes Zuhören statt Ratschläge</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Spiegeln statt Deuten</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>Verlässlichkeit über einen klar begrenzten Zeitraum</span>
+                </li>
+              </ul>
+              <div className="p-4 bg-accent/5 rounded-lg border border-accent/20">
+                <p className="text-sm text-foreground italic text-center">
+                  Der Buddy ist Zeuge, nicht Lösungsinstanz.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Why partners are not ideal */}
+          <motion.div 
+            {...fadeInUp}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="bg-secondary/30 p-6 rounded-lg border border-border mb-8"
+          >
+            <h3 className="font-serif text-lg text-foreground mb-4">
+              Warum Partner:innen oder enge Freund:innen meist nicht ideal sind
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+              So wertvoll diese Beziehungen sind – sie bringen oft mit:
+            </p>
+            <div className="grid sm:grid-cols-2 gap-2 mb-4">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                <span>Eingefahrene Rollen</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                <span>Implizite Erwartungen</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                <span>Emotionale Altlasten</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                <span>Den Wunsch, zu helfen oder zu korrigieren</span>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground italic">
+              Das kann den Oria-Raum überlagern. Nicht, weil die Beziehung schlecht ist – sondern weil sie zu nah ist.
+            </p>
+          </motion.div>
+
+          {/* Clarification */}
+          <motion.div 
+            {...fadeInUp}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="bg-accent/10 p-6 rounded-lg border border-accent/30 mb-8"
+          >
+            <h3 className="font-serif text-lg text-foreground mb-4 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-accent" />
+              Eine wichtige Klarstellung
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+              Diese Empfehlung ist keine Abwertung enger Beziehungen.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Im Gegenteil: Viele Teilnehmende erleben, dass sich Partnerschaften und Freundschaften vertiefen,
+              nachdem sie im Oria-Buddy-Raum gelernt haben, sich selbst klarer zu spüren, Bedürfnisse auszusprechen
+              und Nähe ohne Überforderung zuzulassen.
+            </p>
+          </motion.div>
+
+          {/* Our stance */}
+          <motion.div 
+            {...fadeInUp}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="bg-card p-6 rounded-lg border border-border mb-8"
+          >
+            <h3 className="font-serif text-lg text-foreground mb-4">Unsere Haltung</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                <span>Die Buddy-Wahl ist freiwillig</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                <span>Sie gilt für den Oria-Prozess, nicht fürs Leben</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                <span>Ein Wechsel ist jederzeit möglich</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                <span>Professionelle Begleitung bleibt unabhängig davon verfügbar</span>
+              </li>
+            </ul>
+          </motion.div>
+
+          {/* Guiding principle */}
+          <motion.div 
+            {...fadeInUp}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="text-center"
+          >
+            <div className="inline-block p-8 bg-gradient-to-br from-accent/5 to-accent/10 rounded-xl border border-accent/20">
+              <p className="text-xs font-sans tracking-wider text-accent uppercase mb-3">Der Leitsatz von Oria</p>
+              <p className="text-lg md:text-xl font-serif text-foreground leading-relaxed max-w-xl">
+                Der Oria Buddy ist jemand, bei dem ich mich zeigen darf, ohne erklärt, repariert oder verstanden werden zu müssen.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Mehrwerte Section */}
       <MehrwerteSection />
 
