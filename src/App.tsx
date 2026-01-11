@@ -36,6 +36,7 @@ import SeminarMehrwerte from "./pages/SeminarMehrwerte";
 import OriaModell from "./pages/OriaModell";
 import OriaPositionierung from "./pages/OriaPositionierung";
 import Ueberforderung from "./pages/Ueberforderung";
+import Individualismus from "./pages/Individualismus";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const App = () => (
               <Route path="/oria-modell" element={<OriaModell />} />
               <Route path="/oria-positionierung" element={<OriaPositionierung />} />
               <Route path="/ueberforderung" element={<Ueberforderung />} />
+              <Route path="/individualismus" element={<Individualismus />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
