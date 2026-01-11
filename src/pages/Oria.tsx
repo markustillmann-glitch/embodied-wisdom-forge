@@ -775,12 +775,37 @@ const Oria = () => {
       {/* Oria Modell & Apps Section */}
       <section className="py-12 sm:py-16 border-t border-chapter-divider">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-6">
-          {/* Oria Modell Card */}
+          {/* Oria Positionierung Card - NEW */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <Compass className="w-5 h-5 text-accent" />
+              <h3 className="text-lg font-serif text-foreground">Beyond Constant Overload</h3>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground mb-6">
+              Oria ist ein inneres Navigationssystem, das Überforderung nicht bekämpft, sondern in verstehbare Muster, Bedürfnisse und handhabbare nächste Schritte übersetzt.
+            </p>
+            <Link 
+              to="/oria-positionierung" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+            >
+              Zur Oria-Positionierung
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+          
+          {/* Oria Modell Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="bg-card rounded-xl border border-border p-6 sm:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
