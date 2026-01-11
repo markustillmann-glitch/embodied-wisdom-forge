@@ -19,6 +19,7 @@ import {
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import { format } from 'date-fns';
 import { de, enUS } from 'date-fns/locale';
+import { OriaProcessFlow } from '@/components/OriaProcessFlow';
 
 interface LastConversation {
   id: string;
@@ -145,18 +146,24 @@ const CoachOverview = () => {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="text-center mb-10">
+        <div className="text-center mb-6">
           <h2 className="font-serif text-2xl md:text-3xl font-medium text-foreground mb-3">
-            {language === 'de' ? 'Willkommen zurück' : 'Welcome back'}
+            {language === 'de' ? 'Willkommen bei Oria' : 'Welcome to Oria'}
           </h2>
-          <p className="text-muted-foreground max-w-md mx-auto">
+          <p className="text-muted-foreground max-w-xl mx-auto">
             {language === 'de' 
-              ? 'Wähle, wie du heute mit Oria arbeiten möchtest.' 
-              : 'Choose how you want to work with Oria today.'}
+              ? 'Oria begleitet dich Schritt für Schritt – vom ersten Impuls bis zur nachhaltigen Selbsterkenntnis. Du bestimmst Tempo und Tiefe.' 
+              : 'Oria guides you step by step – from the first impulse to lasting self-insight. You determine the pace and depth.'}
           </p>
         </div>
 
-        <div className="grid gap-4 md:gap-6">
+        {/* Oria Process Flow */}
+        <OriaProcessFlow />
+
+        <div className="mt-8 pt-8 border-t border-border">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4 text-center">
+            {language === 'de' ? 'Deine Gespräche' : 'Your Conversations'}
+          </h3>
           {/* Continue Last Conversation */}
           {lastConversation && lastConversation.messageCount > 0 && (
             <Card 
@@ -226,7 +233,7 @@ const CoachOverview = () => {
 
           {/* Other Functions Section */}
           <div className="mt-6">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4">
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4 text-center">
               {language === 'de' ? 'Weitere Funktionen' : 'Other Features'}
             </h3>
             
