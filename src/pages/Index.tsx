@@ -172,11 +172,20 @@ const Index = () => {
         {/* Worum geht es? */}
         <div id="intro" className="border-t border-chapter-divider">
           <ChapterSection title={language === 'de' ? 'Worum geht es?' : 'What is it about?'}>
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-lg text-muted-foreground mb-4">
               {language === 'de' 
                 ? 'Wir leben in einer Zeit permanenter Überforderung. Nicht, weil wir zu schwach sind – sondern weil zu vieles gleichzeitig auf uns einwirkt: Erwartungen, Erinnerungen, innere Stimmen, ungelöste Bedürfnisse, ein Körper im Dauer-Alarm.'
                 : 'We live in a time of constant overload. Not because we are too weak – but because too much is affecting us simultaneously: expectations, memories, inner voices, unresolved needs, a body in permanent alarm.'}
             </p>
+            <Link 
+              to="/ueberforderung" 
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors mb-6 group"
+            >
+              <span className="underline underline-offset-4">
+                {language === 'de' ? 'Dauerhafte Überforderung hat viele Ursachen' : 'Chronic overwhelm has many causes'}
+              </span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
             <Highlight>
               {language === 'de'
                 ? <><strong>Inner Guidance</strong> Through Lived Memories lädt dazu ein, diesen Zustand nicht länger zu bekämpfen oder zu optimieren, sondern darunterliegende Ursachen zu verstehen und bewusste Haltungsänderungen zu ermöglichen.</>
