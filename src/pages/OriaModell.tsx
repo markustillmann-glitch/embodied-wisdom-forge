@@ -419,9 +419,16 @@ const OriaModell = () => {
             <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-foreground mb-4">
               Individualismus aus Oria-Sicht
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-4">
               Vom „inneren Kompass" zur Daueranspannung
             </p>
+            <Link 
+              to="/individualismus" 
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors group"
+            >
+              <span className="underline underline-offset-4">Die Geschichte des westlichen Individualismus</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </motion.div>
           
           <div className="grid md:grid-cols-2 gap-8">
