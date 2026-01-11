@@ -37,6 +37,8 @@ import OriaModell from "./pages/OriaModell";
 import OriaPositionierung from "./pages/OriaPositionierung";
 import Ueberforderung from "./pages/Ueberforderung";
 import Individualismus from "./pages/Individualismus";
+import DecisionHelper from "./pages/DecisionHelper";
+import BodyExhaustion from "./pages/BodyExhaustion";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +83,8 @@ const App = () => (
               <Route path="/oria-positionierung" element={<OriaPositionierung />} />
               <Route path="/ueberforderung" element={<Ueberforderung />} />
               <Route path="/individualismus" element={<Individualismus />} />
+              <Route path="/decision-helper" element={<DecisionHelper />} />
+              <Route path="/body-exhaustion" element={<BodyExhaustion />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

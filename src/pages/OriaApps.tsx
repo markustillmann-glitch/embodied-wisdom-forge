@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Compass, HeartPulse } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Compass, HeartPulse, Scale, Activity } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -25,8 +25,20 @@ const OriaApps = () => {
     {
       icon: HeartPulse,
       title: "Oria Relationships",
-      description: "Reflexion, Begleitung und innere Führung in Beziehungen. 10 Dimensionen wie Vertrauen, Nähe und Respekt – nicht bewerten, sondern verstehen.",
+      description: "Reflexion, Begleitung und innere Führung in Beziehungen. 10 Dimensionen wie Vertrauen, Nähe und Respekt.",
       link: "/oria-relationships",
+    },
+    {
+      icon: Scale,
+      title: "Entscheidungshilfe",
+      description: "Bedürfnisorientierte Entscheidungsfindung. Finde heraus, welche Bedürfnisse bei deiner Entscheidung eine Rolle spielen.",
+      link: "/decision-helper",
+    },
+    {
+      icon: Activity,
+      title: "Körper-Check",
+      description: "Erfasse deinen körperlichen Erschöpfungszustand in 5-10 Minuten. Energie, Anspannung, Schlaf und Nervensystem-Signale.",
+      link: "/body-exhaustion",
     },
     {
       icon: Users,

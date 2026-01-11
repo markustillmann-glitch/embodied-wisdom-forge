@@ -18,23 +18,23 @@ export const OriaProcessFlow = () => {
   const { language } = useLanguage();
 
   const quickEntries = language === 'de' ? [
-    { label: "Akutes Anliegen", icon: <Heart className="w-4 h-4" /> },
-    { label: "Beziehungserfahrung", icon: <Heart className="w-4 h-4" /> },
-    { label: "Entscheidung", icon: <Brain className="w-4 h-4" /> },
+    { label: "Akutes Anliegen", icon: <Heart className="w-4 h-4" />, href: "/oria-coach" },
+    { label: "Beziehungserfahrung", icon: <Heart className="w-4 h-4" />, href: "/oria-relationships" },
+    { label: "Entscheidung", icon: <Brain className="w-4 h-4" />, href: "/decision-helper" },
   ] : [
-    { label: "Acute Concern", icon: <Heart className="w-4 h-4" /> },
-    { label: "Relationship Experience", icon: <Heart className="w-4 h-4" /> },
-    { label: "Decision", icon: <Brain className="w-4 h-4" /> },
+    { label: "Acute Concern", icon: <Heart className="w-4 h-4" />, href: "/oria-coach" },
+    { label: "Relationship Experience", icon: <Heart className="w-4 h-4" />, href: "/oria-relationships" },
+    { label: "Decision", icon: <Brain className="w-4 h-4" />, href: "/decision-helper" },
   ];
 
   const systematicEntries = language === 'de' ? [
-    { label: "Muster verstehen", icon: <BarChart3 className="w-4 h-4" /> },
-    { label: "Körper-Erschöpfungszustand erfassen", icon: <Brain className="w-4 h-4" /> },
-    { label: "Lebensrad-Landkarte erstellen", icon: <Sparkles className="w-4 h-4" /> },
+    { label: "Muster verstehen", icon: <BarChart3 className="w-4 h-4" />, href: "/daily-checkin" },
+    { label: "Körper-Erschöpfungszustand", icon: <Brain className="w-4 h-4" />, href: "/body-exhaustion" },
+    { label: "Lebensrad-Landkarte", icon: <Sparkles className="w-4 h-4" />, href: "/life-checkin" },
   ] : [
-    { label: "Understand Patterns", icon: <BarChart3 className="w-4 h-4" /> },
-    { label: "Capture Body-Exhaustion State", icon: <Brain className="w-4 h-4" /> },
-    { label: "Create Life Wheel Map", icon: <Sparkles className="w-4 h-4" /> },
+    { label: "Understand Patterns", icon: <BarChart3 className="w-4 h-4" />, href: "/daily-checkin" },
+    { label: "Body-Exhaustion State", icon: <Brain className="w-4 h-4" />, href: "/body-exhaustion" },
+    { label: "Life Wheel Map", icon: <Sparkles className="w-4 h-4" />, href: "/life-checkin" },
   ];
 
   return (
@@ -72,10 +72,10 @@ export const OriaProcessFlow = () => {
                 </p>
                 <div className="space-y-2">
                   {quickEntries.map((entry, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Link key={i} to={entry.href} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors">
                       <span className="text-accent">{entry.icon}</span>
                       {entry.label}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -87,10 +87,10 @@ export const OriaProcessFlow = () => {
                 </p>
                 <div className="space-y-2">
                   {systematicEntries.map((entry, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Link key={i} to={entry.href} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors">
                       <span className="text-accent">{entry.icon}</span>
                       {entry.label}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
