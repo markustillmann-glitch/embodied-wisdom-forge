@@ -19,7 +19,12 @@ import {
   Lightbulb,
   CheckCircle2,
   AlertTriangle,
-  Layers
+  Layers,
+  XCircle,
+  HelpCircle,
+  Activity,
+  HandHeart,
+  Ban
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
@@ -121,6 +126,133 @@ const OriaPositionierung = () => {
     }
   ];
 
+  const overwhelmTypes = [
+    {
+      type: "Kognitive Überforderung",
+      subtitle: "Zu viel Denken, zu viele Optionen, zu viele Entscheidungen",
+      symptoms: [
+        "Informationsflut",
+        "Dauernde Abwägungen",
+        "Kein innerer Abschluss"
+      ],
+      nervousSystem: "dauerhaft aktiviert",
+      whatHelps: [
+        "Reduktion (Input-Diät)",
+        "Externalisieren (aufschreiben, strukturieren)",
+        "Priorisieren (nicht alles ist gleich wichtig)"
+      ],
+      oriaHelps: "Gedanken werden verlangsamt, innere Ordnung entsteht, Entscheidungen an Bedürfnisse rückgekoppelt",
+      oriaLimit: null,
+      icon: Brain,
+      color: "from-blue-500/20 to-blue-600/10",
+      borderColor: "border-blue-500/30"
+    },
+    {
+      type: "Emotionale Überforderung",
+      subtitle: "Gefühle sind da, aber nicht regulierbar",
+      symptoms: [
+        "Widersprüchliche Gefühle",
+        "Schuld, Scham, Angst, Ohnmacht",
+        "Ich weiß nicht, was ich fühle – nur dass es zu viel ist"
+      ],
+      nervousSystem: "überflutet",
+      whatHelps: [
+        "Benennen statt wegdrücken",
+        "Co-Regulation (nicht allein bleiben)",
+        "Körperwahrnehmung"
+      ],
+      oriaHelps: "Gefühle werden schrittweise erkundet, Erinnerungen als sichere Anker genutzt, innere Anteile erkannt",
+      oriaLimit: "Wenn Gefühle akut überwältigend sind (Panik, Trauma-Flashbacks), braucht es menschliche Begleitung.",
+      icon: Heart,
+      color: "from-rose-500/20 to-rose-600/10",
+      borderColor: "border-rose-500/30"
+    },
+    {
+      type: "Soziale / relationale Überforderung",
+      subtitle: "Zu viele Erwartungen – zu wenig Halt",
+      symptoms: [
+        "Rollenstress (Job, Familie, Care)",
+        "Permanente Erreichbarkeit",
+        "Fehlende Abgrenzung"
+      ],
+      nervousSystem: "im Dauer-Alarm",
+      whatHelps: [
+        "Grenzen klären",
+        "Rollen entlasten",
+        "Erwartungen sichtbar machen"
+      ],
+      oriaHelps: "Bedürfnisse hinter Anpassung werden sichtbar, alte Beziehungsmuster erkannt, innere Erlaubnis zur Abgrenzung entsteht",
+      oriaNote: "Oria ersetzt kein Gespräch, aber macht es möglich.",
+      icon: Users,
+      color: "from-amber-500/20 to-amber-600/10",
+      borderColor: "border-amber-500/30"
+    },
+    {
+      type: "Existenzielle Überforderung",
+      subtitle: "Sinn-, Identitäts- oder Lebensfragen",
+      symptoms: [
+        "Ist das alles?",
+        "Mache ich es richtig?",
+        "Wer bin ich jenseits meiner Rollen?"
+      ],
+      nervousSystem: "orientierungslos",
+      whatHelps: [
+        "Sinn nicht 'finden', sondern spüren",
+        "Biografische Einordnung",
+        "Verbindung statt Zieloptimierung"
+      ],
+      oriaHelps: "Identität als gelebte Spur verstanden, Erinnerungen geben Orientierung, Werte entstehen aus Erfahrung statt Idealen",
+      oriaStrong: true,
+      icon: Compass,
+      color: "from-violet-500/20 to-violet-600/10",
+      borderColor: "border-violet-500/30"
+    },
+    {
+      type: "Chronische Erschöpfung / Burnout-nahe Zustände",
+      subtitle: "Überforderung ohne Regenerationsfenster",
+      symptoms: [
+        "Schlaf hilft nicht mehr",
+        "Reizbarkeit, Rückzug",
+        "Emotionale Taubheit"
+      ],
+      nervousSystem: "erschöpft / dysreguliert",
+      whatHelps: [
+        "Echte Entlastung (nicht nur Pausen)",
+        "Medizinische / therapeutische Abklärung",
+        "Stabile, verlässliche Unterstützung"
+      ],
+      oriaCan: [
+        "Frühwarnzeichen sichtbar machen",
+        "Überforderungsmuster erklären",
+        "Selbstabwertung reduzieren"
+      ],
+      oriaCannot: [
+        "Erschöpfung 'wegreflektieren'",
+        "Fehlende Ressourcen ersetzen",
+        "Therapie, Medizin oder strukturelle Entlastung ersetzen"
+      ],
+      icon: Activity,
+      color: "from-gray-500/20 to-gray-600/10",
+      borderColor: "border-gray-500/30"
+    }
+  ];
+
+  const oriaHelpsAt = [
+    "Orientierung statt Selbstoptimierung",
+    "Bedürfnis-Klarheit statt Vergleich",
+    "Innere Führung statt äußerem Druck",
+    "Verlangsamung komplexer Prozesse",
+    "Verbindung von Erinnerung, Gefühl und Bedeutung"
+  ];
+
+  const oriaDoesNotHelp = [
+    "Akute psychische Krisen",
+    "Unbehandelte Traumafolgen",
+    "Klinische Depression ohne Begleitung",
+    "Strukturelle Überlastung (z. B. 60h Care + Job)",
+    "Toxische Umfelder, die realen Schaden verursachen"
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-muted/20 to-background">
       <Header />
@@ -199,6 +331,142 @@ const OriaPositionierung = () => {
                 Oria stellt diesen Referenzrahmen bereit.
               </p>
             </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* NEW: Types of Overwhelm Section */}
+      <motion.section 
+        className="container mx-auto px-4 pb-16"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-serif text-center mb-4 text-foreground">
+            Die wichtigsten Arten von Überforderung
+          </h2>
+          <p className="text-center text-muted-foreground mb-4 max-w-2xl mx-auto">
+            Oria unterscheidet Überforderung nicht nach Symptomen, sondern nach <strong className="text-foreground">Quelle und Dynamik</strong>.
+          </p>
+          <p className="text-center text-sm text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Jede Art hat ihre eigene Logik – und Oria reagiert entsprechend differenziert.
+          </p>
+
+          <div className="space-y-6">
+            {overwhelmTypes.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.type}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 * index }}
+                  className={`bg-gradient-to-r ${item.color} rounded-2xl p-6 md:p-8 border ${item.borderColor}`}
+                >
+                  <div className="flex flex-col lg:flex-row gap-6">
+                    {/* Header */}
+                    <div className="lg:w-1/3">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="p-2 rounded-lg bg-background/50">
+                          <Icon className="h-5 w-5 text-foreground" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground">{item.type}</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-4">{item.subtitle}</p>
+                      
+                      {/* Symptoms */}
+                      <div className="space-y-1.5 mb-4">
+                        {item.symptoms.map((symptom, i) => (
+                          <div key={i} className="flex items-start gap-2 text-sm">
+                            <span className="text-foreground/60">•</span>
+                            <span className="text-foreground/80">{symptom}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/50 text-xs">
+                        <Activity className="h-3 w-3 text-muted-foreground" />
+                        <span className="text-muted-foreground">Nervensystem: <span className="text-foreground font-medium">{item.nervousSystem}</span></span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="lg:w-2/3 lg:border-l lg:border-foreground/10 lg:pl-6 space-y-4">
+                      {/* What helps generally */}
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-2">Was hilft generell:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {item.whatHelps.map((help, i) => (
+                            <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-background/50 text-foreground/80">
+                              {help}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Oria helps */}
+                      {item.oriaHelps && (
+                        <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                          <p className="text-sm font-medium text-primary mb-1 flex items-center gap-2">
+                            <CheckCircle2 className="h-4 w-4" />
+                            {item.oriaStrong ? "Hier ist Oria besonders stark:" : "Oria hilft hier, weil:"}
+                          </p>
+                          <p className="text-sm text-foreground/90">{item.oriaHelps}</p>
+                          {item.oriaNote && (
+                            <p className="text-sm text-primary mt-2 italic">→ {item.oriaNote}</p>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Oria limit */}
+                      {item.oriaLimit && (
+                        <div className="bg-amber-500/10 rounded-lg p-3 border border-amber-500/20">
+                          <p className="text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
+                            <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                            <span>⚠️ Grenze: {item.oriaLimit}</span>
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Oria can / cannot (for chronic exhaustion) */}
+                      {item.oriaCan && item.oriaCannot && (
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
+                            <p className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
+                              <CheckCircle2 className="h-4 w-4" />
+                              Oria kann:
+                            </p>
+                            <ul className="space-y-1">
+                              {item.oriaCan.map((can, i) => (
+                                <li key={i} className="text-xs text-foreground/80 flex items-start gap-1.5">
+                                  <span className="text-primary">•</span>
+                                  {can}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="bg-destructive/5 rounded-lg p-4 border border-destructive/20">
+                            <p className="text-sm font-medium text-destructive mb-2 flex items-center gap-2">
+                              <XCircle className="h-4 w-4" />
+                              Oria kann nicht:
+                            </p>
+                            <ul className="space-y-1">
+                              {item.oriaCannot.map((cannot, i) => (
+                                <li key={i} className="text-xs text-foreground/80 flex items-start gap-1.5">
+                                  <span className="text-destructive">•</span>
+                                  {cannot}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </motion.section>
@@ -351,6 +619,110 @@ const OriaPositionierung = () => {
         </div>
       </motion.section>
 
+      {/* NEW: Where Oria Helps / Doesn't Help */}
+      <motion.section 
+        className="container mx-auto px-4 pb-16"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.55 }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-serif text-center mb-12 text-foreground">
+            Wobei Oria hilft – und wobei nicht
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Oria helps */}
+            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 md:p-8 border border-primary/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-lg bg-primary/20">
+                  <CheckCircle2 className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-xl font-serif text-foreground">Oria hilft bei:</h3>
+              </div>
+              
+              <ul className="space-y-3 mb-6">
+                {oriaHelpsAt.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span className="text-foreground/90">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              
+              <div className="bg-background/50 rounded-lg p-4 border border-primary/20">
+                <p className="text-sm text-primary font-medium mb-2">Kurz:</p>
+                <p className="text-foreground italic">
+                  Oria hilft Menschen, sich selbst wieder zu lesen, statt sich permanent zu bewerten.
+                </p>
+              </div>
+            </div>
+            
+            {/* Oria does NOT help */}
+            <div className="bg-gradient-to-br from-destructive/10 to-destructive/5 rounded-2xl p-6 md:p-8 border border-destructive/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-lg bg-destructive/20">
+                  <Ban className="h-5 w-5 text-destructive" />
+                </div>
+                <h3 className="text-xl font-serif text-foreground">Oria hilft nicht bei:</h3>
+              </div>
+              
+              <ul className="space-y-3 mb-6">
+                {oriaDoesNotHelp.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <XCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                    <span className="text-foreground/90">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              
+              <div className="bg-background/50 rounded-lg p-4 border border-destructive/20">
+                <p className="text-sm text-destructive font-medium">
+                  Oria ist kein Schutzschild gegen unhaltbare Bedingungen.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* NEW: Core Distinction */}
+      <motion.section 
+        className="container mx-auto px-4 pb-16"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.57 }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 border border-border text-center">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="p-3 rounded-xl bg-primary/10">
+                <HelpCircle className="h-6 w-6 text-primary" />
+              </div>
+              <h2 className="text-2xl font-serif text-foreground">Die wichtigste Unterscheidung</h2>
+            </div>
+            
+            <div className="bg-muted/30 rounded-xl p-6 mb-6">
+              <p className="text-lg text-foreground italic leading-relaxed">
+                Nicht jede Überforderung ist ein inneres Thema.<br/>
+                Manche sind ein <strong className="text-primary">ehrliches Signal</strong>, dass etwas im Außen nicht stimmt.
+              </p>
+            </div>
+            
+            <p className="text-muted-foreground mb-4">Oria hilft vor allem bei der Frage:</p>
+            
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="bg-background/50 rounded-lg p-4 border border-border">
+                <p className="text-foreground font-medium">„Was ist meins – und was nicht?"</p>
+              </div>
+              <div className="bg-background/50 rounded-lg p-4 border border-border">
+                <p className="text-foreground font-medium">„Was braucht innere Klärung – und was äußere Veränderung?"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
       {/* Why Oria doesn't overwhelm */}
       <motion.section 
         className="container mx-auto px-4 pb-16"
@@ -492,6 +864,36 @@ const OriaPositionierung = () => {
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* NEW: Closing Statement */}
+      <motion.section 
+        className="container mx-auto px-4 pb-16"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.85 }}
+      >
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-gradient-to-br from-accent/10 via-primary/5 to-accent/10 rounded-2xl p-8 md:p-12 border border-accent/20 text-center">
+            <HandHeart className="h-12 w-12 text-primary mx-auto mb-6" />
+            
+            <p className="text-xl md:text-2xl font-serif text-foreground leading-relaxed mb-6">
+              Viele Menschen scheitern nicht,<br/>
+              weil sie zu wenig können,<br/>
+              sondern weil sie zu lange versucht haben,<br/>
+              <strong className="text-primary">alles allein zu tragen.</strong>
+            </p>
+            
+            <div className="w-16 h-px bg-primary/30 mx-auto mb-6" />
+            
+            <p className="text-lg text-muted-foreground mb-2">
+              Oria ist kein weiterer Anspruch.
+            </p>
+            <p className="text-xl text-primary font-medium">
+              Es ist eine Erlaubnis zur Orientierung.
+            </p>
           </div>
         </div>
       </motion.section>
