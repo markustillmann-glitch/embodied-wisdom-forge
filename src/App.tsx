@@ -33,6 +33,7 @@ import ProfileAssistant from "./pages/ProfileAssistant";
 import NotFound from "./pages/NotFound";
 import OriaUnternehmen from "./pages/OriaUnternehmen";
 import SeminarMehrwerte from "./pages/SeminarMehrwerte";
+import OriaModell from "./pages/OriaModell";
 
 const queryClient = new QueryClient();
 
@@ -73,6 +74,7 @@ const App = () => (
               <Route path="/user-analytics" element={<UserAnalytics />} />
               <Route path="/oria-unternehmen" element={<OriaUnternehmen />} />
               <Route path="/seminar-mehrwerte" element={<SeminarMehrwerte />} />
+              <Route path="/oria-modell" element={<OriaModell />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

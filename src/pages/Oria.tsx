@@ -772,14 +772,40 @@ const Oria = () => {
         </div>
       </section>
 
-      {/* Oria Apps Section */}
+      {/* Oria Modell & Apps Section */}
       <section className="py-12 sm:py-16 border-t border-chapter-divider">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-6">
+          {/* Oria Modell Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="bg-card rounded-xl border border-border p-6 sm:p-8"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <Brain className="w-5 h-5 text-accent" />
+              <h3 className="text-lg font-serif text-foreground">Das Oria-Modell</h3>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground mb-6">
+              Warum Resonanz statt Reiz? Erfahre, wie Oria Bedürfnisse versteht – und warum Social Media sie nicht erfüllen kann.
+            </p>
+            <Link 
+              to="/oria-modell" 
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+            >
+              Zum Oria-Modell
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+          
+          {/* Oria Apps Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="bg-card rounded-xl border border-border p-6 sm:p-8"
           >
             <div className="flex items-center gap-3 mb-4">
