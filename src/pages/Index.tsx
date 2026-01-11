@@ -8,6 +8,7 @@ import { Quote } from "@/components/Quote";
 import { Highlight } from "@/components/Highlight";
 import { ListBlock } from "@/components/ListBlock";
 import { ProcessFlow } from "@/components/ProcessFlow";
+import { OriaProcessFlow } from "@/components/OriaProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -322,28 +323,27 @@ const Index = () => {
 
         {/* Oria – dein täglicher Begleiter */}
         <div id="oria" className="border-t border-chapter-divider">
-          <ChapterSection title={language === 'de' ? 'Oria – dein täglicher Begleiter' : 'Oria – Your Daily Companion'}>
+          <ChapterSection title={language === 'de' ? 'Der Oria-Prozess' : 'The Oria Process'}>
             <p className="mb-6 text-lg text-muted-foreground">
               {language === 'de'
-                ? 'Oria wurde mit dem Ziel entwickelt, ein täglicher Begleiter zu sein – mit dem man schöne oder schwierige Erinnerungen erfassen, analysieren und vertiefen kann. Und das wann immer man möchte. Darüber hinaus lassen sich mit Oria Gedanken, die in Coaching Sessions, auf Seminaren oder einfach so im Alltag entstanden sind, leicht fortführen und vertiefen. Oria basiert auf dem Inner Compass Framework und verbindet dessen wissenschaftliche Grundlagen mit einer einfühlsamen, persönlichen Begleitung.'
-                : 'Oria was developed with the goal of being a daily companion – one that helps you capture, analyze, and deepen beautiful or difficult memories. Whenever you want. Beyond that, Oria makes it easy to continue and deepen thoughts that arose in coaching sessions, seminars, or simply in everyday life. Oria is based on the Inner Compass Framework and combines its scientific foundations with empathetic, personal guidance.'}
+                ? 'Oria begleitet dich Schritt für Schritt – von der ersten Reflexion bis zur dauerhaften Selbsterkenntnis. Du bestimmst Tempo und Tiefe.'
+                : 'Oria guides you step by step – from the first reflection to lasting self-insight. You determine the pace and depth.'}
             </p>
-            <p className="mb-4">
-              {language === 'de'
-                ? 'Oria steht als alltägliche Unterstützung zur Seite:'
-                : 'Oria is there as everyday support:'}
-            </p>
-            <ListBlock items={language === 'de'
-              ? ['bei Fragen, Unsicherheiten oder innerer Unruhe', 'beim Reflektieren von Erinnerungen und Beziehungen', 'beim Stärken positiver Erfahrungen', 'beim Einordnen belastender Gedanken oder Situationen']
-              : ['with questions, uncertainties, or inner unrest', 'when reflecting on memories and relationships', 'when strengthening positive experiences', 'when contextualizing difficult thoughts or situations']}
-            />
-            <p className="mt-6 mb-4">
-              {language === 'de' ? 'Oria hilft dabei:' : 'Oria helps with:'}
-            </p>
-            <ListBlock items={language === 'de'
-              ? ['Zusammenhänge zu erkennen', 'kleine, machbare Schritte zu finden', 'und wahrzunehmen, wann professionelle therapeutische Unterstützung wichtig ist']
-              : ['recognizing connections', 'finding small, manageable steps', 'and perceiving when professional therapeutic support is important']}
-            />
+            
+            <OriaProcessFlow />
+
+            <div className="mt-8 space-y-4">
+              <p className="text-muted-foreground">
+                {language === 'de'
+                  ? 'Oria steht dir als alltägliche Unterstützung zur Seite:'
+                  : 'Oria is there as everyday support:'}
+              </p>
+              <ListBlock items={language === 'de'
+                ? ['bei Fragen, Unsicherheiten oder innerer Unruhe', 'beim Reflektieren von Erinnerungen und Beziehungen', 'beim Stärken positiver Erfahrungen', 'beim Einordnen belastender Gedanken oder Situationen']
+                : ['with questions, uncertainties, or inner unrest', 'when reflecting on memories and relationships', 'when strengthening positive experiences', 'when contextualizing difficult thoughts or situations']}
+              />
+            </div>
+            
             <Highlight>
               {language === 'de'
                 ? 'Oria ersetzt keine Therapie – unterstützt aber Orientierung, Selbstverständnis und Selbstfürsorge im Alltag.'
