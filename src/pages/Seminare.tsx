@@ -522,6 +522,7 @@ const Seminare = () => {
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Für den Oria-Prozess empfehlen wir einen Buddy, der nicht zur engsten privaten Beziehung gehört.
+              Im Rahmen der Seminare können sich Buddy-Paare auf freiwilliger Basis finden, die für eine Periode von 3, 6 oder 12 Monaten miteinander arbeiten.
             </p>
           </motion.div>
 
