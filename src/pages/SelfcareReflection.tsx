@@ -523,24 +523,11 @@ const SelfcareReflection = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-8"
           >
-            <div className="mb-8">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
-                <Heart className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="font-serif text-xl font-medium mb-3">
-                Bereit für deinen Impuls?
-              </h3>
-              <p className="text-muted-foreground max-w-md mx-auto mb-6">
-                Oria wählt zufällig einen Selfcare-Impuls für dich aus. 
-                Gemeinsam erkunden wir, welche Bedeutung er für dich hat.
-              </p>
-            </div>
-            
-            {/* Daily Impulse Preview */}
+            {/* Daily Impulse Preview - Now at top */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
               className="mb-8 max-w-lg mx-auto"
             >
               <div className="inline-flex items-center gap-2 text-pink-500/80 text-sm font-medium mb-3">
@@ -573,6 +560,17 @@ const SelfcareReflection = () => {
                 Diesen Impuls reflektieren
               </Button>
             </motion.div>
+            
+            {/* Explanatory text below */}
+            <div className="mb-6">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-400/20 to-rose-500/20 flex items-center justify-center">
+                <Heart className="w-8 h-8 text-pink-500" />
+              </div>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                Oria wählt zufällig einen Selfcare-Impuls für dich aus. 
+                Gemeinsam erkunden wir, welche Bedeutung er für dich hat.
+              </p>
+            </div>
             
             <div className="relative">
               <div className="absolute inset-x-0 top-1/2 h-px bg-border/50" />
