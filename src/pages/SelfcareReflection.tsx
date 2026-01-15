@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { PolygonalBackground } from '@/components/PolygonalBackground';
-import { Header } from '@/components/Header';
+
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import {
   Dialog,
@@ -379,7 +379,7 @@ const SelfcareReflection = () => {
       setConversationHistory([openingMessage]);
       
       // Clear the URL params to prevent re-triggering
-      navigate('/selfcare-reflection', { replace: true });
+      navigate('/selfcare', { replace: true });
     }
   }, [searchParams, sessionStarted, navigate]);
 
@@ -600,25 +600,10 @@ const SelfcareReflection = () => {
     }
   };
 
-  const deepenInOria = () => {
-    const context = conversationHistory
-      .map(m => `${m.role === 'user' ? 'Nutzer' : 'Oria'}: ${m.content}`)
-      .join('\n\n');
-    
-    // Coach erwartet den Kontext in sessionStorage
-    const deepenData = {
-      context: `Ich komme aus einer Selfcare-Reflexion über den Impuls: "${currentStatement?.text}"\n\nHier ist unser bisheriges Gespräch:\n${context}\n\nIch möchte dieses Thema tiefer erkunden.`,
-      topic: `Selfcare: ${currentStatement?.text.substring(0, 50)}`,
-      source: 'selfcare-reflection'
-    };
-    
-    sessionStorage.setItem('coach-deepen-context', JSON.stringify(deepenData));
-    navigate('/coach?new=true');
-  };
+  // deepenInOria removed - coach page no longer exists
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
-      <Header />
 
       {/* Hero Section */}
       <section className="pt-14 pb-2 sm:pt-24 sm:pb-8 relative overflow-hidden shrink-0">
@@ -806,7 +791,7 @@ const SelfcareReflection = () => {
                           {reflections.map(reflection => (
                             <button
                               key={reflection.id}
-                              onClick={() => navigate('/vault')}
+                              onClick={() => toast.info('Details werden bald verfügbar sein')}
                               className="w-full text-left p-3 bg-card rounded-lg border border-border hover:border-accent/50 transition-colors touch-manipulation"
                             >
                               <div className="flex justify-between items-start gap-2">
@@ -908,17 +893,6 @@ const SelfcareReflection = () => {
                     <RotateCcw className="w-3 h-3 mr-1" />
                     Neuer Impuls
                   </Button>
-                  {conversationHistory.length > 2 && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={deepenInOria}
-                      className="text-accent text-xs h-8 px-3"
-                    >
-                      <Sparkles className="w-3 h-3 mr-1" />
-                      Vertiefen
-                    </Button>
-                  )}
                 </div>
               </div>
             </div>

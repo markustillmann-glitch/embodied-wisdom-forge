@@ -43,7 +43,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user && !authLoading && !showResetPassword) {
-      navigate('/coach');
+      navigate('/selfcare');
     }
   }, [user, authLoading, navigate, showResetPassword]);
 
@@ -188,7 +188,7 @@ const Auth = () => {
         description: t('auth.passwordChangedDesc'),
       });
       setShowResetPassword(false);
-      navigate('/coach');
+      navigate('/selfcare');
     }
   };
 
