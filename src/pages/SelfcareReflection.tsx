@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Trophy, Star } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Trophy, Star, MapPin, FileText, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -24,6 +24,7 @@ import { format, differenceInDays, isToday, isYesterday, startOfDay } from 'date
 import { de } from 'date-fns/locale';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
+const SUMMARY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`;
 
 type StatementCategory = 'selfcare' | 'gfk' | 'ifs';
 
@@ -286,6 +287,12 @@ const SelfcareReflection = () => {
   const [hideStatementBanner, setHideStatementBanner] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
+  // Summary feature state
+  const [wantsSummary, setWantsSummary] = useState(false);
+  const [saveLocation, setSaveLocation] = useState("");
+  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
+  const [generatedSummary, setGeneratedSummary] = useState<any>(null);
+  
   // Past reflections state
   const [pastReflections, setPastReflections] = useState<SelfcareMemory[]>([]);
   const [showPastReflections, setShowPastReflections] = useState(false);
@@ -535,6 +542,40 @@ const SelfcareReflection = () => {
     }
   };
 
+  const generateSummary = async () => {
+    setIsGeneratingSummary(true);
+    try {
+      const conversation = conversationHistory
+        .map(m => `${m.role === 'user' ? 'Nutzer' : 'Oria'}: ${m.content}`)
+        .join('\n\n');
+
+      const response = await fetch(SUMMARY_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          conversation,
+          statement: currentStatement?.text || ''
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Zusammenfassung konnte nicht erstellt werden');
+      }
+
+      const summary = await response.json();
+      setGeneratedSummary(summary);
+    } catch (error) {
+      console.error('Error generating summary:', error);
+      toast.error('Fehler beim Erstellen der Zusammenfassung');
+      setGeneratedSummary(null);
+    } finally {
+      setIsGeneratingSummary(false);
+    }
+  };
+
   const saveToVault = async () => {
     if (!user) {
       toast.error('Bitte melde dich an, um Gespräche zu speichern');
@@ -548,14 +589,22 @@ const SelfcareReflection = () => {
     const title = saveTitle.trim() || `Selfcare: ${currentStatement?.text.substring(0, 40)}...`;
 
     try {
-      const { error } = await supabase.from('memories').insert({
+      const insertData: any = {
         user_id: user.id,
         title: title,
         content: content,
         memory_type: 'selfcare-reflection',
         summary: `Reflexion über: "${currentStatement?.text}"`,
-        created_at: new Date().toISOString()
-      });
+        created_at: new Date().toISOString(),
+        summary_requested: wantsSummary,
+        location: saveLocation.trim() || null,
+      };
+
+      if (wantsSummary && generatedSummary) {
+        insertData.structured_summary = generatedSummary;
+      }
+
+      const { error } = await supabase.from('memories').insert(insertData);
 
       if (error) throw error;
 
@@ -568,11 +617,14 @@ const SelfcareReflection = () => {
       } else if (newStreak === 30) {
         toast.success('🏆 Meister! 30 Tage in Folge reflektiert!');
       } else {
-        toast.success('Reflexion im Tresor gespeichert 💫');
+        toast.success(wantsSummary ? 'Reflexion mit Zusammenfassung gespeichert 💫' : 'Reflexion im Tresor gespeichert 💫');
       }
 
       setShowSaveDialog(false);
       setSaveTitle("");
+      setSaveLocation("");
+      setWantsSummary(false);
+      setGeneratedSummary(null);
       setSessionStarted(false);
       setMessages([]);
       setConversationHistory([]);
@@ -587,6 +639,9 @@ const SelfcareReflection = () => {
   const skipSave = () => {
     setShowSaveDialog(false);
     setSaveTitle("");
+    setSaveLocation("");
+    setWantsSummary(false);
+    setGeneratedSummary(null);
     setSessionStarted(false);
     setMessages([]);
     setConversationHistory([]);
@@ -887,23 +942,103 @@ const SelfcareReflection = () => {
 
       {/* Save Dialog */}
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Reflexion speichern?</DialogTitle>
             <DialogDescription>
               Möchtest du diese Selfcare-Reflexion in deinem Tresor speichern?
             </DialogDescription>
           </DialogHeader>
-          <Input
-            placeholder="Titel (optional)"
-            value={saveTitle}
-            onChange={(e) => setSaveTitle(e.target.value)}
-          />
-          <DialogFooter className="gap-2">
+          
+          <div className="space-y-4">
+            <Input
+              placeholder="Titel (optional)"
+              value={saveTitle}
+              onChange={(e) => setSaveTitle(e.target.value)}
+            />
+            
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Ort (optional)"
+                value={saveLocation}
+                onChange={(e) => setSaveLocation(e.target.value)}
+                className="flex-1"
+              />
+            </div>
+
+            {/* Summary Option */}
+            <div className="border border-border rounded-lg p-4 space-y-3">
+              <div className="flex items-start gap-3">
+                <button
+                  onClick={() => {
+                    const newValue = !wantsSummary;
+                    setWantsSummary(newValue);
+                    if (newValue && !generatedSummary && !isGeneratingSummary) {
+                      generateSummary();
+                    }
+                  }}
+                  className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                    wantsSummary 
+                      ? 'bg-accent border-accent text-accent-foreground' 
+                      : 'border-muted-foreground/50 hover:border-accent'
+                  }`}
+                >
+                  {wantsSummary && <span className="text-xs">✓</span>}
+                </button>
+                <div className="flex-1">
+                  <p className="font-medium text-sm text-foreground">Zusammenfassung erstellen</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Oria analysiert dein Gespräch nach dem Oria-Modell: Muster, Bedürfnisse, innere Teile und Körperbereiche.
+                  </p>
+                </div>
+              </div>
+
+              {wantsSummary && isGeneratingSummary && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 rounded p-3">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-accent"></div>
+                  <span>Zusammenfassung wird erstellt...</span>
+                </div>
+              )}
+
+              {wantsSummary && generatedSummary && !isGeneratingSummary && (
+                <div className="bg-muted/30 rounded p-3 text-sm">
+                  <p className="text-foreground leading-relaxed">{generatedSummary.summary_text}</p>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {generatedSummary.needs?.slice(0, 3).map((need: string, i: number) => (
+                      <span key={i} className="px-2 py-0.5 bg-pink-500/10 text-pink-700 text-xs rounded-full">
+                        {need}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Link to Summaries Page */}
+            {user && (
+              <button
+                onClick={() => {
+                  setShowSaveDialog(false);
+                  navigate('/summaries');
+                }}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Alle Zusammenfassungen anzeigen</span>
+              </button>
+            )}
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0">
             <Button variant="outline" onClick={skipSave}>
               Verwerfen
             </Button>
-            <Button onClick={saveToVault} className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button 
+              onClick={saveToVault} 
+              disabled={wantsSummary && isGeneratingSummary}
+              className="bg-accent text-accent-foreground hover:bg-accent/90"
+            >
               <Save className="w-4 h-4 mr-1" />
               Speichern
             </Button>

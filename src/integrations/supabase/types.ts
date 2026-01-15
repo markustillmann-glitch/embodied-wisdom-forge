@@ -164,12 +164,15 @@ export type Database = {
           feeling_after: string[] | null
           id: string
           image_url: string | null
+          location: string | null
           memory_book_data: Json | null
           memory_date: string | null
           memory_type: string
           needs_after: string[] | null
           pdf_url: string | null
+          structured_summary: Json | null
           summary: string | null
+          summary_requested: boolean | null
           title: string
           updated_at: string | null
           user_id: string
@@ -183,12 +186,15 @@ export type Database = {
           feeling_after?: string[] | null
           id?: string
           image_url?: string | null
+          location?: string | null
           memory_book_data?: Json | null
           memory_date?: string | null
           memory_type?: string
           needs_after?: string[] | null
           pdf_url?: string | null
+          structured_summary?: Json | null
           summary?: string | null
+          summary_requested?: boolean | null
           title: string
           updated_at?: string | null
           user_id: string
@@ -202,12 +208,15 @@ export type Database = {
           feeling_after?: string[] | null
           id?: string
           image_url?: string | null
+          location?: string | null
           memory_book_data?: Json | null
           memory_date?: string | null
           memory_type?: string
           needs_after?: string[] | null
           pdf_url?: string | null
+          structured_summary?: Json | null
           summary?: string | null
+          summary_requested?: boolean | null
           title?: string
           updated_at?: string | null
           user_id?: string
