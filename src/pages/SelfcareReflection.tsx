@@ -562,29 +562,13 @@ const SelfcareReflection = () => {
             </motion.div>
             
             {/* Explanatory text below */}
-            <div className="mb-6">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-400/20 to-rose-500/20 flex items-center justify-center">
-                <Heart className="w-8 h-8 text-pink-500" />
-              </div>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                Oria wählt zufällig einen Selfcare-Impuls für dich aus. 
-                Gemeinsam erkunden wir, welche Bedeutung er für dich hat.
-              </p>
-            </div>
-            
-            <div className="relative">
-              <div className="absolute inset-x-0 top-1/2 h-px bg-border/50" />
-              <span className="relative bg-background px-4 text-sm text-muted-foreground">oder</span>
-            </div>
-            
             <Button 
               onClick={startSession}
               variant="outline"
               size="lg"
-              className="mt-6"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
-              Zufälligen Impuls entdecken
+              Anderen Impuls reflektieren
             </Button>
           </motion.div>
         ) : (
