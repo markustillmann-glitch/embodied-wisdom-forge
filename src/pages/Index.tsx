@@ -12,8 +12,6 @@ import { OriaProcessFlow } from "@/components/OriaProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import oriaOwl from "@/assets/oria-owl.png";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 
@@ -194,13 +192,6 @@ const Index = () => {
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
   
-  // Generate random impulse - increment counter on every page visit to ensure new impulse
-  const [currentImpulse] = useState(() => {
-    const counter = parseInt(sessionStorage.getItem('impulseCounter') || '0', 10) + 1;
-    sessionStorage.setItem('impulseCounter', counter.toString());
-    const index = (counter + Math.floor(Math.random() * 10)) % DAILY_IMPULSES.length;
-    return DAILY_IMPULSES[index];
-  });
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
@@ -327,46 +318,6 @@ const Index = () => {
         </motion.div>
       </section>
 
-      {/* Impuls des Tages Section */}
-      <section className="py-8 sm:py-10 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 via-rose-500/10 to-pink-500/5" />
-        <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <div className="inline-flex items-center gap-2 text-pink-500/80 text-sm font-medium mb-3">
-              <Sparkles className="w-4 h-4" />
-              <span>{language === 'de' ? 'Impuls des Tages' : 'Daily Impulse'}</span>
-              <Sparkles className="w-4 h-4" />
-            </div>
-            
-            <motion.div
-              className="relative bg-gradient-to-br from-pink-500/10 via-rose-500/5 to-fuchsia-500/10 rounded-2xl p-6 md:p-8 border border-pink-400/30 backdrop-blur-sm"
-            >
-              <div className="absolute top-2 left-4 text-pink-400/30 text-4xl font-serif">"</div>
-              <div className="absolute bottom-2 right-4 text-pink-400/30 text-4xl font-serif rotate-180">"</div>
-              
-              <p className="font-serif text-xl md:text-2xl text-foreground leading-relaxed px-4">
-                {currentImpulse}
-              </p>
-            </motion.div>
-            
-            <Button
-              onClick={() => {
-                navigate(`/selfcare-reflection?impulse=${encodeURIComponent(currentImpulse)}&autostart=true`);
-              }}
-              className="mt-6 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              {language === 'de' ? 'Jetzt reflektieren' : 'Reflect now'}
-            </Button>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Impressum & Intention */}
       <section className="py-10 sm:py-14 md:py-16 border-t border-chapter-divider relative overflow-hidden">
