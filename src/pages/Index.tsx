@@ -190,18 +190,21 @@ const DAILY_IMPULSES = [
 ];
 
 const getRandomImpulse = (): string => {
-  return DAILY_IMPULSES[Math.floor(Math.random() * DAILY_IMPULSES.length)];
+  const randomIndex = Math.floor(Math.random() * DAILY_IMPULSES.length);
+  console.log('Generated new impulse at index:', randomIndex, DAILY_IMPULSES[randomIndex]);
+  return DAILY_IMPULSES[randomIndex];
 };
 
 const Index = () => {
   const navigate = useNavigate();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
-  const [currentImpulse] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * DAILY_IMPULSES.length);
-    console.log('Generated new impulse at index:', randomIndex, DAILY_IMPULSES[randomIndex]);
-    return DAILY_IMPULSES[randomIndex];
-  });
+  const [currentImpulse, setCurrentImpulse] = useState("");
+  
+  // Generate new random impulse on every mount (page visit)
+  useEffect(() => {
+    setCurrentImpulse(getRandomImpulse());
+  }, []);
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
