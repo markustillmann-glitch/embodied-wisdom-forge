@@ -922,11 +922,12 @@ const SelfcareReflection = () => {
                 <motion.button 
                   onClick={sendMessage} 
                   disabled={!input.trim() || isLoading}
-                  whileTap={{ scale: 0.97 }}
-                  className="ios-button-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.01 }}
+                  className="w-full flex items-center justify-center gap-2.5 py-3.5 px-6 bg-primary text-primary-foreground font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  Nachricht senden
+                  <Send className="w-5 h-5" />
+                  <span className="text-base">Nachricht senden</span>
                 </motion.button>
                 
                 {/* Action Buttons */}
