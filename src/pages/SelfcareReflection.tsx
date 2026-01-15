@@ -248,7 +248,15 @@ const SelfcareReflection = () => {
       
       setCurrentStatement(statement);
       setSessionStarted(true);
-      setHideStatementBanner(true); // Hide the banner when coming from Index
+      setHideStatementBanner(true);
+      
+      // Start with an opening question about the impulse
+      const openingMessage: Message = {
+        role: 'assistant',
+        content: `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
+      };
+      setMessages([openingMessage]);
+      setConversationHistory([openingMessage]);
       
       // Clear the URL params to prevent re-triggering
       navigate('/selfcare-reflection', { replace: true });
@@ -276,6 +284,23 @@ const SelfcareReflection = () => {
     const today = new Date();
     const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
     return DAILY_IMPULSES[dayOfYear % DAILY_IMPULSES.length];
+  };
+
+  const startWithDailyImpulse = () => {
+    const impulse = getDailyImpulse();
+    const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
+    const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
+    setCurrentStatement(statement);
+    setSessionStarted(true);
+    setHideStatementBanner(true);
+    
+    // Start with an opening question about the impulse
+    const openingMessage: Message = {
+      role: 'assistant',
+      content: `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
+    };
+    setMessages([openingMessage]);
+    setConversationHistory([openingMessage]);
   };
 
   const streamChat = async (userMessage: string, history: Message[], statement: string) => {
@@ -561,14 +586,7 @@ const SelfcareReflection = () => {
               </div>
               
               <Button 
-                onClick={() => {
-                  const impulse = getDailyImpulse();
-                  const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
-                  const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
-                  setCurrentStatement(statement);
-                  setSessionStarted(true);
-                  setHideStatementBanner(true);
-                }}
+                onClick={startWithDailyImpulse}
                 className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 h-12 px-6 touch-manipulation active:scale-95 transition-transform"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
