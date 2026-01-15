@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart, Flower2 } from 'lucide-react';
+import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Trophy, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from '@/components/ui/input';
 import ChatMessage from '@/components/ChatMessage';
+import { format, differenceInDays, isToday, isYesterday, startOfDay } from 'date-fns';
+import { de } from 'date-fns/locale';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 
@@ -212,6 +214,62 @@ const categoryLabels: Record<StatementCategory, { label: string; color: string; 
 };
 
 type Message = { role: "user" | "assistant"; content: string };
+type SelfcareMemory = {
+  id: string;
+  title: string;
+  content: string;
+  memory_date: string;
+  summary: string | null;
+  created_at: string;
+};
+
+// Gamification: Calculate streak from reflections
+const calculateStreak = (memories: SelfcareMemory[]): number => {
+  if (memories.length === 0) return 0;
+  
+  const sortedDates = memories
+    .map(m => startOfDay(new Date(m.created_at || m.memory_date)))
+    .sort((a, b) => b.getTime() - a.getTime());
+  
+  const uniqueDates = [...new Set(sortedDates.map(d => d.getTime()))].map(t => new Date(t));
+  
+  let streak = 0;
+  const today = startOfDay(new Date());
+  
+  for (let i = 0; i < uniqueDates.length; i++) {
+    const expectedDate = new Date(today);
+    expectedDate.setDate(today.getDate() - i);
+    
+    const diff = differenceInDays(startOfDay(expectedDate), startOfDay(uniqueDates[i]));
+    
+    if (diff === 0) {
+      streak++;
+    } else if (i === 0 && diff === 1) {
+      // Today not yet done, check if yesterday was done
+      continue;
+    } else {
+      break;
+    }
+  }
+  
+  return streak;
+};
+
+// Gamification badges
+const getBadges = (totalReflections: number, streak: number) => {
+  const badges = [];
+  
+  if (totalReflections >= 1) badges.push({ icon: '🌱', label: 'Erste Schritte', desc: 'Erste Reflexion gemacht' });
+  if (totalReflections >= 7) badges.push({ icon: '🌿', label: 'Wachsend', desc: '7 Reflexionen' });
+  if (totalReflections >= 30) badges.push({ icon: '🌳', label: 'Verwurzelt', desc: '30 Reflexionen' });
+  if (totalReflections >= 100) badges.push({ icon: '✨', label: 'Leuchtend', desc: '100 Reflexionen' });
+  
+  if (streak >= 3) badges.push({ icon: '🔥', label: '3-Tage-Streak', desc: '3 Tage in Folge' });
+  if (streak >= 7) badges.push({ icon: '💫', label: 'Wochenkrieger', desc: '7 Tage in Folge' });
+  if (streak >= 30) badges.push({ icon: '🏆', label: 'Meister', desc: '30 Tage in Folge' });
+  
+  return badges;
+};
 
 const SelfcareReflection = () => {
   const { user } = useAuth();
@@ -227,6 +285,13 @@ const SelfcareReflection = () => {
   const [conversationHistory, setConversationHistory] = useState<Message[]>([]);
   const [hideStatementBanner, setHideStatementBanner] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // Past reflections state
+  const [pastReflections, setPastReflections] = useState<SelfcareMemory[]>([]);
+  const [showPastReflections, setShowPastReflections] = useState(false);
+  const [loadingPast, setLoadingPast] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [reflectedToday, setReflectedToday] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -235,6 +300,57 @@ const SelfcareReflection = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Load past reflections
+  useEffect(() => {
+    if (user) {
+      loadPastReflections();
+    }
+  }, [user]);
+
+  const loadPastReflections = async () => {
+    if (!user) return;
+    setLoadingPast(true);
+    try {
+      const { data, error } = await supabase
+        .from('memories')
+        .select('id, title, content, memory_date, summary, created_at')
+        .eq('user_id', user.id)
+        .eq('memory_type', 'selfcare-reflection')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+      
+      const memories = (data || []) as SelfcareMemory[];
+      setPastReflections(memories);
+      
+      // Calculate streak
+      const currentStreak = calculateStreak(memories);
+      setStreak(currentStreak);
+      
+      // Check if reflected today
+      const todayReflection = memories.some(m => isToday(new Date(m.created_at)));
+      setReflectedToday(todayReflection);
+    } catch (error) {
+      console.error('Error loading past reflections:', error);
+    } finally {
+      setLoadingPast(false);
+    }
+  };
+
+  const groupReflectionsByMonth = () => {
+    const groups: { [key: string]: SelfcareMemory[] } = {};
+    pastReflections.forEach(reflection => {
+      const date = new Date(reflection.created_at || reflection.memory_date);
+      const monthKey = format(date, 'MMMM yyyy', { locale: de });
+      if (!groups[monthKey]) {
+        groups[monthKey] = [];
+      }
+      groups[monthKey].push(reflection);
+    });
+    return groups;
+  };
 
   // Handle autostart from URL params (when coming from Index page)
   useEffect(() => {
@@ -454,18 +570,31 @@ const SelfcareReflection = () => {
         title: title,
         content: content,
         memory_type: 'selfcare-reflection',
-        summary: `Reflexion über: "${currentStatement?.text}"`
+        summary: `Reflexion über: "${currentStatement?.text}"`,
+        created_at: new Date().toISOString()
       });
 
       if (error) throw error;
 
-      toast.success('Reflexion im Tresor gespeichert');
+      // Check for streak achievements
+      const newStreak = streak + (reflectedToday ? 0 : 1);
+      if (newStreak === 3) {
+        toast.success('🔥 3-Tage-Streak erreicht! Weiter so!');
+      } else if (newStreak === 7) {
+        toast.success('💫 Wochenkrieger! 7 Tage in Folge!');
+      } else if (newStreak === 30) {
+        toast.success('🏆 Meister! 30 Tage in Folge reflektiert!');
+      } else {
+        toast.success('Reflexion im Tresor gespeichert 💫');
+      }
+
       setShowSaveDialog(false);
       setSaveTitle("");
       setSessionStarted(false);
       setMessages([]);
       setConversationHistory([]);
       setCurrentStatement(null);
+      loadPastReflections(); // Reload to update stats
     } catch (error) {
       console.error('Error saving:', error);
       toast.error('Fehler beim Speichern');
@@ -569,6 +698,63 @@ const SelfcareReflection = () => {
             transition={{ duration: 0.6 }}
             className="flex-1 flex flex-col items-center justify-center text-center py-4 sm:py-8 px-2 pb-24 md:pb-8"
           >
+            {/* Gamification Stats - Only show if user has reflections */}
+            {user && pastReflections.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="w-full max-w-md mb-6"
+              >
+                <div className="flex justify-center gap-4 mb-4">
+                  {/* Streak */}
+                  <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
+                    <Flame className={`w-5 h-5 ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`} />
+                    <div className="text-left">
+                      <p className={`text-lg font-bold ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`}>{streak}</p>
+                      <p className="text-[10px] text-muted-foreground">Tage Streak</p>
+                    </div>
+                  </div>
+                  
+                  {/* Total */}
+                  <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
+                    <Star className="w-5 h-5 text-accent" />
+                    <div className="text-left">
+                      <p className="text-lg font-bold text-foreground">{pastReflections.length}</p>
+                      <p className="text-[10px] text-muted-foreground">Reflexionen</p>
+                    </div>
+                  </div>
+                  
+                  {/* Today status */}
+                  <div className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${reflectedToday ? 'bg-green-500/10 border-green-500/30' : 'bg-card border-border'}`}>
+                    <Trophy className={`w-5 h-5 ${reflectedToday ? 'text-green-500' : 'text-muted-foreground'}`} />
+                    <div className="text-left">
+                      <p className={`text-xs font-medium ${reflectedToday ? 'text-green-600' : 'text-muted-foreground'}`}>
+                        {reflectedToday ? 'Erledigt!' : 'Heute'}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">{reflectedToday ? '✓' : 'offen'}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Badges - show earned badges */}
+                {getBadges(pastReflections.length, streak).length > 0 && (
+                  <div className="flex flex-wrap justify-center gap-2 mb-4">
+                    {getBadges(pastReflections.length, streak).slice(0, 4).map((badge, idx) => (
+                      <div 
+                        key={idx} 
+                        className="group relative px-2 py-1 bg-accent/10 rounded-full text-xs flex items-center gap-1 cursor-help"
+                        title={badge.desc}
+                      >
+                        <span>{badge.icon}</span>
+                        <span className="text-accent hidden sm:inline">{badge.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+
             {/* Daily Impulse Card */}
             <div className="w-full max-w-md mb-6">
               <div className="inline-flex items-center gap-2 text-accent text-sm font-medium mb-3">
@@ -604,6 +790,61 @@ const SelfcareReflection = () => {
               <RotateCcw className="w-4 h-4 mr-2" />
               Anderen Impuls reflektieren
             </Button>
+
+            {/* Past Reflections Section */}
+            {user && pastReflections.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-8 w-full max-w-md"
+              >
+                <button
+                  onClick={() => setShowPastReflections(!showPastReflections)}
+                  className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-full py-2 touch-manipulation"
+                >
+                  <Calendar className="w-4 h-4" />
+                  <span>Vergangene Reflexionen ({pastReflections.length})</span>
+                  {showPastReflections ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
+
+                {showPastReflections && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-4 space-y-4 max-h-64 overflow-y-auto"
+                  >
+                    {Object.entries(groupReflectionsByMonth()).map(([month, reflections]) => (
+                      <div key={month}>
+                        <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2 sticky top-0 bg-background py-1">
+                          {month}
+                        </h4>
+                        <div className="space-y-2">
+                          {reflections.map(reflection => (
+                            <button
+                              key={reflection.id}
+                              onClick={() => navigate('/vault')}
+                              className="w-full text-left p-3 bg-card rounded-lg border border-border hover:border-accent/50 transition-colors touch-manipulation"
+                            >
+                              <div className="flex justify-between items-start gap-2">
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-medium text-foreground truncate">{reflection.title}</p>
+                                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{reflection.summary}</p>
+                                </div>
+                                <span className="text-xs text-muted-foreground shrink-0">
+                                  {format(new Date(reflection.created_at || reflection.memory_date), 'dd.MM.', { locale: de })}
+                                </span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
           </motion.div>
         ) : (
           <div className="flex-1 flex flex-col min-h-0">
