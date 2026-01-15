@@ -672,7 +672,7 @@ const SelfcareReflection = () => {
       </section>
 
       {/* Chat Area */}
-      <section className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-3 sm:px-6 min-h-0">
+      <section className="flex-1 flex flex-col max-w-2xl mx-auto w-full px-4 sm:px-6 min-h-0">
         {!sessionStarted ? (
           /* Welcome Screen */
           <motion.div
@@ -689,33 +689,32 @@ const SelfcareReflection = () => {
                 transition={{ delay: 0.2 }}
                 className="w-full max-w-md mb-6"
               >
-                <div className="flex justify-center gap-4 mb-4">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4">
                   {/* Streak */}
-                  <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
-                    <Flame className={`w-5 h-5 ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`} />
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-card rounded-lg border border-border">
+                    <Flame className={`w-4 h-4 ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`} />
                     <div className="text-left">
-                      <p className={`text-lg font-bold ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`}>{streak}</p>
-                      <p className="text-[10px] text-muted-foreground">Tage Streak</p>
+                      <p className={`text-sm font-bold ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`}>{streak}</p>
+                      <p className="text-[9px] text-muted-foreground leading-tight">Streak</p>
                     </div>
                   </div>
                   
                   {/* Total */}
-                  <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
-                    <Star className="w-5 h-5 text-accent" />
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-card rounded-lg border border-border">
+                    <Star className="w-4 h-4 text-accent" />
                     <div className="text-left">
-                      <p className="text-lg font-bold text-foreground">{pastReflections.length}</p>
-                      <p className="text-[10px] text-muted-foreground">Reflexionen</p>
+                      <p className="text-sm font-bold text-foreground">{pastReflections.length}</p>
+                      <p className="text-[9px] text-muted-foreground leading-tight">Gesamt</p>
                     </div>
                   </div>
                   
                   {/* Today status */}
-                  <div className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${reflectedToday ? 'bg-green-500/10 border-green-500/30' : 'bg-card border-border'}`}>
-                    <Trophy className={`w-5 h-5 ${reflectedToday ? 'text-green-500' : 'text-muted-foreground'}`} />
+                  <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${reflectedToday ? 'bg-green-500/10 border-green-500/30' : 'bg-card border-border'}`}>
+                    <Trophy className={`w-4 h-4 ${reflectedToday ? 'text-green-500' : 'text-muted-foreground'}`} />
                     <div className="text-left">
                       <p className={`text-xs font-medium ${reflectedToday ? 'text-green-600' : 'text-muted-foreground'}`}>
-                        {reflectedToday ? 'Erledigt!' : 'Heute'}
+                        {reflectedToday ? '✓' : 'Heute'}
                       </p>
-                      <p className="text-[10px] text-muted-foreground">{reflectedToday ? '✓' : 'offen'}</p>
                     </div>
                   </div>
                 </div>
@@ -854,7 +853,7 @@ const SelfcareReflection = () => {
             )}
 
             {/* Messages - Scrollable area with padding for fixed input */}
-            <div className="flex-1 overflow-y-auto pb-36 md:pb-4 space-y-4">
+            <div className="flex-1 overflow-y-auto pb-44 md:pb-4 space-y-3 px-1">
               {messages.map((message, index) => (
                 <ChatMessage key={index} content={message.content} role={message.role} />
               ))}
@@ -876,44 +875,45 @@ const SelfcareReflection = () => {
             </div>
 
             {/* Input Area - Fixed on mobile, relative on desktop */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 px-4 py-3 safe-area-pb md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4">
-              <div className="max-w-3xl mx-auto">
-                <div className="flex gap-2 items-end">
-                  <Textarea
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Teile deine Gedanken..."
-                    className="min-h-[48px] max-h-24 resize-none flex-1"
-                    disabled={isLoading}
-                  />
-                  <Button 
-                    onClick={sendMessage} 
-                    disabled={!input.trim() || isLoading}
-                    size="icon"
-                    className="h-12 w-12 shrink-0 bg-accent text-accent-foreground hover:bg-accent/90"
-                  >
-                    <Send className="w-5 h-5" />
-                  </Button>
-                </div>
+            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 px-3 py-3 pb-[env(safe-area-inset-bottom,12px)] md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4 md:pb-4">
+              <div className="max-w-3xl mx-auto flex flex-col gap-2">
+                {/* Textarea */}
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Teile deine Gedanken..."
+                  className="min-h-[56px] max-h-28 resize-none w-full text-base"
+                  disabled={isLoading}
+                />
+                
+                {/* Send Button - Full width below textarea */}
+                <Button 
+                  onClick={sendMessage} 
+                  disabled={!input.trim() || isLoading}
+                  className="w-full h-11 bg-accent text-accent-foreground hover:bg-accent/90 text-sm font-medium"
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  Nachricht senden
+                </Button>
                 
                 {/* Action Buttons */}
-                <div className="flex gap-2 mt-2 justify-center pb-2 md:pb-0">
+                <div className="flex gap-2 justify-center">
                   <Button 
-                    variant="outline" 
+                    variant="ghost" 
                     size="sm" 
                     onClick={resetSession}
-                    className="text-muted-foreground text-xs h-9 px-4"
+                    className="text-muted-foreground text-xs h-8 px-3"
                   >
                     <RotateCcw className="w-3 h-3 mr-1" />
                     Neuer Impuls
                   </Button>
                   {conversationHistory.length > 2 && (
                     <Button 
-                      variant="outline" 
+                      variant="ghost" 
                       size="sm" 
                       onClick={deepenInOria}
-                      className="text-accent border-accent/30 hover:bg-accent/10 text-xs h-9 px-4"
+                      className="text-accent text-xs h-8 px-3"
                     >
                       <Sparkles className="w-3 h-3 mr-1" />
                       Vertiefen
