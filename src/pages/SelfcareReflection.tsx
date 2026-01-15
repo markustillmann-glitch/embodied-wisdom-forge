@@ -731,17 +731,31 @@ const SelfcareReflection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center"
+              className="text-center mb-8"
             >
               <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                Hallo {displayName},
+                Hallo, du,
               </h1>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mt-2">
-                wie kann ich dir
+                hier ist dein Impuls
               </h2>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                heute helfen?
+                des Tages.
               </h2>
+            </motion.div>
+            
+            {/* Current Impulse - directly below greeting with spacing */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="w-full max-w-md"
+            >
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/30">
+                <p className="text-center text-lg text-foreground/80 font-serif italic">
+                  „{displayedImpulse.text}"
+                </p>
+              </div>
             </motion.div>
 
             {/* Stats - Small and subtle */}
@@ -767,7 +781,7 @@ const SelfcareReflection = () => {
 
           {/* Action Cards - Fan arrangement at bottom */}
           <div className="relative h-64 sm:h-72 mb-8">
-            {/* Center card - Reflektieren */}
+            {/* Center card - Reflektieren starten */}
             <motion.button
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -780,11 +794,11 @@ const SelfcareReflection = () => {
                 <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
                   <Sparkles className="w-6 h-6 text-accent" />
                 </div>
-                <span className="text-sm font-medium text-foreground">Reflektieren</span>
+                <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">Reflektieren starten</span>
               </div>
             </motion.button>
 
-            {/* Left card - Tresor */}
+            {/* Left card - Frühere Reflektionen */}
             <motion.button
               initial={{ opacity: 0, y: 50, rotate: -15 }}
               animate={{ opacity: 1, y: 0, rotate: -12 }}
@@ -795,9 +809,9 @@ const SelfcareReflection = () => {
             >
               <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                  <Save className="w-5 h-5 text-muted-foreground" />
+                  <BookOpen className="w-5 h-5 text-muted-foreground" />
                 </div>
-                <span className="text-xs font-medium text-foreground/80">Tresor</span>
+                <span className="text-xs font-medium text-foreground/80 text-center px-2">Frühere Reflektionen</span>
               </div>
             </motion.button>
 
@@ -814,7 +828,7 @@ const SelfcareReflection = () => {
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
                   <RotateCcw className="w-5 h-5 text-muted-foreground" />
                 </div>
-                <span className="text-xs font-medium text-foreground/80">Neu</span>
+                <span className="text-xs font-medium text-foreground/80 text-center px-2">Neuer Impuls</span>
               </div>
             </motion.button>
 
@@ -831,19 +845,6 @@ const SelfcareReflection = () => {
             </motion.div>
           </div>
 
-          {/* Current Impulse Preview - subtle at top */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="absolute top-32 left-1/2 -translate-x-1/2 w-full max-w-sm px-6"
-          >
-            <div className="bg-white/40 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/30">
-              <p className="text-center text-sm text-foreground/70 font-serif italic">
-                "{displayedImpulse.text}"
-              </p>
-            </div>
-          </motion.div>
         </motion.div>
       ) : (
         /* Chat Session */
