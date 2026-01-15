@@ -156,29 +156,36 @@ const SelfcareReflection = () => {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value);
+        const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split('\n');
 
         for (const line of lines) {
+          // Skip empty lines and SSE comments (lines starting with :)
+          if (!line.trim() || line.startsWith(':')) continue;
+          
           if (line.startsWith('data: ')) {
-            const data = line.slice(6);
+            const data = line.slice(6).trim();
             if (data === '[DONE]') continue;
             
             try {
               const parsed = JSON.parse(data);
               const content = parsed.choices?.[0]?.delta?.content || '';
-              assistantMessage += content;
-              
-              setMessages([...allMessages, { role: "assistant", content: assistantMessage }]);
+              if (content) {
+                assistantMessage += content;
+                setMessages([...allMessages, { role: "assistant", content: assistantMessage }]);
+              }
             } catch {
-              // Skip invalid JSON
+              // Skip invalid JSON - might be partial data
             }
           }
         }
       }
 
+      // If no message was built, it's still okay if streaming completed without error
       if (!assistantMessage) {
-        throw new Error('Keine Antwort erhalten');
+        console.warn('No content received from stream');
+        assistantMessage = "Entschuldige, ich konnte gerade nicht antworten. Bitte versuche es erneut.";
+        setMessages([...allMessages, { role: "assistant", content: assistantMessage }]);
       }
 
       const finalMessages = [...allMessages, { role: "assistant" as const, content: assistantMessage }];
