@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { ChapterSection } from "@/components/ChapterSection";
 import { SubSection } from "@/components/SubSection";
@@ -201,41 +201,15 @@ const generateFreshImpulse = (): string => {
 
 const Index = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
+  const [currentImpulse, setCurrentImpulse] = useState(() => generateFreshImpulse());
   
-  // Generate fresh impulse on every page load using sessionStorage timestamp
-  const [currentImpulse, setCurrentImpulse] = useState(() => {
-    // Always generate fresh on initial render
-    return generateFreshImpulse();
-  });
-  
-  // Track navigation and regenerate impulse
+  // Regenerate impulse on every navigation to this page
   useEffect(() => {
-    // Check if this is a new navigation (not just a re-render)
-    const lastVisit = sessionStorage.getItem('indexPageLastVisit');
-    const now = Date.now();
-    
-    if (!lastVisit || (now - parseInt(lastVisit)) > 100) {
-      // This is a new visit (more than 100ms since last)
-      const newImpulse = generateFreshImpulse();
-      setCurrentImpulse(newImpulse);
-    }
-    
-    sessionStorage.setItem('indexPageLastVisit', now.toString());
-    
-    // Also regenerate on visibility change
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        const newImpulse = generateFreshImpulse();
-        setCurrentImpulse(newImpulse);
-        sessionStorage.setItem('indexPageLastVisit', Date.now().toString());
-      }
-    };
-    
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, []);
+    setCurrentImpulse(generateFreshImpulse());
+  }, [location.key]);
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
