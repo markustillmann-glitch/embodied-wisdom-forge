@@ -257,6 +257,24 @@ const SelfcareReflection = () => {
     return SELFCARE_STATEMENTS[randomIndex];
   };
 
+  const getDailyImpulse = (): string => {
+    const DAILY_IMPULSES = [
+      "Manchmal gewinnt man, manchmal lernt man",
+      "Je stiller du bist, desto mehr wirst du hören",
+      "Kleine Schritte führen zu großen Veränderungen",
+      "So, wie du bist, bist du genug",
+      "Höre auf deinen Körper – er spricht mit dir",
+      "Du darfst langsam sein",
+      "Gefühle sind Signale, keine Befehle",
+      "Ich darf neugierig auf meine inneren Reaktionen sein",
+      "Es gibt in mir einen ruhigen, klaren Ort",
+      "Veränderung beginnt oft mit Zuhören",
+    ];
+    const today = new Date();
+    const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+    return DAILY_IMPULSES[dayOfYear % DAILY_IMPULSES.length];
+  };
+
   const streamChat = async (userMessage: string, history: Message[], statement: string) => {
     setIsLoading(true);
     
@@ -503,7 +521,7 @@ const SelfcareReflection = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16"
+            className="text-center py-8"
           >
             <div className="mb-8">
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
@@ -512,18 +530,63 @@ const SelfcareReflection = () => {
               <h3 className="font-serif text-xl font-medium mb-3">
                 Bereit für deinen Impuls?
               </h3>
-              <p className="text-muted-foreground max-w-md mx-auto mb-8">
+              <p className="text-muted-foreground max-w-md mx-auto mb-6">
                 Oria wählt zufällig einen Selfcare-Impuls für dich aus. 
                 Gemeinsam erkunden wir, welche Bedeutung er für dich hat.
               </p>
             </div>
+            
+            {/* Daily Impulse Preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="mb-8 max-w-lg mx-auto"
+            >
+              <div className="inline-flex items-center gap-2 text-pink-500/80 text-sm font-medium mb-3">
+                <Sparkles className="w-4 h-4" />
+                <span>Impuls des Tages</span>
+                <Sparkles className="w-4 h-4" />
+              </div>
+              
+              <div className="relative bg-gradient-to-br from-pink-500/15 via-rose-500/10 to-fuchsia-500/10 rounded-2xl p-6 border border-pink-400/30 backdrop-blur-sm">
+                <div className="absolute top-2 left-4 text-pink-400/30 text-3xl font-serif">"</div>
+                <div className="absolute bottom-2 right-4 text-pink-400/30 text-3xl font-serif rotate-180">"</div>
+                
+                <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed px-4">
+                  {getDailyImpulse()}
+                </p>
+              </div>
+              
+              <Button 
+                onClick={() => {
+                  const impulse = getDailyImpulse();
+                  const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
+                  const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
+                  setCurrentStatement(statement);
+                  setSessionStarted(true);
+                  setHideStatementBanner(true);
+                }}
+                className="mt-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Diesen Impuls reflektieren
+              </Button>
+            </motion.div>
+            
+            <div className="relative">
+              <div className="absolute inset-x-0 top-1/2 h-px bg-border/50" />
+              <span className="relative bg-background px-4 text-sm text-muted-foreground">oder</span>
+            </div>
+            
             <Button 
               onClick={startSession}
+              variant="outline"
               size="lg"
-              className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
+              className="mt-6"
             >
-              <Sparkles className="w-5 h-5 mr-2" />
-              Impuls entdecken
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Zufälligen Impuls entdecken
             </Button>
           </motion.div>
         ) : (
