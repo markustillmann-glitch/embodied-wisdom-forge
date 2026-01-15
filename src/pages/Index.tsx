@@ -189,10 +189,8 @@ const DAILY_IMPULSES = [
   "Ich kann mich innerlich führen – Schritt für Schritt"
 ];
 
-const getDailyImpulse = (): string => {
-  const today = new Date();
-  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
-  return DAILY_IMPULSES[dayOfYear % DAILY_IMPULSES.length];
+const getRandomImpulse = (): string => {
+  return DAILY_IMPULSES[Math.floor(Math.random() * DAILY_IMPULSES.length)];
 };
 
 const Index = () => {
@@ -349,13 +347,13 @@ const Index = () => {
               <div className="absolute bottom-2 right-4 text-pink-400/30 text-4xl font-serif rotate-180">"</div>
               
               <p className="font-serif text-xl md:text-2xl text-foreground leading-relaxed px-4">
-                {getDailyImpulse()}
+                {getRandomImpulse()}
               </p>
             </motion.div>
             
             <Button
               onClick={() => {
-                const impulse = getDailyImpulse();
+                const impulse = getRandomImpulse();
                 navigate(`/selfcare-reflection?impulse=${encodeURIComponent(impulse)}&autostart=true`);
               }}
               className="mt-6 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
