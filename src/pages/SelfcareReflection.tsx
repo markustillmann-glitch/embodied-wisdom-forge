@@ -428,8 +428,8 @@ const SelfcareReflection = () => {
     
     // Coach erwartet den Kontext in sessionStorage
     const deepenData = {
-      context: `Ich komme aus einer Selfcare-Reflexion über den Impuls: "${currentStatement}"\n\nHier ist unser bisheriges Gespräch:\n${context}\n\nIch möchte dieses Thema tiefer erkunden.`,
-      topic: `Selfcare: ${currentStatement.substring(0, 50)}`,
+      context: `Ich komme aus einer Selfcare-Reflexion über den Impuls: "${currentStatement?.text}"\n\nHier ist unser bisheriges Gespräch:\n${context}\n\nIch möchte dieses Thema tiefer erkunden.`,
+      topic: `Selfcare: ${currentStatement?.text.substring(0, 50)}`,
       source: 'selfcare-reflection'
     };
     
