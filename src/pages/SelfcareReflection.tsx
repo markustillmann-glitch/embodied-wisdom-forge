@@ -18,6 +18,8 @@ import {
 import { Input } from '@/components/ui/input';
 import ChatMessage from '@/components/ChatMessage';
 
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
+
 const SELFCARE_STATEMENTS = [
   "Manchmal gewinnt man, manchmal lernt man",
   "Wachse und gedeihe",
@@ -124,73 +126,80 @@ const SelfcareReflection = () => {
     setConversationHistory(allMessages);
 
     try {
-      const response = await supabase.functions.invoke('selfcare-chat', {
-        body: { 
+      const resp = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ 
           messages: allMessages,
           userId: user?.id,
           statement: statement
-        }
+        }),
       });
 
-      if (response.error) {
-        console.error('Supabase function error:', response.error);
-        throw new Error(response.error.message);
+      if (!resp.ok) {
+        if (resp.status === 429) throw new Error("Bitte warte einen Moment.");
+        if (resp.status === 402) throw new Error("Service nicht verfügbar.");
+        throw new Error("Verbindung fehlgeschlagen.");
       }
 
-      if (!response.data) {
-        throw new Error('Keine Antwort vom Server');
-      }
+      if (!resp.body) throw new Error("Keine Antwort");
 
-      // Check if response.data is a ReadableStream
-      if (typeof response.data.getReader !== 'function') {
-        // Handle non-streaming response (error case)
-        console.error('Unexpected response format:', response.data);
-        throw new Error('Unerwartetes Antwortformat');
-      }
-
-      const reader = response.data.getReader();
+      const reader = resp.body.getReader();
       const decoder = new TextDecoder();
+      let textBuffer = "";
       let assistantMessage = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+        textBuffer += decoder.decode(value, { stream: true });
 
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
 
-        for (const line of lines) {
-          // Skip empty lines and SSE comments (lines starting with :)
-          if (!line.trim() || line.startsWith(':')) continue;
-          
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6).trim();
-            if (data === '[DONE]') continue;
-            
-            try {
-              const parsed = JSON.parse(data);
-              const content = parsed.choices?.[0]?.delta?.content || '';
-              if (content) {
-                assistantMessage += content;
-                setMessages([...allMessages, { role: "assistant", content: assistantMessage }]);
-              }
-            } catch {
-              // Skip invalid JSON - might be partial data
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") break;
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              assistantMessage += content;
+              setMessages((prev) => {
+                const last = prev[prev.length - 1];
+                if (last?.role === "assistant") {
+                  return prev.map((m, i) =>
+                    i === prev.length - 1 ? { ...m, content: assistantMessage } : m
+                  );
+                }
+                return [...prev, { role: "assistant", content: assistantMessage }];
+              });
             }
+          } catch {
+            textBuffer = line + "\n" + textBuffer;
+            break;
           }
         }
       }
 
-      // If no message was built, it's still okay if streaming completed without error
-      if (!assistantMessage) {
-        console.warn('No content received from stream');
-        assistantMessage = "Entschuldige, ich konnte gerade nicht antworten. Bitte versuche es erneut.";
-        setMessages([...allMessages, { role: "assistant", content: assistantMessage }]);
-      }
-
-      const finalMessages = [...allMessages, { role: "assistant" as const, content: assistantMessage }];
-      setMessages(finalMessages);
-      setConversationHistory(finalMessages);
+      setConversationHistory((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role === "assistant") {
+          return prev.map((m, i) =>
+            i === prev.length - 1 ? { ...m, content: assistantMessage } : m
+          );
+        }
+        return [...prev, { role: "assistant", content: assistantMessage }];
+      });
     } catch (error) {
       console.error('Error in chat:', error);
       toast.error('Fehler bei der Verbindung zu Oria. Bitte versuche es erneut.');
