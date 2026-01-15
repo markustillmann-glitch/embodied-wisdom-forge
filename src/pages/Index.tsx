@@ -197,7 +197,11 @@ const Index = () => {
   const navigate = useNavigate();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
-  const [currentImpulse] = useState(() => DAILY_IMPULSES[Math.floor(Math.random() * DAILY_IMPULSES.length)]);
+  const [currentImpulse] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * DAILY_IMPULSES.length);
+    console.log('Generated new impulse at index:', randomIndex, DAILY_IMPULSES[randomIndex]);
+    return DAILY_IMPULSES[randomIndex];
+  });
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
