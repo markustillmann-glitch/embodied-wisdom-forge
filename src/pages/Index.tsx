@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { ChapterSection } from "@/components/ChapterSection";
 import { SubSection } from "@/components/SubSection";
@@ -191,14 +191,16 @@ const DAILY_IMPULSES = [
 
 const Index = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
   
-  // Generate random impulse - new one for each navigation (location.key changes)
-  const currentImpulse = useMemo(() => {
-    return DAILY_IMPULSES[Math.floor(Math.random() * DAILY_IMPULSES.length)];
-  }, [location.key]);
+  // Generate random impulse - increment counter on every page visit to ensure new impulse
+  const [currentImpulse] = useState(() => {
+    const counter = parseInt(sessionStorage.getItem('impulseCounter') || '0', 10) + 1;
+    sessionStorage.setItem('impulseCounter', counter.toString());
+    const index = (counter + Math.floor(Math.random() * 10)) % DAILY_IMPULSES.length;
+    return DAILY_IMPULSES[index];
+  });
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
