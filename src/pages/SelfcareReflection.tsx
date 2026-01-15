@@ -505,7 +505,7 @@ const SelfcareReflection = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background flex flex-col overflow-hidden">
+    <div className="min-h-[100dvh] bg-background flex flex-col">
       <Header />
 
       {/* Hero Section */}
@@ -560,14 +560,14 @@ const SelfcareReflection = () => {
       </section>
 
       {/* Chat Area */}
-      <section className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-3 sm:px-6 pb-2 sm:pb-6 min-h-0 overflow-hidden">
+      <section className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-3 sm:px-6 min-h-0">
         {!sessionStarted ? (
           /* Welcome Screen */
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex-1 flex flex-col items-center justify-center text-center py-4 sm:py-8 px-2"
+            className="flex-1 flex flex-col items-center justify-center text-center py-4 sm:py-8 px-2 pb-24 md:pb-8"
           >
             {/* Daily Impulse Card */}
             <div className="w-full max-w-md mb-6">
@@ -606,14 +606,14 @@ const SelfcareReflection = () => {
             </Button>
           </motion.div>
         ) : (
-          <div className="flex-1 flex flex-col min-h-0 overflow-auto">
+          <div className="flex-1 flex flex-col min-h-0">
             {/* Current Statement Banner - Only show if not hidden */}
             {!hideStatementBanner && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="mb-4 p-4 bg-card rounded-lg border border-border"
+                className="mb-4 p-4 bg-card rounded-lg border border-border shrink-0"
               >
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
@@ -629,8 +629,8 @@ const SelfcareReflection = () => {
               </motion.div>
             )}
 
-            {/* Messages */}
-            <div className="space-y-4 min-h-[300px]">
+            {/* Messages - Scrollable area with padding for fixed input */}
+            <div className="flex-1 overflow-y-auto pb-36 md:pb-4 space-y-4">
               {messages.map((message, index) => (
                 <ChatMessage key={index} content={message.content} role={message.role} />
               ))}
@@ -651,8 +651,8 @@ const SelfcareReflection = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area - Fixed on mobile */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 px-4 py-3 md:relative md:border-t-0 md:bg-background/80 md:px-0 md:py-0 md:mt-4">
+            {/* Input Area - Fixed on mobile, relative on desktop */}
+            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 px-4 py-3 safe-area-pb md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4">
               <div className="max-w-3xl mx-auto">
                 <div className="flex gap-2 items-end">
                   <Textarea
@@ -674,12 +674,12 @@ const SelfcareReflection = () => {
                 </div>
                 
                 {/* Action Buttons */}
-                <div className="flex gap-2 mt-2 justify-center">
+                <div className="flex gap-2 mt-2 justify-center pb-2 md:pb-0">
                   <Button 
                     variant="outline" 
                     size="sm" 
                     onClick={resetSession}
-                    className="text-muted-foreground text-xs h-8"
+                    className="text-muted-foreground text-xs h-9 px-4"
                   >
                     <RotateCcw className="w-3 h-3 mr-1" />
                     Neuer Impuls
@@ -689,7 +689,7 @@ const SelfcareReflection = () => {
                       variant="outline" 
                       size="sm" 
                       onClick={deepenInOria}
-                      className="text-accent border-accent/30 hover:bg-accent/10 text-xs h-8"
+                      className="text-accent border-accent/30 hover:bg-accent/10 text-xs h-9 px-4"
                     >
                       <Sparkles className="w-3 h-3 mr-1" />
                       Vertiefen
@@ -728,8 +728,8 @@ const SelfcareReflection = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Footer */}
-      <footer className="py-4 px-4 border-t border-border/30 text-center">
+      {/* Footer - Hidden on mobile when session started to not interfere with fixed input */}
+      <footer className={`py-4 px-4 border-t border-border/30 text-center shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`}>
         <p className="text-xs text-muted-foreground">
           © 2025 Oria · Selfcare Impulse
         </p>
