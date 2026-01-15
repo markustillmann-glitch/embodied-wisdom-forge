@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
@@ -189,39 +189,16 @@ const DAILY_IMPULSES = [
   "Ich kann mich innerlich führen – Schritt für Schritt"
 ];
 
-// Generate a fresh random impulse using timestamp to bypass React caching
-const generateFreshImpulse = (): string => {
-  const randomIndex = Math.floor(Math.random() * DAILY_IMPULSES.length);
-  const impulse = DAILY_IMPULSES[randomIndex];
-  console.log('Fresh impulse generated:', randomIndex, impulse);
-  // Store in sessionStorage with timestamp to track changes
-  sessionStorage.setItem('lastImpulse', JSON.stringify({ impulse, timestamp: Date.now() }));
-  return impulse;
-};
-
 const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
-  const [currentImpulse, setCurrentImpulse] = useState("");
-  const [impulseKey, setImpulseKey] = useState(0);
   
-  // Regenerate impulse on every navigation AND on mount
-  useEffect(() => {
-    // Use crypto for better randomness + timestamp to ensure uniqueness
-    const getRandomImpulse = () => {
-      const randomValues = new Uint32Array(1);
-      crypto.getRandomValues(randomValues);
-      const randomIndex = randomValues[0] % DAILY_IMPULSES.length;
-      const impulse = DAILY_IMPULSES[randomIndex];
-      console.log('New impulse generated:', randomIndex, impulse, 'at', new Date().toISOString());
-      return impulse;
-    };
-    
-    setCurrentImpulse(getRandomImpulse());
-    setImpulseKey(prev => prev + 1);
-  }, [location.key, location.pathname]);
+  // Generate random impulse - new one for each navigation (location.key changes)
+  const currentImpulse = useMemo(() => {
+    return DAILY_IMPULSES[Math.floor(Math.random() * DAILY_IMPULSES.length)];
+  }, [location.key]);
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
