@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart } from 'lucide-react';
+import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart, Flower2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { PolygonalBackground } from '@/components/PolygonalBackground';
+import { Header } from '@/components/Header';
+import bbOwlLogo from '@/assets/bb-owl-new.png';
 import {
   Dialog,
   DialogContent,
@@ -477,68 +480,80 @@ const SelfcareReflection = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-background to-accent/5 pb-[140px] md:pb-0">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link to="/oria-apps" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm">Zurück</span>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Heart className="w-5 h-5 text-pink-500" />
-            <h1 className="font-serif text-lg font-medium">Selfcare Impuls</h1>
-          </div>
-          <div className="w-16" />
-        </div>
-      </header>
+    <div className="min-h-[100dvh] bg-background flex flex-col overflow-hidden">
+      <Header />
 
       {/* Hero Section */}
-      <motion.section 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="py-8 px-4 text-center border-b border-border/30"
-      >
-        <div className="max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-sm mb-4">
-            <Sparkles className="w-4 h-4" />
-            <span>Tägliche Selbstreflexion</span>
+      <section className="pt-14 pb-2 sm:pt-24 sm:pb-8 relative overflow-hidden shrink-0">
+        <PolygonalBackground variant="hero" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col items-center text-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="mb-1 sm:mb-4"
+            >
+              <Link
+                to="/oria-apps"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground hover:text-accent transition-colors touch-manipulation"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Zurück zu Oria Apps</span>
+                <span className="sm:hidden">Zurück</span>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="flex items-center gap-2 sm:gap-4"
+            >
+              <img
+                src={bbOwlLogo}
+                alt="Oria"
+                className="h-6 sm:h-10 w-auto object-contain"
+              />
+              <h1 className="text-base sm:text-2xl md:text-3xl font-serif font-medium text-foreground">
+                Selfcare Impulse
+              </h1>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-sm text-muted-foreground max-w-xl hidden sm:block mt-3"
+            >
+              Oria begleitet dich bei der Reflexion über Impulse für dein Wohlbefinden
+            </motion.p>
           </div>
-          <h2 className="font-serif text-2xl md:text-3xl font-medium text-foreground mb-3">
-            Selfcare Impulse
-          </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            Ein zufälliger Impuls lädt dich zur Reflexion ein. Oria begleitet dich dabei, 
-            herauszufinden, was dieser Gedanke für dich und dein Leben bedeutet.
-          </p>
         </div>
-      </motion.section>
+      </section>
 
       {/* Chat Area */}
-      <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-6">
+      <section className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-3 sm:px-6 pb-2 sm:pb-6 min-h-0 overflow-hidden">
         {!sessionStarted ? (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-8"
+          /* Welcome Screen */
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex-1 flex flex-col items-center justify-center text-center py-4 sm:py-8 px-2"
           >
-            {/* Daily Impulse Preview - Now at top */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
-              className="mb-8 max-w-lg mx-auto"
-            >
-              <div className="inline-flex items-center gap-2 text-pink-500/80 text-sm font-medium mb-3">
-                <Sparkles className="w-4 h-4" />
+            {/* Daily Impulse Card */}
+            <div className="w-full max-w-md mb-6">
+              <div className="inline-flex items-center gap-2 text-accent text-sm font-medium mb-3">
+                <Flower2 className="w-4 h-4" />
                 <span>Impuls des Tages</span>
-                <Sparkles className="w-4 h-4" />
               </div>
               
-              <div className="relative bg-gradient-to-br from-pink-500/15 via-rose-500/10 to-fuchsia-500/10 rounded-2xl p-6 border border-pink-400/30 backdrop-blur-sm">
-                <div className="absolute top-2 left-4 text-pink-400/30 text-3xl font-serif">"</div>
-                <div className="absolute bottom-2 right-4 text-pink-400/30 text-3xl font-serif rotate-180">"</div>
+              <div className="relative bg-card rounded-xl p-6 border border-border shadow-sm">
+                <div className="absolute top-3 left-4 text-accent/20 text-2xl font-serif">"</div>
+                <div className="absolute bottom-3 right-4 text-accent/20 text-2xl font-serif rotate-180">"</div>
                 
                 <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed px-4">
                   {getDailyImpulse()}
@@ -554,79 +569,44 @@ const SelfcareReflection = () => {
                   setSessionStarted(true);
                   setHideStatementBanner(true);
                 }}
-                className="mt-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
+                className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 h-12 px-6 touch-manipulation active:scale-95 transition-transform"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Diesen Impuls reflektieren
               </Button>
-            </motion.div>
+            </div>
             
-            {/* Explanatory text below */}
+            <p className="text-xs text-muted-foreground/70 mb-4">oder</p>
+            
             <Button 
               onClick={startSession}
               variant="outline"
-              size="lg"
+              className="touch-manipulation"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Anderen Impuls reflektieren
             </Button>
           </motion.div>
         ) : (
-          <div className="space-y-4">
-            {/* Current Statement Banner - Only show if not hidden (when coming from Index) */}
+          <div className="flex-1 flex flex-col min-h-0 overflow-auto">
+            {/* Current Statement Banner - Only show if not hidden */}
             {!hideStatementBanner && (
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative overflow-hidden my-6"
+                transition={{ duration: 0.4 }}
+                className="mb-4 p-4 bg-card rounded-lg border border-border"
               >
-                {/* Dramatic background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-600/25 via-rose-500/20 to-fuchsia-500/15 rounded-3xl" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent rounded-3xl" />
-                <div className="absolute -top-20 -right-20 w-48 h-48 bg-pink-400/30 rounded-full blur-3xl" />
-                <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-rose-500/25 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-32 bg-gradient-to-r from-transparent via-pink-400/10 to-transparent blur-xl" />
-                
-                {/* Content */}
-                <div className="relative border-2 border-pink-400/50 rounded-3xl p-8 md:p-10 lg:p-12 text-center backdrop-blur-sm shadow-2xl shadow-pink-500/10">
-                  {/* Large decorative quotes */}
-                  <div className="absolute top-4 left-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none select-none">"</div>
-                  <div className="absolute bottom-4 right-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none rotate-180 select-none">"</div>
-                  
-                  {/* Sparkle decoration */}
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-6 right-16 text-pink-400/60"
-                  >
-                    <Sparkles className="w-5 h-5" />
-                  </motion.div>
-                  <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                    className="absolute bottom-8 left-14 text-rose-400/50"
-                  >
-                    <Sparkles className="w-4 h-4" />
-                  </motion.div>
-                  
-                  {/* Statement - Hero typography */}
-                  <motion.p 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-snug md:leading-relaxed px-6 md:px-12 lg:px-16 relative z-10"
-                  >
-                    {currentStatement?.text}
-                  </motion.p>
-                  
-                  {/* Decorative underline */}
-                  <motion.div 
-                    initial={{ scaleX: 0, opacity: 0 }}
-                    animate={{ scaleX: 1, opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
-                    className="w-24 h-1 mx-auto mt-6 bg-gradient-to-r from-pink-400 via-rose-500 to-pink-400 rounded-full"
-                  />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <Flower2 className="w-4 h-4 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-1">Dein Impuls</p>
+                    <p className="font-serif text-foreground leading-relaxed">
+                      {currentStatement?.text}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -638,14 +618,14 @@ const SelfcareReflection = () => {
               ))}
               {isLoading && messages[messages.length - 1]?.role === 'user' && (
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                    <Flower2 className="w-4 h-4 text-accent" />
                   </div>
-                  <div className="bg-accent/50 rounded-2xl rounded-tl-md px-4 py-3">
+                  <div className="bg-muted rounded-2xl rounded-tl-md px-4 py-3">
                     <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -669,7 +649,7 @@ const SelfcareReflection = () => {
                     onClick={sendMessage} 
                     disabled={!input.trim() || isLoading}
                     size="icon"
-                    className="h-12 w-12 shrink-0 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600"
+                    className="h-12 w-12 shrink-0 bg-accent text-accent-foreground hover:bg-accent/90"
                   >
                     <Send className="w-5 h-5" />
                   </Button>
@@ -691,7 +671,7 @@ const SelfcareReflection = () => {
                       variant="outline" 
                       size="sm" 
                       onClick={deepenInOria}
-                      className="text-pink-600 border-pink-200 hover:bg-pink-50 text-xs h-8"
+                      className="text-accent border-accent/30 hover:bg-accent/10 text-xs h-8"
                     >
                       <Sparkles className="w-3 h-3 mr-1" />
                       Vertiefen
@@ -702,7 +682,7 @@ const SelfcareReflection = () => {
             </div>
           </div>
         )}
-      </main>
+      </section>
 
       {/* Save Dialog */}
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
@@ -722,7 +702,7 @@ const SelfcareReflection = () => {
             <Button variant="outline" onClick={skipSave}>
               Verwerfen
             </Button>
-            <Button onClick={saveToVault} className="bg-gradient-to-r from-pink-500 to-rose-500">
+            <Button onClick={saveToVault} className="bg-accent text-accent-foreground hover:bg-accent/90">
               <Save className="w-4 h-4 mr-1" />
               Speichern
             </Button>
