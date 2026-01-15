@@ -780,7 +780,7 @@ const SelfcareReflection = () => {
           </div>
 
           {/* Action Cards - Fan arrangement at bottom */}
-          <div className="relative h-64 sm:h-72 mb-8">
+          <div className="relative h-64 sm:h-72 mb-8 pointer-events-none">
             {/* Center card - Reflektieren starten */}
             <motion.button
               initial={{ opacity: 0, y: 50 }}
@@ -788,7 +788,7 @@ const SelfcareReflection = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               whileTap={{ scale: 0.95 }}
               onClick={startWithDisplayedImpulse}
-              className="absolute left-1/2 bottom-16 -translate-x-1/2 z-20"
+              className="absolute left-1/2 bottom-20 -translate-x-1/2 z-30 pointer-events-auto"
             >
               <div className="w-28 h-36 sm:w-32 sm:h-40 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl flex flex-col items-center justify-center gap-3 border border-white/50">
                 <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
@@ -805,7 +805,7 @@ const SelfcareReflection = () => {
               transition={{ duration: 0.5, delay: 0.5 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/summaries')}
-              className="absolute left-1/2 bottom-8 -translate-x-[140%] z-10 origin-bottom"
+              className="absolute left-1/2 bottom-12 -translate-x-[140%] z-20 origin-bottom pointer-events-auto"
             >
               <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
@@ -822,7 +822,7 @@ const SelfcareReflection = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
               whileTap={{ scale: 0.95 }}
               onClick={startSession}
-              className="absolute left-1/2 bottom-8 translate-x-[40%] z-10 origin-bottom"
+              className="absolute left-1/2 bottom-12 translate-x-[40%] z-20 origin-bottom pointer-events-auto"
             >
               <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
@@ -837,7 +837,7 @@ const SelfcareReflection = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="absolute left-1/2 bottom-0 -translate-x-1/2 z-30"
+              className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 pointer-events-none"
             >
               <div className="w-14 h-14 rounded-full bg-foreground shadow-lg flex items-center justify-center">
                 <img src={bbOwlLogo} alt="Oria" className="w-10 h-10 object-contain" />
