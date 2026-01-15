@@ -658,10 +658,10 @@ const SelfcareReflection = () => {
   // deepenInOria removed - coach page no longer exists
 
   return (
-    <div className="min-h-[100dvh] bg-background flex flex-col">
+    <div className="min-h-[100dvh] bg-background flex flex-col ios-page ios-font">
 
-      {/* Hero Section */}
-      <section className="pt-14 pb-2 sm:pt-24 sm:pb-8 relative overflow-hidden shrink-0">
+      {/* iOS-style Hero Section */}
+      <section className="pt-[calc(env(safe-area-inset-top,0px)+44px)] pb-2 sm:pt-24 sm:pb-8 relative overflow-hidden shrink-0">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
 
@@ -671,15 +671,15 @@ const SelfcareReflection = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex items-center gap-2 sm:gap-4"
             >
               <img
                 src={bbOwlLogo}
                 alt="Oria"
-                className="h-6 sm:h-10 w-auto object-contain"
+                className="h-7 sm:h-10 w-auto object-contain"
               />
-              <h1 className="text-base sm:text-2xl md:text-3xl font-serif font-medium text-foreground">
+              <h1 className="ios-title-1 sm:ios-large-title text-foreground">
                 Selfcare Impulse
               </h1>
             </motion.div>
@@ -687,8 +687,8 @@ const SelfcareReflection = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="text-sm text-muted-foreground max-w-xl hidden sm:block mt-3"
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="ios-subhead text-muted-foreground max-w-xl hidden sm:block mt-3"
             >
               Oria begleitet dich bei der Reflexion über Impulse für dein Wohlbefinden
             </motion.p>
@@ -762,41 +762,47 @@ const SelfcareReflection = () => {
               </motion.div>
             )}
 
-            {/* Daily Impulse Card */}
+            {/* Daily Impulse Card - iOS Style */}
             <div className="w-full max-w-md mb-6">
-              <div className="inline-flex items-center gap-2 text-accent text-sm font-medium mb-3">
+              <div className="inline-flex items-center gap-2 text-accent ios-footnote font-medium mb-3 uppercase tracking-wide">
                 <Flower2 className="w-4 h-4" />
                 <span>Impuls des Tages</span>
               </div>
               
-              <div className="relative bg-card rounded-xl p-6 border border-border shadow-sm">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="relative bg-card rounded-[16px] p-6 shadow-lg shadow-black/5"
+              >
                 <div className="absolute top-3 left-4 text-accent/20 text-2xl font-serif">"</div>
                 <div className="absolute bottom-3 right-4 text-accent/20 text-2xl font-serif rotate-180">"</div>
                 
                 <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed px-4">
                   {displayedImpulse.text}
                 </p>
-              </div>
+              </motion.div>
               
-              <Button 
+              <motion.button 
                 onClick={startWithDisplayedImpulse}
-                className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 h-12 px-6 touch-manipulation active:scale-95 transition-transform"
+                whileTap={{ scale: 0.97 }}
+                className="ios-button-primary w-full mt-4 flex items-center justify-center gap-2"
               >
-                <Sparkles className="w-4 h-4 mr-2" />
+                <Sparkles className="w-5 h-5" />
                 Diesen Impuls reflektieren
-              </Button>
+              </motion.button>
             </div>
             
-            <p className="text-xs text-muted-foreground/70 mb-4">oder</p>
+            <p className="ios-caption text-muted-foreground/70 mb-4">oder</p>
             
-            <Button 
+            <motion.button 
               onClick={startSession}
-              variant="outline"
-              className="touch-manipulation"
+              whileTap={{ scale: 0.97 }}
+              className="ios-button-secondary flex items-center justify-center gap-2"
             >
-              <RotateCcw className="w-4 h-4 mr-2" />
+              <RotateCcw className="w-4 h-4" />
               Anderen Impuls reflektieren
-            </Button>
+            </motion.button>
 
             {/* Past Reflections Section */}
             {user && pastReflections.length > 0 && (
@@ -899,40 +905,39 @@ const SelfcareReflection = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area - Fixed on mobile, relative on desktop */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 px-3 py-3 pb-[env(safe-area-inset-bottom,12px)] md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4 md:pb-4">
-              <div className="max-w-3xl mx-auto flex flex-col gap-2">
-                {/* Textarea */}
-                <Textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Teile deine Gedanken..."
-                  className="min-h-[56px] max-h-28 resize-none w-full text-base"
-                  disabled={isLoading}
-                />
-                
-                {/* Send Button - Full width below textarea */}
-                <Button 
-                  onClick={sendMessage} 
-                  disabled={!input.trim() || isLoading}
-                  className="w-full h-11 bg-accent text-accent-foreground hover:bg-accent/90 text-sm font-medium"
-                >
-                  <Send className="w-4 h-4 mr-2" />
-                  Nachricht senden
-                </Button>
+            {/* Input Area - iOS Style Fixed on mobile */}
+            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border/30 px-4 py-3 pb-[calc(env(safe-area-inset-bottom,12px)+8px)] md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4 md:pb-4">
+              <div className="max-w-3xl mx-auto flex flex-col gap-3">
+                {/* iOS-style Textarea */}
+                <div className="relative">
+                  <Textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Teile deine Gedanken..."
+                    className="ios-input min-h-[50px] max-h-28 resize-none w-full ios-body rounded-[14px] pr-14"
+                    disabled={isLoading}
+                  />
+                  {/* Send button inside textarea on mobile */}
+                  <motion.button 
+                    onClick={sendMessage} 
+                    disabled={!input.trim() || isLoading}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute right-2 bottom-2 w-9 h-9 bg-accent text-accent-foreground rounded-full flex items-center justify-center disabled:opacity-40 transition-opacity"
+                  >
+                    <Send className="w-4 h-4" />
+                  </motion.button>
+                </div>
                 
                 {/* Action Buttons */}
                 <div className="flex gap-2 justify-center">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <button 
                     onClick={resetSession}
-                    className="text-muted-foreground text-xs h-8 px-3"
+                    className="ios-button-text flex items-center gap-1.5 ios-footnote"
                   >
-                    <RotateCcw className="w-3 h-3 mr-1" />
+                    <RotateCcw className="w-3.5 h-3.5" />
                     Neuer Impuls
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>
