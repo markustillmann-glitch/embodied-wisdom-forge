@@ -45,14 +45,9 @@ const NotFound = () => {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild>
-            <Link to="/" className="inline-flex items-center gap-2">
+            <Link to="/selfcare" className="inline-flex items-center gap-2">
               <Home className="w-4 h-4" />
-              Zum Kompendium
-            </Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/seminare">
-              Seminarangebot
+              Zur Selfcare App
             </Link>
           </Button>
         </div>
