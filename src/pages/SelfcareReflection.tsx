@@ -909,25 +909,25 @@ const SelfcareReflection = () => {
             <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border/30 px-4 py-3 pb-[calc(env(safe-area-inset-bottom,12px)+8px)] md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4 md:pb-4">
               <div className="max-w-3xl mx-auto flex flex-col gap-3">
                 {/* iOS-style Textarea */}
-                <div className="relative">
-                  <Textarea
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Teile deine Gedanken..."
-                    className="ios-input min-h-[50px] max-h-28 resize-none w-full ios-body rounded-[14px] pr-14"
-                    disabled={isLoading}
-                  />
-                  {/* Send button inside textarea on mobile */}
-                  <motion.button 
-                    onClick={sendMessage} 
-                    disabled={!input.trim() || isLoading}
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute right-2 bottom-2 w-9 h-9 bg-accent text-accent-foreground rounded-full flex items-center justify-center disabled:opacity-40 transition-opacity"
-                  >
-                    <Send className="w-4 h-4" />
-                  </motion.button>
-                </div>
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Teile deine Gedanken..."
+                  className="ios-input min-h-[50px] max-h-28 resize-none w-full ios-body rounded-[14px]"
+                  disabled={isLoading}
+                />
+                
+                {/* Send button - always below textarea */}
+                <motion.button 
+                  onClick={sendMessage} 
+                  disabled={!input.trim() || isLoading}
+                  whileTap={{ scale: 0.97 }}
+                  className="ios-button-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  <Send className="w-4 h-4" />
+                  Nachricht senden
+                </motion.button>
                 
                 {/* Action Buttons */}
                 <div className="flex gap-2 justify-center">
