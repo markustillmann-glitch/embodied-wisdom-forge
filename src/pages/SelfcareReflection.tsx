@@ -292,6 +292,10 @@ const SelfcareReflection = () => {
   const [loadingPast, setLoadingPast] = useState(false);
   const [streak, setStreak] = useState(0);
   const [reflectedToday, setReflectedToday] = useState(false);
+  const [displayedImpulse] = useState<StatementWithCategory>(() => {
+    const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
+    return SELFCARE_STATEMENTS[randomIndex];
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -384,23 +388,15 @@ const SelfcareReflection = () => {
     return SELFCARE_STATEMENTS[randomIndex];
   };
 
-  const getRandomImpulse = (): string => {
-    const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
-    return SELFCARE_STATEMENTS[randomIndex].text;
-  };
-
-  const startWithRandomImpulse = () => {
-    const impulse = getRandomImpulse();
-    const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
-    const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
-    setCurrentStatement(statement);
+  const startWithDisplayedImpulse = () => {
+    setCurrentStatement(displayedImpulse);
     setSessionStarted(true);
     setHideStatementBanner(true);
     
     // Start with an opening question about the impulse
     const openingMessage: Message = {
       role: 'assistant',
-      content: `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
+      content: `„${displayedImpulse.text}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
     };
     setMessages([openingMessage]);
     setConversationHistory([openingMessage]);
@@ -754,12 +750,12 @@ const SelfcareReflection = () => {
                 <div className="absolute bottom-3 right-4 text-accent/20 text-2xl font-serif rotate-180">"</div>
                 
                 <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed px-4">
-                  {getRandomImpulse()}
+                  {displayedImpulse.text}
                 </p>
               </div>
               
               <Button 
-                onClick={startWithRandomImpulse}
+                onClick={startWithDisplayedImpulse}
                 className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 h-12 px-6 touch-manipulation active:scale-95 transition-transform"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
