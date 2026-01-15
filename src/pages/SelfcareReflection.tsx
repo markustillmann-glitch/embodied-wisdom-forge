@@ -780,6 +780,23 @@ const SelfcareReflection = () => {
               </div>
             </motion.button>
 
+            {/* Fourth card - Tresor */}
+            <motion.button
+              initial={{ opacity: 0, y: 50, rotate: -12 }}
+              animate={{ opacity: 1, y: 0, rotate: -5 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/summaries')}
+              className="absolute left-4 sm:left-[10%] bottom-28 z-15 origin-bottom pointer-events-auto"
+            >
+              <div className="w-20 h-28 sm:w-24 sm:h-32 bg-white/60 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
+                <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
+                  <Save className="w-4 h-4 text-amber-600" />
+                </div>
+                <span className="text-xs font-medium text-foreground/80 text-center px-2">Tresor</span>
+              </div>
+            </motion.button>
+
             {/* Owl mascot at bottom center */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
