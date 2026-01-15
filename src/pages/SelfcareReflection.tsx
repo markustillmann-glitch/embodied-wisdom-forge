@@ -318,13 +318,13 @@ const SelfcareReflection = () => {
     setCurrentStatement(statement);
     setSessionStarted(true);
     
-    // Verschiedene Einleitungsvarianten für mehr Abwechslung
+    // Verschiedene Einleitungsvarianten für mehr Abwechslung - Statement wird separat angezeigt
     const introVariants = [
-      `🌱 **Dein Impuls für heute:**\n\n*„${statement}"*\n\nNimm dir einen Moment, diesen Gedanken auf dich wirken zu lassen.\n\nWas spürst du, wenn du diesen Satz liest? Welche Resonanz entsteht in dir – vielleicht Zustimmung, Widerstand, Sehnsucht oder Neugier?`,
-      `✨ **Heute für dich:**\n\n*„${statement}"*\n\nLass diesen Gedanken einen Moment in dir ankommen.\n\nWas löst er aus? Ein Gefühl, eine Erinnerung, vielleicht einen inneren Widerspruch?`,
-      `🌿 **Dein Moment der Reflexion:**\n\n*„${statement}"*\n\nSpüre in dich hinein: Was passiert, wenn du diese Worte liest?\n\nGibt es eine körperliche Reaktion, ein Gefühl, einen Gedanken?`,
-      `💫 **Ein Impuls wartet auf dich:**\n\n*„${statement}"*\n\nNimm dir Zeit, diese Worte wirken zu lassen.\n\nWelche Saite wird in dir angeschlagen? Resonanz, Sehnsucht, vielleicht auch Skepsis?`,
-      `🌸 **Für diesen Augenblick:**\n\n*„${statement}"*\n\nBevor wir tiefer gehen – was bemerkst du zuerst?\n\nEin Gefühl? Einen Gedanken? Eine körperliche Empfindung?`
+      `Nimm dir einen Moment, diesen Gedanken auf dich wirken zu lassen.\n\nWas spürst du, wenn du diesen Satz liest? Welche Resonanz entsteht in dir – vielleicht Zustimmung, Widerstand, Sehnsucht oder Neugier?`,
+      `Lass diesen Gedanken einen Moment in dir ankommen.\n\nWas löst er aus? Ein Gefühl, eine Erinnerung, vielleicht einen inneren Widerspruch?`,
+      `Spüre in dich hinein: Was passiert, wenn du diese Worte liest?\n\nGibt es eine körperliche Reaktion, ein Gefühl, einen Gedanken?`,
+      `Nimm dir Zeit, diese Worte wirken zu lassen.\n\nWelche Saite wird in dir angeschlagen? Resonanz, Sehnsucht, vielleicht auch Skepsis?`,
+      `Bevor wir tiefer gehen – was bemerkst du zuerst?\n\nEin Gefühl? Einen Gedanken? Eine körperliche Empfindung?`
     ];
     
     const randomIntro = introVariants[Math.floor(Math.random() * introVariants.length)];
@@ -494,16 +494,53 @@ const SelfcareReflection = () => {
           </motion.div>
         ) : (
           <div className="space-y-4">
-            {/* Current Statement Banner */}
+            {/* Current Statement Banner - Prominent Display */}
             <motion.div 
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-r from-pink-500/10 to-rose-500/10 border border-pink-200/30 rounded-lg p-4 text-center"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="relative overflow-hidden"
             >
-              <p className="text-xs uppercase tracking-wide text-pink-600 mb-1">Heutiger Impuls</p>
-              <p className="font-serif text-lg font-medium text-foreground italic">
-                „{currentStatement}"
-              </p>
+              {/* Background decorations */}
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-rose-400/15 to-amber-400/10 rounded-2xl" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-pink-400/20 to-transparent rounded-full blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-rose-500/15 to-transparent rounded-full blur-xl" />
+              
+              {/* Content */}
+              <div className="relative border border-pink-300/40 rounded-2xl p-6 md:p-8 text-center backdrop-blur-sm">
+                {/* Decorative quotes */}
+                <div className="absolute top-3 left-4 text-pink-400/30 text-5xl font-serif leading-none">"</div>
+                <div className="absolute bottom-3 right-4 text-pink-400/30 text-5xl font-serif leading-none rotate-180">"</div>
+                
+                {/* Label */}
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/15 text-pink-600 text-xs uppercase tracking-widest font-medium mb-4"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  Dein Impuls
+                </motion.div>
+                
+                {/* Statement */}
+                <motion.p 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="font-serif text-xl md:text-2xl lg:text-3xl font-medium text-foreground leading-relaxed px-4 md:px-8"
+                >
+                  {currentStatement}
+                </motion.p>
+                
+                {/* Decorative line */}
+                <motion.div 
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  className="w-16 h-0.5 mx-auto mt-5 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent"
+                />
+              </div>
             </motion.div>
 
             {/* Messages */}
