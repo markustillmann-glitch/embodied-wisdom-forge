@@ -197,6 +197,7 @@ const Index = () => {
   const navigate = useNavigate();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
+  const [currentImpulse] = useState(() => DAILY_IMPULSES[Math.floor(Math.random() * DAILY_IMPULSES.length)]);
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
@@ -347,14 +348,13 @@ const Index = () => {
               <div className="absolute bottom-2 right-4 text-pink-400/30 text-4xl font-serif rotate-180">"</div>
               
               <p className="font-serif text-xl md:text-2xl text-foreground leading-relaxed px-4">
-                {getRandomImpulse()}
+                {currentImpulse}
               </p>
             </motion.div>
             
             <Button
               onClick={() => {
-                const impulse = getRandomImpulse();
-                navigate(`/selfcare-reflection?impulse=${encodeURIComponent(impulse)}&autostart=true`);
+                navigate(`/selfcare-reflection?impulse=${encodeURIComponent(currentImpulse)}&autostart=true`);
               }}
               className="mt-6 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
             >
