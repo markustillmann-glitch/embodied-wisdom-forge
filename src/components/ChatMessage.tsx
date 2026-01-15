@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Volume2, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ChatMessageProps {
   content: string;
@@ -11,6 +12,7 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ content, role, onSpeak, isSpeaking = false }) => {
+  const isUser = role === 'user';
   // Filter out internal command blocks that shouldn't be shown to users
   const filterInternalBlocks = (text: string): string => {
     let filtered = text;
@@ -154,48 +156,58 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ content, role, onSpeak, isSpe
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ 
+        duration: 0.25, 
+        ease: [0.25, 0.46, 0.45, 0.94] 
+      }}
       className={cn(
         "flex gap-2 sm:gap-3",
-        role === 'user' ? "justify-end" : "justify-start"
+        isUser ? "justify-end" : "justify-start"
       )}
     >
       <div
         className={cn(
-          "max-w-[85%] sm:max-w-[80%] rounded-2xl px-4 py-3 sm:px-5 sm:py-4",
-          role === 'user'
-            ? "bg-primary text-primary-foreground"
-            : "bg-secondary/80 text-secondary-foreground shadow-sm"
+          "max-w-[80%] sm:max-w-[75%] px-4 py-[10px] ios-font",
+          isUser
+            ? "bg-primary text-primary-foreground rounded-[20px] rounded-br-[6px]"
+            : "bg-secondary text-secondary-foreground rounded-[20px] rounded-bl-[6px] shadow-sm"
         )}
       >
         <div className={cn(
-          "text-[15px] sm:text-sm",
-          role === 'assistant' && "prose-sm prose-slate dark:prose-invert max-w-none"
+          "ios-body",
+          "[&_p]:my-1.5 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0",
+          "[&_ol]:my-2 [&_ol]:ml-5 [&_ol]:space-y-1.5",
+          "[&_ul]:my-2 [&_ul]:ml-5 [&_ul]:space-y-1.5",
+          "[&_li]:pl-0.5",
+          "[&_strong]:font-semibold",
+          "[&_em]:italic",
+          "[&_blockquote]:border-l-2 [&_blockquote]:border-accent/40 [&_blockquote]:pl-3 [&_blockquote]:my-2 [&_blockquote]:italic [&_blockquote]:opacity-80"
         )}>
           {formatContent(content)}
         </div>
         
-        {/* Read aloud button for assistant messages */}
+        {/* Read aloud button for assistant messages - iOS style */}
         {role === 'assistant' && onSpeak && (
-          <div className="flex justify-end mt-2 pt-2 border-t border-border/30">
-            <Button
-              variant="ghost"
-              size="sm"
+          <div className="flex justify-end mt-2 pt-2 border-t border-border/20">
+            <button
               onClick={() => onSpeak(content)}
               disabled={isSpeaking}
-              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+              className="ios-button-text flex items-center gap-1.5 ios-caption opacity-70 hover:opacity-100 transition-opacity disabled:opacity-40"
             >
               {isSpeaking ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
               ) : (
-                <Volume2 className="h-3.5 w-3.5 mr-1" />
+                <Volume2 className="h-3.5 w-3.5" />
               )}
               Vorlesen
-            </Button>
+            </button>
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

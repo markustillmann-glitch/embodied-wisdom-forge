@@ -98,9 +98,9 @@ const Summaries = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="pt-14 pb-6 sm:pt-24 sm:pb-10 relative overflow-hidden">
+    <div className="min-h-screen bg-background ios-page ios-font">
+      {/* iOS-style Hero Section */}
+      <section className="pt-[calc(env(safe-area-inset-top,0px)+44px)] pb-6 sm:pt-24 sm:pb-10 relative overflow-hidden">
         <PolygonalBackground variant="hero" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
 
@@ -110,30 +110,28 @@ const Summaries = () => {
             animate={{ opacity: 1, x: 0 }}
             className="mb-6"
           >
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
               onClick={() => navigate('/selfcare')}
-              className="gap-2 text-muted-foreground hover:text-foreground"
+              className="ios-button-text flex items-center gap-0.5 -ml-2"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Zurück
-            </Button>
+              <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
+              <span className="ios-body">Zurück</span>
+            </button>
           </motion.div>
 
           <div className="flex flex-col items-center text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex items-center gap-2 sm:gap-4"
             >
               <img
                 src={bbOwlLogo}
                 alt="Oria"
-                className="h-6 sm:h-10 w-auto object-contain"
+                className="h-7 sm:h-10 w-auto object-contain"
               />
-              <h1 className="text-base sm:text-2xl md:text-3xl font-serif font-medium text-foreground">
+              <h1 className="ios-title-1 sm:ios-large-title text-foreground">
                 Meine Zusammenfassungen
               </h1>
             </motion.div>
@@ -141,8 +139,8 @@ const Summaries = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="text-sm text-muted-foreground max-w-xl mt-3"
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="ios-subhead text-muted-foreground max-w-xl mt-3"
             >
               Deine Reflexionen mit Oria-Modell Analyse
             </motion.p>
