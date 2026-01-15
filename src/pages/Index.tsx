@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { ChapterSection } from "@/components/ChapterSection";
 import { SubSection } from "@/components/SubSection";
@@ -197,14 +197,16 @@ const getRandomImpulse = (): string => {
 
 const Index = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
-  const [currentImpulse, setCurrentImpulse] = useState("");
+  const [currentImpulse, setCurrentImpulse] = useState(() => getRandomImpulse());
   
-  // Generate new random impulse on every mount (page visit)
+  // Generate new random impulse when navigating to this page
   useEffect(() => {
-    setCurrentImpulse(getRandomImpulse());
-  }, []);
+    const newImpulse = getRandomImpulse();
+    setCurrentImpulse(newImpulse);
+  }, [location.key]);
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
