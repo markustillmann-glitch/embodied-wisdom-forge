@@ -384,26 +384,13 @@ const SelfcareReflection = () => {
     return SELFCARE_STATEMENTS[randomIndex];
   };
 
-  const getDailyImpulse = (): string => {
-    const DAILY_IMPULSES = [
-      "Manchmal gewinnt man, manchmal lernt man",
-      "Je stiller du bist, desto mehr wirst du hören",
-      "Kleine Schritte führen zu großen Veränderungen",
-      "So, wie du bist, bist du genug",
-      "Höre auf deinen Körper – er spricht mit dir",
-      "Du darfst langsam sein",
-      "Gefühle sind Signale, keine Befehle",
-      "Ich darf neugierig auf meine inneren Reaktionen sein",
-      "Es gibt in mir einen ruhigen, klaren Ort",
-      "Veränderung beginnt oft mit Zuhören",
-    ];
-    const today = new Date();
-    const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
-    return DAILY_IMPULSES[dayOfYear % DAILY_IMPULSES.length];
+  const getRandomImpulse = (): string => {
+    const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
+    return SELFCARE_STATEMENTS[randomIndex].text;
   };
 
-  const startWithDailyImpulse = () => {
-    const impulse = getDailyImpulse();
+  const startWithRandomImpulse = () => {
+    const impulse = getRandomImpulse();
     const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
     const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
     setCurrentStatement(statement);
@@ -767,12 +754,12 @@ const SelfcareReflection = () => {
                 <div className="absolute bottom-3 right-4 text-accent/20 text-2xl font-serif rotate-180">"</div>
                 
                 <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed px-4">
-                  {getDailyImpulse()}
+                  {getRandomImpulse()}
                 </p>
               </div>
               
               <Button 
-                onClick={startWithDailyImpulse}
+                onClick={startWithRandomImpulse}
                 className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 h-12 px-6 touch-manipulation active:scale-95 transition-transform"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
