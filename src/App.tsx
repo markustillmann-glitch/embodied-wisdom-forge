@@ -40,6 +40,7 @@ import Individualismus from "./pages/Individualismus";
 import DecisionHelper from "./pages/DecisionHelper";
 import BodyExhaustion from "./pages/BodyExhaustion";
 import SelfcareReflection from "./pages/SelfcareReflection";
+import ReflectionAnalysis from "./pages/ReflectionAnalysis";
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const App = () => (
               <Route path="/decision-helper" element={<DecisionHelper />} />
               <Route path="/body-exhaustion" element={<BodyExhaustion />} />
               <Route path="/selfcare" element={<SelfcareReflection />} />
+              <Route path="/reflection-analysis" element={<ReflectionAnalysis />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -32,3 +32,18 @@ verify_jwt = false
 
 [functions.life-checkin-chat]
 verify_jwt = false
+
+[functions.selfcare-chat]
+verify_jwt = false
+
+[functions.decision-helper-chat]
+verify_jwt = false
+
+[functions.body-exhaustion-chat]
+verify_jwt = false
+
+[functions.relationships-chat]
+verify_jwt = false
+
+[functions.analyze-reflections]
+verify_jwt = false

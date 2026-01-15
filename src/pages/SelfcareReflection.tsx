@@ -20,187 +20,200 @@ import ChatMessage from '@/components/ChatMessage';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 
-const SELFCARE_STATEMENTS = [
-  // Originale Statements
-  "Manchmal gewinnt man, manchmal lernt man",
-  "Wachse und gedeihe",
-  "Umgib dich mit Menschen, die dich wachsen sehen wollen",
-  "Betrachte die Welt, als würdest du sie zum ersten Mal sehen",
-  "Je stiller du bist, desto mehr wirst du hören",
-  "Scheue dich nie, um die Hilfe zu bitten, die du brauchst",
-  "Begrenze nicht die Herausforderungen, fordere die Grenzen heraus",
-  "Vergleichen macht unglücklich",
-  "Weniger scrollen, mehr leben",
-  "Lass ab von dem, was war, und vertraue dem, was kommt",
-  "Eine Umarmung macht alles besser",
-  "Finde heraus, was du brauchst, scheue dich nicht, darum zu bitten",
-  "Du kontrollierst deine Finanzen, nicht sie dich",
-  "Aus kleinen Samen wachsen mächtige Bäume",
-  "Nimm jeden Tag, wie er kommt",
-  "Ein Duft kann tausend Erinnerungen zurückbringen",
-  "Es sind die kleinen Dinge, die den größten Unterschied machen",
-  "Die Welt gehört jenen, die lesen",
-  "Kreativität ist eine unendliche Ressource: je mehr du sie nutzt, desto mehr hast du",
-  "Das Leben ist ein Song: Singe!",
-  "To do: Lebe den Moment",
-  "Aufgeräumtes Haus, aufgeräumte Seele",
-  "Wenn nicht jetzt, wann dann?",
-  "Manchmal ist Entspannung das Produktivste, was man tun kann",
-  "Verwandle Angst in Energie",
-  "Achte auf dich von innen heraus",
-  "Entwickle gesunde Gewohnheiten, nicht Einschränkungen",
-  "Kleine Schritte führen zu großen Veränderungen",
-  "Entspannen, erfrischen, erholen",
-  "Kreiere deine eigene Stille",
-  "Lehre dich die Kunst des Ausruhens",
-  "Dein Heim ist ein Zufluchtsort: erfülle es mit Frieden",
-  "Tanke neue Kraft, erneuere deinen Geist",
-  "Verliebe dich in deine Selbstpflege",
-  "Nimm dir Zeit für Dinge, die deine Seele glücklich machen",
-  "In der Selbstfreundlichkeit liegt die Kraft",
-  "Verbringe Quality Time mit dir selbst",
-  "Lass dich von der Natur beleben",
-  "Auf Regen folgt immer Sonnenschein",
-  "Folge keinem Weg – gehe deinen eigenen",
-  "Beruhige deinen Geist, befreie deinen Körper",
-  "Dein größter Reichtum ist deine Gesundheit",
-  "Nähre dich, um zu gedeihen",
-  "Beginne jeden Tag mit einem positiven Gedanken und sieh, wohin er dich führt",
-  "Wie du mit dir selbst sprichst, macht viel aus",
-  "Das Leben ist schöner, wenn man es mit einem Freund teilt",
-  "Sei freundlich zu dir selbst – du gibst dein Bestes",
-  "Es gibt immer etwas, für das man dankbar sein kann",
-  "Sei kämpferisch, nicht grüblerisch",
-  "So, wie du bist, bist du genug",
-  "Das Leben ist schöner, wenn man lacht",
-  "In der Einfachheit liegt so viel Schönheit",
-  "Du darfst langsam sein",
-  "Ruhe ist kein Stillstand, sondern Regeneration",
-  "Höre auf deinen Körper – er spricht mit dir",
-  "Selbstfürsorge ist kein Luxus, sondern eine Grundlage",
-  "Du musst nicht alles heute schaffen",
-  "Deine Bedürfnisse sind wichtig",
-  "Atme ein – lass los",
-  "Grenzen setzen ist ein Akt der Selbstachtung",
-  "Nicht jeder Tag muss produktiv sein",
-  "Du darfst Pausen machen, ohne sie zu rechtfertigen",
-  "Sanftheit ist auch eine Stärke",
-  "Dein Wert hängt nicht von deiner Leistung ab",
-  "Manchmal ist genug wirklich genug",
-  "Erholung ist Teil des Weges, nicht die Abweichung",
-  "Sei geduldig mit deinem Prozess",
+type StatementCategory = 'selfcare' | 'gfk' | 'ifs';
+
+interface StatementWithCategory {
+  text: string;
+  category: StatementCategory;
+}
+
+const SELFCARE_STATEMENTS: StatementWithCategory[] = [
+  // Originale Statements (Selfcare)
+  { text: "Manchmal gewinnt man, manchmal lernt man", category: "selfcare" },
+  { text: "Wachse und gedeihe", category: "selfcare" },
+  { text: "Umgib dich mit Menschen, die dich wachsen sehen wollen", category: "selfcare" },
+  { text: "Betrachte die Welt, als würdest du sie zum ersten Mal sehen", category: "selfcare" },
+  { text: "Je stiller du bist, desto mehr wirst du hören", category: "selfcare" },
+  { text: "Scheue dich nie, um die Hilfe zu bitten, die du brauchst", category: "selfcare" },
+  { text: "Begrenze nicht die Herausforderungen, fordere die Grenzen heraus", category: "selfcare" },
+  { text: "Vergleichen macht unglücklich", category: "selfcare" },
+  { text: "Weniger scrollen, mehr leben", category: "selfcare" },
+  { text: "Lass ab von dem, was war, und vertraue dem, was kommt", category: "selfcare" },
+  { text: "Eine Umarmung macht alles besser", category: "selfcare" },
+  { text: "Finde heraus, was du brauchst, scheue dich nicht, darum zu bitten", category: "selfcare" },
+  { text: "Du kontrollierst deine Finanzen, nicht sie dich", category: "selfcare" },
+  { text: "Aus kleinen Samen wachsen mächtige Bäume", category: "selfcare" },
+  { text: "Nimm jeden Tag, wie er kommt", category: "selfcare" },
+  { text: "Ein Duft kann tausend Erinnerungen zurückbringen", category: "selfcare" },
+  { text: "Es sind die kleinen Dinge, die den größten Unterschied machen", category: "selfcare" },
+  { text: "Die Welt gehört jenen, die lesen", category: "selfcare" },
+  { text: "Kreativität ist eine unendliche Ressource: je mehr du sie nutzt, desto mehr hast du", category: "selfcare" },
+  { text: "Das Leben ist ein Song: Singe!", category: "selfcare" },
+  { text: "To do: Lebe den Moment", category: "selfcare" },
+  { text: "Aufgeräumtes Haus, aufgeräumte Seele", category: "selfcare" },
+  { text: "Wenn nicht jetzt, wann dann?", category: "selfcare" },
+  { text: "Manchmal ist Entspannung das Produktivste, was man tun kann", category: "selfcare" },
+  { text: "Verwandle Angst in Energie", category: "selfcare" },
+  { text: "Achte auf dich von innen heraus", category: "selfcare" },
+  { text: "Entwickle gesunde Gewohnheiten, nicht Einschränkungen", category: "selfcare" },
+  { text: "Kleine Schritte führen zu großen Veränderungen", category: "selfcare" },
+  { text: "Entspannen, erfrischen, erholen", category: "selfcare" },
+  { text: "Kreiere deine eigene Stille", category: "selfcare" },
+  { text: "Lehre dich die Kunst des Ausruhens", category: "selfcare" },
+  { text: "Dein Heim ist ein Zufluchtsort: erfülle es mit Frieden", category: "selfcare" },
+  { text: "Tanke neue Kraft, erneuere deinen Geist", category: "selfcare" },
+  { text: "Verliebe dich in deine Selbstpflege", category: "selfcare" },
+  { text: "Nimm dir Zeit für Dinge, die deine Seele glücklich machen", category: "selfcare" },
+  { text: "In der Selbstfreundlichkeit liegt die Kraft", category: "selfcare" },
+  { text: "Verbringe Quality Time mit dir selbst", category: "selfcare" },
+  { text: "Lass dich von der Natur beleben", category: "selfcare" },
+  { text: "Auf Regen folgt immer Sonnenschein", category: "selfcare" },
+  { text: "Folge keinem Weg – gehe deinen eigenen", category: "selfcare" },
+  { text: "Beruhige deinen Geist, befreie deinen Körper", category: "selfcare" },
+  { text: "Dein größter Reichtum ist deine Gesundheit", category: "selfcare" },
+  { text: "Nähre dich, um zu gedeihen", category: "selfcare" },
+  { text: "Beginne jeden Tag mit einem positiven Gedanken und sieh, wohin er dich führt", category: "selfcare" },
+  { text: "Wie du mit dir selbst sprichst, macht viel aus", category: "selfcare" },
+  { text: "Das Leben ist schöner, wenn man es mit einem Freund teilt", category: "selfcare" },
+  { text: "Sei freundlich zu dir selbst – du gibst dein Bestes", category: "selfcare" },
+  { text: "Es gibt immer etwas, für das man dankbar sein kann", category: "selfcare" },
+  { text: "Sei kämpferisch, nicht grüblerisch", category: "selfcare" },
+  { text: "So, wie du bist, bist du genug", category: "selfcare" },
+  { text: "Das Leben ist schöner, wenn man lacht", category: "selfcare" },
+  { text: "In der Einfachheit liegt so viel Schönheit", category: "selfcare" },
+  { text: "Du darfst langsam sein", category: "selfcare" },
+  { text: "Ruhe ist kein Stillstand, sondern Regeneration", category: "selfcare" },
+  { text: "Höre auf deinen Körper – er spricht mit dir", category: "selfcare" },
+  { text: "Selbstfürsorge ist kein Luxus, sondern eine Grundlage", category: "selfcare" },
+  { text: "Du musst nicht alles heute schaffen", category: "selfcare" },
+  { text: "Deine Bedürfnisse sind wichtig", category: "selfcare" },
+  { text: "Atme ein – lass los", category: "selfcare" },
+  { text: "Grenzen setzen ist ein Akt der Selbstachtung", category: "selfcare" },
+  { text: "Nicht jeder Tag muss produktiv sein", category: "selfcare" },
+  { text: "Du darfst Pausen machen, ohne sie zu rechtfertigen", category: "selfcare" },
+  { text: "Sanftheit ist auch eine Stärke", category: "selfcare" },
+  { text: "Dein Wert hängt nicht von deiner Leistung ab", category: "selfcare" },
+  { text: "Manchmal ist genug wirklich genug", category: "selfcare" },
+  { text: "Erholung ist Teil des Weges, nicht die Abweichung", category: "selfcare" },
+  { text: "Sei geduldig mit deinem Prozess", category: "selfcare" },
   
   // GfK-inspirierte Statements
-  "Ich wünsche mir, gehört zu werden, ohne mich rechtfertigen zu müssen",
-  "Mir ist wichtig, dass mein Beitrag ernst genommen wird",
-  "Ich brauche Raum, um mich in meinem Tempo zu entwickeln",
-  "Ich sehne mich nach Klarheit darüber, was von mir erwartet wird",
-  "Ich möchte mich sicher fühlen, wenn ich meine Meinung äußere",
-  "Mir tut es gut, wenn meine Anstrengungen gesehen werden",
-  "Ich brauche Verlässlichkeit, um entspannen zu können",
-  "Ich wünsche mir Verbindung, ohne mich verbiegen zu müssen",
-  "Mir ist wichtig, selbst entscheiden zu dürfen",
-  "Ich brauche Pausen, um meine Kraft zu bewahren",
-  "Ich möchte verstehen, was hinter dem Verhalten anderer steht",
-  "Mir gibt es Ruhe, wenn Absprachen eingehalten werden",
-  "Ich wünsche mir Wertschätzung – auch für kleine Schritte",
-  "Ich brauche Orientierung, um mich sicher zu fühlen",
-  "Ich möchte dazugehören, ohne mich anpassen zu müssen",
-  "Mir ist Fairness wichtig, auch wenn Meinungen unterschiedlich sind",
-  "Ich brauche Zeit, um Vertrauen aufzubauen",
-  "Ich wünsche mir Offenheit für meine Perspektive",
-  "Mir ist Ehrlichkeit wichtig, auch wenn sie unbequem ist",
-  "Ich brauche Unterstützung, ohne dafür schwach zu sein",
-  "Ich möchte mich wirksam erleben in dem, was ich tue",
-  "Mir ist es wichtig, respektvoll behandelt zu werden",
-  "Ich brauche Verständnis für meine Grenzen",
-  "Ich wünsche mir Leichtigkeit neben all der Verantwortung",
-  "Mir gibt es Kraft, wenn ich mich verbunden fühle",
-  "Ich brauche Stabilität, um mutig sein zu können",
-  "Ich möchte lernen dürfen, ohne bewertet zu werden",
-  "Mir ist Transparenz wichtig, um Vertrauen zu entwickeln",
-  "Ich brauche Anerkennung für das, was mir wichtig ist",
-  "Ich wünsche mir Gleichwertigkeit im Miteinander",
-  "Ich möchte mich zeigen dürfen, so wie ich bin",
-  "Mir ist wichtig, dass meine Bedürfnisse Platz haben",
-  "Ich brauche Ruhe, um meine Gedanken zu sortieren",
-  "Ich wünsche mir Kooperation statt Konkurrenz",
-  "Mir gibt es Sicherheit, wenn Konflikte offen angesprochen werden",
-  "Ich brauche Sinn in dem, was ich tue",
-  "Ich möchte mich respektiert fühlen – auch bei Unterschiedlichkeit",
-  "Mir ist es wichtig, lernen und wachsen zu dürfen",
-  "Ich brauche Verbundenheit, besonders in schwierigen Momenten",
-  "Ich wünsche mir Vertrauen in meine Fähigkeiten",
-  "Ich möchte Entscheidungen mittragen können, die mich betreffen",
-  "Mir ist wichtig, dass Gefühle ernst genommen werden",
-  "Ich brauche Erholung, um langfristig präsent zu sein",
-  "Ich wünsche mir Mitgefühl – auch für mich selbst",
-  "Mir gibt es Halt, wenn ich nicht alleine bin",
-  "Ich brauche Freiheit innerhalb klarer Strukturen",
-  "Ich möchte beitragen, auf eine Weise, die stimmig für mich ist",
-  "Mir ist wichtig, gesehen zu werden – nicht nur meine Leistung",
-  "Ich brauche Hoffnung, um dranzubleiben",
-  "Ich wünsche mir ein Miteinander, das nährt statt erschöpft",
+  { text: "Ich wünsche mir, gehört zu werden, ohne mich rechtfertigen zu müssen", category: "gfk" },
+  { text: "Mir ist wichtig, dass mein Beitrag ernst genommen wird", category: "gfk" },
+  { text: "Ich brauche Raum, um mich in meinem Tempo zu entwickeln", category: "gfk" },
+  { text: "Ich sehne mich nach Klarheit darüber, was von mir erwartet wird", category: "gfk" },
+  { text: "Ich möchte mich sicher fühlen, wenn ich meine Meinung äußere", category: "gfk" },
+  { text: "Mir tut es gut, wenn meine Anstrengungen gesehen werden", category: "gfk" },
+  { text: "Ich brauche Verlässlichkeit, um entspannen zu können", category: "gfk" },
+  { text: "Ich wünsche mir Verbindung, ohne mich verbiegen zu müssen", category: "gfk" },
+  { text: "Mir ist wichtig, selbst entscheiden zu dürfen", category: "gfk" },
+  { text: "Ich brauche Pausen, um meine Kraft zu bewahren", category: "gfk" },
+  { text: "Ich möchte verstehen, was hinter dem Verhalten anderer steht", category: "gfk" },
+  { text: "Mir gibt es Ruhe, wenn Absprachen eingehalten werden", category: "gfk" },
+  { text: "Ich wünsche mir Wertschätzung – auch für kleine Schritte", category: "gfk" },
+  { text: "Ich brauche Orientierung, um mich sicher zu fühlen", category: "gfk" },
+  { text: "Ich möchte dazugehören, ohne mich anpassen zu müssen", category: "gfk" },
+  { text: "Mir ist Fairness wichtig, auch wenn Meinungen unterschiedlich sind", category: "gfk" },
+  { text: "Ich brauche Zeit, um Vertrauen aufzubauen", category: "gfk" },
+  { text: "Ich wünsche mir Offenheit für meine Perspektive", category: "gfk" },
+  { text: "Mir ist Ehrlichkeit wichtig, auch wenn sie unbequem ist", category: "gfk" },
+  { text: "Ich brauche Unterstützung, ohne dafür schwach zu sein", category: "gfk" },
+  { text: "Ich möchte mich wirksam erleben in dem, was ich tue", category: "gfk" },
+  { text: "Mir ist es wichtig, respektvoll behandelt zu werden", category: "gfk" },
+  { text: "Ich brauche Verständnis für meine Grenzen", category: "gfk" },
+  { text: "Ich wünsche mir Leichtigkeit neben all der Verantwortung", category: "gfk" },
+  { text: "Mir gibt es Kraft, wenn ich mich verbunden fühle", category: "gfk" },
+  { text: "Ich brauche Stabilität, um mutig sein zu können", category: "gfk" },
+  { text: "Ich möchte lernen dürfen, ohne bewertet zu werden", category: "gfk" },
+  { text: "Mir ist Transparenz wichtig, um Vertrauen zu entwickeln", category: "gfk" },
+  { text: "Ich brauche Anerkennung für das, was mir wichtig ist", category: "gfk" },
+  { text: "Ich wünsche mir Gleichwertigkeit im Miteinander", category: "gfk" },
+  { text: "Ich möchte mich zeigen dürfen, so wie ich bin", category: "gfk" },
+  { text: "Mir ist wichtig, dass meine Bedürfnisse Platz haben", category: "gfk" },
+  { text: "Ich brauche Ruhe, um meine Gedanken zu sortieren", category: "gfk" },
+  { text: "Ich wünsche mir Kooperation statt Konkurrenz", category: "gfk" },
+  { text: "Mir gibt es Sicherheit, wenn Konflikte offen angesprochen werden", category: "gfk" },
+  { text: "Ich brauche Sinn in dem, was ich tue", category: "gfk" },
+  { text: "Ich möchte mich respektiert fühlen – auch bei Unterschiedlichkeit", category: "gfk" },
+  { text: "Mir ist es wichtig, lernen und wachsen zu dürfen", category: "gfk" },
+  { text: "Ich brauche Verbundenheit, besonders in schwierigen Momenten", category: "gfk" },
+  { text: "Ich wünsche mir Vertrauen in meine Fähigkeiten", category: "gfk" },
+  { text: "Ich möchte Entscheidungen mittragen können, die mich betreffen", category: "gfk" },
+  { text: "Mir ist wichtig, dass Gefühle ernst genommen werden", category: "gfk" },
+  { text: "Ich brauche Erholung, um langfristig präsent zu sein", category: "gfk" },
+  { text: "Ich wünsche mir Mitgefühl – auch für mich selbst", category: "gfk" },
+  { text: "Mir gibt es Halt, wenn ich nicht alleine bin", category: "gfk" },
+  { text: "Ich brauche Freiheit innerhalb klarer Strukturen", category: "gfk" },
+  { text: "Ich möchte beitragen, auf eine Weise, die stimmig für mich ist", category: "gfk" },
+  { text: "Mir ist wichtig, gesehen zu werden – nicht nur meine Leistung", category: "gfk" },
+  { text: "Ich brauche Hoffnung, um dranzubleiben", category: "gfk" },
+  { text: "Ich wünsche mir ein Miteinander, das nährt statt erschöpft", category: "gfk" },
   
   // IFS-inspirierte Statements
-  "Ein Teil von mir meint es gut, auch wenn sein Verhalten mich belastet",
-  "Ich darf neugierig auf meine inneren Reaktionen sein",
-  "Nicht alles in mir will dasselbe – und das ist okay",
-  "Manche Teile versuchen, mich vor alten Verletzungen zu schützen",
-  "Ich kann mir selbst mit Freundlichkeit begegnen",
-  "Gefühle sind Signale, keine Befehle",
-  "Ich darf innehalten, bevor ich reagiere",
-  "Es gibt in mir einen ruhigen, klaren Ort",
-  "Auch widersprüchliche Anteile gehören zu mir",
-  "Ich muss keinen Teil loswerden, um ganz zu sein",
-  "Ein Teil von mir trägt eine Geschichte, die gehört werden will",
-  "Ich kann beobachten, ohne mich zu verlieren",
-  "Schutzstrategien entstanden aus Notwendigkeit",
-  "Ich darf lernen, meine inneren Stimmen zu unterscheiden",
-  "Nicht jeder Impuls braucht sofortige Handlung",
-  "Ich kann meine Anteile würdigen, ohne ihnen zu folgen",
-  "Manche Teile sind sehr alt, auch wenn sie sich heute melden",
-  "Ich darf Tempo rausnehmen, wenn es sich zu viel anfühlt",
-  "Ich bin mehr als meine stärksten Gefühle",
-  "Es ist möglich, inneren Konflikten mit Mitgefühl zu begegnen",
-  "Ein Teil von mir möchte Kontrolle, ein anderer Ruhe",
-  "Ich kann Raum schaffen zwischen Reiz und Reaktion",
-  "Auch innere Kritiker hatten einmal eine gute Absicht",
-  "Ich darf meine Verletzlichkeit schützen, ohne mich zu verschließen",
-  "Nicht jeder Teil braucht Veränderung – manche brauchen Verständnis",
-  "Ich kann lernen, mir selbst Sicherheit zu geben",
-  "Innere Anteile dürfen sich verändern, wenn sie sich gesehen fühlen",
-  "Ich muss nichts erzwingen, um mich zu entwickeln",
-  "Ich darf neugierig sein statt wertend",
-  "Mein inneres Erleben ist komplex – und das ist menschlich",
-  "Ich kann meine Aufmerksamkeit bewusst lenken",
-  "Ein Teil von mir darf Pause machen",
-  "Auch starke Emotionen können gehalten werden",
-  "Ich bin nicht falsch, weil es in mir laut ist",
-  "Ich darf Verantwortung übernehmen, ohne mich zu überfordern",
-  "Meine inneren Erfahrungen verdienen Respekt",
-  "Ich kann lernen, mir selbst zuzuhören",
-  "Innere Führung fühlt sich ruhig und klar an",
-  "Ich darf alte Muster würdigen und neue wählen",
-  "Es ist möglich, innerlich verbunden zu sein, auch im Chaos",
-  "Ich kann zwischen mir und meinen Anteilen unterscheiden",
-  "Nicht alles, was dringend wirkt, ist wirklich dringend",
-  "Ich darf mir selbst ein sicherer Ort sein",
-  "Auch ungeliebte Teile gehören zu meinem System",
-  "Veränderung beginnt oft mit Zuhören",
-  "Ich kann meine innere Welt erforschen, ohne sie zu kontrollieren",
-  "Manche Teile brauchen Geduld, keine Lösung",
-  "Ich darf mir selbst vertrauen lernen",
-  "In mir gibt es Ressourcen, auch wenn ich sie gerade nicht spüre",
-  "Ich kann mich innerlich führen – Schritt für Schritt"
+  { text: "Ein Teil von mir meint es gut, auch wenn sein Verhalten mich belastet", category: "ifs" },
+  { text: "Ich darf neugierig auf meine inneren Reaktionen sein", category: "ifs" },
+  { text: "Nicht alles in mir will dasselbe – und das ist okay", category: "ifs" },
+  { text: "Manche Teile versuchen, mich vor alten Verletzungen zu schützen", category: "ifs" },
+  { text: "Ich kann mir selbst mit Freundlichkeit begegnen", category: "ifs" },
+  { text: "Gefühle sind Signale, keine Befehle", category: "ifs" },
+  { text: "Ich darf innehalten, bevor ich reagiere", category: "ifs" },
+  { text: "Es gibt in mir einen ruhigen, klaren Ort", category: "ifs" },
+  { text: "Auch widersprüchliche Anteile gehören zu mir", category: "ifs" },
+  { text: "Ich muss keinen Teil loswerden, um ganz zu sein", category: "ifs" },
+  { text: "Ein Teil von mir trägt eine Geschichte, die gehört werden will", category: "ifs" },
+  { text: "Ich kann beobachten, ohne mich zu verlieren", category: "ifs" },
+  { text: "Schutzstrategien entstanden aus Notwendigkeit", category: "ifs" },
+  { text: "Ich darf lernen, meine inneren Stimmen zu unterscheiden", category: "ifs" },
+  { text: "Nicht jeder Impuls braucht sofortige Handlung", category: "ifs" },
+  { text: "Ich kann meine Anteile würdigen, ohne ihnen zu folgen", category: "ifs" },
+  { text: "Manche Teile sind sehr alt, auch wenn sie sich heute melden", category: "ifs" },
+  { text: "Ich darf Tempo rausnehmen, wenn es sich zu viel anfühlt", category: "ifs" },
+  { text: "Ich bin mehr als meine stärksten Gefühle", category: "ifs" },
+  { text: "Es ist möglich, inneren Konflikten mit Mitgefühl zu begegnen", category: "ifs" },
+  { text: "Ein Teil von mir möchte Kontrolle, ein anderer Ruhe", category: "ifs" },
+  { text: "Ich kann Raum schaffen zwischen Reiz und Reaktion", category: "ifs" },
+  { text: "Auch innere Kritiker hatten einmal eine gute Absicht", category: "ifs" },
+  { text: "Ich darf meine Verletzlichkeit schützen, ohne mich zu verschließen", category: "ifs" },
+  { text: "Nicht jeder Teil braucht Veränderung – manche brauchen Verständnis", category: "ifs" },
+  { text: "Ich kann lernen, mir selbst Sicherheit zu geben", category: "ifs" },
+  { text: "Innere Anteile dürfen sich verändern, wenn sie sich gesehen fühlen", category: "ifs" },
+  { text: "Ich muss nichts erzwingen, um mich zu entwickeln", category: "ifs" },
+  { text: "Ich darf neugierig sein statt wertend", category: "ifs" },
+  { text: "Mein inneres Erleben ist komplex – und das ist menschlich", category: "ifs" },
+  { text: "Ich kann meine Aufmerksamkeit bewusst lenken", category: "ifs" },
+  { text: "Ein Teil von mir darf Pause machen", category: "ifs" },
+  { text: "Auch starke Emotionen können gehalten werden", category: "ifs" },
+  { text: "Ich bin nicht falsch, weil es in mir laut ist", category: "ifs" },
+  { text: "Ich darf Verantwortung übernehmen, ohne mich zu überfordern", category: "ifs" },
+  { text: "Meine inneren Erfahrungen verdienen Respekt", category: "ifs" },
+  { text: "Ich kann lernen, mir selbst zuzuhören", category: "ifs" },
+  { text: "Innere Führung fühlt sich ruhig und klar an", category: "ifs" },
+  { text: "Ich darf alte Muster würdigen und neue wählen", category: "ifs" },
+  { text: "Es ist möglich, innerlich verbunden zu sein, auch im Chaos", category: "ifs" },
+  { text: "Ich kann zwischen mir und meinen Anteilen unterscheiden", category: "ifs" },
+  { text: "Nicht alles, was dringend wirkt, ist wirklich dringend", category: "ifs" },
+  { text: "Ich darf mir selbst ein sicherer Ort sein", category: "ifs" },
+  { text: "Auch ungeliebte Teile gehören zu meinem System", category: "ifs" },
+  { text: "Veränderung beginnt oft mit Zuhören", category: "ifs" },
+  { text: "Ich kann meine innere Welt erforschen, ohne sie zu kontrollieren", category: "ifs" },
+  { text: "Manche Teile brauchen Geduld, keine Lösung", category: "ifs" },
+  { text: "Ich darf mir selbst vertrauen lernen", category: "ifs" },
+  { text: "In mir gibt es Ressourcen, auch wenn ich sie gerade nicht spüre", category: "ifs" },
+  { text: "Ich kann mich innerlich führen – Schritt für Schritt", category: "ifs" }
 ];
+
+const categoryLabels: Record<StatementCategory, { label: string; color: string; bg: string }> = {
+  selfcare: { label: "Selfcare", color: "text-pink-600", bg: "bg-pink-500/15" },
+  gfk: { label: "GfK", color: "text-emerald-600", bg: "bg-emerald-500/15" },
+  ifs: { label: "IFS", color: "text-violet-600", bg: "bg-violet-500/15" },
+};
 
 type Message = { role: "user" | "assistant"; content: string };
 
 const SelfcareReflection = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [currentStatement, setCurrentStatement] = useState<string>("");
+  const [currentStatement, setCurrentStatement] = useState<StatementWithCategory | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -218,7 +231,7 @@ const SelfcareReflection = () => {
     scrollToBottom();
   }, [messages]);
 
-  const getRandomStatement = () => {
+  const getRandomStatement = (): StatementWithCategory => {
     const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
     return SELFCARE_STATEMENTS[randomIndex];
   };
@@ -342,7 +355,7 @@ const SelfcareReflection = () => {
     if (!input.trim() || isLoading) return;
     const userMessage = input.trim();
     setInput("");
-    streamChat(userMessage, conversationHistory, currentStatement);
+    streamChat(userMessage, conversationHistory, currentStatement?.text || "");
   };
 
   const resetSession = () => {
@@ -352,7 +365,7 @@ const SelfcareReflection = () => {
       setSessionStarted(false);
       setMessages([]);
       setConversationHistory([]);
-      setCurrentStatement("");
+      setCurrentStatement(null);
     }
   };
 
@@ -366,7 +379,7 @@ const SelfcareReflection = () => {
       .map(m => `${m.role === 'user' ? 'Du' : 'Oria'}: ${m.content}`)
       .join('\n\n');
 
-    const title = saveTitle.trim() || `Selfcare: ${currentStatement.substring(0, 40)}...`;
+    const title = saveTitle.trim() || `Selfcare: ${currentStatement?.text.substring(0, 40)}...`;
 
     try {
       const { error } = await supabase.from('memories').insert({
@@ -374,7 +387,7 @@ const SelfcareReflection = () => {
         title: title,
         content: content,
         memory_type: 'selfcare-reflection',
-        summary: `Reflexion über: "${currentStatement}"`
+        summary: `Reflexion über: "${currentStatement?.text}"`
       });
 
       if (error) throw error;
@@ -385,7 +398,7 @@ const SelfcareReflection = () => {
       setSessionStarted(false);
       setMessages([]);
       setConversationHistory([]);
-      setCurrentStatement("");
+      setCurrentStatement(null);
     } catch (error) {
       console.error('Error saving:', error);
       toast.error('Fehler beim Speichern');
@@ -398,7 +411,7 @@ const SelfcareReflection = () => {
     setSessionStarted(false);
     setMessages([]);
     setConversationHistory([]);
-    setCurrentStatement("");
+    setCurrentStatement(null);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -530,7 +543,7 @@ const SelfcareReflection = () => {
                   transition={{ delay: 0.3, duration: 0.5 }}
                   className="font-serif text-xl md:text-2xl lg:text-3xl font-medium text-foreground leading-relaxed px-4 md:px-8"
                 >
-                  {currentStatement}
+                  {currentStatement?.text}
                 </motion.p>
                 
                 {/* Decorative line */}
