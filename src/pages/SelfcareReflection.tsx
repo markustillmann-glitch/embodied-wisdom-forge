@@ -1,0 +1,463 @@
+import { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
+import { motion } from 'framer-motion';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from '@/components/ui/input';
+import ChatMessage from '@/components/ChatMessage';
+
+const SELFCARE_STATEMENTS = [
+  "Manchmal gewinnt man, manchmal lernt man",
+  "Wachse und gedeihe",
+  "Umgib dich mit Menschen, die dich wachsen sehen wollen",
+  "Betrachte die Welt, als würdest du sie zum ersten Mal sehen",
+  "Je stiller du bist, desto mehr wirst du hören",
+  "Scheue dich nie, um die Hilfe zu bitten, die du brauchst",
+  "Begrenze nicht die Herausforderungen, fordere die Grenzen heraus",
+  "Vergleichen macht unglücklich",
+  "Weniger scrollen, mehr leben",
+  "Lass ab von dem, was war, und vertraue dem, was kommt",
+  "Eine Umarmung macht alles besser",
+  "Finde heraus, was du brauchst, scheue dich nicht, darum zu bitten",
+  "Du kontrollierst deine Finanzen, nicht sie dich",
+  "Aus kleinen Samen wachsen mächtige Bäume",
+  "Nimm jeden Tag, wie er kommt",
+  "Ein Duft kann tausend Erinnerungen zurückbringen",
+  "Es sind die kleinen Dinge, die den größten Unterschied machen",
+  "Die Welt gehört jenen, die lesen",
+  "Kreativität ist eine unendliche Ressource: je mehr du sie nutzt, desto mehr hast du",
+  "Das Leben ist ein Song: Singe!",
+  "To do: Lebe den Moment",
+  "Aufgeräumtes Haus, aufgeräumte Seele",
+  "Wenn nicht jetzt, wann dann?",
+  "Manchmal ist Entspannung das Produktivste, was man tun kann",
+  "Verwandle Angst in Energie",
+  "Achte auf dich von innen heraus",
+  "Entwickle gesunde Gewohnheiten, nicht Einschränkungen",
+  "Kleine Schritte führen zu großen Veränderungen",
+  "Entspannen, erfrischen, erholen",
+  "Kreiere deine eigene Stille",
+  "Lehre dich die Kunst des Ausruhens",
+  "Dein Heim ist ein Zufluchtsort: erfülle es mit Frieden",
+  "Tanke neue Kraft, erneuere deinen Geist",
+  "Verliebe dich in deine Selbstpflege",
+  "Nimm dir Zeit für Dinge, die deine Seele glücklich machen",
+  "In der Selbstfreundlichkeit liegt die Kraft",
+  "Verbringe Quality Time mit dir selbst",
+  "Lass dich von der Natur beleben",
+  "Auf Regen folgt immer Sonnenschein",
+  "Folge keinem Weg – gehe deinen eigenen",
+  "Beruhige deinen Geist, befreie deinen Körper",
+  "Dein größter Reichtum ist deine Gesundheit",
+  "Nähre dich, um zu gedeihen",
+  "Beginne jeden Tag mit einem positiven Gedanken und sieh, wohin er dich führt",
+  "Wie du mit dir selbst sprichst, macht viel aus",
+  "Das Leben ist schöner, wenn man es mit einem Freund teilt",
+  "Sei freundlich zu dir selbst – du gibst dein Bestes",
+  "Es gibt immer etwas, für das man dankbar sein kann",
+  "Sei kämpferisch, nicht grüblerisch",
+  "So, wie du bist, bist du genug",
+  "Das Leben ist schöner, wenn man lacht",
+  "In der Einfachheit liegt so viel Schönheit",
+  "Du darfst langsam sein",
+  "Ruhe ist kein Stillstand, sondern Regeneration",
+  "Höre auf deinen Körper – er spricht mit dir",
+  "Selbstfürsorge ist kein Luxus, sondern eine Grundlage",
+  "Du musst nicht alles heute schaffen",
+  "Deine Bedürfnisse sind wichtig",
+  "Atme ein – lass los",
+  "Grenzen setzen ist ein Akt der Selbstachtung",
+  "Nicht jeder Tag muss produktiv sein",
+  "Du darfst Pausen machen, ohne sie zu rechtfertigen",
+  "Sanftheit ist auch eine Stärke",
+  "Dein Wert hängt nicht von deiner Leistung ab",
+  "Manchmal ist genug wirklich genug",
+  "Erholung ist Teil des Weges, nicht die Abweichung",
+  "Sei geduldig mit deinem Prozess"
+];
+
+type Message = { role: "user" | "assistant"; content: string };
+
+const SelfcareReflection = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [currentStatement, setCurrentStatement] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [saveTitle, setSaveTitle] = useState("");
+  const [conversationHistory, setConversationHistory] = useState<Message[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const getRandomStatement = () => {
+    const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
+    return SELFCARE_STATEMENTS[randomIndex];
+  };
+
+  const streamChat = async (userMessage: string, history: Message[], statement: string) => {
+    setIsLoading(true);
+    
+    const allMessages = [...history, { role: "user" as const, content: userMessage }];
+    setMessages(allMessages);
+    setConversationHistory(allMessages);
+
+    try {
+      const response = await supabase.functions.invoke('selfcare-chat', {
+        body: { 
+          messages: allMessages,
+          userId: user?.id,
+          statement: statement
+        }
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      const reader = response.data.getReader();
+      const decoder = new TextDecoder();
+      let assistantMessage = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') continue;
+            
+            try {
+              const parsed = JSON.parse(data);
+              const content = parsed.choices?.[0]?.delta?.content || '';
+              assistantMessage += content;
+              
+              setMessages([...allMessages, { role: "assistant", content: assistantMessage }]);
+            } catch {
+              // Skip invalid JSON
+            }
+          }
+        }
+      }
+
+      const finalMessages = [...allMessages, { role: "assistant" as const, content: assistantMessage }];
+      setMessages(finalMessages);
+      setConversationHistory(finalMessages);
+    } catch (error) {
+      console.error('Error in chat:', error);
+      toast.error('Fehler bei der Verbindung zu Oria');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const startSession = () => {
+    const statement = getRandomStatement();
+    setCurrentStatement(statement);
+    setSessionStarted(true);
+    
+    const introMessage: Message = {
+      role: "assistant",
+      content: `🌱 **Dein Impuls für heute:**\n\n*„${statement}"*\n\nNimm dir einen Moment, diesen Gedanken auf dich wirken zu lassen.\n\nWas spürst du, wenn du diesen Satz liest? Welche Resonanz entsteht in dir – vielleicht Zustimmung, Widerstand, Sehnsucht oder Neugier?\n\nTeile mir mit, was dieser Impuls in dir auslöst.`
+    };
+    
+    setMessages([introMessage]);
+    setConversationHistory([introMessage]);
+  };
+
+  const sendMessage = () => {
+    if (!input.trim() || isLoading) return;
+    const userMessage = input.trim();
+    setInput("");
+    streamChat(userMessage, conversationHistory, currentStatement);
+  };
+
+  const resetSession = () => {
+    if (conversationHistory.length > 1) {
+      setShowSaveDialog(true);
+    } else {
+      setSessionStarted(false);
+      setMessages([]);
+      setConversationHistory([]);
+      setCurrentStatement("");
+    }
+  };
+
+  const saveToVault = async () => {
+    if (!user) {
+      toast.error('Bitte melde dich an, um Gespräche zu speichern');
+      return;
+    }
+
+    const content = conversationHistory
+      .map(m => `${m.role === 'user' ? 'Du' : 'Oria'}: ${m.content}`)
+      .join('\n\n');
+
+    const title = saveTitle.trim() || `Selfcare: ${currentStatement.substring(0, 40)}...`;
+
+    try {
+      const { error } = await supabase.from('memories').insert({
+        user_id: user.id,
+        title: title,
+        content: content,
+        memory_type: 'selfcare-reflection',
+        summary: `Reflexion über: "${currentStatement}"`
+      });
+
+      if (error) throw error;
+
+      toast.success('Reflexion im Tresor gespeichert');
+      setShowSaveDialog(false);
+      setSaveTitle("");
+      setSessionStarted(false);
+      setMessages([]);
+      setConversationHistory([]);
+      setCurrentStatement("");
+    } catch (error) {
+      console.error('Error saving:', error);
+      toast.error('Fehler beim Speichern');
+    }
+  };
+
+  const skipSave = () => {
+    setShowSaveDialog(false);
+    setSaveTitle("");
+    setSessionStarted(false);
+    setMessages([]);
+    setConversationHistory([]);
+    setCurrentStatement("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const deepenInOria = () => {
+    const context = conversationHistory
+      .map(m => `${m.role === 'user' ? 'Nutzer' : 'Oria'}: ${m.content}`)
+      .join('\n\n');
+    
+    navigate('/coach', { 
+      state: { 
+        initialContext: `Ich komme aus einer Selfcare-Reflexion über den Impuls: "${currentStatement}"\n\nHier ist unser bisheriges Gespräch:\n${context}\n\nIch möchte dieses Thema tiefer erkunden.`
+      }
+    });
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-background to-accent/5">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link to="/oria-apps" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+            <span className="text-sm">Zurück</span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <Heart className="w-5 h-5 text-pink-500" />
+            <h1 className="font-serif text-lg font-medium">Selfcare Impuls</h1>
+          </div>
+          <div className="w-16" />
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="py-8 px-4 text-center border-b border-border/30"
+      >
+        <div className="max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-sm mb-4">
+            <Sparkles className="w-4 h-4" />
+            <span>Tägliche Selbstreflexion</span>
+          </div>
+          <h2 className="font-serif text-2xl md:text-3xl font-medium text-foreground mb-3">
+            Selfcare Impulse
+          </h2>
+          <p className="text-muted-foreground max-w-lg mx-auto">
+            Ein zufälliger Impuls lädt dich zur Reflexion ein. Oria begleitet dich dabei, 
+            herauszufinden, was dieser Gedanke für dich und dein Leben bedeutet.
+          </p>
+        </div>
+      </motion.section>
+
+      {/* Chat Area */}
+      <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-6">
+        {!sessionStarted ? (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-16"
+          >
+            <div className="mb-8">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-lg">
+                <Heart className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="font-serif text-xl font-medium mb-3">
+                Bereit für deinen Impuls?
+              </h3>
+              <p className="text-muted-foreground max-w-md mx-auto mb-8">
+                Oria wählt zufällig einen Selfcare-Impuls für dich aus. 
+                Gemeinsam erkunden wir, welche Bedeutung er für dich hat.
+              </p>
+            </div>
+            <Button 
+              onClick={startSession}
+              size="lg"
+              className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
+            >
+              <Sparkles className="w-5 h-5 mr-2" />
+              Impuls entdecken
+            </Button>
+          </motion.div>
+        ) : (
+          <div className="space-y-4">
+            {/* Current Statement Banner */}
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-r from-pink-500/10 to-rose-500/10 border border-pink-200/30 rounded-lg p-4 text-center"
+            >
+              <p className="text-xs uppercase tracking-wide text-pink-600 mb-1">Heutiger Impuls</p>
+              <p className="font-serif text-lg font-medium text-foreground italic">
+                „{currentStatement}"
+              </p>
+            </motion.div>
+
+            {/* Messages */}
+            <div className="space-y-4 min-h-[300px]">
+              {messages.map((message, index) => (
+                <ChatMessage key={index} content={message.content} role={message.role} />
+              ))}
+              {isLoading && messages[messages.length - 1]?.role === 'user' && (
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="bg-accent/50 rounded-2xl rounded-tl-md px-4 py-3">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="sticky bottom-0 bg-background/80 backdrop-blur-md pt-4 pb-2">
+              <div className="flex gap-2">
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Teile deine Gedanken..."
+                  className="min-h-[52px] max-h-32 resize-none"
+                  disabled={isLoading}
+                />
+                <Button 
+                  onClick={sendMessage} 
+                  disabled={!input.trim() || isLoading}
+                  className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600"
+                >
+                  <Send className="w-5 h-5" />
+                </Button>
+              </div>
+              
+              {/* Action Buttons */}
+              <div className="flex gap-2 mt-3 justify-center">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={resetSession}
+                  className="text-muted-foreground"
+                >
+                  <RotateCcw className="w-4 h-4 mr-1" />
+                  Neuer Impuls
+                </Button>
+                {conversationHistory.length > 2 && (
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={deepenInOria}
+                    className="text-pink-600 border-pink-200 hover:bg-pink-50"
+                  >
+                    <Sparkles className="w-4 h-4 mr-1" />
+                    In Oria vertiefen
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Save Dialog */}
+      <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reflexion speichern?</DialogTitle>
+            <DialogDescription>
+              Möchtest du diese Selfcare-Reflexion in deinem Tresor speichern?
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            placeholder="Titel (optional)"
+            value={saveTitle}
+            onChange={(e) => setSaveTitle(e.target.value)}
+          />
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={skipSave}>
+              Verwerfen
+            </Button>
+            <Button onClick={saveToVault} className="bg-gradient-to-r from-pink-500 to-rose-500">
+              <Save className="w-4 h-4 mr-1" />
+              Speichern
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Footer */}
+      <footer className="py-4 px-4 border-t border-border/30 text-center">
+        <p className="text-xs text-muted-foreground">
+          © 2025 Oria · Selfcare Impulse
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+export default SelfcareReflection;

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Compass, HeartPulse, Scale, Activity } from "lucide-react";
+import { ArrowLeft, Sparkles, Puzzle, Trash2, Lock, ArrowRight, Heart, Ear, HeartHandshake, Users, Compass, HeartPulse, Scale, Activity, Flower } from "lucide-react";
 import { PolygonalBackground } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -39,6 +39,12 @@ const OriaApps = () => {
       title: "Körper-Check",
       description: "Erfasse deinen körperlichen Erschöpfungszustand in 5-10 Minuten. Energie, Anspannung, Schlaf und Nervensystem-Signale.",
       link: "/body-exhaustion",
+    },
+    {
+      icon: Flower,
+      title: "Selfcare Impulse",
+      description: "Ein zufälliger Impuls lädt dich zur Reflexion ein. Oria begleitet dich dabei, herauszufinden, was dieser Gedanke für dich bedeutet.",
+      link: "/selfcare",
     },
     {
       icon: Users,
