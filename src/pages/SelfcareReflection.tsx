@@ -273,7 +273,7 @@ const SelfcareReflection = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-background to-accent/5">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-background to-accent/5 pb-[140px] md:pb-0">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -376,48 +376,51 @@ const SelfcareReflection = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
-            <div className="sticky bottom-0 bg-background/80 backdrop-blur-md pt-4 pb-2">
-              <div className="flex gap-2">
-                <Textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Teile deine Gedanken..."
-                  className="min-h-[52px] max-h-32 resize-none"
-                  disabled={isLoading}
-                />
-                <Button 
-                  onClick={sendMessage} 
-                  disabled={!input.trim() || isLoading}
-                  className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600"
-                >
-                  <Send className="w-5 h-5" />
-                </Button>
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="flex gap-2 mt-3 justify-center">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={resetSession}
-                  className="text-muted-foreground"
-                >
-                  <RotateCcw className="w-4 h-4 mr-1" />
-                  Neuer Impuls
-                </Button>
-                {conversationHistory.length > 2 && (
+            {/* Input Area - Fixed on mobile */}
+            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 px-4 py-3 md:relative md:border-t-0 md:bg-background/80 md:px-0 md:py-0 md:mt-4">
+              <div className="max-w-3xl mx-auto">
+                <div className="flex gap-2 items-end">
+                  <Textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Teile deine Gedanken..."
+                    className="min-h-[48px] max-h-24 resize-none flex-1"
+                    disabled={isLoading}
+                  />
+                  <Button 
+                    onClick={sendMessage} 
+                    disabled={!input.trim() || isLoading}
+                    size="icon"
+                    className="h-12 w-12 shrink-0 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600"
+                  >
+                    <Send className="w-5 h-5" />
+                  </Button>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex gap-2 mt-2 justify-center">
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    onClick={deepenInOria}
-                    className="text-pink-600 border-pink-200 hover:bg-pink-50"
+                    onClick={resetSession}
+                    className="text-muted-foreground text-xs h-8"
                   >
-                    <Sparkles className="w-4 h-4 mr-1" />
-                    In Oria vertiefen
+                    <RotateCcw className="w-3 h-3 mr-1" />
+                    Neuer Impuls
                   </Button>
-                )}
+                  {conversationHistory.length > 2 && (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={deepenInOria}
+                      className="text-pink-600 border-pink-200 hover:bg-pink-50 text-xs h-8"
+                    >
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      Vertiefen
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
