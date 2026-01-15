@@ -21,6 +21,7 @@ import ChatMessage from '@/components/ChatMessage';
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 
 const SELFCARE_STATEMENTS = [
+  // Originale Statements
   "Manchmal gewinnt man, manchmal lernt man",
   "Wachse und gedeihe",
   "Umgib dich mit Menschen, die dich wachsen sehen wollen",
@@ -87,7 +88,59 @@ const SELFCARE_STATEMENTS = [
   "Dein Wert hängt nicht von deiner Leistung ab",
   "Manchmal ist genug wirklich genug",
   "Erholung ist Teil des Weges, nicht die Abweichung",
-  "Sei geduldig mit deinem Prozess"
+  "Sei geduldig mit deinem Prozess",
+  
+  // GfK-inspirierte Statements
+  "Ich wünsche mir, gehört zu werden, ohne mich rechtfertigen zu müssen",
+  "Mir ist wichtig, dass mein Beitrag ernst genommen wird",
+  "Ich brauche Raum, um mich in meinem Tempo zu entwickeln",
+  "Ich sehne mich nach Klarheit darüber, was von mir erwartet wird",
+  "Ich möchte mich sicher fühlen, wenn ich meine Meinung äußere",
+  "Mir tut es gut, wenn meine Anstrengungen gesehen werden",
+  "Ich brauche Verlässlichkeit, um entspannen zu können",
+  "Ich wünsche mir Verbindung, ohne mich verbiegen zu müssen",
+  "Mir ist wichtig, selbst entscheiden zu dürfen",
+  "Ich brauche Pausen, um meine Kraft zu bewahren",
+  "Ich möchte verstehen, was hinter dem Verhalten anderer steht",
+  "Mir gibt es Ruhe, wenn Absprachen eingehalten werden",
+  "Ich wünsche mir Wertschätzung – auch für kleine Schritte",
+  "Ich brauche Orientierung, um mich sicher zu fühlen",
+  "Ich möchte dazugehören, ohne mich anpassen zu müssen",
+  "Mir ist Fairness wichtig, auch wenn Meinungen unterschiedlich sind",
+  "Ich brauche Zeit, um Vertrauen aufzubauen",
+  "Ich wünsche mir Offenheit für meine Perspektive",
+  "Mir ist Ehrlichkeit wichtig, auch wenn sie unbequem ist",
+  "Ich brauche Unterstützung, ohne dafür schwach zu sein",
+  "Ich möchte mich wirksam erleben in dem, was ich tue",
+  "Mir ist es wichtig, respektvoll behandelt zu werden",
+  "Ich brauche Verständnis für meine Grenzen",
+  "Ich wünsche mir Leichtigkeit neben all der Verantwortung",
+  "Mir gibt es Kraft, wenn ich mich verbunden fühle",
+  "Ich brauche Stabilität, um mutig sein zu können",
+  "Ich möchte lernen dürfen, ohne bewertet zu werden",
+  "Mir ist Transparenz wichtig, um Vertrauen zu entwickeln",
+  "Ich brauche Anerkennung für das, was mir wichtig ist",
+  "Ich wünsche mir Gleichwertigkeit im Miteinander",
+  "Ich möchte mich zeigen dürfen, so wie ich bin",
+  "Mir ist wichtig, dass meine Bedürfnisse Platz haben",
+  "Ich brauche Ruhe, um meine Gedanken zu sortieren",
+  "Ich wünsche mir Kooperation statt Konkurrenz",
+  "Mir gibt es Sicherheit, wenn Konflikte offen angesprochen werden",
+  "Ich brauche Sinn in dem, was ich tue",
+  "Ich möchte mich respektiert fühlen – auch bei Unterschiedlichkeit",
+  "Mir ist es wichtig, lernen und wachsen zu dürfen",
+  "Ich brauche Verbundenheit, besonders in schwierigen Momenten",
+  "Ich wünsche mir Vertrauen in meine Fähigkeiten",
+  "Ich möchte Entscheidungen mittragen können, die mich betreffen",
+  "Mir ist wichtig, dass Gefühle ernst genommen werden",
+  "Ich brauche Erholung, um langfristig präsent zu sein",
+  "Ich wünsche mir Mitgefühl – auch für mich selbst",
+  "Mir gibt es Halt, wenn ich nicht alleine bin",
+  "Ich brauche Freiheit innerhalb klarer Strukturen",
+  "Ich möchte beitragen, auf eine Weise, die stimmig für mich ist",
+  "Mir ist wichtig, gesehen zu werden – nicht nur meine Leistung",
+  "Ich brauche Hoffnung, um dranzubleiben",
+  "Ich wünsche mir ein Miteinander, das nährt statt erschöpft"
 ];
 
 type Message = { role: "user" | "assistant"; content: string };
