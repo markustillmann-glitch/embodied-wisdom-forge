@@ -189,30 +189,49 @@ const DAILY_IMPULSES = [
   "Ich kann mich innerlich führen – Schritt für Schritt"
 ];
 
-const getRandomImpulse = (): string => {
+// Generate a fresh random impulse using timestamp to bypass React caching
+const generateFreshImpulse = (): string => {
   const randomIndex = Math.floor(Math.random() * DAILY_IMPULSES.length);
-  console.log('Generated new impulse at index:', randomIndex, DAILY_IMPULSES[randomIndex]);
-  return DAILY_IMPULSES[randomIndex];
+  const impulse = DAILY_IMPULSES[randomIndex];
+  console.log('Fresh impulse generated:', randomIndex, impulse);
+  // Store in sessionStorage with timestamp to track changes
+  sessionStorage.setItem('lastImpulse', JSON.stringify({ impulse, timestamp: Date.now() }));
+  return impulse;
 };
 
 const Index = () => {
   const navigate = useNavigate();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
-  const [currentImpulse, setCurrentImpulse] = useState(() => getRandomImpulse());
-  const [impulseKey, setImpulseKey] = useState(0);
   
-  // Generate new random impulse when page becomes visible or on navigation
+  // Generate fresh impulse on every page load using sessionStorage timestamp
+  const [currentImpulse, setCurrentImpulse] = useState(() => {
+    // Always generate fresh on initial render
+    return generateFreshImpulse();
+  });
+  
+  // Track navigation and regenerate impulse
   useEffect(() => {
+    // Check if this is a new navigation (not just a re-render)
+    const lastVisit = sessionStorage.getItem('indexPageLastVisit');
+    const now = Date.now();
+    
+    if (!lastVisit || (now - parseInt(lastVisit)) > 100) {
+      // This is a new visit (more than 100ms since last)
+      const newImpulse = generateFreshImpulse();
+      setCurrentImpulse(newImpulse);
+    }
+    
+    sessionStorage.setItem('indexPageLastVisit', now.toString());
+    
+    // Also regenerate on visibility change
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        setCurrentImpulse(getRandomImpulse());
-        setImpulseKey(prev => prev + 1);
+        const newImpulse = generateFreshImpulse();
+        setCurrentImpulse(newImpulse);
+        sessionStorage.setItem('indexPageLastVisit', Date.now().toString());
       }
     };
-    
-    // Generate on mount
-    setCurrentImpulse(getRandomImpulse());
     
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
