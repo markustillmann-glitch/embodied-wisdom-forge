@@ -197,9 +197,20 @@ const SelfcareReflection = () => {
     setCurrentStatement(statement);
     setSessionStarted(true);
     
+    // Verschiedene Einleitungsvarianten für mehr Abwechslung
+    const introVariants = [
+      `🌱 **Dein Impuls für heute:**\n\n*„${statement}"*\n\nNimm dir einen Moment, diesen Gedanken auf dich wirken zu lassen.\n\nWas spürst du, wenn du diesen Satz liest? Welche Resonanz entsteht in dir – vielleicht Zustimmung, Widerstand, Sehnsucht oder Neugier?`,
+      `✨ **Heute für dich:**\n\n*„${statement}"*\n\nLass diesen Gedanken einen Moment in dir ankommen.\n\nWas löst er aus? Ein Gefühl, eine Erinnerung, vielleicht einen inneren Widerspruch?`,
+      `🌿 **Dein Moment der Reflexion:**\n\n*„${statement}"*\n\nSpüre in dich hinein: Was passiert, wenn du diese Worte liest?\n\nGibt es eine körperliche Reaktion, ein Gefühl, einen Gedanken?`,
+      `💫 **Ein Impuls wartet auf dich:**\n\n*„${statement}"*\n\nNimm dir Zeit, diese Worte wirken zu lassen.\n\nWelche Saite wird in dir angeschlagen? Resonanz, Sehnsucht, vielleicht auch Skepsis?`,
+      `🌸 **Für diesen Augenblick:**\n\n*„${statement}"*\n\nBevor wir tiefer gehen – was bemerkst du zuerst?\n\nEin Gefühl? Einen Gedanken? Eine körperliche Empfindung?`
+    ];
+    
+    const randomIntro = introVariants[Math.floor(Math.random() * introVariants.length)];
+    
     const introMessage: Message = {
       role: "assistant",
-      content: `🌱 **Dein Impuls für heute:**\n\n*„${statement}"*\n\nNimm dir einen Moment, diesen Gedanken auf dich wirken zu lassen.\n\nWas spürst du, wenn du diesen Satz liest? Welche Resonanz entsteht in dir – vielleicht Zustimmung, Widerstand, Sehnsucht oder Neugier?\n\nTeile mir mit, was dieser Impuls in dir auslöst.`
+      content: randomIntro
     };
     
     setMessages([introMessage]);
@@ -281,11 +292,15 @@ const SelfcareReflection = () => {
       .map(m => `${m.role === 'user' ? 'Nutzer' : 'Oria'}: ${m.content}`)
       .join('\n\n');
     
-    navigate('/coach', { 
-      state: { 
-        initialContext: `Ich komme aus einer Selfcare-Reflexion über den Impuls: "${currentStatement}"\n\nHier ist unser bisheriges Gespräch:\n${context}\n\nIch möchte dieses Thema tiefer erkunden.`
-      }
-    });
+    // Coach erwartet den Kontext in sessionStorage
+    const deepenData = {
+      context: `Ich komme aus einer Selfcare-Reflexion über den Impuls: "${currentStatement}"\n\nHier ist unser bisheriges Gespräch:\n${context}\n\nIch möchte dieses Thema tiefer erkunden.`,
+      topic: `Selfcare: ${currentStatement.substring(0, 50)}`,
+      source: 'selfcare-reflection'
+    };
+    
+    sessionStorage.setItem('coach-deepen-context', JSON.stringify(deepenData));
+    navigate('/coach?new=true');
   };
 
   return (
