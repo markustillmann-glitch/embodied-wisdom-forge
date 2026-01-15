@@ -136,9 +136,18 @@ serve(async (req) => {
     const statementContext = statement ? `\n\n## Aktueller Impuls\n"${statement}"` : "";
     const fullPrompt = systemPrompt + statementContext + profileContext;
 
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) {
+      console.error("LOVABLE_API_KEY is not configured");
+      throw new Error("LOVABLE_API_KEY is not configured");
+    }
+
+    console.log("Selfcare chat request with", messages.length, "messages, statement:", statement?.substring(0, 30));
+
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -148,8 +157,6 @@ serve(async (req) => {
           ...messages
         ],
         stream: true,
-        max_tokens: 800,
-        temperature: 0.8,
       }),
     });
 
