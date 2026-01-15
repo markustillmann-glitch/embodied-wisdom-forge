@@ -133,7 +133,19 @@ const SelfcareReflection = () => {
       });
 
       if (response.error) {
+        console.error('Supabase function error:', response.error);
         throw new Error(response.error.message);
+      }
+
+      if (!response.data) {
+        throw new Error('Keine Antwort vom Server');
+      }
+
+      // Check if response.data is a ReadableStream
+      if (typeof response.data.getReader !== 'function') {
+        // Handle non-streaming response (error case)
+        console.error('Unexpected response format:', response.data);
+        throw new Error('Unerwartetes Antwortformat');
       }
 
       const reader = response.data.getReader();
@@ -165,12 +177,16 @@ const SelfcareReflection = () => {
         }
       }
 
+      if (!assistantMessage) {
+        throw new Error('Keine Antwort erhalten');
+      }
+
       const finalMessages = [...allMessages, { role: "assistant" as const, content: assistantMessage }];
       setMessages(finalMessages);
       setConversationHistory(finalMessages);
     } catch (error) {
       console.error('Error in chat:', error);
-      toast.error('Fehler bei der Verbindung zu Oria');
+      toast.error('Fehler bei der Verbindung zu Oria. Bitte versuche es erneut.');
     } finally {
       setIsLoading(false);
     }
