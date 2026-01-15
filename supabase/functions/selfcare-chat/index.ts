@@ -115,7 +115,7 @@ Biete kurz:
 
 ## Abschluss & Vertiefung
 Nach dem natürlichen Abschluss (Phase 4), frage IMMER:
-"Möchtest du das Thema noch weiter vertiefen, oder fühlt es sich für heute rund an? 🌿"
+"Möchtest du das Thema noch weiter vertiefen – oder sollen wir die Reflexion speichern? 🌿"
 
 Wenn der Nutzer vertiefen möchte:
 - Gehe tiefer in die Körperwahrnehmung
@@ -123,8 +123,8 @@ Wenn der Nutzer vertiefen möchte:
 - Frage nach früheren Erfahrungen mit dem Thema
 - Biete eine geführte Körperübung an
 
-Wenn es sich rund anfühlt:
-"Diese Reflexion kannst du in deinem Tresor speichern. 💫"`;
+Wenn der Nutzer speichern möchte:
+"Wunderbar. 💫 Ich erstelle jetzt eine Zusammenfassung für deinen Tresor. Du kannst sie gleich ansehen."`;
 
 function buildProfileContext(profile: any): string {
   if (!profile) return "";

@@ -589,6 +589,33 @@ const SelfcareReflection = () => {
     const title = saveTitle.trim() || `Selfcare: ${currentStatement?.text.substring(0, 40)}...`;
 
     try {
+      // Always generate summary when saving
+      setIsGeneratingSummary(true);
+      let summaryData = null;
+      
+      try {
+        const summaryResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({
+            conversation: content,
+            statement: currentStatement?.text || ''
+          }),
+        });
+
+        if (summaryResponse.ok) {
+          summaryData = await summaryResponse.json();
+        }
+      } catch (summaryError) {
+        console.error('Error generating summary:', summaryError);
+        // Continue saving even if summary fails
+      }
+      
+      setIsGeneratingSummary(false);
+
       const insertData: any = {
         user_id: user.id,
         title: title,
@@ -596,12 +623,12 @@ const SelfcareReflection = () => {
         memory_type: 'selfcare-reflection',
         summary: `Reflexion über: "${currentStatement?.text}"`,
         created_at: new Date().toISOString(),
-        summary_requested: wantsSummary,
+        summary_requested: true,
         location: saveLocation.trim() || null,
       };
 
-      if (wantsSummary && generatedSummary) {
-        insertData.structured_summary = generatedSummary;
+      if (summaryData) {
+        insertData.structured_summary = summaryData;
       }
 
       const { error } = await supabase.from('memories').insert(insertData);
@@ -617,7 +644,7 @@ const SelfcareReflection = () => {
       } else if (newStreak === 30) {
         toast.success('🏆 Meister! 30 Tage in Folge reflektiert!');
       } else {
-        toast.success(wantsSummary ? 'Reflexion mit Zusammenfassung gespeichert 💫' : 'Reflexion im Tresor gespeichert 💫');
+        toast.success('Reflexion mit Zusammenfassung gespeichert 💫');
       }
 
       setShowSaveDialog(false);
@@ -633,6 +660,7 @@ const SelfcareReflection = () => {
     } catch (error) {
       console.error('Error saving:', error);
       toast.error('Fehler beim Speichern');
+      setIsGeneratingSummary(false);
     }
   };
 
