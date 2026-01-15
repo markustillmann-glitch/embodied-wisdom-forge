@@ -7,105 +7,107 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&display=swap');
 
-/* Design System: Inner Guidance Through Lived Memories - Refined Editorial Aesthetic with iOS Native Feel */
+/* Design System: Empathisch, Warm & Elegant */
 
 @layer base {
   :root {
-    /* Warm cream background with deep slate text */
-    --background: 40 33% 97%;
-    --foreground: 220 25% 15%;
+    /* Warme, einladende Hintergründe */
+    --background: 30 40% 98%;
+    --foreground: 25 30% 18%;
 
-    --card: 40 30% 95%;
-    --card-foreground: 220 25% 15%;
+    --card: 32 35% 96%;
+    --card-foreground: 25 30% 18%;
 
-    --popover: 40 33% 97%;
-    --popover-foreground: 220 25% 15%;
+    --popover: 30 40% 98%;
+    --popover-foreground: 25 30% 18%;
 
-    /* Deep slate blue as primary */
-    --primary: 220 30% 25%;
-    --primary-foreground: 40 33% 97%;
+    /* Warmes Terrakotta/Rosé als Primary */
+    --primary: 15 45% 35%;
+    --primary-foreground: 30 40% 98%;
 
-    /* Warm stone as secondary */
-    --secondary: 35 20% 90%;
-    --secondary-foreground: 220 25% 20%;
+    /* Sanftes Beige als Secondary */
+    --secondary: 35 30% 92%;
+    --secondary-foreground: 25 30% 25%;
 
-    --muted: 35 15% 92%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 30 25% 94%;
+    --muted-foreground: 25 20% 50%;
 
-    /* Muted gold accent */
-    --accent: 38 55% 50%;
-    --accent-foreground: 40 33% 97%;
+    /* Warmes Gold/Bernstein als Accent */
+    --accent: 28 70% 50%;
+    --accent-foreground: 30 40% 98%;
 
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 40 33% 97%;
+    --destructive: 0 55% 50%;
+    --destructive-foreground: 30 40% 98%;
 
-    --border: 35 20% 88%;
-    --input: 35 20% 88%;
-    --ring: 38 55% 50%;
+    --border: 30 25% 88%;
+    --input: 30 25% 90%;
+    --ring: 28 70% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Custom tokens */
-    --chapter-divider: 38 40% 75%;
-    --quote-bg: 35 25% 93%;
-    --highlight: 38 55% 50%;
+    /* Custom tokens for warmth */
+    --chapter-divider: 30 30% 80%;
+    --quote-bg: 32 30% 94%;
+    --highlight: 28 70% 50%;
+    --glow: 28 80% 70%;
 
     /* Spacing tokens */
     --section-py: clamp(3rem, 8vw, 5rem);
     --section-py-lg: clamp(4rem, 10vw, 6rem);
     --content-gap: clamp(1.5rem, 4vw, 2.5rem);
 
-    --sidebar-background: 40 30% 95%;
-    --sidebar-foreground: 220 25% 15%;
-    --sidebar-primary: 220 30% 25%;
-    --sidebar-primary-foreground: 40 33% 97%;
-    --sidebar-accent: 35 20% 90%;
-    --sidebar-accent-foreground: 220 25% 20%;
-    --sidebar-border: 35 20% 88%;
-    --sidebar-ring: 38 55% 50%;
+    --sidebar-background: 32 35% 96%;
+    --sidebar-foreground: 25 30% 18%;
+    --sidebar-primary: 15 45% 35%;
+    --sidebar-primary-foreground: 30 40% 98%;
+    --sidebar-accent: 35 30% 92%;
+    --sidebar-accent-foreground: 25 30% 25%;
+    --sidebar-border: 30 25% 88%;
+    --sidebar-ring: 28 70% 50%;
   }
 
   .dark {
-    --background: 220 25% 10%;
-    --foreground: 40 20% 92%;
+    --background: 25 25% 8%;
+    --foreground: 30 25% 92%;
 
-    --card: 220 25% 12%;
-    --card-foreground: 40 20% 92%;
+    --card: 25 22% 11%;
+    --card-foreground: 30 25% 92%;
 
-    --popover: 220 25% 10%;
-    --popover-foreground: 40 20% 92%;
+    --popover: 25 25% 8%;
+    --popover-foreground: 30 25% 92%;
 
-    --primary: 40 20% 92%;
-    --primary-foreground: 220 25% 10%;
+    --primary: 30 25% 90%;
+    --primary-foreground: 25 25% 10%;
 
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 40 20% 92%;
+    --secondary: 25 20% 16%;
+    --secondary-foreground: 30 25% 92%;
 
-    --muted: 220 20% 18%;
-    --muted-foreground: 40 15% 60%;
+    --muted: 25 18% 16%;
+    --muted-foreground: 30 18% 60%;
 
-    --accent: 38 50% 55%;
-    --accent-foreground: 220 25% 10%;
+    --accent: 28 65% 55%;
+    --accent-foreground: 25 25% 10%;
 
-    --destructive: 0 60% 40%;
-    --destructive-foreground: 40 20% 92%;
+    --destructive: 0 55% 45%;
+    --destructive-foreground: 30 25% 92%;
 
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 38 50% 55%;
+    --border: 25 18% 20%;
+    --input: 25 18% 20%;
+    --ring: 28 65% 55%;
 
-    --chapter-divider: 220 20% 25%;
-    --quote-bg: 220 20% 15%;
-    --highlight: 38 50% 55%;
+    --chapter-divider: 25 18% 25%;
+    --quote-bg: 25 20% 14%;
+    --highlight: 28 65% 55%;
+    --glow: 28 70% 40%;
 
-    --sidebar-background: 220 25% 12%;
-    --sidebar-foreground: 40 20% 92%;
-    --sidebar-primary: 38 50% 55%;
-    --sidebar-primary-foreground: 220 25% 10%;
-    --sidebar-accent: 220 20% 18%;
-    --sidebar-accent-foreground: 40 20% 92%;
-    --sidebar-border: 220 20% 20%;
-    --sidebar-ring: 38 50% 55%;
+    --sidebar-background: 25 22% 11%;
+    --sidebar-foreground: 30 25% 92%;
+    --sidebar-primary: 28 65% 55%;
+    --sidebar-primary-foreground: 25 25% 10%;
+    --sidebar-accent: 25 20% 16%;
+    --sidebar-accent-foreground: 30 25% 92%;
+    --sidebar-border: 25 18% 20%;
+    --sidebar-ring: 28 65% 55%;
   }
 }
 

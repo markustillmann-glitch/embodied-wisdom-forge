@@ -1,7 +1,7 @@
-/* iOS Native Design System */
+/* iOS Native Design System - Warm & Empathetic */
 
-/* iOS System Font Stack - SF Pro mimics */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Elegant serif + clean sans-serif pairing */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Nunito:wght@300;400;500;600;700&display=swap');
 
 /* iOS-style variables */
 :root {
@@ -16,58 +16,67 @@
   --ios-large-title-height: 96px;
   --ios-tab-bar-height: 49px;
   
-  /* iOS Blur amounts */
-  --ios-blur-light: 20px;
+  /* Softer blur for warmth */
+  --ios-blur-light: 24px;
   --ios-blur-medium: 40px;
   
-  /* iOS Animation timings */
-  --ios-duration-fast: 0.2s;
-  --ios-duration-normal: 0.35s;
-  --ios-duration-slow: 0.5s;
-  --ios-spring: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ios-spring-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  /* Slightly slower, more gentle animations */
+  --ios-duration-fast: 0.25s;
+  --ios-duration-normal: 0.4s;
+  --ios-duration-slow: 0.6s;
+  --ios-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ios-spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   
-  /* iOS Radius values */
-  --ios-radius-sm: 8px;
-  --ios-radius-md: 12px;
-  --ios-radius-lg: 16px;
-  --ios-radius-xl: 22px;
-  --ios-radius-card: 14px;
+  /* Softer, more organic radius values */
+  --ios-radius-sm: 10px;
+  --ios-radius-md: 14px;
+  --ios-radius-lg: 20px;
+  --ios-radius-xl: 28px;
+  --ios-radius-card: 18px;
 }
 
-/* iOS Base Typography */
+/* Warm, friendly typography */
 .ios-font {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  letter-spacing: 0.01em;
 }
 
-/* iOS Large Title */
+/* Elegant serif for headings */
+.ios-serif {
+  font-family: 'Lora', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* iOS Large Title - Elegant serif */
 .ios-large-title {
-  font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 
 /* iOS Title 1 */
 .ios-title-1 {
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
 }
 
 /* iOS Title 2 */
 .ios-title-2 {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 21px;
+  font-weight: 500;
 }
 
 /* iOS Title 3 */
 .ios-title-3 {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
 }
 
@@ -75,34 +84,35 @@
 .ios-headline {
   font-size: 17px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
-/* iOS Body */
+/* iOS Body - Friendly and readable */
 .ios-body {
   font-size: 17px;
   font-weight: 400;
-  line-height: 1.47;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
 }
 
 /* iOS Callout */
 .ios-callout {
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.45;
 }
 
 /* iOS Subhead */
 .ios-subhead {
   font-size: 15px;
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 /* iOS Footnote */
 .ios-footnote {
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.38;
 }
 
@@ -110,7 +120,7 @@
 .ios-caption {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.33;
+  line-height: 1.35;
 }
 
 /* iOS Navigation Bar */
@@ -141,11 +151,12 @@
   z-index: 50;
 }
 
-/* iOS Card Style */
+/* iOS Card Style - Softer, warmer */
 .ios-card {
   background: hsl(var(--card));
   border-radius: var(--ios-radius-card);
   overflow: hidden;
+  box-shadow: 0 2px 12px hsl(var(--foreground) / 0.04);
 }
 
 /* iOS Grouped Card (Settings style) */
@@ -153,6 +164,7 @@
   background: hsl(var(--card));
   border-radius: var(--ios-radius-lg);
   overflow: hidden;
+  box-shadow: 0 1px 8px hsl(var(--foreground) / 0.03);
 }
 
 .ios-grouped-card > *:not(:last-child) {
@@ -163,31 +175,33 @@
 .ios-list-row {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  min-height: 44px;
-  gap: 12px;
+  padding: 14px 16px;
+  min-height: 48px;
+  gap: 14px;
   transition: background-color var(--ios-duration-fast) ease;
 }
 
 .ios-list-row:active {
-  background: hsl(var(--muted));
+  background: hsl(var(--muted) / 0.7);
 }
 
-/* iOS Button Styles */
+/* iOS Button Styles - Warm and inviting */
 .ios-button-primary {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+  background: linear-gradient(180deg, hsl(var(--accent)), hsl(var(--accent) / 0.9));
+  color: hsl(var(--accent-foreground));
   border-radius: var(--ios-radius-md);
   font-weight: 600;
   font-size: 17px;
-  padding: 14px 20px;
-  min-height: 50px;
+  padding: 14px 24px;
+  min-height: 52px;
   transition: all var(--ios-duration-fast) ease;
+  box-shadow: 0 2px 8px hsl(var(--accent) / 0.25);
 }
 
 .ios-button-primary:active {
-  opacity: 0.7;
+  opacity: 0.85;
   transform: scale(0.98);
+  box-shadow: 0 1px 4px hsl(var(--accent) / 0.2);
 }
 
 /* iOS Secondary Button */
@@ -197,13 +211,14 @@
   border-radius: var(--ios-radius-md);
   font-weight: 500;
   font-size: 17px;
-  padding: 14px 20px;
-  min-height: 50px;
+  padding: 14px 24px;
+  min-height: 52px;
   transition: all var(--ios-duration-fast) ease;
 }
 
 .ios-button-secondary:active {
-  opacity: 0.7;
+  opacity: 0.8;
+  background: hsl(var(--muted));
 }
 
 /* iOS Text Button */
