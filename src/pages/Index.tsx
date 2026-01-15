@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { ChapterSection } from "@/components/ChapterSection";
 import { SubSection } from "@/components/SubSection";
@@ -197,16 +197,26 @@ const getRandomImpulse = (): string => {
 
 const Index = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
   const [currentImpulse, setCurrentImpulse] = useState(() => getRandomImpulse());
+  const [impulseKey, setImpulseKey] = useState(0);
   
-  // Generate new random impulse when navigating to this page
+  // Generate new random impulse when page becomes visible or on navigation
   useEffect(() => {
-    const newImpulse = getRandomImpulse();
-    setCurrentImpulse(newImpulse);
-  }, [location.key]);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        setCurrentImpulse(getRandomImpulse());
+        setImpulseKey(prev => prev + 1);
+      }
+    };
+    
+    // Generate on mount
+    setCurrentImpulse(getRandomImpulse());
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
 
   const chapters = [
     { id: "cover", title: language === 'de' ? 'Titel' : 'Cover' },
