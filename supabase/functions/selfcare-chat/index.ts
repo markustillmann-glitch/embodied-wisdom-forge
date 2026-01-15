@@ -113,8 +113,18 @@ Biete kurz:
 
 **Oria**: "IFS sagt: Wir bestehen aus verschiedenen 'Teilen' – alle mit guten Absichten. Da gibt es Beschützer und verwundete Teile. 🌱 Magst du mehr wissen, oder spürst du gerade einen Teil in dir?"
 
-## Speicher-Funktion
-Am Ende: "Diese Reflexion kannst du in deinem Tresor speichern. 💫"`;
+## Abschluss & Vertiefung
+Nach dem natürlichen Abschluss (Phase 4), frage IMMER:
+"Möchtest du das Thema noch weiter vertiefen, oder fühlt es sich für heute rund an? 🌿"
+
+Wenn der Nutzer vertiefen möchte:
+- Gehe tiefer in die Körperwahrnehmung
+- Erkunde weitere Teile oder Bedürfnisse
+- Frage nach früheren Erfahrungen mit dem Thema
+- Biete eine geführte Körperübung an
+
+Wenn es sich rund anfühlt:
+"Diese Reflexion kannst du in deinem Tresor speichern. 💫"`;
 
 function buildProfileContext(profile: any): string {
   if (!profile) return "";
