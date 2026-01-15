@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -213,6 +213,7 @@ type Message = { role: "user" | "assistant"; content: string };
 const SelfcareReflection = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [currentStatement, setCurrentStatement] = useState<StatementWithCategory | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -221,6 +222,7 @@ const SelfcareReflection = () => {
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [saveTitle, setSaveTitle] = useState("");
   const [conversationHistory, setConversationHistory] = useState<Message[]>([]);
+  const [hideStatementBanner, setHideStatementBanner] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -230,6 +232,25 @@ const SelfcareReflection = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Handle autostart from URL params (when coming from Index page)
+  useEffect(() => {
+    const impulse = searchParams.get('impulse');
+    const autostart = searchParams.get('autostart');
+    
+    if (impulse && autostart === 'true' && !sessionStarted) {
+      // Find the statement that matches the impulse or create a custom one
+      const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
+      const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
+      
+      setCurrentStatement(statement);
+      setSessionStarted(true);
+      setHideStatementBanner(true); // Hide the banner when coming from Index
+      
+      // Clear the URL params to prevent re-triggering
+      navigate('/selfcare-reflection', { replace: true });
+    }
+  }, [searchParams, sessionStarted, navigate]);
 
   const getRandomStatement = (): StatementWithCategory => {
     const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
@@ -507,61 +528,63 @@ const SelfcareReflection = () => {
           </motion.div>
         ) : (
           <div className="space-y-4">
-            {/* Current Statement Banner - Ultra Prominent Display */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative overflow-hidden my-6"
-            >
-              {/* Dramatic background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-600/25 via-rose-500/20 to-fuchsia-500/15 rounded-3xl" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent rounded-3xl" />
-              <div className="absolute -top-20 -right-20 w-48 h-48 bg-pink-400/30 rounded-full blur-3xl" />
-              <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-rose-500/25 rounded-full blur-3xl" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-32 bg-gradient-to-r from-transparent via-pink-400/10 to-transparent blur-xl" />
-              
-              {/* Content */}
-              <div className="relative border-2 border-pink-400/50 rounded-3xl p-8 md:p-10 lg:p-12 text-center backdrop-blur-sm shadow-2xl shadow-pink-500/10">
-                {/* Large decorative quotes */}
-                <div className="absolute top-4 left-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none select-none">"</div>
-                <div className="absolute bottom-4 right-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none rotate-180 select-none">"</div>
+            {/* Current Statement Banner - Only show if not hidden (when coming from Index) */}
+            {!hideStatementBanner && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="relative overflow-hidden my-6"
+              >
+                {/* Dramatic background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-600/25 via-rose-500/20 to-fuchsia-500/15 rounded-3xl" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent rounded-3xl" />
+                <div className="absolute -top-20 -right-20 w-48 h-48 bg-pink-400/30 rounded-full blur-3xl" />
+                <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-rose-500/25 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-32 bg-gradient-to-r from-transparent via-pink-400/10 to-transparent blur-xl" />
                 
-                {/* Sparkle decoration */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute top-6 right-16 text-pink-400/60"
-                >
-                  <Sparkles className="w-5 h-5" />
-                </motion.div>
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                  className="absolute bottom-8 left-14 text-rose-400/50"
-                >
-                  <Sparkles className="w-4 h-4" />
-                </motion.div>
-                
-                {/* Statement - Hero typography */}
-                <motion.p 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-snug md:leading-relaxed px-6 md:px-12 lg:px-16 relative z-10"
-                >
-                  {currentStatement?.text}
-                </motion.p>
-                
-                {/* Decorative underline */}
-                <motion.div 
-                  initial={{ scaleX: 0, opacity: 0 }}
-                  animate={{ scaleX: 1, opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
-                  className="w-24 h-1 mx-auto mt-6 bg-gradient-to-r from-pink-400 via-rose-500 to-pink-400 rounded-full"
-                />
-              </div>
-            </motion.div>
+                {/* Content */}
+                <div className="relative border-2 border-pink-400/50 rounded-3xl p-8 md:p-10 lg:p-12 text-center backdrop-blur-sm shadow-2xl shadow-pink-500/10">
+                  {/* Large decorative quotes */}
+                  <div className="absolute top-4 left-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none select-none">"</div>
+                  <div className="absolute bottom-4 right-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none rotate-180 select-none">"</div>
+                  
+                  {/* Sparkle decoration */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-6 right-16 text-pink-400/60"
+                  >
+                    <Sparkles className="w-5 h-5" />
+                  </motion.div>
+                  <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                    className="absolute bottom-8 left-14 text-rose-400/50"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                  </motion.div>
+                  
+                  {/* Statement - Hero typography */}
+                  <motion.p 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-snug md:leading-relaxed px-6 md:px-12 lg:px-16 relative z-10"
+                  >
+                    {currentStatement?.text}
+                  </motion.p>
+                  
+                  {/* Decorative underline */}
+                  <motion.div 
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    className="w-24 h-1 mx-auto mt-6 bg-gradient-to-r from-pink-400 via-rose-500 to-pink-400 rounded-full"
+                  />
+                </div>
+              </motion.div>
+            )}
 
             {/* Messages */}
             <div className="space-y-4 min-h-[300px]">

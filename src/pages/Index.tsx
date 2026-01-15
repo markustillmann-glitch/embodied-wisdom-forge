@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { ChapterSection } from "@/components/ChapterSection";
 import { SubSection } from "@/components/SubSection";
@@ -12,10 +12,33 @@ import { OriaProcessFlow } from "@/components/OriaProcessFlow";
 import { PolygonalBackground, ConnectionLines, GrowthSpiral, OwlSymbol, InsightSymbol, MoonSymbol } from "@/components/PolygonalBackground";
 import { Header } from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import oriaOwl from "@/assets/oria-owl.png";
 import bbOwlLogo from "@/assets/bb-owl-new.png";
 
+// Daily impulse statements
+const DAILY_IMPULSES = [
+  "Manchmal gewinnt man, manchmal lernt man",
+  "Je stiller du bist, desto mehr wirst du hören",
+  "Kleine Schritte führen zu großen Veränderungen",
+  "So, wie du bist, bist du genug",
+  "Höre auf deinen Körper – er spricht mit dir",
+  "Du darfst langsam sein",
+  "Gefühle sind Signale, keine Befehle",
+  "Ich darf neugierig auf meine inneren Reaktionen sein",
+  "Es gibt in mir einen ruhigen, klaren Ort",
+  "Veränderung beginnt oft mit Zuhören",
+];
+
+const getDailyImpulse = (): string => {
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+  return DAILY_IMPULSES[dayOfYear % DAILY_IMPULSES.length];
+};
+
 const Index = () => {
+  const navigate = useNavigate();
   const { t, tArray, language } = useLanguage();
   const [activeChapter, setActiveChapter] = useState("cover");
 
@@ -142,6 +165,48 @@ const Index = () => {
             </div>
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* Impuls des Tages Section */}
+      <section className="py-8 sm:py-10 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 via-rose-500/10 to-pink-500/5" />
+        <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <div className="inline-flex items-center gap-2 text-pink-500/80 text-sm font-medium mb-3">
+              <Sparkles className="w-4 h-4" />
+              <span>{language === 'de' ? 'Impuls des Tages' : 'Daily Impulse'}</span>
+              <Sparkles className="w-4 h-4" />
+            </div>
+            
+            <motion.div
+              className="relative bg-gradient-to-br from-pink-500/10 via-rose-500/5 to-fuchsia-500/10 rounded-2xl p-6 md:p-8 border border-pink-400/30 backdrop-blur-sm"
+            >
+              <div className="absolute top-2 left-4 text-pink-400/30 text-4xl font-serif">"</div>
+              <div className="absolute bottom-2 right-4 text-pink-400/30 text-4xl font-serif rotate-180">"</div>
+              
+              <p className="font-serif text-xl md:text-2xl text-foreground leading-relaxed px-4">
+                {getDailyImpulse()}
+              </p>
+            </motion.div>
+            
+            <Button
+              onClick={() => {
+                const impulse = getDailyImpulse();
+                navigate(`/selfcare-reflection?impulse=${encodeURIComponent(impulse)}&autostart=true`);
+              }}
+              className="mt-6 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg"
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              {language === 'de' ? 'Jetzt reflektieren' : 'Reflect now'}
+            </Button>
+          </motion.div>
+        </div>
       </section>
 
       {/* Impressum & Intention */}
