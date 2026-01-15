@@ -780,32 +780,15 @@ const SelfcareReflection = () => {
           </div>
 
           {/* Action Cards - Fan arrangement at bottom */}
-          <div className="relative h-64 sm:h-72 mb-8 pointer-events-none">
-            {/* Center card - Reflektieren starten */}
-            <motion.button
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={startWithDisplayedImpulse}
-              className="absolute left-1/2 bottom-20 -translate-x-1/2 z-30 pointer-events-auto"
-            >
-              <div className="w-28 h-36 sm:w-32 sm:h-40 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl flex flex-col items-center justify-center gap-3 border border-white/50">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-accent" />
-                </div>
-                <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">Reflektieren starten</span>
-              </div>
-            </motion.button>
-
+          <div className="relative h-64 sm:h-72 mb-8">
             {/* Left card - Frühere Reflektionen */}
             <motion.button
               initial={{ opacity: 0, y: 50, rotate: -15 }}
-              animate={{ opacity: 1, y: 0, rotate: -12 }}
+              animate={{ opacity: 1, y: 0, rotate: -8 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/summaries')}
-              className="absolute left-1/2 bottom-12 -translate-x-[140%] z-20 origin-bottom pointer-events-auto"
+              className="absolute left-4 sm:left-[10%] bottom-12 z-20 origin-bottom"
             >
               <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
@@ -815,14 +798,31 @@ const SelfcareReflection = () => {
               </div>
             </motion.button>
 
+            {/* Center card - Reflektieren starten */}
+            <motion.button
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={startWithDisplayedImpulse}
+              className="absolute left-1/2 bottom-20 -translate-x-1/2 z-30"
+            >
+              <div className="w-28 h-36 sm:w-32 sm:h-40 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl flex flex-col items-center justify-center gap-3 border border-white/50">
+                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-accent" />
+                </div>
+                <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">Reflektieren starten</span>
+              </div>
+            </motion.button>
+
             {/* Right card - Neuer Impuls */}
             <motion.button
               initial={{ opacity: 0, y: 50, rotate: 15 }}
-              animate={{ opacity: 1, y: 0, rotate: 12 }}
+              animate={{ opacity: 1, y: 0, rotate: 8 }}
               transition={{ duration: 0.5, delay: 0.6 }}
               whileTap={{ scale: 0.95 }}
               onClick={startSession}
-              className="absolute left-1/2 bottom-12 translate-x-[40%] z-20 origin-bottom pointer-events-auto"
+              className="absolute right-4 sm:right-[10%] bottom-12 z-20 origin-bottom"
             >
               <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
