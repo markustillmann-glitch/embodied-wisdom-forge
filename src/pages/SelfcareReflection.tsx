@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Trophy, Star, MapPin, FileText, BookOpen } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { PolygonalBackground } from '@/components/PolygonalBackground';
 
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import {
@@ -685,294 +684,249 @@ const SelfcareReflection = () => {
 
   // deepenInOria removed - coach page no longer exists
 
+  // Get user display name
+  const displayName = user?.user_metadata?.display_name || user?.email?.split('@')[0] || 'du';
+
   return (
-    <div className="min-h-[100dvh] bg-background flex flex-col ios-page ios-font">
+    <div className="min-h-[100dvh] flex flex-col ios-font relative overflow-hidden">
+      
+      {/* Warm Gradient Background - Like the reference */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+        }}
+      />
+      
+      {/* Top Navigation Icons */}
+      <div className="relative z-10 flex justify-between items-center px-6 pt-[calc(env(safe-area-inset-top,0px)+16px)]">
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate('/summaries')}
+          className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+        >
+          <BookOpen className="w-5 h-5 text-foreground/70" />
+        </motion.button>
+        
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate('/auth')}
+          className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+        >
+          <Heart className="w-5 h-5 text-foreground/70" />
+        </motion.button>
+      </div>
 
-      {/* iOS-style Hero Section */}
-      <section className="pt-[calc(env(safe-area-inset-top,0px)+44px)] pb-2 sm:pt-24 sm:pb-8 relative overflow-hidden shrink-0">
-        <PolygonalBackground variant="hero" />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col items-center text-center">
-
+      {!sessionStarted ? (
+        /* Welcome Screen - Like Reference Image */
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 flex-1 flex flex-col"
+        >
+          {/* Centered Greeting */}
+          <div className="flex-1 flex flex-col items-center justify-center px-8 -mt-20">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="flex items-center gap-2 sm:gap-4"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center"
             >
-              <img
-                src={bbOwlLogo}
-                alt="Oria"
-                className="h-7 sm:h-10 w-auto object-contain"
-              />
-              <h1 className="ios-title-1 sm:ios-large-title text-foreground">
-                Selfcare Impulse
+              <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
+                Hallo {displayName},
               </h1>
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mt-2">
+                wie kann ich dir
+              </h2>
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
+                heute helfen?
+              </h2>
             </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.4 }}
-              className="ios-subhead text-muted-foreground max-w-xl hidden sm:block mt-3"
-            >
-              Oria begleitet dich bei der Reflexion über Impulse für dein Wohlbefinden
-            </motion.p>
-          </div>
-        </div>
-      </section>
-
-      {/* Chat Area */}
-      <section className="flex-1 flex flex-col max-w-2xl mx-auto w-full px-4 sm:px-6 min-h-0">
-        {!sessionStarted ? (
-          /* Welcome Screen */
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex-1 flex flex-col items-center justify-center text-center py-4 sm:py-8 px-2 pb-24 md:pb-8"
-          >
-            {/* Gamification Stats - Only show if user has reflections */}
-            {user && pastReflections.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="w-full max-w-md mb-6"
-              >
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4">
-                  {/* Streak */}
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-card rounded-lg border border-border">
-                    <Flame className={`w-4 h-4 ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`} />
-                    <div className="text-left">
-                      <p className={`text-sm font-bold ${streak > 0 ? 'text-orange-500' : 'text-muted-foreground'}`}>{streak}</p>
-                      <p className="text-[9px] text-muted-foreground leading-tight">Streak</p>
-                    </div>
-                  </div>
-                  
-                  {/* Total */}
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-card rounded-lg border border-border">
-                    <Star className="w-4 h-4 text-accent" />
-                    <div className="text-left">
-                      <p className="text-sm font-bold text-foreground">{pastReflections.length}</p>
-                      <p className="text-[9px] text-muted-foreground leading-tight">Gesamt</p>
-                    </div>
-                  </div>
-                  
-                  {/* Today status */}
-                  <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${reflectedToday ? 'bg-green-500/10 border-green-500/30' : 'bg-card border-border'}`}>
-                    <Trophy className={`w-4 h-4 ${reflectedToday ? 'text-green-500' : 'text-muted-foreground'}`} />
-                    <div className="text-left">
-                      <p className={`text-xs font-medium ${reflectedToday ? 'text-green-600' : 'text-muted-foreground'}`}>
-                        {reflectedToday ? '✓' : 'Heute'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Badges - show earned badges */}
-                {getBadges(pastReflections.length, streak).length > 0 && (
-                  <div className="flex flex-wrap justify-center gap-2 mb-4">
-                    {getBadges(pastReflections.length, streak).slice(0, 4).map((badge, idx) => (
-                      <div 
-                        key={idx} 
-                        className="group relative px-2 py-1 bg-accent/10 rounded-full text-xs flex items-center gap-1 cursor-help"
-                        title={badge.desc}
-                      >
-                        <span>{badge.icon}</span>
-                        <span className="text-accent hidden sm:inline">{badge.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            {/* Daily Impulse Card - iOS Style */}
-            <div className="w-full max-w-md mb-6">
-              <div className="inline-flex items-center gap-2 text-accent ios-footnote font-medium mb-3 uppercase tracking-wide">
-                <Flower2 className="w-4 h-4" />
-                <span>Impuls des Tages</span>
-              </div>
-              
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="relative bg-card rounded-[16px] p-6 shadow-lg shadow-black/5"
-              >
-                <div className="absolute top-3 left-4 text-accent/20 text-2xl font-serif">"</div>
-                <div className="absolute bottom-3 right-4 text-accent/20 text-2xl font-serif rotate-180">"</div>
-                
-                <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed px-4">
-                  {displayedImpulse.text}
-                </p>
-              </motion.div>
-              
-              <motion.button 
-                onClick={startWithDisplayedImpulse}
-                whileTap={{ scale: 0.97 }}
-                className="ios-button-primary w-full mt-4 flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-5 h-5" />
-                Diesen Impuls reflektieren
-              </motion.button>
-            </div>
-            
-            <p className="ios-caption text-muted-foreground/70 mb-4">oder</p>
-            
-            <motion.button 
-              onClick={startSession}
-              whileTap={{ scale: 0.97 }}
-              className="ios-button-secondary flex items-center justify-center gap-2"
-            >
-              <RotateCcw className="w-4 h-4" />
-              Anderen Impuls reflektieren
-            </motion.button>
-
-            {/* Past Reflections Section */}
+            {/* Stats - Small and subtle */}
             {user && pastReflections.length > 0 && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="mt-8 w-full max-w-md"
+                className="flex items-center gap-4 mt-8"
               >
-                <button
-                  onClick={() => setShowPastReflections(!showPastReflections)}
-                  className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-full py-2 touch-manipulation"
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>Vergangene Reflexionen ({pastReflections.length})</span>
-                  {showPastReflections ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </button>
-
-                {showPastReflections && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="mt-4 space-y-4 max-h-64 overflow-y-auto"
-                  >
-                    {Object.entries(groupReflectionsByMonth()).map(([month, reflections]) => (
-                      <div key={month}>
-                        <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2 sticky top-0 bg-background py-1">
-                          {month}
-                        </h4>
-                        <div className="space-y-2">
-                          {reflections.map(reflection => (
-                            <button
-                              key={reflection.id}
-                              onClick={() => toast.info('Details werden bald verfügbar sein')}
-                              className="w-full text-left p-3 bg-card rounded-lg border border-border hover:border-accent/50 transition-colors touch-manipulation"
-                            >
-                              <div className="flex justify-between items-start gap-2">
-                                <div className="min-w-0 flex-1">
-                                  <p className="text-sm font-medium text-foreground truncate">{reflection.title}</p>
-                                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{reflection.summary}</p>
-                                </div>
-                                <span className="text-xs text-muted-foreground shrink-0">
-                                  {format(new Date(reflection.created_at || reflection.memory_date), 'dd.MM.', { locale: de })}
-                                </span>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </motion.div>
-            )}
-          </motion.div>
-        ) : (
-          <div className="flex-1 flex flex-col min-h-0">
-            {/* Current Statement Banner - Only show if not hidden */}
-            {!hideStatementBanner && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="mb-4 p-4 bg-card rounded-lg border border-border shrink-0"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                    <Flower2 className="w-4 h-4 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Dein Impuls</p>
-                    <p className="font-serif text-foreground leading-relaxed">
-                      {currentStatement?.text}
-                    </p>
-                  </div>
+                <div className="flex items-center gap-1.5 text-foreground/60">
+                  <Flame className={`w-4 h-4 ${streak > 0 ? 'text-orange-600' : ''}`} />
+                  <span className="text-sm font-medium">{streak} Tage</span>
+                </div>
+                <div className="w-px h-4 bg-foreground/20" />
+                <div className="flex items-center gap-1.5 text-foreground/60">
+                  <Star className="w-4 h-4" />
+                  <span className="text-sm font-medium">{pastReflections.length} Reflexionen</span>
                 </div>
               </motion.div>
             )}
+          </div>
 
-            {/* Messages - Scrollable area with padding for fixed input */}
-            <div className="flex-1 overflow-y-auto pb-44 md:pb-4 space-y-3 px-1">
-              {messages.map((message, index) => (
-                <ChatMessage key={index} content={message.content} role={message.role} />
-              ))}
-              {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                    <Flower2 className="w-4 h-4 text-accent" />
-                  </div>
-                  <div className="bg-muted rounded-2xl rounded-tl-md px-4 py-3">
-                    <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </div>
-                  </div>
+          {/* Action Cards - Fan arrangement at bottom */}
+          <div className="relative h-64 sm:h-72 mb-8">
+            {/* Center card - Reflektieren */}
+            <motion.button
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={startWithDisplayedImpulse}
+              className="absolute left-1/2 bottom-16 -translate-x-1/2 z-20"
+            >
+              <div className="w-28 h-36 sm:w-32 sm:h-40 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl flex flex-col items-center justify-center gap-3 border border-white/50">
+                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-accent" />
                 </div>
-              )}
-              <div ref={messagesEndRef} />
+                <span className="text-sm font-medium text-foreground">Reflektieren</span>
+              </div>
+            </motion.button>
+
+            {/* Left card - Tresor */}
+            <motion.button
+              initial={{ opacity: 0, y: 50, rotate: -15 }}
+              animate={{ opacity: 1, y: 0, rotate: -12 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/summaries')}
+              className="absolute left-1/2 bottom-8 -translate-x-[140%] z-10 origin-bottom"
+            >
+              <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
+                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                  <Save className="w-5 h-5 text-muted-foreground" />
+                </div>
+                <span className="text-xs font-medium text-foreground/80">Tresor</span>
+              </div>
+            </motion.button>
+
+            {/* Right card - Neuer Impuls */}
+            <motion.button
+              initial={{ opacity: 0, y: 50, rotate: 15 }}
+              animate={{ opacity: 1, y: 0, rotate: 12 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={startSession}
+              className="absolute left-1/2 bottom-8 translate-x-[40%] z-10 origin-bottom"
+            >
+              <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
+                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                  <RotateCcw className="w-5 h-5 text-muted-foreground" />
+                </div>
+                <span className="text-xs font-medium text-foreground/80">Neu</span>
+              </div>
+            </motion.button>
+
+            {/* Owl mascot at bottom center */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
+              className="absolute left-1/2 bottom-0 -translate-x-1/2 z-30"
+            >
+              <div className="w-14 h-14 rounded-full bg-foreground shadow-lg flex items-center justify-center">
+                <img src={bbOwlLogo} alt="Oria" className="w-10 h-10 object-contain" />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Current Impulse Preview - subtle at top */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="absolute top-32 left-1/2 -translate-x-1/2 w-full max-w-sm px-6"
+          >
+            <div className="bg-white/40 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/30">
+              <p className="text-center text-sm text-foreground/70 font-serif italic">
+                "{displayedImpulse.text}"
+              </p>
             </div>
-
-            {/* Input Area - iOS Style Fixed on mobile */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border/30 px-4 py-3 pb-[calc(env(safe-area-inset-bottom,12px)+8px)] md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4 md:pb-4">
-              <div className="max-w-3xl mx-auto flex flex-col gap-3">
-                {/* iOS-style Textarea */}
-                <Textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Teile deine Gedanken..."
-                  className="ios-input min-h-[50px] max-h-28 resize-none w-full ios-body rounded-[14px]"
-                  disabled={isLoading}
-                />
-                
-                {/* Send button - always below textarea */}
-                <motion.button 
-                  onClick={sendMessage} 
-                  disabled={!input.trim() || isLoading}
-                  whileTap={{ scale: 0.95 }}
-                  whileHover={{ scale: 1.01 }}
-                  className="w-full flex items-center justify-center gap-2.5 py-3.5 px-6 bg-primary text-primary-foreground font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Send className="w-5 h-5" />
-                  <span className="text-base">Nachricht senden</span>
-                </motion.button>
-                
-                {/* Action Buttons */}
-                <div className="flex gap-2 justify-center">
-                  <button 
-                    onClick={resetSession}
-                    className="ios-button-text flex items-center gap-1.5 ios-footnote"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    Neuer Impuls
-                  </button>
+          </motion.div>
+        </motion.div>
+      ) : (
+        /* Chat Session */
+        <div className="relative z-10 flex-1 flex flex-col max-w-2xl mx-auto w-full px-4 pt-4">
+          {/* Current Statement Banner */}
+          {!hideStatementBanner && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mb-4 p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/30 shrink-0"
+            >
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                  <Flower2 className="w-4 h-4 text-accent" />
                 </div>
+                <div>
+                  <p className="text-xs text-foreground/60 mb-1">Dein Impuls</p>
+                  <p className="font-serif text-foreground leading-relaxed">
+                    {currentStatement?.text}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto pb-44 md:pb-4 space-y-3 px-1">
+            {messages.map((message, index) => (
+              <ChatMessage key={index} content={message.content} role={message.role} />
+            ))}
+            {isLoading && messages[messages.length - 1]?.role === 'user' && (
+              <div className="flex gap-3">
+                <div className="w-8 h-8 rounded-full bg-white/60 flex items-center justify-center flex-shrink-0">
+                  <Flower2 className="w-4 h-4 text-accent" />
+                </div>
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl rounded-tl-md px-4 py-3">
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-white/30 px-4 py-3 pb-[calc(env(safe-area-inset-bottom,12px)+8px)] md:relative md:border-t-0 md:bg-transparent md:backdrop-blur-none md:px-0 md:py-0 md:mt-4 md:pb-4">
+            <div className="max-w-3xl mx-auto flex flex-col gap-3">
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Teile deine Gedanken..."
+                className="min-h-[50px] max-h-28 resize-none w-full rounded-2xl border-white/50 bg-white/60 backdrop-blur-sm"
+                disabled={isLoading}
+              />
+              
+              <motion.button 
+                onClick={sendMessage} 
+                disabled={!input.trim() || isLoading}
+                whileTap={{ scale: 0.95 }}
+                className="w-full flex items-center justify-center gap-2.5 py-3.5 px-6 bg-foreground text-white font-semibold rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Send className="w-5 h-5" />
+                <span className="text-base">Nachricht senden</span>
+              </motion.button>
+              
+              <div className="flex gap-2 justify-center">
+                <button 
+                  onClick={resetSession}
+                  className="text-foreground/60 text-sm flex items-center gap-1.5"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  Neuer Impuls
+                </button>
               </div>
             </div>
           </div>
-        )}
-      </section>
+        </div>
+      )}
 
       {/* Save Dialog */}
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
