@@ -507,51 +507,58 @@ const SelfcareReflection = () => {
           </motion.div>
         ) : (
           <div className="space-y-4">
-            {/* Current Statement Banner - Prominent Display */}
+            {/* Current Statement Banner - Ultra Prominent Display */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative overflow-hidden my-6"
             >
-              {/* Background decorations */}
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-rose-400/15 to-amber-400/10 rounded-2xl" />
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-pink-400/20 to-transparent rounded-full blur-2xl" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-rose-500/15 to-transparent rounded-full blur-xl" />
+              {/* Dramatic background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-600/25 via-rose-500/20 to-fuchsia-500/15 rounded-3xl" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent rounded-3xl" />
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-pink-400/30 rounded-full blur-3xl" />
+              <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-rose-500/25 rounded-full blur-3xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-32 bg-gradient-to-r from-transparent via-pink-400/10 to-transparent blur-xl" />
               
               {/* Content */}
-              <div className="relative border border-pink-300/40 rounded-2xl p-6 md:p-8 text-center backdrop-blur-sm">
-                {/* Decorative quotes */}
-                <div className="absolute top-3 left-4 text-pink-400/30 text-5xl font-serif leading-none">"</div>
-                <div className="absolute bottom-3 right-4 text-pink-400/30 text-5xl font-serif leading-none rotate-180">"</div>
+              <div className="relative border-2 border-pink-400/50 rounded-3xl p-8 md:p-10 lg:p-12 text-center backdrop-blur-sm shadow-2xl shadow-pink-500/10">
+                {/* Large decorative quotes */}
+                <div className="absolute top-4 left-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none select-none">"</div>
+                <div className="absolute bottom-4 right-6 text-pink-500/40 text-7xl md:text-8xl font-serif leading-none rotate-180 select-none">"</div>
                 
-                {/* Label */}
+                {/* Sparkle decoration */}
                 <motion.div
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/15 text-pink-600 text-xs uppercase tracking-widest font-medium mb-4"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="absolute top-6 right-16 text-pink-400/60"
                 >
-                  <Sparkles className="w-3 h-3" />
-                  Dein Impuls
+                  <Sparkles className="w-5 h-5" />
+                </motion.div>
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                  className="absolute bottom-8 left-14 text-rose-400/50"
+                >
+                  <Sparkles className="w-4 h-4" />
                 </motion.div>
                 
-                {/* Statement */}
+                {/* Statement - Hero typography */}
                 <motion.p 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  className="font-serif text-xl md:text-2xl lg:text-3xl font-medium text-foreground leading-relaxed px-4 md:px-8"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-snug md:leading-relaxed px-6 md:px-12 lg:px-16 relative z-10"
                 >
                   {currentStatement?.text}
                 </motion.p>
                 
-                {/* Decorative line */}
+                {/* Decorative underline */}
                 <motion.div 
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                  className="w-16 h-0.5 mx-auto mt-5 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent"
+                  initial={{ scaleX: 0, opacity: 0 }}
+                  animate={{ scaleX: 1, opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                  className="w-24 h-1 mx-auto mt-6 bg-gradient-to-r from-pink-400 via-rose-500 to-pink-400 rounded-full"
                 />
               </div>
             </motion.div>
