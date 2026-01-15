@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Trophy, Star } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Trophy, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -612,21 +612,6 @@ const SelfcareReflection = () => {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col items-center text-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="mb-1 sm:mb-4"
-            >
-              <Link
-                to="/oria-apps"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground hover:text-accent transition-colors touch-manipulation"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">Zurück zu Oria Apps</span>
-                <span className="sm:hidden">Zurück</span>
-              </Link>
-            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
