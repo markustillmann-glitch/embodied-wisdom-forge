@@ -25,7 +25,7 @@ import { de } from 'date-fns/locale';
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 const SUMMARY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`;
 
-type StatementCategory = 'selfcare' | 'gfk' | 'ifs';
+type StatementCategory = 'selfcare' | 'gfk';
 
 interface StatementWithCategory {
   text: string;
@@ -154,63 +154,11 @@ const SELFCARE_STATEMENTS: StatementWithCategory[] = [
   { text: "Ich brauche Hoffnung, um dranzubleiben", category: "gfk" },
   { text: "Ich wünsche mir ein Miteinander, das nährt statt erschöpft", category: "gfk" },
   
-  // IFS-inspirierte Statements
-  { text: "Ein Teil von mir meint es gut, auch wenn sein Verhalten mich belastet", category: "ifs" },
-  { text: "Ich darf neugierig auf meine inneren Reaktionen sein", category: "ifs" },
-  { text: "Nicht alles in mir will dasselbe – und das ist okay", category: "ifs" },
-  { text: "Manche Teile versuchen, mich vor alten Verletzungen zu schützen", category: "ifs" },
-  { text: "Ich kann mir selbst mit Freundlichkeit begegnen", category: "ifs" },
-  { text: "Gefühle sind Signale, keine Befehle", category: "ifs" },
-  { text: "Ich darf innehalten, bevor ich reagiere", category: "ifs" },
-  { text: "Es gibt in mir einen ruhigen, klaren Ort", category: "ifs" },
-  { text: "Auch widersprüchliche Anteile gehören zu mir", category: "ifs" },
-  { text: "Ich muss keinen Teil loswerden, um ganz zu sein", category: "ifs" },
-  { text: "Ein Teil von mir trägt eine Geschichte, die gehört werden will", category: "ifs" },
-  { text: "Ich kann beobachten, ohne mich zu verlieren", category: "ifs" },
-  { text: "Schutzstrategien entstanden aus Notwendigkeit", category: "ifs" },
-  { text: "Ich darf lernen, meine inneren Stimmen zu unterscheiden", category: "ifs" },
-  { text: "Nicht jeder Impuls braucht sofortige Handlung", category: "ifs" },
-  { text: "Ich kann meine Anteile würdigen, ohne ihnen zu folgen", category: "ifs" },
-  { text: "Manche Teile sind sehr alt, auch wenn sie sich heute melden", category: "ifs" },
-  { text: "Ich darf Tempo rausnehmen, wenn es sich zu viel anfühlt", category: "ifs" },
-  { text: "Ich bin mehr als meine stärksten Gefühle", category: "ifs" },
-  { text: "Es ist möglich, inneren Konflikten mit Mitgefühl zu begegnen", category: "ifs" },
-  { text: "Ein Teil von mir möchte Kontrolle, ein anderer Ruhe", category: "ifs" },
-  { text: "Ich kann Raum schaffen zwischen Reiz und Reaktion", category: "ifs" },
-  { text: "Auch innere Kritiker hatten einmal eine gute Absicht", category: "ifs" },
-  { text: "Ich darf meine Verletzlichkeit schützen, ohne mich zu verschließen", category: "ifs" },
-  { text: "Nicht jeder Teil braucht Veränderung – manche brauchen Verständnis", category: "ifs" },
-  { text: "Ich kann lernen, mir selbst Sicherheit zu geben", category: "ifs" },
-  { text: "Innere Anteile dürfen sich verändern, wenn sie sich gesehen fühlen", category: "ifs" },
-  { text: "Ich muss nichts erzwingen, um mich zu entwickeln", category: "ifs" },
-  { text: "Ich darf neugierig sein statt wertend", category: "ifs" },
-  { text: "Mein inneres Erleben ist komplex – und das ist menschlich", category: "ifs" },
-  { text: "Ich kann meine Aufmerksamkeit bewusst lenken", category: "ifs" },
-  { text: "Ein Teil von mir darf Pause machen", category: "ifs" },
-  { text: "Auch starke Emotionen können gehalten werden", category: "ifs" },
-  { text: "Ich bin nicht falsch, weil es in mir laut ist", category: "ifs" },
-  { text: "Ich darf Verantwortung übernehmen, ohne mich zu überfordern", category: "ifs" },
-  { text: "Meine inneren Erfahrungen verdienen Respekt", category: "ifs" },
-  { text: "Ich kann lernen, mir selbst zuzuhören", category: "ifs" },
-  { text: "Innere Führung fühlt sich ruhig und klar an", category: "ifs" },
-  { text: "Ich darf alte Muster würdigen und neue wählen", category: "ifs" },
-  { text: "Es ist möglich, innerlich verbunden zu sein, auch im Chaos", category: "ifs" },
-  { text: "Ich kann zwischen mir und meinen Anteilen unterscheiden", category: "ifs" },
-  { text: "Nicht alles, was dringend wirkt, ist wirklich dringend", category: "ifs" },
-  { text: "Ich darf mir selbst ein sicherer Ort sein", category: "ifs" },
-  { text: "Auch ungeliebte Teile gehören zu meinem System", category: "ifs" },
-  { text: "Veränderung beginnt oft mit Zuhören", category: "ifs" },
-  { text: "Ich kann meine innere Welt erforschen, ohne sie zu kontrollieren", category: "ifs" },
-  { text: "Manche Teile brauchen Geduld, keine Lösung", category: "ifs" },
-  { text: "Ich darf mir selbst vertrauen lernen", category: "ifs" },
-  { text: "In mir gibt es Ressourcen, auch wenn ich sie gerade nicht spüre", category: "ifs" },
-  { text: "Ich kann mich innerlich führen – Schritt für Schritt", category: "ifs" }
 ];
 
 const categoryLabels: Record<StatementCategory, { label: string; color: string; bg: string }> = {
   selfcare: { label: "Selfcare", color: "text-pink-600", bg: "bg-pink-500/15" },
   gfk: { label: "GfK", color: "text-emerald-600", bg: "bg-emerald-500/15" },
-  ifs: { label: "IFS", color: "text-violet-600", bg: "bg-violet-500/15" },
 };
 
 type Message = { role: "user" | "assistant"; content: string };
