@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X, Sliders, Shield, Zap } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Camera, User, Heart, Brain, Sparkles, MessageSquare, Sun, Clock, Lock, Eye, EyeOff, Check, X, Sliders, Shield, Zap, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -456,6 +456,22 @@ const UserProfile = () => {
                 <div className="flex-1">
                   <h3 className="font-semibold text-base sm:text-lg">{t('userProfile.assistantButton')}</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground">{t('userProfile.assistantButtonDesc')}</p>
+                </div>
+                <ArrowLeft className="h-5 w-5 text-muted-foreground rotate-180 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Reflection Analysis CTA */}
+          <Link to="/reflection-analysis" className="block">
+            <div className="bg-gradient-to-r from-pink-500/10 to-violet-500/10 rounded-xl p-4 sm:p-6 border border-pink-200/30 hover:border-pink-300/50 transition-all group">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 rounded-lg bg-pink-500/10 group-hover:bg-pink-500/20 transition-colors">
+                  <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-pink-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-base sm:text-lg">Reflexions-Analyse</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">Erkenne Muster in deinen Selfcare-, GfK- und IFS-Reflexionen</p>
                 </div>
                 <ArrowLeft className="h-5 w-5 text-muted-foreground rotate-180 group-hover:translate-x-1 transition-transform" />
               </div>

@@ -308,6 +308,42 @@ export type Database = {
         }
         Relationships: []
       }
+      statement_reflections: {
+        Row: {
+          category: string
+          conversation_content: string | null
+          created_at: string
+          difficulty_level: number | null
+          emotional_response: string | null
+          id: string
+          insights: string | null
+          statement: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          conversation_content?: string | null
+          created_at?: string
+          difficulty_level?: number | null
+          emotional_response?: string | null
+          id?: string
+          insights?: string | null
+          statement: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          conversation_content?: string | null
+          created_at?: string
+          difficulty_level?: number | null
+          emotional_response?: string | null
+          id?: string
+          insights?: string | null
+          statement?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       token_usage: {
         Row: {
           created_at: string
