@@ -792,12 +792,15 @@ const SelfcareReflection = () => {
       
       setIsGeneratingSummary(false);
 
+      const reflectionTypeLabel = reflectionMode === 'situation' ? 'Situations-Reflexion' : 'Impuls-Reflexion';
       const insertData: any = {
         user_id: user.id,
         title: title,
         content: content,
-        memory_type: 'selfcare-reflection',
-        summary: `Reflexion über: "${currentStatement?.text}"`,
+        memory_type: reflectionMode === 'situation' ? 'situation-reflection' : 'impulse-reflection',
+        summary: reflectionMode === 'situation' 
+          ? `${reflectionTypeLabel}` 
+          : `${reflectionTypeLabel}: "${currentStatement?.text}"`,
         created_at: new Date().toISOString(),
         summary_requested: true,
         location: saveLocation.trim() || null,
