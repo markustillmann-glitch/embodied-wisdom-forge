@@ -1,15 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Brain, Heart, Sparkles, Target, Users, BookOpen, Lightbulb, Shield, Compass } from 'lucide-react';
-import { PolygonalBackground } from '@/components/PolygonalBackground';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 
 const Modell = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 relative overflow-x-hidden">
-      <PolygonalBackground />
+    <div className="min-h-screen relative overflow-x-hidden">
+      {/* Warm Gradient Background - consistent with SelfcareReflection */}
+      <div 
+        className="fixed inset-0 z-0"
+        style={{
+          background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+        }}
+      />
       
       {/* Header */}
       <div className="relative z-10 flex items-center justify-between px-6 pt-[max(env(safe-area-inset-top,20px),20px)] pb-4">
