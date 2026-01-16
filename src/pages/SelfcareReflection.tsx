@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import ChatMessage from '@/components/ChatMessage';
 import { format, differenceInDays, isToday, isYesterday, startOfDay } from 'date-fns';
 import { de } from 'date-fns/locale';
+import { GamificationDashboard } from '@/components/gamification';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 const SUMMARY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`;
@@ -267,6 +268,9 @@ const SelfcareReflection = () => {
   const [showOngoingConversations, setShowOngoingConversations] = useState(false);
   const [loadingConversations, setLoadingConversations] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  
+  // Gamification state
+  const [showGamification, setShowGamification] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -867,14 +871,27 @@ const SelfcareReflection = () => {
       
       {/* Top Navigation Icons */}
       <div className="relative z-10 flex justify-between items-center px-6 pt-[max(env(safe-area-inset-top,20px),20px)]">
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate('/summaries')}
-          className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
-          aria-label="Tresor öffnen"
-        >
-          <Lock className="w-5 h-5 text-foreground/70" />
-        </motion.button>
+        <div className="flex gap-2">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/summaries')}
+            className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+            aria-label="Tresor öffnen"
+          >
+            <Lock className="w-5 h-5 text-foreground/70" />
+          </motion.button>
+          
+          {user && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowGamification(true)}
+              className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+              aria-label="Fortschritt"
+            >
+              <Gamepad2 className="w-5 h-5 text-foreground/70" />
+            </motion.button>
+          )}
+        </div>
         
         <motion.button
           whileTap={{ scale: 0.95 }}
@@ -1320,6 +1337,12 @@ const SelfcareReflection = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Gamification Dashboard */}
+      <GamificationDashboard 
+        isOpen={showGamification} 
+        onClose={() => setShowGamification(false)} 
+      />
 
       {/* Footer - Hidden on mobile when session started to not interfere with fixed input */}
       <footer className={`py-4 pb-[max(env(safe-area-inset-bottom,16px),16px)] px-4 border-t border-border/30 text-center shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`}>
