@@ -1145,7 +1145,7 @@ const SelfcareReflection = () => {
           )}
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto pb-44 md:pb-4 space-y-3 px-1">
+          <div className="flex-1 overflow-y-auto pb-72 md:pb-4 space-y-3 px-1">
             {messages.map((message, index) => (
               <ChatMessage key={index} content={message.content} role={message.role} />
             ))}
