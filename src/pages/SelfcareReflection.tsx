@@ -1236,15 +1236,15 @@ const SelfcareReflection = () => {
 
       {/* Save Dialog */}
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-md max-h-[85vh] flex flex-col">
+          <DialogHeader className="flex-shrink-0">
             <DialogTitle>Reflexion speichern?</DialogTitle>
             <DialogDescription>
               Möchtest du diese Selfcare-Reflexion in deinem Tresor speichern?
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-4">
+          <div className="space-y-4 overflow-y-auto flex-1 pr-2">
             <Input
               placeholder="Titel (optional)"
               value={saveTitle}
@@ -1296,7 +1296,7 @@ const SelfcareReflection = () => {
               )}
 
               {wantsSummary && generatedSummary && !isGeneratingSummary && (
-                <div className="bg-muted/30 rounded p-3 text-sm">
+                <div className="bg-muted/30 rounded p-3 text-sm max-h-40 overflow-y-auto">
                   <p className="text-foreground leading-relaxed">{generatedSummary.summary_text}</p>
                   <div className="flex flex-wrap gap-1 mt-2">
                     {generatedSummary.needs?.slice(0, 3).map((need: string, i: number) => (
@@ -1324,7 +1324,7 @@ const SelfcareReflection = () => {
             )}
           </div>
 
-          <DialogFooter className="gap-2 sm:gap-0">
+          <DialogFooter className="gap-2 sm:gap-0 flex-shrink-0 pt-4 border-t">
             <Button variant="outline" onClick={skipSave}>
               Verwerfen
             </Button>
