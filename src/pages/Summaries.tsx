@@ -51,6 +51,7 @@ interface SummaryMemory {
   location: string | null;
   created_at: string;
   memory_date: string | null;
+  memory_type: string;
 }
 
 const partTypeLabels: Record<string, { label: string; color: string }> = {
@@ -241,9 +242,9 @@ const Summaries = () => {
     try {
       const { data, error } = await supabase
         .from('memories')
-        .select('id, title, summary, structured_summary, location, created_at, memory_date')
+        .select('id, title, summary, structured_summary, location, created_at, memory_date, memory_type')
         .eq('user_id', user.id)
-        .eq('memory_type', 'selfcare-reflection')
+        .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection'])
         .eq('summary_requested', true)
         .order('created_at', { ascending: false });
 
@@ -476,17 +477,34 @@ const Summaries = () => {
                           {summary.title}
                         </h3>
                         
-                        <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                          {/* Reflection Type Badge */}
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                            summary.memory_type === 'impulse-reflection' 
+                              ? 'bg-amber-500/20 text-amber-700' 
+                              : summary.memory_type === 'situation-reflection'
+                                ? 'bg-blue-500/20 text-blue-700'
+                                : 'bg-purple-500/20 text-purple-700'
+                          }`}>
+                            {summary.memory_type === 'impulse-reflection' ? (
+                              <><Sparkles className="w-3 h-3" /> Impuls</>
+                            ) : summary.memory_type === 'situation-reflection' ? (
+                              <><Brain className="w-3 h-3" /> Situation</>
+                            ) : (
+                              <><Heart className="w-3 h-3" /> Reflexion</>
+                            )}
+                          </span>
+                          
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Calendar className="w-3 h-3" />
                             {format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de })}
                           </span>
-                          <span className="flex items-center gap-1">
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Clock className="w-3 h-3" />
                             {format(new Date(summary.created_at), 'HH:mm', { locale: de })} Uhr
                           </span>
                           {summary.location && (
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-1 text-xs text-muted-foreground">
                               <MapPin className="w-3 h-3" />
                               {summary.location}
                             </span>
