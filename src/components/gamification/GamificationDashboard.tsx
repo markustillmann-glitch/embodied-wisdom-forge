@@ -89,12 +89,12 @@ export const GamificationDashboard = ({ isOpen, onClose }: GamificationDashboard
         gamificationData = newData;
       }
 
-      // Also get actual reflection count from memories
+      // Also get actual reflection count from memories (all reflection types)
       const { count: reflectionCount } = await supabase
         .from('memories')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id)
-        .eq('memory_type', 'selfcare-reflection');
+        .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection']);
 
       setData({
         current_level: gamificationData.current_level || 'observer',
