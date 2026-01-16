@@ -947,88 +947,86 @@ const SelfcareReflection = () => {
             )}
           </div>
 
-          {/* Action Cards - Fan arrangement at bottom */}
-          <div className="relative h-64 sm:h-72 mb-[max(env(safe-area-inset-bottom,32px),32px)]">
-            {/* Left card - Tresor */}
-            <motion.button
-              initial={{ opacity: 0, y: 50, rotate: -15 }}
-              animate={{ opacity: 1, y: 0, rotate: -8 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/summaries')}
-              className="absolute left-4 sm:left-[10%] bottom-12 z-20 origin-bottom"
-            >
-              <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Lock className="w-5 h-5 text-primary" />
-                </div>
-                <span className="text-xs font-medium text-foreground/80 text-center px-2">Mein Tresor</span>
-              </div>
-            </motion.button>
-
-            {/* Center card - Reflektieren starten */}
-            <motion.button
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={startWithDisplayedImpulse}
-              className="absolute left-1/2 bottom-20 -translate-x-1/2 z-30"
-            >
-              <div className="w-28 h-36 sm:w-32 sm:h-40 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl flex flex-col items-center justify-center gap-3 border border-white/50">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-accent" />
-                </div>
-                <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">Reflektieren starten</span>
-              </div>
-            </motion.button>
-
-            {/* Right card - Neuer Impuls */}
-            <motion.button
-              initial={{ opacity: 0, y: 50, rotate: 15 }}
-              animate={{ opacity: 1, y: 0, rotate: 8 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={startSession}
-              className="absolute right-4 sm:right-[10%] bottom-12 z-20 origin-bottom"
-            >
-              <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
-                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                  <RotateCcw className="w-5 h-5 text-muted-foreground" />
-                </div>
-                <span className="text-xs font-medium text-foreground/80 text-center px-2">Neuer Impuls</span>
-              </div>
-            </motion.button>
-
-            {/* Fourth card - Laufende Unterhaltungen */}
-            {ongoingConversations.length > 0 && (
+          {/* Action Cards - Horizontal scroll layout at bottom */}
+          <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)]">
+            <div className="flex gap-3 justify-center flex-wrap">
+              {/* Card - Tresor */}
               <motion.button
-                initial={{ opacity: 0, y: 50, rotate: 12 }}
-                animate={{ opacity: 1, y: 0, rotate: 5 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setShowOngoingConversations(true)}
-                className="absolute right-4 sm:right-[10%] bottom-28 z-15 origin-bottom pointer-events-auto"
+                onClick={() => navigate('/summaries')}
               >
-                <div className="w-20 h-28 sm:w-24 sm:h-32 bg-white/60 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50 relative">
-                  <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
-                    <MessageSquare className="w-4 h-4 text-blue-600" />
+                <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Lock className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Fortsetzen</span>
-                  {/* Badge */}
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-bold text-white">{ongoingConversations.length}</span>
-                  </div>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Mein Tresor</span>
                 </div>
               </motion.button>
-            )}
 
-            {/* Owl mascot at bottom center */}
+              {/* Card - Reflektieren starten */}
+              <motion.button
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={startWithDisplayedImpulse}
+              >
+                <div className="w-28 h-32 sm:w-32 sm:h-36 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl flex flex-col items-center justify-center gap-2 border border-white/50">
+                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                    <Sparkles className="w-6 h-6 text-accent" />
+                  </div>
+                  <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">Reflektieren starten</span>
+                </div>
+              </motion.button>
+
+              {/* Card - Neuer Impuls */}
+              <motion.button
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.5 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={startSession}
+              >
+                <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                    <RotateCcw className="w-5 h-5 text-muted-foreground" />
+                  </div>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Neuer Impuls</span>
+                </div>
+              </motion.button>
+
+              {/* Fourth card - Laufende Unterhaltungen */}
+              {ongoingConversations.length > 0 && (
+                <motion.button
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowOngoingConversations(true)}
+                >
+                  <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/60 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50 relative">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                      <MessageSquare className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Fortsetzen</span>
+                    {/* Badge */}
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">{ongoingConversations.length}</span>
+                    </div>
+                  </div>
+                </motion.button>
+              )}
+            </div>
+
+            {/* Owl mascot */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 pointer-events-none"
+              className="flex justify-center mt-4"
             >
               <div className="w-14 h-14 rounded-full bg-foreground shadow-lg flex items-center justify-center">
                 <img src={bbOwlLogo} alt="Oria" className="w-10 h-10 object-contain" />
