@@ -72,7 +72,7 @@ const Modell = () => {
             className="bg-card/80 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-sm"
           >
             <p className="text-foreground leading-relaxed">
-              Das Handlungsmodell von Inner Guidance Through Lived Memories verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.
+              Das Handlungsmodell hinter der Oria Selfcare App verbindet moderne Neurobiologie und Epigenetik mit praktischer Selbstführungskompetenz.
             </p>
             <p className="text-muted-foreground mt-4 leading-relaxed">
               Kein Ratgeber oder Theoriemodell, sondern Landkarte, praktischer Wegweiser und Transformationshilfe für das menschliche Betriebssystem unter Druck.
