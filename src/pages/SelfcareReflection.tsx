@@ -936,7 +936,7 @@ const SelfcareReflection = () => {
           className="relative z-10 flex-1 flex flex-col"
         >
           {/* Centered Greeting */}
-          <div className="flex-1 flex flex-col items-center justify-center px-8 -mt-20">
+          <div className="flex-1 flex flex-col items-center justify-center px-8 min-h-0">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1027,8 +1027,8 @@ const SelfcareReflection = () => {
           </motion.div>
 
           {/* Action Cards - Horizontal scroll layout at bottom */}
-          <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)]">
-            <div className="flex gap-3 justify-center flex-wrap">
+          <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
+            <div className="flex gap-3 justify-center overflow-x-auto scrollbar-hide pb-2">
               {/* Card - Tresor */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
