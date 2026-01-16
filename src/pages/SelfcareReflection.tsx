@@ -647,7 +647,7 @@ const SelfcareReflection = () => {
       />
       
       {/* Top Navigation Icons */}
-      <div className="relative z-10 flex justify-between items-center px-6 pt-[calc(env(safe-area-inset-top,0px)+16px)]">
+      <div className="relative z-10 flex justify-between items-center px-6 pt-[max(env(safe-area-inset-top,20px),20px)]">
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={() => navigate('/summaries')}
@@ -728,7 +728,7 @@ const SelfcareReflection = () => {
           </div>
 
           {/* Action Cards - Fan arrangement at bottom */}
-          <div className="relative h-64 sm:h-72 mb-8">
+          <div className="relative h-64 sm:h-72 mb-[max(env(safe-area-inset-bottom,32px),32px)]">
             {/* Left card - Frühere Reflektionen */}
             <motion.button
               initial={{ opacity: 0, y: 50, rotate: -15 }}
@@ -1001,7 +1001,7 @@ const SelfcareReflection = () => {
       </Dialog>
 
       {/* Footer - Hidden on mobile when session started to not interfere with fixed input */}
-      <footer className={`py-4 px-4 border-t border-border/30 text-center shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`}>
+      <footer className={`py-4 pb-[max(env(safe-area-inset-bottom,16px),16px)] px-4 border-t border-border/30 text-center shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`}>
         <p className="text-xs text-muted-foreground">
           © 2025 Oria · Selfcare Impulse
         </p>
