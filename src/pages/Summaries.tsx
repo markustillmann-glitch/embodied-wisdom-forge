@@ -1,14 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PolygonalBackground } from '@/components/PolygonalBackground';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
-import bbOwlLogo from '@/assets/bb-owl-new.png';
+import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface StructuredSummary {
   patterns: string[];
@@ -41,18 +60,180 @@ const partTypeLabels: Record<string, { label: string; color: string }> = {
   self: { label: 'Selbst', color: 'bg-green-500/20 text-green-700' },
 };
 
+// Simple hash function for password (client-side, for UX purposes)
+const hashPassword = async (password: string): Promise<string> => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+};
+
 const Summaries = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [summaries, setSummaries] = useState<SummaryMemory[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  
+  // Password protection state
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [hasPassword, setHasPassword] = useState<boolean | null>(null);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [checkingPassword, setCheckingPassword] = useState(true);
+  
+  // Password setup dialog
+  const [showSetPasswordDialog, setShowSetPasswordDialog] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  
+  // Delete confirmation
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
+  // Check if user has a vault password set
   useEffect(() => {
     if (user) {
-      loadSummaries();
+      checkVaultPassword();
     }
   }, [user]);
+
+  const checkVaultPassword = async () => {
+    if (!user) return;
+    setCheckingPassword(true);
+    
+    try {
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('vault_password_hash')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data?.vault_password_hash) {
+        setHasPassword(true);
+        setIsUnlocked(false);
+      } else {
+        setHasPassword(false);
+        setIsUnlocked(true); // No password set, auto-unlock
+        loadSummaries();
+      }
+    } catch (error) {
+      console.error('Error checking vault password:', error);
+      // If no profile exists, no password is set
+      setHasPassword(false);
+      setIsUnlocked(true);
+      loadSummaries();
+    } finally {
+      setCheckingPassword(false);
+    }
+  };
+
+  const unlockVault = async () => {
+    if (!user || !passwordInput) return;
+
+    try {
+      const inputHash = await hashPassword(passwordInput);
+      
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('vault_password_hash')
+        .eq('user_id', user.id)
+        .single();
+
+      if (error) throw error;
+
+      if (data.vault_password_hash === inputHash) {
+        setIsUnlocked(true);
+        setPasswordInput('');
+        loadSummaries();
+        toast.success('Tresor entsperrt');
+      } else {
+        toast.error('Falsches Passwort');
+        setPasswordInput('');
+      }
+    } catch (error) {
+      console.error('Error unlocking vault:', error);
+      toast.error('Fehler beim Entsperren');
+    }
+  };
+
+  const setVaultPassword = async () => {
+    if (!user) return;
+    
+    if (newPassword.length < 4) {
+      toast.error('Passwort muss mindestens 4 Zeichen haben');
+      return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      toast.error('Passwörter stimmen nicht überein');
+      return;
+    }
+
+    try {
+      const passwordHash = await hashPassword(newPassword);
+      
+      // Check if profile exists
+      const { data: existingProfile } = await supabase
+        .from('user_profiles')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (existingProfile) {
+        // Update existing profile
+        const { error } = await supabase
+          .from('user_profiles')
+          .update({ vault_password_hash: passwordHash })
+          .eq('user_id', user.id);
+        
+        if (error) throw error;
+      } else {
+        // Create new profile
+        const { error } = await supabase
+          .from('user_profiles')
+          .insert({ 
+            user_id: user.id, 
+            vault_password_hash: passwordHash 
+          });
+        
+        if (error) throw error;
+      }
+
+      setHasPassword(true);
+      setShowSetPasswordDialog(false);
+      setNewPassword('');
+      setConfirmPassword('');
+      toast.success('Tresor-Passwort gesetzt');
+    } catch (error) {
+      console.error('Error setting vault password:', error);
+      toast.error('Fehler beim Setzen des Passworts');
+    }
+  };
+
+  const removeVaultPassword = async () => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({ vault_password_hash: null })
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setHasPassword(false);
+      setShowSetPasswordDialog(false);
+      toast.success('Passwortschutz entfernt');
+    } catch (error) {
+      console.error('Error removing vault password:', error);
+      toast.error('Fehler beim Entfernen des Passworts');
+    }
+  };
 
   const loadSummaries = async () => {
     if (!user) return;
@@ -68,7 +249,6 @@ const Summaries = () => {
 
       if (error) throw error;
       
-      // Type assertion for the structured_summary field
       const typedData = (data || []).map(item => ({
         ...item,
         structured_summary: item.structured_summary as unknown as StructuredSummary | null
@@ -86,12 +266,104 @@ const Summaries = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const deleteSummary = async (id: string) => {
+    if (!user) return;
+    setDeleting(true);
+
+    try {
+      const { error } = await supabase
+        .from('memories')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setSummaries(prev => prev.filter(s => s.id !== id));
+      setDeleteConfirmId(null);
+      toast.success('Reflexion gelöscht');
+    } catch (error) {
+      console.error('Error deleting summary:', error);
+      toast.error('Fehler beim Löschen');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
-          <p className="text-muted-foreground mb-4">Bitte melde dich an, um deine Zusammenfassungen zu sehen.</p>
+          <p className="text-muted-foreground mb-4">Bitte melde dich an, um deinen Tresor zu öffnen.</p>
           <Button onClick={() => navigate('/auth')}>Anmelden</Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Password entry screen
+  if (checkingPassword) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (hasPassword && !isUnlocked) {
+    return (
+      <div className="min-h-screen bg-background ios-page ios-font">
+        <PolygonalBackground variant="hero" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
+        
+        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-sm"
+          >
+            <div className="bg-card border border-border rounded-2xl p-6 shadow-xl">
+              <div className="flex flex-col items-center mb-6">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <Lock className="w-8 h-8 text-primary" />
+                </div>
+                <h1 className="text-xl font-semibold text-foreground">Tresor entsperren</h1>
+                <p className="text-sm text-muted-foreground mt-1 text-center">
+                  Gib dein Tresor-Passwort ein
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="relative">
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Passwort"
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && unlockVault()}
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                <Button onClick={unlockVault} className="w-full" disabled={!passwordInput}>
+                  <Lock className="w-4 h-4 mr-2" />
+                  Entsperren
+                </Button>
+
+                <Button variant="ghost" onClick={() => navigate('/selfcare')} className="w-full">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Zurück
+                </Button>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -108,7 +380,7 @@ const Summaries = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="mb-6"
+            className="mb-6 flex items-center justify-between"
           >
             <button
               onClick={() => navigate('/selfcare')}
@@ -116,6 +388,15 @@ const Summaries = () => {
             >
               <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
               <span className="ios-body">Zurück</span>
+            </button>
+
+            {/* Settings button for password */}
+            <button
+              onClick={() => setShowSetPasswordDialog(true)}
+              className="w-9 h-9 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center transition-colors"
+              title="Tresor-Einstellungen"
+            >
+              <Settings className="w-4 h-4 text-muted-foreground" />
             </button>
           </motion.div>
 
@@ -140,7 +421,8 @@ const Summaries = () => {
               transition={{ delay: 0.2, duration: 0.4 }}
               className="ios-subhead text-muted-foreground max-w-xl mt-3"
             >
-              Deine gespeicherten Reflexionen sicher aufbewahrt
+              {summaries.length} {summaries.length === 1 ? 'Reflexion' : 'Reflexionen'} sicher aufbewahrt
+              {hasPassword && <span className="ml-2">🔒</span>}
             </motion.p>
           </div>
         </div>
@@ -160,10 +442,10 @@ const Summaries = () => {
           >
             <Sparkles className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
             <p className="text-muted-foreground">
-              Noch keine Zusammenfassungen vorhanden.
+              Dein Tresor ist noch leer.
             </p>
             <p className="text-sm text-muted-foreground/70 mt-2">
-              Starte eine Reflexion und wähle am Ende "Zusammenfassung erstellen".
+              Speichere eine Reflexion, um sie hier zu sehen.
             </p>
             <Button 
               className="mt-6"
@@ -180,53 +462,67 @@ const Summaries = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-card border border-border rounded-xl overflow-hidden"
+                className="bg-card border border-border rounded-xl overflow-hidden group"
               >
                 {/* Preview Header */}
-                <button
-                  onClick={() => toggleExpand(summary.id)}
-                  className="w-full p-4 sm:p-5 text-left hover:bg-muted/30 transition-colors"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-foreground truncate pr-2">
-                        {summary.title}
-                      </h3>
-                      
-                      <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de })}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {format(new Date(summary.created_at), 'HH:mm', { locale: de })} Uhr
-                        </span>
-                        {summary.location && (
+                <div className="relative">
+                  <button
+                    onClick={() => toggleExpand(summary.id)}
+                    className="w-full p-4 sm:p-5 text-left hover:bg-muted/30 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-foreground truncate pr-8">
+                          {summary.title}
+                        </h3>
+                        
+                        <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            {summary.location}
+                            <Calendar className="w-3 h-3" />
+                            {format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de })}
                           </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {format(new Date(summary.created_at), 'HH:mm', { locale: de })} Uhr
+                          </span>
+                          {summary.location && (
+                            <span className="flex items-center gap-1">
+                              <MapPin className="w-3 h-3" />
+                              {summary.location}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Preview Text */}
+                        {summary.structured_summary?.summary_text && expandedId !== summary.id && (
+                          <p className="text-sm text-muted-foreground mt-3 line-clamp-2">
+                            {summary.structured_summary.summary_text}
+                          </p>
                         )}
                       </div>
+                      
+                      <div className="shrink-0">
+                        {expandedId === summary.id ? (
+                          <ChevronUp className="w-5 h-5 text-muted-foreground" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                        )}
+                      </div>
+                    </div>
+                  </button>
 
-                      {/* Preview Text */}
-                      {summary.structured_summary?.summary_text && !expandedId && (
-                        <p className="text-sm text-muted-foreground mt-3 line-clamp-2">
-                          {summary.structured_summary.summary_text}
-                        </p>
-                      )}
-                    </div>
-                    
-                    <div className="shrink-0">
-                      {expandedId === summary.id ? (
-                        <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                      ) : (
-                        <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                      )}
-                    </div>
-                  </div>
-                </button>
+                  {/* Delete button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDeleteConfirmId(summary.id);
+                    }}
+                    className="absolute top-4 right-12 w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Löschen"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-600" />
+                  </button>
+                </div>
 
                 {/* Expanded Content */}
                 <AnimatePresence>
@@ -368,6 +664,19 @@ const Summaries = () => {
                             )}
                           </div>
                         )}
+
+                        {/* Delete button in expanded view */}
+                        <div className="pt-2 border-t border-border">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setDeleteConfirmId(summary.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Reflexion löschen
+                          </Button>
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -377,6 +686,99 @@ const Summaries = () => {
           </div>
         )}
       </section>
+
+      {/* Password Settings Dialog */}
+      <Dialog open={showSetPasswordDialog} onOpenChange={setShowSetPasswordDialog}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <KeyRound className="w-5 h-5 text-primary" />
+              Tresor-Passwort
+            </DialogTitle>
+            <DialogDescription>
+              {hasPassword 
+                ? 'Ändere oder entferne dein Tresor-Passwort' 
+                : 'Schütze deinen Tresor mit einem Passwort'}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <div>
+              <label className="text-sm font-medium text-foreground">Neues Passwort</label>
+              <div className="relative mt-1">
+                <Input
+                  type={showNewPassword ? 'text' : 'password'}
+                  placeholder="Mindestens 4 Zeichen"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-foreground">Passwort bestätigen</label>
+              <Input
+                type="password"
+                placeholder="Passwort wiederholen"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            {hasPassword && (
+              <Button variant="ghost" onClick={removeVaultPassword} className="text-red-600 hover:text-red-700">
+                Passwort entfernen
+              </Button>
+            )}
+            <div className="flex gap-2 flex-1 justify-end">
+              <Button variant="outline" onClick={() => {
+                setShowSetPasswordDialog(false);
+                setNewPassword('');
+                setConfirmPassword('');
+              }}>
+                Abbrechen
+              </Button>
+              <Button onClick={setVaultPassword} disabled={!newPassword || !confirmPassword}>
+                <Lock className="w-4 h-4 mr-2" />
+                Speichern
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={!!deleteConfirmId} onOpenChange={() => setDeleteConfirmId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reflexion löschen?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Diese Aktion kann nicht rückgängig gemacht werden. Die Reflexion wird dauerhaft aus deinem Tresor entfernt.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteConfirmId && deleteSummary(deleteConfirmId)}
+              disabled={deleting}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {deleting ? 'Wird gelöscht...' : 'Löschen'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
