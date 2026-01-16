@@ -897,6 +897,24 @@ const SelfcareReflection = () => {
       {/* Top Navigation Icons */}
       <div className="relative z-10 flex justify-between items-center px-6 pt-[max(env(safe-area-inset-top,20px),20px)]">
         <div className="flex gap-2">
+          {/* Owl as Home Button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              if (sessionStarted) {
+                setSessionStarted(false);
+                setMessages([]);
+                setConversationHistory([]);
+                setCurrentStatement(null);
+                setHideStatementBanner(false);
+              }
+            }}
+            className="w-11 h-11 rounded-full bg-foreground shadow-lg flex items-center justify-center"
+            aria-label="Home"
+          >
+            <img src={bbOwlLogo} alt="Oria" className="w-8 h-8 object-contain" />
+          </motion.button>
+          
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/summaries')}
@@ -989,42 +1007,6 @@ const SelfcareReflection = () => {
             )}
           </div>
 
-          {/* Mode Toggle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="flex justify-center mb-6"
-          >
-            <div className="bg-white/50 backdrop-blur-sm rounded-full p-1 flex gap-1 border border-white/30">
-              <button
-                onClick={() => setReflectionMode('impulse')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  reflectionMode === 'impulse'
-                    ? 'bg-white shadow-sm text-foreground'
-                    : 'text-foreground/60 hover:text-foreground'
-                }`}
-              >
-                <span className="flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4" />
-                  Impuls
-                </span>
-              </button>
-              <button
-                onClick={() => setReflectionMode('situation')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  reflectionMode === 'situation'
-                    ? 'bg-white shadow-sm text-foreground'
-                    : 'text-foreground/60 hover:text-foreground'
-                }`}
-              >
-                <span className="flex items-center gap-1.5">
-                  <MessageSquare className="w-4 h-4" />
-                  Situation
-                </span>
-              </button>
-            </div>
-          </motion.div>
 
           {/* Action Cards - Horizontal scroll layout at bottom */}
           <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
@@ -1108,15 +1090,40 @@ const SelfcareReflection = () => {
               )}
             </div>
 
-            {/* Owl mascot */}
+            {/* Mode Toggle - at bottom */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
               className="flex justify-center mt-4"
             >
-              <div className="w-14 h-14 rounded-full bg-foreground shadow-lg flex items-center justify-center">
-                <img src={bbOwlLogo} alt="Oria" className="w-10 h-10 object-contain" />
+              <div className="bg-white/50 backdrop-blur-sm rounded-full p-1 flex gap-1 border border-white/30">
+                <button
+                  onClick={() => setReflectionMode('impulse')}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    reflectionMode === 'impulse'
+                      ? 'bg-white shadow-sm text-foreground'
+                      : 'text-foreground/60 hover:text-foreground'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4" />
+                    Impuls
+                  </span>
+                </button>
+                <button
+                  onClick={() => setReflectionMode('situation')}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    reflectionMode === 'situation'
+                      ? 'bg-white shadow-sm text-foreground'
+                      : 'text-foreground/60 hover:text-foreground'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <MessageSquare className="w-4 h-4" />
+                    Situation
+                  </span>
+                </button>
               </div>
             </motion.div>
           </div>
