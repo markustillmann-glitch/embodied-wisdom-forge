@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PolygonalBackground } from '@/components/PolygonalBackground';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { toast } from 'sonner';
@@ -313,9 +312,14 @@ const Summaries = () => {
 
   if (hasPassword && !isUnlocked) {
     return (
-      <div className="min-h-screen bg-background ios-page ios-font">
-        <PolygonalBackground variant="hero" />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
+      <div className="min-h-screen ios-page ios-font relative overflow-hidden">
+        {/* Warm Gradient Background */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+          }}
+        />
         
         <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
           <motion.div
@@ -371,11 +375,17 @@ const Summaries = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background ios-page ios-font">
+    <div className="min-h-screen ios-page ios-font relative overflow-hidden">
+      {/* Warm Gradient Background - consistent with SelfcareReflection */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+        }}
+      />
+      
       {/* iOS-style Hero Section */}
-      <section className="pt-[calc(env(safe-area-inset-top,0px)+44px)] pb-6 sm:pt-24 sm:pb-10 relative overflow-hidden">
-        <PolygonalBackground variant="hero" />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background/80" />
+      <section className="pt-[calc(env(safe-area-inset-top,0px)+44px)] pb-6 sm:pt-24 sm:pb-10 relative z-10">
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
           <motion.div
@@ -430,7 +440,7 @@ const Summaries = () => {
       </section>
 
       {/* Summaries List */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-[max(env(safe-area-inset-bottom,20px),20px)]">
+      <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-[max(env(safe-area-inset-bottom,20px),20px)]">
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
