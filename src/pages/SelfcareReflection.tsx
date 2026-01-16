@@ -1108,13 +1108,31 @@ const SelfcareReflection = () => {
                 <span className="text-base">Nachricht senden</span>
               </motion.button>
               
-              <div className="flex gap-2 justify-center">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <button 
-                  onClick={resetSession}
-                  className="text-foreground/60 text-sm flex items-center gap-1.5"
+                  onClick={() => setShowSaveDialog(true)}
+                  className="text-foreground/70 text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/40 hover:bg-white/60 transition-colors"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  Neuer Impuls
+                  <Save className="w-3.5 h-3.5" />
+                  Im Tresor speichern
+                </button>
+                <button 
+                  onClick={async () => {
+                    await saveConversationToDb(messages, currentStatement?.text || '', currentConversationId || undefined);
+                    toast.success('Unterhaltung gespeichert');
+                    navigate('/');
+                  }}
+                  className="text-foreground/70 text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/40 hover:bg-white/60 transition-colors"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  Später fortsetzen
+                </button>
+                <button 
+                  onClick={() => navigate('/')}
+                  className="text-foreground/70 text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/40 hover:bg-white/60 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  Zurück
                 </button>
               </div>
             </div>
