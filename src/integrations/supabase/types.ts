@@ -389,6 +389,63 @@ export type Database = {
         }
         Relationships: []
       }
+      user_gamification: {
+        Row: {
+          collected_needs: Json
+          created_at: string
+          current_level: string
+          current_streak: number
+          garden_plants: Json
+          id: string
+          last_reflection_date: string | null
+          longest_streak: number
+          milestones_earned: Json
+          reflection_depth_score: number
+          total_reflections: number
+          updated_at: string
+          user_id: string
+          week_start_date: string | null
+          weekly_reflection_count: number
+          weekly_topics: Json
+        }
+        Insert: {
+          collected_needs?: Json
+          created_at?: string
+          current_level?: string
+          current_streak?: number
+          garden_plants?: Json
+          id?: string
+          last_reflection_date?: string | null
+          longest_streak?: number
+          milestones_earned?: Json
+          reflection_depth_score?: number
+          total_reflections?: number
+          updated_at?: string
+          user_id: string
+          week_start_date?: string | null
+          weekly_reflection_count?: number
+          weekly_topics?: Json
+        }
+        Update: {
+          collected_needs?: Json
+          created_at?: string
+          current_level?: string
+          current_streak?: number
+          garden_plants?: Json
+          id?: string
+          last_reflection_date?: string | null
+          longest_streak?: number
+          milestones_earned?: Json
+          reflection_depth_score?: number
+          total_reflections?: number
+          updated_at?: string
+          user_id?: string
+          week_start_date?: string | null
+          weekly_reflection_count?: number
+          weekly_topics?: Json
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           belonging_through: string[] | null
