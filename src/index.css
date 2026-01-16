@@ -171,4 +171,28 @@
   .content-gap {
     gap: var(--content-gap);
   }
+
+  /* Global safe area utilities */
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top, 20px), 20px);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 20px), 20px);
+  }
+
+  .safe-area-left {
+    padding-left: max(env(safe-area-inset-left, 0px), 0px);
+  }
+
+  .safe-area-right {
+    padding-right: max(env(safe-area-inset-right, 0px), 0px);
+  }
+
+  .safe-area-all {
+    padding-top: max(env(safe-area-inset-top, 20px), 20px);
+    padding-bottom: max(env(safe-area-inset-bottom, 20px), 20px);
+    padding-left: max(env(safe-area-inset-left, 0px), 0px);
+    padding-right: max(env(safe-area-inset-right, 0px), 0px);
+  }
 }

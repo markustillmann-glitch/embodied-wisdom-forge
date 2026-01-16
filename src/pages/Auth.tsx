@@ -302,8 +302,8 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <header className="px-6 py-4">
+    <div className="min-h-screen bg-background flex flex-col safe-area-all">
+      <header className="px-6 py-4 safe-area-top">
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-4 w-4" />
           {t('nav.toHome')}

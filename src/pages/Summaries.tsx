@@ -429,7 +429,7 @@ const Summaries = () => {
       </section>
 
       {/* Summaries List */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-20">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-[max(env(safe-area-inset-bottom,20px),20px)]">
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
