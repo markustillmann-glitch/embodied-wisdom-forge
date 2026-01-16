@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -171,6 +171,17 @@ type SelfcareMemory = {
   created_at: string;
 };
 
+// Type for ongoing conversations
+type OngoingConversation = {
+  id: string;
+  title: string | null;
+  created_at: string;
+  updated_at: string;
+  statement?: string;
+  messageCount?: number;
+  lastMessage?: string;
+};
+
 // Gamification: Calculate streak from reflections
 const calculateStreak = (memories: SelfcareMemory[]): number => {
   if (memories.length === 0) return 0;
@@ -250,6 +261,12 @@ const SelfcareReflection = () => {
     const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
     return SELFCARE_STATEMENTS[randomIndex];
   });
+  
+  // Ongoing conversations state
+  const [ongoingConversations, setOngoingConversations] = useState<OngoingConversation[]>([]);
+  const [showOngoingConversations, setShowOngoingConversations] = useState(false);
+  const [loadingConversations, setLoadingConversations] = useState(false);
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -263,6 +280,7 @@ const SelfcareReflection = () => {
   useEffect(() => {
     if (user) {
       loadPastReflections();
+      loadOngoingConversations();
     }
   }, [user]);
 
@@ -294,6 +312,180 @@ const SelfcareReflection = () => {
       console.error('Error loading past reflections:', error);
     } finally {
       setLoadingPast(false);
+    }
+  };
+
+  // Load ongoing conversations
+  const loadOngoingConversations = async () => {
+    if (!user) return;
+    setLoadingConversations(true);
+    try {
+      // Get conversations with message count
+      const { data: conversations, error } = await supabase
+        .from('conversations')
+        .select('id, title, created_at, updated_at')
+        .eq('user_id', user.id)
+        .order('updated_at', { ascending: false })
+        .limit(20);
+
+      if (error) throw error;
+
+      // Get message counts and last messages for each conversation
+      const conversationsWithDetails = await Promise.all(
+        (conversations || []).map(async (conv) => {
+          const { data: messages, error: msgError } = await supabase
+            .from('messages')
+            .select('content, role')
+            .eq('conversation_id', conv.id)
+            .order('created_at', { ascending: false })
+            .limit(10);
+
+          const lastUserMessage = messages?.find(m => m.role === 'user');
+          
+          return {
+            ...conv,
+            messageCount: messages?.length || 0,
+            lastMessage: lastUserMessage?.content?.substring(0, 80) || conv.title || 'Keine Nachrichten',
+          };
+        })
+      );
+
+      setOngoingConversations(conversationsWithDetails);
+    } catch (error) {
+      console.error('Error loading ongoing conversations:', error);
+    } finally {
+      setLoadingConversations(false);
+    }
+  };
+
+  // Save current conversation to database
+  const saveConversationToDb = async (msgs: Message[], statement: string, convId?: string) => {
+    if (!user || msgs.length < 2) return convId || null;
+
+    try {
+      let conversationId = convId;
+      
+      if (!conversationId) {
+        // Create new conversation
+        const title = statement ? `${statement.substring(0, 50)}...` : 'Selfcare-Reflexion';
+        const { data: newConv, error: convError } = await supabase
+          .from('conversations')
+          .insert({
+            user_id: user.id,
+            title: title,
+          })
+          .select('id')
+          .single();
+
+        if (convError) throw convError;
+        conversationId = newConv.id;
+        setCurrentConversationId(conversationId);
+      } else {
+        // Update timestamp
+        await supabase
+          .from('conversations')
+          .update({ updated_at: new Date().toISOString() })
+          .eq('id', conversationId);
+      }
+
+      // Delete existing messages and insert all
+      await supabase
+        .from('messages')
+        .delete()
+        .eq('conversation_id', conversationId);
+
+      const messagesToInsert = msgs.map((msg, index) => ({
+        conversation_id: conversationId,
+        role: msg.role,
+        content: msg.content,
+        created_at: new Date(Date.now() + index).toISOString(),
+      }));
+
+      const { error: msgError } = await supabase
+        .from('messages')
+        .insert(messagesToInsert);
+
+      if (msgError) throw msgError;
+
+      return conversationId;
+    } catch (error) {
+      console.error('Error saving conversation:', error);
+      return convId || null;
+    }
+  };
+
+  // Resume a conversation
+  const resumeConversation = async (conversationId: string) => {
+    if (!user) return;
+
+    try {
+      // Load conversation
+      const { data: conv, error: convError } = await supabase
+        .from('conversations')
+        .select('*')
+        .eq('id', conversationId)
+        .single();
+
+      if (convError) throw convError;
+
+      // Load messages
+      const { data: msgs, error: msgError } = await supabase
+        .from('messages')
+        .select('role, content')
+        .eq('conversation_id', conversationId)
+        .order('created_at', { ascending: true });
+
+      if (msgError) throw msgError;
+
+      const loadedMessages: Message[] = (msgs || []).map(m => ({
+        role: m.role as 'user' | 'assistant',
+        content: m.content,
+      }));
+
+      // Extract statement from title if possible
+      const titleMatch = conv.title?.match(/^(.+?)\.\.\.$/);
+      const statementText = titleMatch ? titleMatch[1] : conv.title || 'Selfcare-Reflexion';
+      
+      setCurrentStatement({ text: statementText, category: 'selfcare' });
+      setMessages(loadedMessages);
+      setConversationHistory(loadedMessages);
+      setCurrentConversationId(conversationId);
+      setSessionStarted(true);
+      setHideStatementBanner(true);
+      setShowOngoingConversations(false);
+
+      toast.success('Unterhaltung wird fortgesetzt');
+    } catch (error) {
+      console.error('Error resuming conversation:', error);
+      toast.error('Fehler beim Laden der Unterhaltung');
+    }
+  };
+
+  // Delete a conversation
+  const deleteConversation = async (conversationId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+
+    try {
+      // Delete messages first (cascade should handle this, but just in case)
+      await supabase
+        .from('messages')
+        .delete()
+        .eq('conversation_id', conversationId);
+
+      // Delete conversation
+      const { error } = await supabase
+        .from('conversations')
+        .delete()
+        .eq('id', conversationId);
+
+      if (error) throw error;
+
+      setOngoingConversations(prev => prev.filter(c => c.id !== conversationId));
+      toast.success('Unterhaltung gelöscht');
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      toast.error('Fehler beim Löschen');
     }
   };
 
@@ -429,15 +621,26 @@ const SelfcareReflection = () => {
         }
       }
 
-      setConversationHistory((prev) => {
-        const last = prev[prev.length - 1];
-        if (last?.role === "assistant") {
-          return prev.map((m, i) =>
-            i === prev.length - 1 ? { ...m, content: assistantMessage } : m
+      const finalHistory = (() => {
+        const last = [...history, { role: "user" as const, content: userMessage }];
+        const lastMsg = last[last.length - 1];
+        if (lastMsg?.role === "assistant") {
+          return last.map((m, i) =>
+            i === last.length - 1 ? { ...m, content: assistantMessage } : m
           );
         }
-        return [...prev, { role: "assistant", content: assistantMessage }];
-      });
+        return [...last, { role: "assistant" as const, content: assistantMessage }];
+      })();
+      
+      setConversationHistory(finalHistory);
+      
+      // Auto-save conversation after each exchange
+      if (user && finalHistory.length >= 2) {
+        const savedId = await saveConversationToDb(finalHistory, statement, currentConversationId || undefined);
+        if (savedId && !currentConversationId) {
+          setCurrentConversationId(savedId);
+        }
+      }
     } catch (error) {
       console.error('Error in chat:', error);
       toast.error('Fehler bei der Verbindung zu Oria. Bitte versuche es erneut.');
@@ -582,6 +785,12 @@ const SelfcareReflection = () => {
 
       if (error) throw error;
 
+      // Delete the ongoing conversation since it's now saved to vault
+      if (currentConversationId) {
+        await supabase.from('messages').delete().eq('conversation_id', currentConversationId);
+        await supabase.from('conversations').delete().eq('id', currentConversationId);
+      }
+
       // Check for streak achievements
       const newStreak = streak + (reflectedToday ? 0 : 1);
       if (newStreak === 3) {
@@ -591,7 +800,7 @@ const SelfcareReflection = () => {
       } else if (newStreak === 30) {
         toast.success('🏆 Meister! 30 Tage in Folge reflektiert!');
       } else {
-        toast.success('Reflexion mit Zusammenfassung gespeichert 💫');
+        toast.success('Reflexion im Tresor gespeichert 💫');
       }
 
       setShowSaveDialog(false);
@@ -603,7 +812,9 @@ const SelfcareReflection = () => {
       setMessages([]);
       setConversationHistory([]);
       setCurrentStatement(null);
+      setCurrentConversationId(null);
       loadPastReflections(); // Reload to update stats
+      loadOngoingConversations(); // Reload ongoing conversations
     } catch (error) {
       console.error('Error saving:', error);
       toast.error('Fehler beim Speichern');
@@ -611,7 +822,14 @@ const SelfcareReflection = () => {
     }
   };
 
-  const skipSave = () => {
+  const skipSave = async () => {
+    // Delete the ongoing conversation when skipping
+    if (currentConversationId) {
+      await supabase.from('messages').delete().eq('conversation_id', currentConversationId);
+      await supabase.from('conversations').delete().eq('id', currentConversationId);
+      loadOngoingConversations();
+    }
+    
     setShowSaveDialog(false);
     setSaveTitle("");
     setSaveLocation("");
@@ -621,6 +839,7 @@ const SelfcareReflection = () => {
     setMessages([]);
     setConversationHistory([]);
     setCurrentStatement(null);
+    setCurrentConversationId(null);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -781,22 +1000,28 @@ const SelfcareReflection = () => {
               </div>
             </motion.button>
 
-            {/* Fourth card - Tresor */}
-            <motion.button
-              initial={{ opacity: 0, y: 50, rotate: -12 }}
-              animate={{ opacity: 1, y: 0, rotate: -5 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/summaries')}
-              className="absolute left-4 sm:left-[10%] bottom-28 z-15 origin-bottom pointer-events-auto"
-            >
-              <div className="w-20 h-28 sm:w-24 sm:h-32 bg-white/60 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
-                  <Save className="w-4 h-4 text-amber-600" />
+            {/* Fourth card - Laufende Unterhaltungen */}
+            {ongoingConversations.length > 0 && (
+              <motion.button
+                initial={{ opacity: 0, y: 50, rotate: 12 }}
+                animate={{ opacity: 1, y: 0, rotate: 5 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowOngoingConversations(true)}
+                className="absolute right-4 sm:right-[10%] bottom-28 z-15 origin-bottom pointer-events-auto"
+              >
+                <div className="w-20 h-28 sm:w-24 sm:h-32 bg-white/60 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50 relative">
+                  <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
+                    <MessageSquare className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Fortsetzen</span>
+                  {/* Badge */}
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-xs font-bold text-white">{ongoingConversations.length}</span>
+                  </div>
                 </div>
-                <span className="text-xs font-medium text-foreground/80 text-center px-2">Tresor</span>
-              </div>
-            </motion.button>
+              </motion.button>
+            )}
 
             {/* Owl mascot at bottom center */}
             <motion.div
@@ -996,6 +1221,83 @@ const SelfcareReflection = () => {
             >
               <Save className="w-4 h-4 mr-1" />
               Speichern
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Ongoing Conversations Modal */}
+      <Dialog open={showOngoingConversations} onOpenChange={setShowOngoingConversations}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-blue-500" />
+              Laufende Unterhaltungen
+            </DialogTitle>
+            <DialogDescription>
+              Setze eine frühere Unterhaltung fort
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex-1 overflow-y-auto -mx-6 px-6">
+            {loadingConversations ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              </div>
+            ) : ongoingConversations.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <MessageSquare className="w-10 h-10 mx-auto mb-2 opacity-30" />
+                <p>Keine laufenden Unterhaltungen</p>
+              </div>
+            ) : (
+              <div className="space-y-2 py-2">
+                {ongoingConversations.map((conv) => (
+                  <motion.div
+                    key={conv.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="group relative"
+                  >
+                    <button
+                      onClick={() => resumeConversation(conv.id)}
+                      className="w-full text-left p-3 bg-muted/30 hover:bg-muted/50 rounded-xl transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                          <Play className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm text-foreground truncate pr-8">
+                            {conv.title || 'Selfcare-Reflexion'}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                            {conv.lastMessage}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground">
+                            <span>{format(new Date(conv.updated_at), 'dd.MM.yyyy', { locale: de })}</span>
+                            <span>·</span>
+                            <span>{conv.messageCount} Nachrichten</span>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                    
+                    {/* Delete button */}
+                    <button
+                      onClick={(e) => deleteConversation(conv.id, e)}
+                      className="absolute top-3 right-3 w-7 h-7 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-red-600" />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="mt-4">
+            <Button variant="outline" onClick={() => setShowOngoingConversations(false)}>
+              Schließen
             </Button>
           </DialogFooter>
         </DialogContent>
