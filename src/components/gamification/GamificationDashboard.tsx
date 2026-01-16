@@ -62,7 +62,7 @@ export const GamificationDashboard = ({ isOpen, onClose }: GamificationDashboard
     
     setLoading(true);
     try {
-      // First, try to get existing data
+      // First, try to get existing gamification data
       let { data: gamificationData, error } = await supabase
         .from('user_gamification')
         .select('*')
@@ -89,23 +89,119 @@ export const GamificationDashboard = ({ isOpen, onClose }: GamificationDashboard
         gamificationData = newData;
       }
 
-      // Also get actual reflection count from memories (all reflection types)
+      // Get actual reflection count from memories (all reflection types)
       const { count: reflectionCount } = await supabase
         .from('memories')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id)
         .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection']);
 
+      // Get all reflections for streak and weekly calculation
+      const { data: allReflections } = await supabase
+        .from('memories')
+        .select('created_at, structured_summary')
+        .eq('user_id', user.id)
+        .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection'])
+        .order('created_at', { ascending: false });
+
+      // Calculate streak from actual reflection dates
+      let currentStreak = 0;
+      let longestStreak = 0;
+      
+      if (allReflections && allReflections.length > 0) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        // Get unique dates (normalized to start of day)
+        const uniqueDates = [...new Set(
+          allReflections.map(r => {
+            const d = new Date(r.created_at);
+            d.setHours(0, 0, 0, 0);
+            return d.getTime();
+          })
+        )].sort((a, b) => b - a); // Sort descending (newest first)
+
+        // Calculate current streak
+        const oneDayMs = 24 * 60 * 60 * 1000;
+        let streakCount = 0;
+        let expectedDate = today.getTime();
+        
+        // Check if reflected today or yesterday
+        if (uniqueDates[0] === today.getTime() || uniqueDates[0] === today.getTime() - oneDayMs) {
+          if (uniqueDates[0] === today.getTime() - oneDayMs) {
+            expectedDate = today.getTime() - oneDayMs;
+          }
+          
+          for (const dateTime of uniqueDates) {
+            if (dateTime === expectedDate) {
+              streakCount++;
+              expectedDate -= oneDayMs;
+            } else if (dateTime < expectedDate) {
+              break;
+            }
+          }
+        }
+        currentStreak = streakCount;
+
+        // Calculate longest streak
+        let tempStreak = 1;
+        const sortedDatesAsc = [...uniqueDates].sort((a, b) => a - b);
+        for (let i = 1; i < sortedDatesAsc.length; i++) {
+          if (sortedDatesAsc[i] - sortedDatesAsc[i - 1] === oneDayMs) {
+            tempStreak++;
+          } else {
+            longestStreak = Math.max(longestStreak, tempStreak);
+            tempStreak = 1;
+          }
+        }
+        longestStreak = Math.max(longestStreak, tempStreak, currentStreak);
+      }
+
+      // Calculate weekly reflection count (current week)
+      const weekStart = new Date();
+      weekStart.setHours(0, 0, 0, 0);
+      weekStart.setDate(weekStart.getDate() - weekStart.getDay() + (weekStart.getDay() === 0 ? -6 : 1)); // Monday
+      
+      const weeklyReflections = allReflections?.filter(r => 
+        new Date(r.created_at) >= weekStart
+      ) || [];
+
+      // Extract needs from structured summaries
+      const collectedNeeds: CollectedNeed[] = [];
+      const needsMap = new Map<string, { count: number; firstSeenAt: string }>();
+      
+      allReflections?.forEach(r => {
+        const summary = r.structured_summary as any;
+        if (summary?.needs && Array.isArray(summary.needs)) {
+          summary.needs.forEach((need: string) => {
+            const existing = needsMap.get(need);
+            if (existing) {
+              existing.count++;
+            } else {
+              needsMap.set(need, { count: 1, firstSeenAt: r.created_at });
+            }
+          });
+        }
+      });
+
+      needsMap.forEach((value, key) => {
+        collectedNeeds.push({
+          name: key,
+          count: value.count,
+          firstSeenAt: value.firstSeenAt
+        });
+      });
+
       setData({
         current_level: gamificationData.current_level || 'observer',
-        total_reflections: reflectionCount || gamificationData.total_reflections || 0,
+        total_reflections: reflectionCount || 0,
         reflection_depth_score: gamificationData.reflection_depth_score || 0,
-        current_streak: gamificationData.current_streak || 0,
-        longest_streak: gamificationData.longest_streak || 0,
+        current_streak: currentStreak,
+        longest_streak: longestStreak,
         garden_plants: (gamificationData.garden_plants as unknown as Plant[]) || [],
-        collected_needs: (gamificationData.collected_needs as unknown as CollectedNeed[]) || [],
+        collected_needs: collectedNeeds,
         milestones_earned: (gamificationData.milestones_earned as unknown as string[]) || [],
-        weekly_reflection_count: gamificationData.weekly_reflection_count || 0,
+        weekly_reflection_count: weeklyReflections.length,
         weekly_topics: (gamificationData.weekly_topics as unknown as WeeklyTopic[]) || [],
       });
     } catch (error) {
