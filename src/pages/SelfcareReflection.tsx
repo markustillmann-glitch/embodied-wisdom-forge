@@ -1092,8 +1092,9 @@ const SelfcareReflection = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Teile deine Gedanken..."
-                className="min-h-[50px] max-h-28 resize-none w-full rounded-2xl border-white/50 bg-white/60 backdrop-blur-sm"
+                className="h-[100px] min-h-[100px] max-h-[100px] resize-none w-full rounded-2xl border-white/50 bg-white/60 backdrop-blur-sm overflow-y-auto"
                 disabled={isLoading}
+                rows={3}
               />
               
               <motion.button 
