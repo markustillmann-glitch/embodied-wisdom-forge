@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -126,13 +126,11 @@ const Summaries = () => {
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex items-center gap-2 sm:gap-4"
             >
-              <img
-                src={bbOwlLogo}
-                alt="Oria"
-                className="h-7 sm:h-10 w-auto object-contain"
-              />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              </div>
               <h1 className="ios-title-1 sm:ios-large-title text-foreground">
-                Meine Zusammenfassungen
+                Mein Tresor
               </h1>
             </motion.div>
 
@@ -142,7 +140,7 @@ const Summaries = () => {
               transition={{ delay: 0.2, duration: 0.4 }}
               className="ios-subhead text-muted-foreground max-w-xl mt-3"
             >
-              Deine Reflexionen mit Oria-Modell Analyse
+              Deine gespeicherten Reflexionen sicher aufbewahrt
             </motion.p>
           </div>
         </div>

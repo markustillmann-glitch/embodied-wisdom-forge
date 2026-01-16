@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, BookOpen } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -652,8 +652,9 @@ const SelfcareReflection = () => {
           whileTap={{ scale: 0.95 }}
           onClick={() => navigate('/summaries')}
           className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+          aria-label="Tresor öffnen"
         >
-          <BookOpen className="w-5 h-5 text-foreground/70" />
+          <Lock className="w-5 h-5 text-foreground/70" />
         </motion.button>
         
         <motion.button
@@ -729,7 +730,7 @@ const SelfcareReflection = () => {
 
           {/* Action Cards - Fan arrangement at bottom */}
           <div className="relative h-64 sm:h-72 mb-[max(env(safe-area-inset-bottom,32px),32px)]">
-            {/* Left card - Frühere Reflektionen */}
+            {/* Left card - Tresor */}
             <motion.button
               initial={{ opacity: 0, y: 50, rotate: -15 }}
               animate={{ opacity: 1, y: 0, rotate: -8 }}
@@ -739,10 +740,10 @@ const SelfcareReflection = () => {
               className="absolute left-4 sm:left-[10%] bottom-12 z-20 origin-bottom"
             >
               <div className="w-24 h-32 sm:w-28 sm:h-36 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg flex flex-col items-center justify-center gap-3 border border-white/50">
-                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-muted-foreground" />
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Lock className="w-5 h-5 text-primary" />
                 </div>
-                <span className="text-xs font-medium text-foreground/80 text-center px-2">Frühere Reflektionen</span>
+                <span className="text-xs font-medium text-foreground/80 text-center px-2">Mein Tresor</span>
               </div>
             </motion.button>
 
@@ -978,8 +979,8 @@ const SelfcareReflection = () => {
                 }}
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <BookOpen className="w-4 h-4" />
-                <span>Alle Zusammenfassungen anzeigen</span>
+                <Lock className="w-4 h-4" />
+                <span>Zum Tresor</span>
               </button>
             )}
           </div>
