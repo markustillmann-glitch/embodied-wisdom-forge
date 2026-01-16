@@ -251,6 +251,7 @@ const SelfcareReflection = () => {
   const [saveLocation, setSaveLocation] = useState("");
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [generatedSummary, setGeneratedSummary] = useState<any>(null);
+  const [isSaving, setIsSaving] = useState(false);
   
   // Past reflections state
   const [pastReflections, setPastReflections] = useState<SelfcareMemory[]>([]);
@@ -758,6 +759,8 @@ const SelfcareReflection = () => {
       return;
     }
 
+    setIsSaving(true);
+
     const content = conversationHistory
       .map(m => `${m.role === 'user' ? 'Du' : 'Oria'}: ${m.content}`)
       .join('\n\n');
@@ -766,7 +769,6 @@ const SelfcareReflection = () => {
 
     try {
       // Always generate summary when saving
-      setIsGeneratingSummary(true);
       let summaryData = null;
       
       try {
@@ -789,8 +791,6 @@ const SelfcareReflection = () => {
         console.error('Error generating summary:', summaryError);
         // Continue saving even if summary fails
       }
-      
-      setIsGeneratingSummary(false);
 
       const reflectionTypeLabel = reflectionMode === 'situation' ? 'Situations-Reflexion' : 'Impuls-Reflexion';
       const insertData: any = {
@@ -847,7 +847,8 @@ const SelfcareReflection = () => {
     } catch (error) {
       console.error('Error saving:', error);
       toast.error('Fehler beim Speichern');
-      setIsGeneratingSummary(false);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -1329,11 +1330,20 @@ const SelfcareReflection = () => {
             </Button>
             <Button 
               onClick={saveToVault} 
-              disabled={wantsSummary && isGeneratingSummary}
+              disabled={isSaving || (wantsSummary && isGeneratingSummary)}
               className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
-              <Save className="w-4 h-4 mr-1" />
-              Speichern
+              {isSaving ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-1"></div>
+                  Speichern...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-1" />
+                  Speichern
+                </>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
