@@ -252,6 +252,7 @@ const SelfcareReflection = () => {
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [generatedSummary, setGeneratedSummary] = useState<any>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [summaryExpanded, setSummaryExpanded] = useState(false);
   
   // Past reflections state
   const [pastReflections, setPastReflections] = useState<SelfcareMemory[]>([]);
@@ -1296,15 +1297,29 @@ const SelfcareReflection = () => {
               )}
 
               {wantsSummary && generatedSummary && !isGeneratingSummary && (
-                <div className="bg-muted/30 rounded p-3 text-sm max-h-40 overflow-y-auto">
-                  <p className="text-foreground leading-relaxed">{generatedSummary.summary_text}</p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {generatedSummary.needs?.slice(0, 3).map((need: string, i: number) => (
-                      <span key={i} className="px-2 py-0.5 bg-pink-500/10 text-pink-700 text-xs rounded-full">
-                        {need}
-                      </span>
-                    ))}
+                <div className="bg-muted/30 rounded p-3 text-sm">
+                  <div className="text-foreground leading-relaxed">
+                    {summaryExpanded ? (
+                      <p>{generatedSummary.summary_text}</p>
+                    ) : (
+                      <p>{generatedSummary.summary_text?.split(' ').slice(0, 10).join(' ')}...</p>
+                    )}
                   </div>
+                  <button
+                    onClick={() => setSummaryExpanded(!summaryExpanded)}
+                    className="text-xs text-accent hover:text-accent/80 mt-1 flex items-center gap-1"
+                  >
+                    {summaryExpanded ? 'Weniger anzeigen' : 'Mehr anzeigen'}
+                  </button>
+                  {summaryExpanded && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {generatedSummary.needs?.slice(0, 3).map((need: string, i: number) => (
+                        <span key={i} className="px-2 py-0.5 bg-pink-500/10 text-pink-700 text-xs rounded-full">
+                          {need}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
