@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Auth from "./pages/Auth";
 import SelfcareReflection from "./pages/SelfcareReflection";
 import Summaries from "./pages/Summaries";
+import Modell from "./pages/Modell";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
               <Route path="/" element={<Navigate to="/selfcare" replace />} />
               <Route path="/selfcare" element={<SelfcareReflection />} />
               <Route path="/summaries" element={<Summaries />} />
+              <Route path="/modell" element={<Modell />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
