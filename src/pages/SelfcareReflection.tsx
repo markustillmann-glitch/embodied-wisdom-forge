@@ -300,7 +300,7 @@ const SelfcareReflection = () => {
         .from('memories')
         .select('id, title, content, memory_date, summary, created_at')
         .eq('user_id', user.id)
-        .eq('memory_type', 'selfcare-reflection')
+        .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection'])
         .order('created_at', { ascending: false })
         .limit(50);
 
