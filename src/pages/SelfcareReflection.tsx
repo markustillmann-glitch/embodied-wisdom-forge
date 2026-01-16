@@ -271,6 +271,10 @@ const SelfcareReflection = () => {
   
   // Gamification state
   const [showGamification, setShowGamification] = useState(false);
+  
+  // Reflection mode state
+  type ReflectionMode = 'impulse' | 'situation';
+  const [reflectionMode, setReflectionMode] = useState<ReflectionMode>('impulse');
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -552,7 +556,7 @@ const SelfcareReflection = () => {
     setConversationHistory([openingMessage]);
   };
 
-  const streamChat = async (userMessage: string, history: Message[], statement: string) => {
+  const streamChat = async (userMessage: string, history: Message[], statement: string, mode: ReflectionMode = 'impulse') => {
     setIsLoading(true);
     
     const allMessages = [...history, { role: "user" as const, content: userMessage }];
@@ -569,7 +573,8 @@ const SelfcareReflection = () => {
         body: JSON.stringify({ 
           messages: allMessages,
           userId: user?.id,
-          statement: statement
+          statement: statement,
+          mode: mode
         }),
       });
 
@@ -682,7 +687,24 @@ const SelfcareReflection = () => {
     if (!input.trim() || isLoading) return;
     const userMessage = input.trim();
     setInput("");
-    streamChat(userMessage, conversationHistory, currentStatement?.text || "");
+    streamChat(userMessage, conversationHistory, currentStatement?.text || "", reflectionMode);
+  };
+  
+  // Start situation reflection mode
+  const startSituationReflection = () => {
+    setReflectionMode('situation');
+    setCurrentStatement({ text: 'Konkrete Situation reflektieren', category: 'selfcare' });
+    setSessionStarted(true);
+    setHideStatementBanner(true);
+    
+    // Initial message from Oria for situation mode
+    const openingMessage: Message = {
+      role: "assistant",
+      content: "Hallo 💛 Schön, dass du da bist. Erzähl mir von der Situation, die dich gerade beschäftigt – was ist passiert?"
+    };
+    
+    setMessages([openingMessage]);
+    setConversationHistory([openingMessage]);
   };
 
   const resetSession = () => {
@@ -964,6 +986,43 @@ const SelfcareReflection = () => {
             )}
           </div>
 
+          {/* Mode Toggle */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex justify-center mb-6"
+          >
+            <div className="bg-white/50 backdrop-blur-sm rounded-full p-1 flex gap-1 border border-white/30">
+              <button
+                onClick={() => setReflectionMode('impulse')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  reflectionMode === 'impulse'
+                    ? 'bg-white shadow-sm text-foreground'
+                    : 'text-foreground/60 hover:text-foreground'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4" />
+                  Impuls
+                </span>
+              </button>
+              <button
+                onClick={() => setReflectionMode('situation')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  reflectionMode === 'situation'
+                    ? 'bg-white shadow-sm text-foreground'
+                    : 'text-foreground/60 hover:text-foreground'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <MessageSquare className="w-4 h-4" />
+                  Situation
+                </span>
+              </button>
+            </div>
+          </motion.div>
+
           {/* Action Cards - Horizontal scroll layout at bottom */}
           <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)]">
             <div className="flex gap-3 justify-center flex-wrap">
@@ -983,39 +1042,47 @@ const SelfcareReflection = () => {
                 </div>
               </motion.button>
 
-              {/* Card - Reflektieren starten */}
+              {/* Main Action Card - changes based on mode */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={startWithDisplayedImpulse}
+                onClick={reflectionMode === 'impulse' ? startWithDisplayedImpulse : startSituationReflection}
               >
                 <div className="w-28 h-32 sm:w-32 sm:h-36 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl flex flex-col items-center justify-center gap-2 border border-white/50">
                   <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-accent" />
+                    {reflectionMode === 'impulse' ? (
+                      <Sparkles className="w-6 h-6 text-accent" />
+                    ) : (
+                      <MessageSquare className="w-6 h-6 text-accent" />
+                    )}
                   </div>
-                  <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">Reflektieren starten</span>
+                  <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">
+                    {reflectionMode === 'impulse' ? 'Impuls reflektieren' : 'Situation reflektieren'}
+                  </span>
                 </div>
               </motion.button>
 
-              {/* Card - Neuer Impuls */}
-              <motion.button
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={startSession}
-              >
-                <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                    <RotateCcw className="w-5 h-5 text-muted-foreground" />
+              {/* Card - Neuer Impuls (only in impulse mode) */}
+              {reflectionMode === 'impulse' && (
+                <motion.button
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={startSession}
+                >
+                  <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                      <RotateCcw className="w-5 h-5 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Neuer Impuls</span>
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Neuer Impuls</span>
-                </div>
-              </motion.button>
+                </motion.button>
+              )}
 
-              {/* Fourth card - Laufende Unterhaltungen */}
+              {/* Card - Laufende Unterhaltungen */}
               {ongoingConversations.length > 0 && (
                 <motion.button
                   initial={{ opacity: 0, y: 30 }}
@@ -1026,7 +1093,7 @@ const SelfcareReflection = () => {
                 >
                   <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/60 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50 relative">
                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <MessageSquare className="w-5 h-5 text-blue-600" />
+                      <Play className="w-5 h-5 text-blue-600" />
                     </div>
                     <span className="text-xs font-medium text-foreground/80 text-center px-2">Fortsetzen</span>
                     {/* Badge */}
