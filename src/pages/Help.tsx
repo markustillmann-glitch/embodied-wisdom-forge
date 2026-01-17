@@ -97,6 +97,50 @@ const faqs: FAQItem[] = [
 • Menschen, die therapeutische Arbeit ergänzen wollen (Oria ersetzt keine Therapie)
 
 **Hinweis:** Oria ist ein Reflexionsbegleiter, kein Ersatz für professionelle psychologische Hilfe. Bei akuten Krisen oder psychischen Erkrankungen wende dich bitte an Fachpersonen.`
+  },
+  {
+    question: "Wie sicher ist Oria und warum ist Oria sicher?",
+    answer: `Deine Sicherheit und Privatsphäre haben für uns höchste Priorität:
+
+**Datenschutz:**
+• **Ende-zu-Ende Verschlüsselung** – Deine Reflexionen werden sicher übertragen
+• **Sichere Speicherung** – Alle Daten werden in geschützten Datenbanken gespeichert
+• **Persönlicher Tresor** – Nur du hast Zugang zu deinen gespeicherten Reflexionen
+• **Keine Weitergabe** – Deine Daten werden nicht an Dritte verkauft oder weitergegeben
+
+**Emotionale Sicherheit:**
+• **Wertschätzende Kommunikation** – Oria urteilt nie und begleitet dich mit Mitgefühl
+• **Dein Tempo** – Du bestimmst, wie tief du gehen möchtest
+• **Keine Diagnostik** – Oria stellt keine Diagnosen und ersetzt keine Therapie
+• **Transparenz** – Oria sagt dir klar, wenn professionelle Hilfe sinnvoll wäre
+
+**Technische Sicherheit:**
+• **Moderne Sicherheitsstandards** – Wir nutzen aktuelle Verschlüsselungstechnologien
+• **Regelmäßige Updates** – Das System wird kontinuierlich verbessert und geschützt
+• **Sichere Authentifizierung** – Dein Konto ist durch sichere Login-Verfahren geschützt`
+  },
+  {
+    question: "Empfiehlt Oria mir professionelle Hilfe?",
+    answer: `Ja, Oria erkennt Situationen, in denen professionelle Unterstützung sinnvoll sein kann:
+
+**Wann Oria professionelle Hilfe empfiehlt:**
+• Bei tiefgreifenden oder wiederkehrenden Themen, die dich belasten
+• Wenn du dich emotional überfordert oder in einer Krise fühlst
+• Bei Mustern, die sich trotz Reflexion nicht verändern
+• Wenn körperliche Symptome auf seelische Belastung hinweisen
+
+**Welche Angebote Oria empfehlen kann:**
+
+• **Psychotherapie** – Für tiefere therapeutische Begleitung
+• **IFS-Therapie** – Wenn Teile-Arbeit dich anspricht und du sie vertiefen möchtest
+• **GfK-Seminare** – Um Gewaltfreie Kommunikation praktisch zu lernen
+• **Self-Compassion (MSC)** – Kurse für mehr Selbstmitgefühl
+• **MBSR** – Achtsamkeitsbasierte Stressreduktion für Entspannung und Präsenz
+• **Körpertherapie** – Somatische Ansätze wie Somatic Experiencing
+• **Coaching** – Für konkrete Veränderungsschritte und Begleitung
+
+**Wie Oria empfiehlt:**
+Oria formuliert Empfehlungen immer als Einladung, nie als Anweisung. Du entscheidest selbst, ob und wann du professionelle Unterstützung suchst. Oria versteht sich als Ergänzung, nicht als Ersatz.`
   }
 ];
 
