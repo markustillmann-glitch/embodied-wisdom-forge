@@ -78,7 +78,9 @@ z.B. „Wie geht es mir gerade – körperlich, emotional, in Beziehung, im Lebe
   },
   {
     question: "Was bringt mir Oria Selfcare?",
-    answer: `Oria Selfcare unterstützt dich dabei:
+    answer: `Oria hilft, alte Erfahrungen sicher zu erinnern, zu würdigen und innerlich abzuschließen – damit sie nicht unbewusst das Heute steuern.
+
+Oria Selfcare unterstützt dich dabei:
 
 • **Selbstwahrnehmung zu stärken** – Du lernst, deine Gefühle und Bedürfnisse besser zu erkennen
 • **Innere Klarheit zu gewinnen** – Durch reflektierte Gespräche ordnest du deine Gedanken
