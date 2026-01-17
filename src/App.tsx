@@ -14,6 +14,7 @@ import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import ImpulsePacks from "./pages/ImpulsePacks";
+import MyAccount from "./pages/MyAccount";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/impulse-packs" element={<ImpulsePacks />} />
+              <Route path="/my-account" element={<MyAccount />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

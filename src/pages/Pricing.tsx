@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, Check, X, Gift, Sparkles, Star, Ticket } from 'lucide-react';
+import { ArrowLeft, Check, X, Gift, Sparkles, Star, Ticket, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface PricingPlan {
   name: string;
@@ -79,6 +80,7 @@ const impulsePacks = [
 
 const Pricing = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [voucherCode, setVoucherCode] = useState('');
   const [isRedeeming, setIsRedeeming] = useState(false);
 
@@ -101,18 +103,32 @@ const Pricing = () => {
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
       {/* Header */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate(-1)}
-            className="p-2 rounded-full bg-white/80 shadow-sm"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground/70" />
-          </motion.button>
-          <div>
-            <h1 className="text-xl font-serif font-semibold text-foreground">Oria Pakete</h1>
-            <p className="text-sm text-muted-foreground">Wähle dein passendes Paket</p>
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate(-1)}
+              className="p-2 rounded-full bg-white/80 shadow-sm"
+            >
+              <ArrowLeft className="w-5 h-5 text-foreground/70" />
+            </motion.button>
+            <div>
+              <h1 className="text-xl font-serif font-semibold text-foreground">Oria Pakete</h1>
+              <p className="text-sm text-muted-foreground">Wähle dein passendes Paket</p>
+            </div>
           </div>
+          
+          {/* Mein Bereich Link */}
+          {user && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/my-account')}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 shadow-sm hover:bg-white transition-colors"
+            >
+              <User className="w-4 h-4 text-foreground/70" />
+              <span className="text-sm font-medium text-foreground/80">Mein Bereich</span>
+            </motion.button>
+          )}
         </div>
       </header>
 
