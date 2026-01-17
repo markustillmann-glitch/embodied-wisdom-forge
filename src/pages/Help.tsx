@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { HelpCircle, ChevronDown, ArrowLeft } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
 interface FAQItem {
@@ -348,28 +348,41 @@ const Help = () => {
   const [searchParams] = useSearchParams();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToFAQ = useCallback((index: number) => {
+    setTimeout(() => {
+      const faqElement = faqRefs.current[index];
+      const container = scrollContainerRef.current;
+      
+      if (faqElement && container) {
+        const containerRect = container.getBoundingClientRect();
+        const elementRect = faqElement.getBoundingClientRect();
+        const scrollOffset = elementRect.top - containerRect.top + container.scrollTop - 20;
+        
+        container.scrollTo({
+          top: scrollOffset,
+          behavior: 'smooth'
+        });
+      }
+    }, 150);
+  }, []);
 
   // Handle deep linking to specific FAQ
   useEffect(() => {
     const faqParam = searchParams.get('faq');
     if (faqParam === 'wann-kann-ich-oria-nutzen') {
-      // Open the first FAQ (index 0) and scroll to it
       setOpenIndex(0);
-      setTimeout(() => {
-        faqRefs.current[0]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
+      scrollToFAQ(0);
     }
-  }, [searchParams]);
+  }, [searchParams, scrollToFAQ]);
 
   const toggleFAQ = (index: number) => {
     const isOpening = openIndex !== index;
     setOpenIndex(openIndex === index ? null : index);
     
-    // Scroll to the top of the newly opened FAQ
     if (isOpening) {
-      setTimeout(() => {
-        faqRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+      scrollToFAQ(index);
     }
   };
 
@@ -402,7 +415,7 @@ const Help = () => {
       </div>
 
       {/* FAQ Content */}
-      <div className="relative z-10 flex-1 overflow-y-auto px-6 pb-8">
+      <div ref={scrollContainerRef} className="relative z-10 flex-1 overflow-y-auto px-6 pb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
