@@ -362,7 +362,15 @@ const Help = () => {
   }, [searchParams]);
 
   const toggleFAQ = (index: number) => {
+    const isOpening = openIndex !== index;
     setOpenIndex(openIndex === index ? null : index);
+    
+    // Scroll to the top of the newly opened FAQ
+    if (isOpening) {
+      setTimeout(() => {
+        faqRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
   };
 
   return (
