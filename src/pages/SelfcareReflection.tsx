@@ -1065,20 +1065,20 @@ const SelfcareReflection = () => {
                 </div>
               </motion.button>
 
-              {/* Card - Neuer Impuls (only in impulse mode) */}
+              {/* Card - Impulspakete (only in impulse mode) */}
               {reflectionMode === 'impulse' && (
                 <motion.button
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.5 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={startSession}
+                  onClick={() => navigate('/impulse-packs')}
                 >
                   <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                      <RotateCcw className="w-5 h-5 text-muted-foreground" />
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                      <Flower2 className="w-5 h-5 text-amber-600" />
                     </div>
-                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Neuer Impuls</span>
+                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Impulspakete</span>
                   </div>
                 </motion.button>
               )}

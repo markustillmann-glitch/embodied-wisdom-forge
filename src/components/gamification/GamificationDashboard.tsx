@@ -8,6 +8,7 @@ import { MilestonesBadges } from './MilestonesBadges';
 import { NeedsCollection } from './NeedsCollection';
 import { ReflectionLevel } from './ReflectionLevel';
 import { WeeklyInsights } from './WeeklyInsights';
+import { ImpulsePacksSection } from './ImpulsePacksSection';
 
 interface Plant {
   id: string;
@@ -218,6 +219,7 @@ export const GamificationDashboard = ({ isOpen, onClose }: GamificationDashboard
   const sections = [
     { id: 'garden', title: '🌱 Dein Garten', component: GrowthGarden },
     { id: 'level', title: '⭐ Dein Level', component: ReflectionLevel },
+    { id: 'packs', title: '📦 Impulspakete', component: ImpulsePacksSection },
     { id: 'milestones', title: '🏆 Meilensteine', component: MilestonesBadges },
     { id: 'needs', title: '💎 Bedürfnisse', component: NeedsCollection },
     { id: 'weekly', title: '📅 Diese Woche', component: WeeklyInsights },
@@ -304,6 +306,9 @@ export const GamificationDashboard = ({ isOpen, onClose }: GamificationDashboard
                                   totalReflections={data.total_reflections}
                                   depthScore={data.reflection_depth_score}
                                 />
+                              )}
+                              {section.id === 'packs' && (
+                                <ImpulsePacksSection />
                               )}
                               {section.id === 'milestones' && (
                                 <MilestonesBadges
