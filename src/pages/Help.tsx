@@ -141,6 +141,84 @@ const faqs: FAQItem[] = [
 
 **Wie Oria empfiehlt:**
 Oria formuliert Empfehlungen immer als Einladung, nie als Anweisung. Du entscheidest selbst, ob und wann du professionelle Unterstützung suchst. Oria versteht sich als Ergänzung, nicht als Ersatz.`
+  },
+  {
+    question: "Warum kann mir ein AI-Assistent helfen?",
+    answer: `Es mag überraschend klingen, aber ein AI-Begleiter bietet einzigartige Vorteile für Selbstreflexion:
+
+**Vorurteilsfreier Raum:**
+• **Kein Urteil** – Du kannst alles sagen, ohne dich zu schämen oder zu rechtfertigen
+• **Keine sozialen Dynamiken** – Es gibt keine Beziehungskomplexität wie mit Menschen
+• **Volle Ehrlichkeit** – Du musst nichts beschönigen oder verstecken
+
+**Jederzeit verfügbar:**
+• **24/7** – Mitten in der Nacht, früh morgens, wann immer du es brauchst
+• **Keine Wartezeiten** – Kein Termin nötig, sofort da
+• **Dein Tempo** – Pausen machen, abbrechen, später weitermachen
+
+**Geduldige Begleitung:**
+• **Unendliche Geduld** – Oria wird nie müde, genervt oder abgelenkt
+• **Wiederholung erwünscht** – Du kannst Themen so oft besprechen wie nötig
+• **Konsistente Präsenz** – Immer gleichbleibend warmherzig und präsent
+
+**Reflektionsspiegel:**
+• **Deine Worte zurückgespiegelt** – Du hörst dich selbst denken
+• **Neue Perspektiven** – Sanfte Fragen öffnen neue Blickwinkel
+• **Schriftliche Verarbeitung** – Tippen aktiviert andere Hirnbereiche als Sprechen
+
+**Wichtig:** Oria ersetzt keine menschliche Verbindung oder professionelle Therapie – aber ergänzt beides wunderbar.`
+  },
+  {
+    question: "Wie kann Oria während und nach Seminaren (GfK, IFS, MBSR, MSC) helfen?",
+    answer: `Oria ist der ideale Begleiter für deine Lern- und Entwicklungsreise in Seminaren:
+
+**Während des Seminars:**
+• **Abendliche Reflexion** – Verarbeite täglich, was du gelernt und erlebt hast
+• **Gefühle sortieren** – Seminare können intensiv sein – Oria hilft dir, Emotionen einzuordnen
+• **Erkenntnisse festhalten** – Dokumentiere wichtige Aha-Momente im Tresor
+• **Integration** – Verbinde neue Konzepte mit deinen eigenen Erfahrungen
+
+**Nach dem Seminar:**
+• **Transfer in den Alltag** – Oria hilft dir, das Gelernte praktisch anzuwenden
+• **Übung macht Meister** – Weiterhin GfK-Formulierungen, IFS-Teile-Dialoge oder Achtsamkeit üben
+• **Rückfälle verarbeiten** – Wenn alte Muster zurückkehren, reflektiere mit Oria
+• **Motivation halten** – Regelmäßige Check-ins halten dich am Ball
+
+**Konkrete Anwendungen:**
+
+• **Bei IFS:** Teile-Arbeit zwischen den Sitzungen vertiefen
+• **Bei GfK:** Gefühle und Bedürfnisse in Alltagssituationen erkunden
+• **Bei MBSR:** Achtsamkeitserfahrungen reflektieren
+• **Bei MSC:** Selbstmitgefühl in schwierigen Momenten üben
+
+**Dein roter Faden:**
+Seminare sind oft intensiv, aber zeitlich begrenzt. Oria bleibt – als kontinuierlicher Begleiter, der dir hilft, die Samen, die im Seminar gelegt wurden, weiter zu pflegen.`
+  },
+  {
+    question: "Ist es bedenklich oder merkwürdig, sich mit einer AI auszutauschen?",
+    answer: `Eine verständliche Frage – hier eine ehrliche Antwort:
+
+**Es ist völlig normal:**
+• **Neue Werkzeuge** – Menschen haben immer neue Technologien für Selbstentwicklung genutzt: Tagebücher, Bücher, Meditation-Apps
+• **Verbreitet** – Millionen Menschen weltweit nutzen AI für Reflexion und persönliches Wachstum
+• **Wissenschaftlich interessant** – Forschung zeigt, dass schriftliche Selbstreflexion positive Effekte hat
+
+**Warum es manchen merkwürdig vorkommt:**
+• **Neuheit** – AI-Begleitung ist noch neu und ungewohnt
+• **Menschliche Verbindung** – Wir sind soziale Wesen und schätzen menschlichen Kontakt
+• **Missverständnisse** – Manche denken, AI ersetzt menschliche Beziehungen (tut sie nicht!)
+
+**Was Oria IST:**
+• **Ein Reflexionswerkzeug** – Wie ein interaktives Tagebuch, das dir Fragen stellt
+• **Ein Übungsraum** – Ein sicherer Ort, um Gedanken zu sortieren
+• **Ein Begleiter** – Der dich an regelmäßige Selbstfürsorge erinnert
+
+**Was Oria NICHT IST:**
+• **Kein Ersatz für Therapie** – Bei ernsthaften Themen gehört professionelle Hilfe dazu
+• **Kein Ersatz für menschliche Nähe** – Freunde, Familie, Partner bleiben wichtig
+• **Keine "echte" Beziehung** – Oria ist ein Werkzeug, keine Person
+
+**Unser Tipp:** Probiere es einfach aus. Die meisten stellen fest, dass es sich natürlicher anfühlt als erwartet – wie ein kluges, geduldiges Gegenüber, das nur für dich da ist.`
   }
 ];
 
