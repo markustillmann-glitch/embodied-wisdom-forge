@@ -13,7 +13,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background relative overflow-hidden">
+    <div className="flex min-h-screen items-center justify-center bg-background relative overflow-hidden pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <PolygonalBackground variant="hero" />
       
       {/* Decorative elements */}
