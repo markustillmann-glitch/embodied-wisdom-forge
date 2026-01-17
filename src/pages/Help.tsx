@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { HelpCircle, ChevronDown, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface FAQItem {
@@ -345,7 +345,21 @@ Seminare sind oft intensiv, aber zeitlich begrenzt. Oria bleibt – als kontinui
 
 const Help = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Handle deep linking to specific FAQ
+  useEffect(() => {
+    const faqParam = searchParams.get('faq');
+    if (faqParam === 'wann-kann-ich-oria-nutzen') {
+      // Open the first FAQ (index 0) and scroll to it
+      setOpenIndex(0);
+      setTimeout(() => {
+        faqRefs.current[0]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [searchParams]);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -390,6 +404,7 @@ const Help = () => {
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
+              ref={(el) => (faqRefs.current[index] = el)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05, duration: 0.3 }}
