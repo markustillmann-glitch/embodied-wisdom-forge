@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, HelpCircle } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, HelpCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,6 +22,7 @@ import ChatMessage from '@/components/ChatMessage';
 import { format, differenceInDays, isToday, isYesterday, startOfDay } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { GamificationDashboard } from '@/components/gamification';
+import { useImpulseManager, TIER_LIMITS } from '@/hooks/useImpulseManager';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 const SUMMARY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`;
