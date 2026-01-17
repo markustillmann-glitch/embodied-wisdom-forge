@@ -12,15 +12,69 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "Wann kann ich Oria Selfcare nutzen?",
-    answer: `Oria Selfcare ist für dich da, wann immer du Raum für dich brauchst. Hier sind einige Beispiele:
+    answer: `Oria ist nicht nur für "große Krisen" da – sie ist besonders stark bei kleinen Momenten, die sonst untergehen. Genau dort beginnen Muster, Bedürfnisse und innere Führung sichtbar zu werden.
 
-• **Morgens** – Um den Tag bewusst zu starten und deine Intention zu setzen
-• **In stressigen Momenten** – Wenn du dich überfordert fühlst und Klarheit brauchst
-• **Nach schwierigen Gesprächen** – Um das Erlebte zu verarbeiten und deine Gefühle einzuordnen
-• **Vor dem Schlafengehen** – Um den Tag zu reflektieren und loszulassen
-• **Bei wichtigen Entscheidungen** – Um mit dir selbst in Kontakt zu kommen
-• **Wenn du dich verloren fühlst** – Um wieder Zugang zu deinen Bedürfnissen zu finden
-• **In ruhigen Momenten** – Einfach, um regelmäßig bei dir einzuchecken`
+**20 konkrete Situationen, in denen Oria helfen kann:**
+
+**1. Positive oder negative Erinnerung reflektieren**
+z.B. ein besonders schönes Gespräch, ein beschämender Moment, ein Erfolg oder ein Konflikt.
+
+**2. Ein Ereignis des Tages, das emotional hängen bleibt**
+„Das Meeting heute hat mich den ganzen Nachmittag beschäftigt – warum eigentlich?"
+
+**3. Beziehungserfahrung verarbeiten**
+z.B. Nähe, Rückzug, Missverständnis, Enttäuschung oder Verbundenheit mit Partner, Kind, Kolleg:in.
+
+**4. Wiederkehrender Alltagsgedanke**
+z.B. „Warum bin ich immer genervt, wenn Menschen gedankenlos im Weg stehen?"
+
+**5. Starke emotionale Reaktion ohne klaren Auslöser**
+z.B. plötzliche Gereiztheit, Traurigkeit oder innere Leere.
+
+**6. Körperliches Signal erkunden**
+z.B. Druck im Brustkorb, verspannter Nacken, Erschöpfung ohne offensichtlichen Grund.
+
+**7. Trigger-Moment verstehen**
+z.B. ein bestimmter Tonfall, Blick oder Satz löst überproportionale Reaktion aus.
+
+**8. Innere Konflikte klären**
+z.B. „Ein Teil will Ruhe, ein anderer will Leistung – was brauche ich gerade wirklich?"
+
+**9. Entscheidungsfindung begleiten**
+z.B. Jobwechsel, Zusage/Absage, Grenze setzen oder noch abwarten.
+
+**10. Wiederkehrende Muster erkennen**
+z.B. immer wieder Überforderung, Rückzug, Perfektionismus oder Anpassung.
+
+**11. Selbstkritische Gedanken reflektieren**
+z.B. „Ich mache nie genug", „Andere kriegen das besser hin".
+
+**12. Erfolg oder Stolz bewusst verankern**
+z.B. etwas geschafft zu haben – und es nicht sofort zu relativieren.
+
+**13. Nach Konflikten sortieren**
+z.B. nach Streit: Was habe ich gefühlt? Was war mein Bedürfnis? Was hätte ich gebraucht?
+
+**14. Grenzverletzungen wahrnehmen und benennen**
+z.B. wenn man „Ja" gesagt hat, aber innerlich „Nein" meinte.
+
+**15. Beobachtung von Urteilen oder Abwertungen**
+z.B. Gedanken wie „Alte Leute behindern mich ständig" – ohne Schuld, aber mit Neugier.
+
+**16. Innere Anspannung vor Ereignissen**
+z.B. vor Präsentationen, Gesprächen, Arztterminen oder Familienfeiern.
+
+**17. Erschöpfung oder Überforderung einordnen**
+z.B. „Bin ich müde – oder emotional ausgelaugt?"
+
+**18. Dankbarkeit oder Verbundenheit vertiefen**
+z.B. ein Moment mit Natur, Musik, Nähe oder Stille.
+
+**19. Lebensphase reflektieren**
+z.B. Übergänge: Elternschaft, berufliche Neuausrichtung, Sinnfragen.
+
+**20. Einfach "Check-in" ohne konkreten Anlass**
+z.B. „Wie geht es mir gerade – körperlich, emotional, in Beziehung, im Leben?"`
   },
   {
     question: "Was bringt mir Oria Selfcare?",
