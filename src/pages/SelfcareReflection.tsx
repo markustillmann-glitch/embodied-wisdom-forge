@@ -909,10 +909,12 @@ const SelfcareReflection = () => {
                 setConversationHistory([]);
                 setCurrentStatement(null);
                 setHideStatementBanner(false);
+              } else {
+                navigate('/pricing');
               }
             }}
             className="w-11 h-11 rounded-full bg-foreground shadow-lg flex items-center justify-center"
-            aria-label="Home"
+            aria-label="Oria Pakete"
           >
             <img src={bbOwlLogo} alt="Oria" className="w-8 h-8 object-contain" />
           </motion.button>

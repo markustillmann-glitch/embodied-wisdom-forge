@@ -12,6 +12,7 @@ import Summaries from "./pages/Summaries";
 import Modell from "./pages/Modell";
 import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/modell" element={<Modell />} />
               <Route path="/help" element={<Help />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/pricing" element={<Pricing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
