@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import SelfcareReflection from "./pages/SelfcareReflection";
 import Summaries from "./pages/Summaries";
 import Modell from "./pages/Modell";
+import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/selfcare" element={<SelfcareReflection />} />
               <Route path="/summaries" element={<Summaries />} />
               <Route path="/modell" element={<Modell />} />
+              <Route path="/help" element={<Help />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
