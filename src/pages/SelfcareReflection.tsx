@@ -279,6 +279,9 @@ const SelfcareReflection = () => {
   type ReflectionMode = 'impulse' | 'situation';
   const [reflectionMode, setReflectionMode] = useState<ReflectionMode>('impulse');
 
+  // Impulse Manager for tracking impulse usage
+  const { subscription, impulsesRemaining, useImpulse, loading: impulseLoading } = useImpulseManager();
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -515,37 +518,60 @@ const SelfcareReflection = () => {
 
   // Handle autostart from URL params (when coming from Index page)
   useEffect(() => {
-    const impulse = searchParams.get('impulse');
-    const autostart = searchParams.get('autostart');
+    const startFromUrlImpulse = async () => {
+      const impulse = searchParams.get('impulse');
+      const autostart = searchParams.get('autostart');
+      
+      if (impulse && autostart === 'true' && !sessionStarted && !impulseLoading) {
+        // Mark impulse as used
+        const success = await useImpulse(impulse);
+        
+        if (!success) {
+          toast.error('Keine Impulse mehr verfügbar. Upgrade dein Paket für mehr Impulse.');
+          navigate('/pricing', { replace: true });
+          return;
+        }
+        
+        // Find the statement that matches the impulse or create a custom one
+        const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
+        const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
+        
+        setCurrentStatement(statement);
+        setSessionStarted(true);
+        setHideStatementBanner(true);
+        
+        // Start with an opening question about the impulse
+        const openingMessage: Message = {
+          role: 'assistant',
+          content: `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
+        };
+        setMessages([openingMessage]);
+        setConversationHistory([openingMessage]);
+        
+        // Clear the URL params to prevent re-triggering
+        navigate('/selfcare', { replace: true });
+      }
+    };
     
-    if (impulse && autostart === 'true' && !sessionStarted) {
-      // Find the statement that matches the impulse or create a custom one
-      const matchingStatement = SELFCARE_STATEMENTS.find(s => s.text === impulse);
-      const statement = matchingStatement || { text: impulse, category: 'selfcare' as StatementCategory };
-      
-      setCurrentStatement(statement);
-      setSessionStarted(true);
-      setHideStatementBanner(true);
-      
-      // Start with an opening question about the impulse
-      const openingMessage: Message = {
-        role: 'assistant',
-        content: `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
-      };
-      setMessages([openingMessage]);
-      setConversationHistory([openingMessage]);
-      
-      // Clear the URL params to prevent re-triggering
-      navigate('/selfcare', { replace: true });
-    }
-  }, [searchParams, sessionStarted, navigate]);
+    startFromUrlImpulse();
+  }, [searchParams, sessionStarted, navigate, impulseLoading, useImpulse]);
 
   const getRandomStatement = (): StatementWithCategory => {
     const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
     return SELFCARE_STATEMENTS[randomIndex];
   };
 
-  const startWithDisplayedImpulse = () => {
+
+  const startWithDisplayedImpulse = async () => {
+    // Mark the impulse as used
+    const success = await useImpulse(displayedImpulse.text);
+    
+    if (!success) {
+      toast.error('Keine Impulse mehr verfügbar. Upgrade dein Paket für mehr Impulse.');
+      navigate('/pricing');
+      return;
+    }
+
     setCurrentStatement(displayedImpulse);
     setSessionStarted(true);
     setHideStatementBanner(true);
