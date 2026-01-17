@@ -139,7 +139,7 @@ const MyAccount = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40 flex items-center justify-center p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Bitte melde dich an, um deinen Bereich zu sehen.</p>
           <Button onClick={() => navigate('/auth')}>Anmelden</Button>
@@ -151,7 +151,7 @@ const MyAccount = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[env(safe-area-inset-top)]">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -167,7 +167,7 @@ const MyAccount = () => {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-6 pb-24 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 py-6 pb-[calc(env(safe-area-inset-bottom)+96px)] space-y-6">
         {/* Profile Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
