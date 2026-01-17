@@ -190,6 +190,8 @@ export interface UserSubscription {
   activePacks: string[];
   impulsesUsedThisPeriod: number;
   periodStartDate: string;
+  trialEndsAt?: string | null;
+  isTrialActive?: boolean;
 }
 
 export interface ImpulseStatus {
@@ -229,16 +231,20 @@ export function useImpulseManager() {
         return;
       }
 
-      // Create default subscription if none exists
+      // Create default subscription if none exists (fallback, should be created by trigger)
       if (!sub) {
+        const trialEnd = new Date();
+        trialEnd.setDate(trialEnd.getDate() + 7);
+        
         const { data: newSub, error: insertError } = await supabase
           .from('user_subscriptions')
           .insert({
             user_id: user.id,
-            tier: 'free',
-            active_packs: [],
+            tier: 'premium',
+            active_packs: ['basis', 'musik', 'reisen', 'natur', 'beziehungen', 'kreativitaet'],
             impulses_used_this_period: 0,
             period_start_date: new Date().toISOString().split('T')[0],
+            trial_ends_at: trialEnd.toISOString(),
           })
           .select()
           .single();
@@ -250,8 +256,41 @@ export function useImpulseManager() {
         sub = newSub;
       }
 
+      // Check if trial has expired and downgrade to free
+      let effectiveTier = sub.tier as SubscriptionTier;
+      let isTrialActive = false;
+      
+      if (sub.trial_ends_at) {
+        const trialEnd = new Date(sub.trial_ends_at);
+        const now = new Date();
+        
+        if (now < trialEnd) {
+          // Trial is still active
+          isTrialActive = true;
+        } else if (sub.tier === 'premium') {
+          // Trial expired, downgrade to free
+          effectiveTier = 'free';
+          
+          const { error: downgradeError } = await supabase
+            .from('user_subscriptions')
+            .update({
+              tier: 'free',
+              active_packs: [],
+              impulses_used_this_period: 0,
+              period_start_date: new Date().toISOString().split('T')[0],
+            })
+            .eq('user_id', user.id);
+
+          if (!downgradeError) {
+            sub.tier = 'free';
+            sub.active_packs = [];
+            sub.impulses_used_this_period = 0;
+          }
+        }
+      }
+
       // Check if period has reset
-      const tier = sub.tier as SubscriptionTier;
+      const tier = effectiveTier;
       const periodDays = TIER_LIMITS[tier].periodDays;
       const periodStart = new Date(sub.period_start_date);
       const now = new Date();
@@ -274,14 +313,16 @@ export function useImpulseManager() {
       }
 
       setSubscription({
-        tier: sub.tier as SubscriptionTier,
+        tier: effectiveTier,
         activePacks: sub.active_packs || [],
         impulsesUsedThisPeriod: sub.impulses_used_this_period,
         periodStartDate: sub.period_start_date,
+        trialEndsAt: sub.trial_ends_at,
+        isTrialActive,
       });
 
       // Calculate remaining impulses
-      const limit = TIER_LIMITS[sub.tier as SubscriptionTier].impulsesPerPeriod;
+      const limit = TIER_LIMITS[effectiveTier].impulsesPerPeriod;
       setImpulsesRemaining(Math.max(0, limit - sub.impulses_used_this_period));
 
     } catch (error) {

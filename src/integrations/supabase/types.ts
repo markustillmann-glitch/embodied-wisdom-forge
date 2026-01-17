@@ -628,6 +628,7 @@ export type Database = {
           impulses_used_this_period: number
           period_start_date: string
           tier: string
+          trial_ends_at: string | null
           updated_at: string
           user_id: string
         }
@@ -638,6 +639,7 @@ export type Database = {
           impulses_used_this_period?: number
           period_start_date?: string
           tier?: string
+          trial_ends_at?: string | null
           updated_at?: string
           user_id: string
         }
@@ -648,6 +650,7 @@ export type Database = {
           impulses_used_this_period?: number
           period_start_date?: string
           tier?: string
+          trial_ends_at?: string | null
           updated_at?: string
           user_id?: string
         }
