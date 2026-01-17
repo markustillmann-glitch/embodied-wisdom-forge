@@ -88,7 +88,72 @@ Oria Selfcare unterstützt dich dabei:
 • **Muster zu erkennen** – Über Zeit siehst du wiederkehrende Themen und kannst bewusster handeln
 • **Selbstmitgefühl zu entwickeln** – Oria begleitet dich wertschätzend und ohne Urteil
 • **Deine Resilienz zu stärken** – Regelmäßige Reflexion macht dich widerstandsfähiger
-• **Bessere Entscheidungen zu treffen** – Wer sich selbst kennt, handelt authentischer`
+• **Bessere Entscheidungen zu treffen** – Wer sich selbst kennt, handelt authentischer
+
+---
+
+**Wie Oria mit Erinnerungen arbeitet**
+
+Viele Belastungen im Alltag entstehen nicht im Hier und Jetzt. Sie haben ihren Ursprung in alten Erfahrungen, die nie wirklich abgeschlossen wurden.
+
+Dabei geht es nicht nur um große, offensichtliche Traumata. Oft sind es leise, wiederholte Erlebnisse wie:
+• nicht gesehen oder gehört worden zu sein
+• dauerhaft funktionieren zu müssen
+• Grenzverletzungen
+• emotionale Unsicherheit
+• chronische Überforderung
+
+Diese Erfahrungen bleiben im Körper- und Emotionsgedächtnis aktiv – auch wenn wir sie rational längst „verstanden" haben.
+
+---
+
+**Was bedeutet das für lange zurückliegende Erfahrungen und Verletzungen des inneren Kindes?**
+
+Oria arbeitet achtsam, langsam und ohne Druck. Nicht mit Diagnosen, nicht mit Bewertungen und nicht mit schnellen Lösungen.
+
+Trauma-sensibel bedeutet bei Oria:
+• **Sicherheit vor Analyse** – Erst wahrnehmen, dann verstehen. Nicht umgekehrt.
+• **Kein Erzwingen von Erinnerungen** – Nur das, was gerade da ist, bekommt Raum.
+• **Trennung von damals und heute** – Alte Reaktionen werden als alte Erfahrungen erkannt – nicht als aktueller Beweis.
+• **Fokus auf Bedürfnisse statt Schuld** – Was gefehlt hat, wird benannt – nicht, was „falsch" war.
+• **Integration statt Konfrontation** – Erinnerungen werden nicht gelöscht oder umgeschrieben, sondern eingeordnet.
+
+---
+
+**Wie Oria mit alten Erfahrungen arbeitet**
+
+Oria nutzt Erinnerungen als Brücke zwischen Körper, Gefühl und Bedeutung.
+
+Statt zu fragen: „Warum bin ich so?"
+entsteht Raum für: „Was habe ich damals gebraucht – und was brauche ich heute?"
+
+Durch diese Haltung können Erinnerungen:
+• ihre emotionale Überwältigung verlieren
+• ihre Warnfunktion behalten, ohne zu dominieren
+• Teil der eigenen Geschichte werden, nicht mehr des Alarmsystems
+
+---
+
+**Was sich dadurch verändern kann**
+
+Mit der Zeit berichten Nutzer:innen häufig:
+• Trigger werden schwächer und kürzer
+• mehr Wahlfreiheit im Verhalten
+• weniger innere Härte und Selbstkritik
+• mehr innere Ruhe ohne Verdrängung
+• ein Gefühl von innerer Führung und Selbstkontakt
+
+Oder ganz einfach: Die Erinnerung ist da – aber sie hat nicht mehr die Kontrolle.
+
+---
+
+**Wichtig zu wissen**
+
+Oria ist keine Therapie und ersetzt keine professionelle Behandlung.
+Oria ist ein begleitender Reflexions- und Integrationsraum für den Alltag – besonders für Menschen, die:
+• sich selbst besser verstehen möchten
+• wiederkehrende Muster sanft auflösen wollen
+• emotionale Erfahrungen integrieren möchten, ohne sie zu forcieren`
   },
   {
     question: "Wie lange dauert eine Oria Selfcare Sitzung?",
