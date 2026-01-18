@@ -709,14 +709,17 @@ export const usePdfGenerator = () => {
         labelColor = colors.userText;
       }
 
-      // Calculate message height
+      // IMPORTANT: Set font size BEFORE calculating text width for proper line wrapping
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(bodyFontSize);
-      const messageLines = wrapText(sanitizeText(message), contentWidth - 10, doc);
-      const messageHeight = messageLines.length * lineHeight + 12;
+      
+      // Calculate message lines with correct font settings
+      const messageLines = wrapText(sanitizeText(message), contentWidth - 14, doc);
+      const messageHeight = messageLines.length * lineHeight + 14;
 
-      // Check if we need a new page
-      if (y + messageHeight + 10 > pageHeight - margin) {
+      // Check if we need a new page (including speaker label height)
+      const totalHeight = messageHeight + (speaker ? 10 : 0);
+      if (y + totalHeight > pageHeight - margin) {
         addNewPage();
         y = margin;
       }
@@ -727,25 +730,37 @@ export const usePdfGenerator = () => {
         doc.setFontSize(9);
         doc.setTextColor(labelColor);
         doc.text(speaker, margin + 5, y + 4);
-        y += 8;
+        y += 10;
       }
 
       // Draw message background
       doc.setFillColor(bgColor);
       doc.roundedRect(margin, y, contentWidth, messageHeight, 3, 3, 'F');
 
-      // Draw message text
+      // Draw message text - reset font to body size
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(textColor);
       
-      let textY = y + 6;
+      let textY = y + 7;
       for (const line of messageLines) {
-        doc.text(line, margin + 5, textY);
+        // Check if we need a page break mid-message
+        if (textY > pageHeight - margin - 5) {
+          addNewPage();
+          y = margin;
+          textY = y + 7;
+          // Redraw background for continuation
+          const remainingLines = messageLines.slice(messageLines.indexOf(line));
+          const remainingHeight = remainingLines.length * lineHeight + 10;
+          doc.setFillColor(bgColor);
+          doc.roundedRect(margin, y, contentWidth, remainingHeight, 3, 3, 'F');
+          doc.setTextColor(textColor);
+        }
+        doc.text(line, margin + 7, textY);
         textY += lineHeight;
       }
 
-      y += messageHeight + 8;
+      y += messageHeight + 6;
     }
 
     // Footer on last page
