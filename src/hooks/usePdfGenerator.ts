@@ -105,15 +105,17 @@ export const usePdfGenerator = () => {
     summary: SummaryMemory,
     coverImage: string | null
   ): Promise<void> => {
+    // Square format: 180mm x 180mm
+    const pageSize = 180;
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
-      format: 'a4',
+      format: [pageSize, pageSize],
     });
 
-    const pageWidth = 210;
-    const pageHeight = 297;
-    const margin = 25;
+    const pageWidth = pageSize;
+    const pageHeight = pageSize;
+    const margin = 18;
     const contentWidth = pageWidth - margin * 2;
 
     // Helper functions
