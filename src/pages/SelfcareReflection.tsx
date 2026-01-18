@@ -672,6 +672,19 @@ const SelfcareReflection = () => {
       
       setConversationHistory(finalHistory);
       
+      // Check if user wants to save - detect save intent in user message
+      const saveKeywords = ['speichern', 'tresor', 'aufbewahren', 'sichern', 'abspeichern', 'save'];
+      const userWantsToSave = saveKeywords.some(keyword => 
+        userMessage.toLowerCase().includes(keyword)
+      );
+      
+      if (userWantsToSave) {
+        // Open save dialog when user mentions saving
+        setTimeout(() => {
+          setShowSaveDialog(true);
+        }, 1500); // Small delay to let the assistant's response appear first
+      }
+      
       // Auto-save conversation after each exchange
       if (user && finalHistory.length >= 2) {
         const savedId = await saveConversationToDb(finalHistory, statement, currentConversationId || undefined);
@@ -1030,22 +1043,35 @@ const SelfcareReflection = () => {
             </motion.div>
 
             {/* Stats - Small and subtle */}
-            {user && pastReflections.length > 0 && (
+            {user && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="flex items-center gap-4 mt-8"
+                className="flex flex-col items-center gap-3 mt-8"
               >
-                <div className="flex items-center gap-1.5 text-foreground/60">
-                  <Flame className={`w-4 h-4 ${streak > 0 ? 'text-orange-600' : ''}`} />
-                  <span className="text-sm font-medium">{streak} Tage</span>
-                </div>
-                <div className="w-px h-4 bg-foreground/20" />
-                <div className="flex items-center gap-1.5 text-foreground/60">
-                  <Star className="w-4 h-4" />
-                  <span className="text-sm font-medium">{pastReflections.length} Reflexionen</span>
-                </div>
+                {/* Trial Banner */}
+                {subscription?.isTrialActive && subscription?.trialEndsAt && (
+                  <div className="px-4 py-2 rounded-full bg-purple-100/80 backdrop-blur-sm border border-purple-200/50">
+                    <span className="text-sm font-medium text-purple-700">
+                      ✨ Premium-Test: noch {Math.max(0, Math.ceil((new Date(subscription.trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))} Tage
+                    </span>
+                  </div>
+                )}
+                
+                {pastReflections.length > 0 && (
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5 text-foreground/60">
+                      <Flame className={`w-4 h-4 ${streak > 0 ? 'text-orange-600' : ''}`} />
+                      <span className="text-sm font-medium">{streak} Tage</span>
+                    </div>
+                    <div className="w-px h-4 bg-foreground/20" />
+                    <div className="flex items-center gap-1.5 text-foreground/60">
+                      <Star className="w-4 h-4" />
+                      <span className="text-sm font-medium">{pastReflections.length} Reflexionen</span>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             )}
           </div>
