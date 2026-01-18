@@ -37,29 +37,97 @@ const sanitizeText = (text: string): string => {
     .replace(/\u00A0/g, ' ');
 };
 
-// Wrap text to fit within a specified width
+// Calculate line height based on font size (typically 1.2-1.5x font size for good readability)
+const getLineHeight = (fontSize: number): number => {
+  // Convert font size from pt to mm and apply line height factor
+  // 1pt = 0.352778mm, line height factor of 1.4 for readability
+  return (fontSize * 0.352778) * 1.4;
+};
+
+// Wrap text to fit within a specified width - uses current font settings of doc
 const wrapText = (text: string, maxWidth: number, doc: jsPDF): string[] => {
-  const words = sanitizeText(text).split(' ');
-  const lines: string[] = [];
-  let currentLine = '';
+  const sanitized = sanitizeText(text);
+  if (!sanitized) return [];
+  
+  // Handle explicit line breaks first
+  const paragraphs = sanitized.split('\n');
+  const allLines: string[] = [];
+  
+  for (const paragraph of paragraphs) {
+    if (!paragraph.trim()) {
+      allLines.push(''); // Preserve empty lines for paragraph breaks
+      continue;
+    }
+    
+    const words = paragraph.split(' ').filter(w => w.length > 0);
+    let currentLine = '';
 
-  for (const word of words) {
-    const testLine = currentLine ? `${currentLine} ${word}` : word;
-    const testWidth = doc.getTextWidth(testLine);
+    for (const word of words) {
+      // Handle very long words that might exceed maxWidth on their own
+      if (doc.getTextWidth(word) > maxWidth) {
+        // Push current line if exists
+        if (currentLine) {
+          allLines.push(currentLine);
+          currentLine = '';
+        }
+        // Break the long word into smaller chunks
+        let remainingWord = word;
+        while (remainingWord.length > 0) {
+          let charCount = remainingWord.length;
+          while (charCount > 0 && doc.getTextWidth(remainingWord.substring(0, charCount)) > maxWidth) {
+            charCount--;
+          }
+          if (charCount === 0) charCount = 1; // At minimum, take one character
+          allLines.push(remainingWord.substring(0, charCount));
+          remainingWord = remainingWord.substring(charCount);
+        }
+        continue;
+      }
+      
+      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      const testWidth = doc.getTextWidth(testLine);
 
-    if (testWidth > maxWidth && currentLine) {
-      lines.push(currentLine);
-      currentLine = word;
-    } else {
-      currentLine = testLine;
+      if (testWidth > maxWidth && currentLine) {
+        allLines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = testLine;
+      }
+    }
+
+    if (currentLine) {
+      allLines.push(currentLine);
     }
   }
 
-  if (currentLine) {
-    lines.push(currentLine);
-  }
+  return allLines;
+};
 
-  return lines;
+// Helper to add text with proper line wrapping and returns new Y position
+const addWrappedText = (
+  doc: jsPDF,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  fontSize: number,
+  pageHeight: number,
+  addNewPage: () => void,
+  margin: number = 35
+): number => {
+  const lineHeight = getLineHeight(fontSize);
+  const lines = wrapText(text, maxWidth, doc);
+  
+  for (const line of lines) {
+    if (y > pageHeight - 25) {
+      addNewPage();
+      y = margin;
+    }
+    doc.text(line, x, y);
+    y += lineHeight;
+  }
+  
+  return y;
 };
 
 export const usePdfGenerator = () => {
@@ -107,7 +175,7 @@ export const usePdfGenerator = () => {
       doc.setDrawColor(colors.accent);
       doc.setLineWidth(0.3);
       doc.line(margin, y + 2, margin + 40, y + 2);
-      return y + 10;
+      return y + getLineHeight(11) + 4;
     };
 
     // ===== PAGE 1: COVER PAGE =====
@@ -149,13 +217,14 @@ export const usePdfGenerator = () => {
     doc.setFontSize(24);
     doc.setTextColor(colors.primary);
     
+    const titleLineHeight = getLineHeight(24);
     const titleLines = wrapText(summary.title, contentWidth, doc);
     titleLines.forEach((line, i) => {
-      doc.text(line, pageWidth / 2, titleY + i * 12, { align: 'center' });
+      doc.text(line, pageWidth / 2, titleY + i * titleLineHeight, { align: 'center' });
     });
 
     // Reflection type badge
-    const typeY = titleY + titleLines.length * 12 + 15;
+    const typeY = titleY + titleLines.length * titleLineHeight + 15;
     doc.setFontSize(10);
     doc.setTextColor(colors.accent);
     const typeLabel = summary.memory_type === 'impulse-reflection' ? 'Impuls-Reflexion' :
@@ -191,22 +260,16 @@ export const usePdfGenerator = () => {
     // ===== PAGE 2: ZUSAMMENFASSUNG & MUSTER & BEDÜRFNISSE =====
     addStyledPage();
     let y = 35;
+    const bodyFontSize = 10;
+    const bodyLineHeight = getLineHeight(bodyFontSize);
 
     // Summary text
     if (structured.summary_text) {
       y = drawSectionHeader('Zusammenfassung', y);
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(bodyFontSize);
       doc.setTextColor(colors.text);
-      const summaryLines = wrapText(structured.summary_text, contentWidth, doc);
-      summaryLines.forEach(line => {
-        if (y > pageHeight - 40) {
-          addStyledPage();
-          y = 35;
-        }
-        doc.text(line, margin, y);
-        y += 5;
-      });
+      y = addWrappedText(doc, structured.summary_text, margin, y, contentWidth, bodyFontSize, pageHeight, addStyledPage, 35);
       y += 10;
     }
 
@@ -215,7 +278,7 @@ export const usePdfGenerator = () => {
       if (y > pageHeight - 60) { addStyledPage(); y = 35; }
       y = drawSectionHeader('Erkannte Muster', y);
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.setFontSize(bodyFontSize);
       doc.setTextColor(colors.text);
       
       structured.patterns.forEach(pattern => {
@@ -223,7 +286,7 @@ export const usePdfGenerator = () => {
         patternLines.forEach((line, i) => {
           if (y > pageHeight - 25) { addStyledPage(); y = 35; }
           doc.text(line, i === 0 ? margin : margin + 5, y);
-          y += 5;
+          y += bodyLineHeight;
         });
         y += 2;
       });
@@ -234,11 +297,9 @@ export const usePdfGenerator = () => {
     if (structured.needs?.length > 0) {
       if (y > pageHeight - 50) { addStyledPage(); y = 35; }
       y = drawSectionHeader('Beruehrte Beduerfnisse', y);
-      doc.setFontSize(10);
+      doc.setFontSize(bodyFontSize);
       
-      const needsPerRow = 3;
       let needX = margin;
-      let needCount = 0;
       
       structured.needs.forEach(need => {
         const needText = sanitizeText(need);
@@ -257,7 +318,6 @@ export const usePdfGenerator = () => {
         doc.text(needText, needX + 5, y);
         
         needX += needWidth + 5;
-        needCount++;
       });
       y += 15;
     }
@@ -304,11 +364,11 @@ export const usePdfGenerator = () => {
             if (i === 0) {
               doc.text(line, margin + typeWidth + doc.getTextWidth(sanitizeText(part.name) + ':') + 8, y);
             } else {
-              y += 5;
+              y += bodyLineHeight;
               doc.text(line, margin + 5, y);
             }
           });
-          y += 10;
+          y += bodyLineHeight + 4;
         });
         y += 5;
       }
@@ -329,14 +389,15 @@ export const usePdfGenerator = () => {
           doc.setTextColor(colors.secondary);
           const sigLines = wrapText(area.significance, contentWidth - 25, doc);
           sigLines.forEach((line, i) => {
+            if (y > pageHeight - 25) { addStyledPage(); y = 35; }
             if (i === 0) {
               doc.text(line, margin + doc.getTextWidth(sanitizeText(area.area) + ':') + 3, y);
             } else {
-              y += 5;
+              y += bodyLineHeight;
               doc.text(line, margin + 5, y);
             }
           });
-          y += 8;
+          y += bodyLineHeight + 2;
         });
       }
     }
@@ -357,8 +418,9 @@ export const usePdfGenerator = () => {
           doc.setFont('helvetica', 'normal');
           const insightLines = wrapText(`${i + 1}. ${insight}`, contentWidth - 5, doc);
           insightLines.forEach((line, j) => {
+            if (y > pageHeight - 25) { addStyledPage(); y = 35; }
             doc.text(line, j === 0 ? margin : margin + 5, y);
-            y += 5;
+            y += bodyLineHeight;
           });
           y += 3;
         });
@@ -370,13 +432,32 @@ export const usePdfGenerator = () => {
         if (y > pageHeight - 80) { addStyledPage(); y = 35; }
         y = drawSectionHeader('Empfehlungen', y);
         
-        // Box background
+        // Calculate dynamic box height based on content
+        doc.setFontSize(bodyFontSize);
+        let tempY = 0;
+        const recLineHeight = bodyLineHeight;
+        
+        if (structured.recommendations.body_exercise) {
+          tempY += recLineHeight; // Label
+          tempY += wrapText(structured.recommendations.body_exercise, contentWidth - 15, doc).length * recLineHeight;
+          tempY += 8;
+        }
+        if (structured.recommendations.micro_action) {
+          tempY += recLineHeight;
+          tempY += wrapText(structured.recommendations.micro_action, contentWidth - 15, doc).length * recLineHeight;
+          tempY += 8;
+        }
+        if (structured.recommendations.reflection_question) {
+          tempY += recLineHeight;
+          tempY += wrapText(`"${structured.recommendations.reflection_question}"`, contentWidth - 15, doc).length * recLineHeight;
+        }
+        
+        // Box background with dynamic height
         doc.setFillColor(colors.light);
-        const boxHeight = 60;
+        const boxHeight = Math.max(60, tempY + 10);
         doc.roundedRect(margin, y - 3, contentWidth, boxHeight, 3, 3, 'F');
         
         y += 5;
-        doc.setFontSize(10);
 
         if (structured.recommendations.body_exercise) {
           doc.setFont('helvetica', 'bold');
@@ -386,7 +467,7 @@ export const usePdfGenerator = () => {
           doc.setTextColor(colors.text);
           const exLines = wrapText(structured.recommendations.body_exercise, contentWidth - 15, doc);
           exLines.forEach(line => {
-            y += 5;
+            y += recLineHeight;
             doc.text(line, margin + 5, y);
           });
           y += 8;
@@ -401,7 +482,7 @@ export const usePdfGenerator = () => {
           doc.setTextColor(colors.text);
           const actionLines = wrapText(structured.recommendations.micro_action, contentWidth - 15, doc);
           actionLines.forEach(line => {
-            y += 5;
+            y += recLineHeight;
             doc.text(line, margin + 5, y);
           });
           y += 8;
@@ -416,7 +497,7 @@ export const usePdfGenerator = () => {
           doc.setTextColor(colors.text);
           const qLines = wrapText(`"${structured.recommendations.reflection_question}"`, contentWidth - 15, doc);
           qLines.forEach(line => {
-            y += 5;
+            y += recLineHeight;
             doc.text(line, margin + 5, y);
           });
         }
