@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { usePdfGenerator } from '@/hooks/usePdfGenerator';
+import { PdfPreview } from '@/components/PdfPreview';
 import {
   Dialog,
   DialogContent,
@@ -882,7 +883,7 @@ const Summaries = () => {
           setPdfSummary(null);
         }
       }}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Download className="w-5 h-5 text-primary" />
@@ -905,7 +906,7 @@ const Summaries = () => {
                   <img
                     src={coverImage}
                     alt="Cover"
-                    className="w-full h-40 object-cover rounded-lg border border-border"
+                    className="w-full h-32 object-cover rounded-lg border border-border"
                   />
                   <button
                     onClick={() => setCoverImage(null)}
@@ -917,12 +918,12 @@ const Summaries = () => {
               ) : (
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full h-40 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-3 hover:border-primary/50 hover:bg-muted/30 transition-colors"
+                  className="w-full h-24 border-2 border-dashed border-border rounded-lg flex items-center justify-center gap-3 hover:border-primary/50 hover:bg-muted/30 transition-colors"
                 >
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-                    <ImagePlus className="w-6 h-6 text-muted-foreground" />
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                    <ImagePlus className="w-5 h-5 text-muted-foreground" />
                   </div>
-                  <div className="text-center">
+                  <div className="text-left">
                     <p className="text-sm font-medium text-foreground">Bild hochladen</p>
                     <p className="text-xs text-muted-foreground">JPG, PNG oder WEBP, max. 5MB</p>
                   </div>
@@ -938,18 +939,13 @@ const Summaries = () => {
               />
             </div>
 
-            {/* Preview info */}
+            {/* PDF Preview */}
             {pdfSummary && (
-              <div className="bg-muted/30 rounded-lg p-4 space-y-2">
-                <p className="text-sm font-medium text-foreground">{pdfSummary.title}</p>
-                <p className="text-xs text-muted-foreground">
-                  {format(new Date(pdfSummary.created_at), 'dd. MMMM yyyy', { locale: de })}
-                </p>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">4 Seiten</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">A4 Format</span>
-                  {coverImage && <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-700">Mit Titelbild</span>}
-                </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-3 block">
+                  Vorschau
+                </label>
+                <PdfPreview summary={pdfSummary} coverImage={coverImage} />
               </div>
             )}
           </div>
