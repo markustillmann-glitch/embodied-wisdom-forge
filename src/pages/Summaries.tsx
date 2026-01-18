@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2 } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -53,6 +53,7 @@ interface SummaryMemory {
   memory_date: string | null;
   memory_type: string;
   image_url: string | null;
+  content: string;
 }
 
 const partTypeLabels: Record<string, { label: string; color: string }> = {
@@ -107,6 +108,17 @@ const Summaries = () => {
   
   // AI image generation state
   const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
+  
+  // View mode state: 'summary' or 'conversation'
+  const [viewModes, setViewModes] = useState<Record<string, 'summary' | 'conversation'>>({});
+
+  const getViewMode = (id: string) => viewModes[id] || 'summary';
+  const toggleViewMode = (id: string) => {
+    setViewModes(prev => ({
+      ...prev,
+      [id]: prev[id] === 'conversation' ? 'summary' : 'conversation'
+    }));
+  };
 
   // Check if user has a vault password set
   useEffect(() => {
@@ -256,7 +268,7 @@ const Summaries = () => {
     try {
       const { data, error } = await supabase
         .from('memories')
-        .select('id, title, summary, structured_summary, location, created_at, memory_date, memory_type, image_url')
+        .select('id, title, summary, structured_summary, location, created_at, memory_date, memory_type, image_url, content')
         .eq('user_id', user.id)
         .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection'])
         .eq('summary_requested', true)
@@ -267,7 +279,8 @@ const Summaries = () => {
       const typedData = (data || []).map(item => ({
         ...item,
         structured_summary: item.structured_summary as unknown as StructuredSummary | null,
-        image_url: item.image_url || null
+        image_url: item.image_url || null,
+        content: item.content || ''
       }));
       
       setSummaries(typedData);
@@ -754,6 +767,32 @@ const Summaries = () => {
                       className="overflow-hidden"
                     >
                       <div className="px-4 sm:px-5 pb-5 space-y-5 border-t border-border pt-5">
+                        {/* View Mode Toggle */}
+                        <div className="flex gap-2 p-1 bg-muted/50 rounded-lg">
+                          <button
+                            onClick={() => setViewModes(prev => ({ ...prev, [summary.id]: 'summary' }))}
+                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                              getViewMode(summary.id) === 'summary' 
+                                ? 'bg-background text-foreground shadow-sm' 
+                                : 'text-muted-foreground hover:text-foreground'
+                            }`}
+                          >
+                            <FileText className="w-4 h-4" />
+                            Zusammenfassung
+                          </button>
+                          <button
+                            onClick={() => setViewModes(prev => ({ ...prev, [summary.id]: 'conversation' }))}
+                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                              getViewMode(summary.id) === 'conversation' 
+                                ? 'bg-background text-foreground shadow-sm' 
+                                : 'text-muted-foreground hover:text-foreground'
+                            }`}
+                          >
+                            <MessageSquare className="w-4 h-4" />
+                            Original-Unterhaltung
+                          </button>
+                        </div>
+
                         {/* Cover Image Section */}
                         <div className="space-y-3">
                           {summary.image_url ? (
@@ -814,134 +853,188 @@ const Summaries = () => {
                           )}
                         </div>
 
-                        {/* Summary Text */}
-                        <div>
-                          <p className="text-foreground leading-relaxed">
-                            {summary.structured_summary.summary_text}
-                          </p>
-                        </div>
-
-                        {/* Patterns */}
-                        {summary.structured_summary.patterns?.length > 0 && (
-                          <div>
-                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                              <Target className="w-4 h-4 text-primary" />
-                              Erkannte Muster
+                        {/* Content based on view mode */}
+                        {getViewMode(summary.id) === 'conversation' ? (
+                          /* Original Conversation View */
+                          <div className="space-y-4">
+                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground">
+                              <MessageSquare className="w-4 h-4 text-primary" />
+                              Original-Unterhaltung
                             </h4>
-                            <ul className="space-y-1">
-                              {summary.structured_summary.patterns.map((pattern, i) => (
-                                <li key={i} className="text-sm text-muted-foreground pl-6 relative before:content-['•'] before:absolute before:left-2 before:text-primary">
-                                  {pattern}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Needs */}
-                        {summary.structured_summary.needs?.length > 0 && (
-                          <div>
-                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                              <Heart className="w-4 h-4 text-pink-500" />
-                              Berührte Bedürfnisse
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {summary.structured_summary.needs.map((need, i) => (
-                                <span 
-                                  key={i} 
-                                  className="px-2.5 py-1 bg-pink-500/10 text-pink-700 text-xs rounded-full"
-                                >
-                                  {need}
-                                </span>
-                              ))}
+                            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+                              {summary.content.split(/\n\n+/).map((block, index) => {
+                                const trimmedBlock = block.trim();
+                                if (!trimmedBlock) return null;
+                                
+                                // Check if it's an Oria message or user message
+                                const isOria = trimmedBlock.startsWith('Oria:');
+                                const isUser = trimmedBlock.startsWith('Du:');
+                                
+                                if (isOria) {
+                                  const message = trimmedBlock.replace(/^Oria:\s*/, '');
+                                  return (
+                                    <div key={index} className="flex gap-3">
+                                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                        <Sparkles className="w-4 h-4 text-primary" />
+                                      </div>
+                                      <div className="flex-1 bg-muted/30 rounded-2xl rounded-tl-sm px-4 py-3">
+                                        <p className="text-sm text-foreground whitespace-pre-wrap">{message}</p>
+                                      </div>
+                                    </div>
+                                  );
+                                } else if (isUser) {
+                                  const message = trimmedBlock.replace(/^Du:\s*/, '');
+                                  return (
+                                    <div key={index} className="flex gap-3 justify-end">
+                                      <div className="flex-1 max-w-[85%] bg-primary/10 rounded-2xl rounded-tr-sm px-4 py-3">
+                                        <p className="text-sm text-foreground whitespace-pre-wrap">{message}</p>
+                                      </div>
+                                    </div>
+                                  );
+                                } else {
+                                  // Other content (like system messages)
+                                  return (
+                                    <div key={index} className="text-sm text-muted-foreground text-center py-2">
+                                      {trimmedBlock}
+                                    </div>
+                                  );
+                                }
+                              })}
                             </div>
                           </div>
-                        )}
+                        ) : (
+                          /* Summary View */
+                          <>
+                            {/* Summary Text */}
+                            <div>
+                              <p className="text-foreground leading-relaxed">
+                                {summary.structured_summary.summary_text}
+                              </p>
+                            </div>
 
-                        {/* Parts */}
-                        {summary.structured_summary.parts?.length > 0 && (
-                          <div>
-                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                              <Brain className="w-4 h-4 text-violet-500" />
-                              Beteiligte innere Teile
-                            </h4>
-                            <div className="space-y-2">
-                              {summary.structured_summary.parts.map((part, i) => (
-                                <div key={i} className="flex items-start gap-2">
-                                  <span className={`px-2 py-0.5 text-xs rounded-full shrink-0 ${partTypeLabels[part.type]?.color || 'bg-gray-500/20 text-gray-700'}`}>
-                                    {partTypeLabels[part.type]?.label || part.type}
-                                  </span>
+                            {/* Patterns */}
+                            {summary.structured_summary.patterns?.length > 0 && (
+                              <div>
+                                <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                                  <Target className="w-4 h-4 text-primary" />
+                                  Erkannte Muster
+                                </h4>
+                                <ul className="space-y-1">
+                                  {summary.structured_summary.patterns.map((pattern, i) => (
+                                    <li key={i} className="text-sm text-muted-foreground pl-6 relative before:content-['•'] before:absolute before:left-2 before:text-primary">
+                                      {pattern}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Needs */}
+                            {summary.structured_summary.needs?.length > 0 && (
+                              <div>
+                                <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                                  <Heart className="w-4 h-4 text-pink-500" />
+                                  Berührte Bedürfnisse
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {summary.structured_summary.needs.map((need, i) => (
+                                    <span 
+                                      key={i} 
+                                      className="px-2.5 py-1 bg-pink-500/10 text-pink-700 text-xs rounded-full"
+                                    >
+                                      {need}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Parts */}
+                            {summary.structured_summary.parts?.length > 0 && (
+                              <div>
+                                <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                                  <Brain className="w-4 h-4 text-violet-500" />
+                                  Beteiligte innere Teile
+                                </h4>
+                                <div className="space-y-2">
+                                  {summary.structured_summary.parts.map((part, i) => (
+                                    <div key={i} className="flex items-start gap-2">
+                                      <span className={`px-2 py-0.5 text-xs rounded-full shrink-0 ${partTypeLabels[part.type]?.color || 'bg-gray-500/20 text-gray-700'}`}>
+                                        {partTypeLabels[part.type]?.label || part.type}
+                                      </span>
+                                      <div className="text-sm">
+                                        <span className="font-medium text-foreground">{part.name}:</span>{' '}
+                                        <span className="text-muted-foreground">{part.description}</span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Body Areas */}
+                            {summary.structured_summary.body_areas?.length > 0 && (
+                              <div>
+                                <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                                  <Activity className="w-4 h-4 text-emerald-500" />
+                                  Körperbereiche
+                                </h4>
+                                <div className="space-y-2">
+                                  {summary.structured_summary.body_areas.map((area, i) => (
+                                    <div key={i} className="text-sm">
+                                      <span className="font-medium text-foreground">{area.area}:</span>{' '}
+                                      <span className="text-muted-foreground">{area.significance}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Insights */}
+                            {summary.structured_summary.insights?.length > 0 && (
+                              <div>
+                                <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                                  <Sparkles className="w-4 h-4 text-amber-500" />
+                                  Zentrale Erkenntnisse
+                                </h4>
+                                <ul className="space-y-1">
+                                  {summary.structured_summary.insights.map((insight, i) => (
+                                    <li key={i} className="text-sm text-muted-foreground pl-6 relative before:content-['💡'] before:absolute before:left-0">
+                                      {insight}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Recommendations */}
+                            {summary.structured_summary.recommendations && (
+                              <div className="bg-muted/30 rounded-lg p-4 space-y-3">
+                                <h4 className="text-sm font-medium text-foreground">Empfehlungen für dich</h4>
+                                
+                                {summary.structured_summary.recommendations.body_exercise && (
                                   <div className="text-sm">
-                                    <span className="font-medium text-foreground">{part.name}:</span>{' '}
-                                    <span className="text-muted-foreground">{part.description}</span>
+                                    <span className="text-primary font-medium">🧘 Körperübung:</span>{' '}
+                                    <span className="text-muted-foreground">{summary.structured_summary.recommendations.body_exercise}</span>
                                   </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Body Areas */}
-                        {summary.structured_summary.body_areas?.length > 0 && (
-                          <div>
-                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                              <Activity className="w-4 h-4 text-emerald-500" />
-                              Körperbereiche
-                            </h4>
-                            <div className="space-y-2">
-                              {summary.structured_summary.body_areas.map((area, i) => (
-                                <div key={i} className="text-sm">
-                                  <span className="font-medium text-foreground">{area.area}:</span>{' '}
-                                  <span className="text-muted-foreground">{area.significance}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Insights */}
-                        {summary.structured_summary.insights?.length > 0 && (
-                          <div>
-                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                              <Sparkles className="w-4 h-4 text-amber-500" />
-                              Zentrale Erkenntnisse
-                            </h4>
-                            <ul className="space-y-1">
-                              {summary.structured_summary.insights.map((insight, i) => (
-                                <li key={i} className="text-sm text-muted-foreground pl-6 relative before:content-['💡'] before:absolute before:left-0">
-                                  {insight}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Recommendations */}
-                        {summary.structured_summary.recommendations && (
-                          <div className="bg-muted/30 rounded-lg p-4 space-y-3">
-                            <h4 className="text-sm font-medium text-foreground">Empfehlungen für dich</h4>
-                            
-                            {summary.structured_summary.recommendations.body_exercise && (
-                              <div className="text-sm">
-                                <span className="text-primary font-medium">🧘 Körperübung:</span>{' '}
-                                <span className="text-muted-foreground">{summary.structured_summary.recommendations.body_exercise}</span>
+                                )}
+                                
+                                {summary.structured_summary.recommendations.micro_action && (
+                                  <div className="text-sm">
+                                    <span className="text-primary font-medium">✨ Mikro-Aktion:</span>{' '}
+                                    <span className="text-muted-foreground">{summary.structured_summary.recommendations.micro_action}</span>
+                                  </div>
+                                )}
+                                
+                                {summary.structured_summary.recommendations.reflection_question && (
+                                  <div className="text-sm">
+                                    <span className="text-primary font-medium">💭 Zum Nachdenken:</span>{' '}
+                                    <span className="text-muted-foreground italic">"{summary.structured_summary.recommendations.reflection_question}"</span>
+                                  </div>
+                                )}
                               </div>
                             )}
-                            
-                            {summary.structured_summary.recommendations.micro_action && (
-                              <div className="text-sm">
-                                <span className="text-primary font-medium">✨ Mikro-Aktion:</span>{' '}
-                                <span className="text-muted-foreground">{summary.structured_summary.recommendations.micro_action}</span>
-                              </div>
-                            )}
-                            
-                            {summary.structured_summary.recommendations.reflection_question && (
-                              <div className="text-sm">
-                                <span className="text-primary font-medium">💭 Zum Nachdenken:</span>{' '}
-                                <span className="text-muted-foreground italic">"{summary.structured_summary.recommendations.reflection_question}"</span>
-                              </div>
-                            )}
-                          </div>
+                          </>
                         )}
 
                         {/* Action buttons in expanded view */}
