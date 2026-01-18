@@ -345,30 +345,62 @@ export const usePdfGenerator = () => {
           // Type badge
           doc.setFillColor('#E8EAF6');
           const typeText = partTypeLabels[part.type] || part.type;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(bodyFontSize);
           const typeWidth = doc.getTextWidth(typeText) + 8;
           doc.roundedRect(margin, y - 4, typeWidth, 7, 1.5, 1.5, 'F');
           doc.setTextColor('#3F51B5');
-          doc.setFont('helvetica', 'bold');
           doc.text(sanitizeText(typeText), margin + 4, y);
           
-          // Name and description
+          // Name
           doc.setFont('helvetica', 'bold');
           doc.setTextColor(colors.text);
-          doc.text(sanitizeText(part.name) + ':', margin + typeWidth + 5, y);
+          const nameText = sanitizeText(part.name) + ':';
+          const nameX = margin + typeWidth + 5;
+          doc.text(nameText, nameX, y);
           
+          // Description - calculate available width for first line vs continuation lines
           doc.setFont('helvetica', 'normal');
           doc.setTextColor(colors.secondary);
-          const descLines = wrapText(part.description, contentWidth - typeWidth - 10, doc);
+          const nameWidth = doc.getTextWidth(nameText);
+          const firstLineX = nameX + nameWidth + 3;
+          const firstLineWidth = pageWidth - margin - firstLineX;
+          const continuationWidth = contentWidth - 5;
+          
+          // Wrap description text properly
+          const descText = sanitizeText(part.description);
+          const words = descText.split(' ').filter(w => w.length > 0);
+          const descLines: string[] = [];
+          let currentLine = '';
+          let isFirstLine = true;
+          
+          for (const word of words) {
+            const maxWidth = isFirstLine ? firstLineWidth : continuationWidth;
+            const testLine = currentLine ? `${currentLine} ${word}` : word;
+            
+            if (doc.getTextWidth(testLine) > maxWidth && currentLine) {
+              descLines.push(currentLine);
+              currentLine = word;
+              isFirstLine = false;
+            } else {
+              currentLine = testLine;
+            }
+          }
+          if (currentLine) {
+            descLines.push(currentLine);
+          }
+          
+          // Draw description lines
           descLines.forEach((line, i) => {
             if (y > pageHeight - 25) { addStyledPage(); y = 35; }
             if (i === 0) {
-              doc.text(line, margin + typeWidth + doc.getTextWidth(sanitizeText(part.name) + ':') + 8, y);
+              doc.text(line, firstLineX, y);
             } else {
               y += bodyLineHeight;
               doc.text(line, margin + 5, y);
             }
           });
-          y += bodyLineHeight + 4;
+          y += bodyLineHeight + 6;
         });
         y += 5;
       }
