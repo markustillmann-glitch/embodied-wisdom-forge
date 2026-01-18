@@ -30,19 +30,49 @@ interface SummaryData {
 const sanitizeText = (text: string): string => {
   if (!text) return '';
   return text
-    .replace(/[\u2018\u2019]/g, "'")
-    .replace(/[\u201C\u201D]/g, '"')
+    // Normalize whitespace first
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/\t/g, '    ')
+    // Replace multiple spaces with single space
+    .replace(/ {2,}/g, ' ')
+    // Curly quotes to straight quotes
+    .replace(/[\u2018\u2019\u201A\u201B]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F]/g, '"')
+    // Ellipsis
     .replace(/\u2026/g, '...')
+    // Dashes
     .replace(/\u2013/g, '-')
     .replace(/\u2014/g, '--')
-    .replace(/\u00A0/g, ' ');
+    .replace(/\u2015/g, '--')
+    // Non-breaking space
+    .replace(/\u00A0/g, ' ')
+    // Bullet points
+    .replace(/[\u2022\u2023\u2043]/g, '-')
+    // German special characters are fine, but handle other problematic ones
+    .replace(/\u00AD/g, '') // Soft hyphen
+    .replace(/\u200B/g, '') // Zero-width space
+    .replace(/\u200C/g, '') // Zero-width non-joiner
+    .replace(/\u200D/g, '') // Zero-width joiner
+    .replace(/\uFEFF/g, '') // BOM
+    // Arrows
+    .replace(/[\u2190-\u2199]/g, '->')
+    // Math symbols that might cause issues
+    .replace(/\u00D7/g, 'x') // multiplication
+    .replace(/\u00F7/g, '/') // division
+    // Trim each line
+    .split('\n')
+    .map(line => line.trim())
+    .join('\n')
+    // Remove multiple consecutive newlines (max 2)
+    .replace(/\n{3,}/g, '\n\n');
 };
 
 // Calculate line height based on font size (typically 1.2-1.5x font size for good readability)
 const getLineHeight = (fontSize: number): number => {
   // Convert font size from pt to mm and apply line height factor
-  // 1pt = 0.352778mm, line height factor of 1.4 for readability
-  return (fontSize * 0.352778) * 1.4;
+  // 1pt = 0.352778mm, line height factor of 1.5 for better readability
+  return (fontSize * 0.352778) * 1.5;
 };
 
 // Wrap text to fit within a specified width - uses current font settings of doc
@@ -60,15 +90,17 @@ const wrapText = (text: string, maxWidth: number, doc: jsPDF): string[] => {
       continue;
     }
     
-    const words = paragraph.split(' ').filter(w => w.length > 0);
+    // Split by spaces but preserve spacing
+    const words = paragraph.split(/\s+/).filter(w => w.length > 0);
     let currentLine = '';
 
     for (const word of words) {
       // Handle very long words that might exceed maxWidth on their own
-      if (doc.getTextWidth(word) > maxWidth) {
+      const wordWidth = doc.getTextWidth(word);
+      if (wordWidth > maxWidth) {
         // Push current line if exists
         if (currentLine) {
-          allLines.push(currentLine);
+          allLines.push(currentLine.trim());
           currentLine = '';
         }
         // Break the long word into smaller chunks
@@ -89,15 +121,15 @@ const wrapText = (text: string, maxWidth: number, doc: jsPDF): string[] => {
       const testWidth = doc.getTextWidth(testLine);
 
       if (testWidth > maxWidth && currentLine) {
-        allLines.push(currentLine);
+        allLines.push(currentLine.trim());
         currentLine = word;
       } else {
         currentLine = testLine;
       }
     }
 
-    if (currentLine) {
-      allLines.push(currentLine);
+    if (currentLine.trim()) {
+      allLines.push(currentLine.trim());
     }
   }
 
