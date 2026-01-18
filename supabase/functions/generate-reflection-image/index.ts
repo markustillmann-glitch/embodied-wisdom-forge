@@ -133,12 +133,20 @@ The image should feel like a visual poem - calming, beautiful, and deeply person
       });
     }
 
-    // Get public URL
-    const { data: urlData } = supabase.storage
+    // Create signed URL for private bucket (valid for 1 year)
+    const { data: signedUrlData, error: signedUrlError } = await supabase.storage
       .from("reflection-images")
-      .getPublicUrl(fileName);
+      .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1 year
 
-    const imageUrl = urlData.publicUrl;
+    if (signedUrlError || !signedUrlData?.signedUrl) {
+      console.error("Signed URL error:", signedUrlError);
+      return new Response(JSON.stringify({ error: "Fehler beim Erstellen der Bild-URL" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const imageUrl = signedUrlData.signedUrl;
 
     // Update the memory record with the new image URL
     const { error: updateError } = await supabase
