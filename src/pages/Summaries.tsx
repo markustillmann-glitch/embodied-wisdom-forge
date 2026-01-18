@@ -312,12 +312,16 @@ const Summaries = () => {
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
-      const { data: urlData } = supabase.storage
+      // Create signed URL for private bucket (valid for 1 year)
+      const { data: signedUrlData, error: signedUrlError } = await supabase.storage
         .from('reflection-images')
-        .getPublicUrl(fileName);
+        .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1 year
 
-      const imageUrl = urlData.publicUrl;
+      if (signedUrlError || !signedUrlData?.signedUrl) {
+        throw new Error('Failed to create signed URL');
+      }
+
+      const imageUrl = signedUrlData.signedUrl;
 
       // Update memory record
       const { error: updateError } = await supabase
