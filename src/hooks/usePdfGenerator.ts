@@ -27,62 +27,21 @@ interface SummaryMemory {
   memory_type: string;
 }
 
-// App color palette - warm terracotta tones
+// Editorial color palette - sophisticated monochrome with warm accent
 const colors = {
-  primary: [89, 62, 48] as [number, number, number], // Terracotta/warm brown
-  secondary: [128, 100, 82] as [number, number, number], // Soft brown
-  accent: [205, 133, 63] as [number, number, number], // Gold/amber
-  text: [51, 41, 33] as [number, number, number], // Dark warm brown
-  muted: [140, 120, 105] as [number, number, number], // Muted brown
-  light: [252, 250, 248] as [number, number, number], // Warm off-white (like app bg)
-  divider: [225, 215, 205] as [number, number, number], // Light divider
-  sage: [160, 180, 160] as [number, number, number], // Soft sage green for accents
-  rose: [200, 150, 150] as [number, number, number], // Soft rose for warmth
-  teal: [100, 150, 160] as [number, number, number], // Soft teal
-};
-
-// Helper to draw soft circular line art (like the reference image)
-const drawCircleArt = (pdf: jsPDF, centerX: number, centerY: number, size: number = 1) => {
-  const baseRadius = 12 * size;
-  
-  // Draw multiple overlapping soft circles with different colors
-  const circles = [
-    { radius: baseRadius, color: colors.sage, offset: { x: -2, y: -2 } },
-    { radius: baseRadius * 0.9, color: colors.rose, offset: { x: 2, y: 0 } },
-    { radius: baseRadius * 0.85, color: colors.teal, offset: { x: 0, y: 2 } },
-    { radius: baseRadius * 0.95, color: colors.accent, offset: { x: -1, y: 1 } },
-  ];
-  
-  pdf.setLineWidth(0.3);
-  
-  circles.forEach(circle => {
-    pdf.setDrawColor(...circle.color);
-    pdf.circle(
-      centerX + circle.offset.x * size, 
-      centerY + circle.offset.y * size, 
-      circle.radius, 
-      'S'
-    );
-  });
-};
-
-// Draw a small decorative flourish
-const drawFlourish = (pdf: jsPDF, x: number, y: number, width: number) => {
-  pdf.setDrawColor(...colors.sage);
-  pdf.setLineWidth(0.2);
-  
-  // Simple curved line
-  const midX = x + width / 2;
-  pdf.line(x, y, midX - 5, y);
-  pdf.circle(midX, y, 1.5, 'S');
-  pdf.line(midX + 5, y, x + width, y);
+  black: [20, 20, 20] as [number, number, number],
+  darkGray: [45, 45, 45] as [number, number, number],
+  mediumGray: [100, 100, 100] as [number, number, number],
+  lightGray: [180, 180, 180] as [number, number, number],
+  paleGray: [240, 240, 238] as [number, number, number],
+  white: [255, 255, 255] as [number, number, number],
+  accent: [180, 100, 70] as [number, number, number], // Warm terracotta accent
 };
 
 // Replace special characters for PDF compatibility
 const sanitizeText = (text: string): string => {
   if (!text) return '';
   
-  // Map German characters to alternatives
   return text
     .replace(/ä/g, 'ae')
     .replace(/ö/g, 'oe')
@@ -115,20 +74,15 @@ export const usePdfGenerator = () => {
 
     const pageWidth = pageSize;
     const pageHeight = pageSize;
-    const margin = 18;
+    const margin = 20;
     const contentWidth = pageWidth - margin * 2;
 
-    // Helper functions
+    // Helper: Add new page
     const addPage = () => {
       pdf.addPage();
     };
 
-    const drawLine = (y: number, width: number = contentWidth, startX: number = margin) => {
-      pdf.setDrawColor(...colors.divider);
-      pdf.setLineWidth(0.3);
-      pdf.line(startX, y, startX + width, y);
-    };
-
+    // Helper: Add text with options
     const addText = (
       text: string,
       x: number,
@@ -139,24 +93,25 @@ export const usePdfGenerator = () => {
         fontStyle?: 'normal' | 'bold' | 'italic';
         maxWidth?: number;
         align?: 'left' | 'center' | 'right';
+        lineHeight?: number;
       } = {}
     ): number => {
       const {
-        fontSize = 11,
-        color = colors.text,
+        fontSize = 10,
+        color = colors.darkGray,
         fontStyle = 'normal',
         maxWidth = contentWidth,
         align = 'left',
+        lineHeight = 1.5,
       } = options;
 
       pdf.setFontSize(fontSize);
       pdf.setTextColor(...color);
       pdf.setFont('helvetica', fontStyle);
 
-      // Sanitize text for proper character display
       const sanitized = sanitizeText(text);
       const lines = pdf.splitTextToSize(sanitized, maxWidth);
-      const lineHeight = fontSize * 0.45;
+      const lineHeightMm = fontSize * 0.35 * lineHeight;
 
       lines.forEach((line: string, index: number) => {
         let xPos = x;
@@ -165,24 +120,20 @@ export const usePdfGenerator = () => {
         } else if (align === 'right') {
           xPos = pageWidth - margin;
         }
-        pdf.text(line, xPos, y + index * lineHeight, { align });
+        pdf.text(line, xPos, y + index * lineHeightMm, { align });
       });
 
-      return y + lines.length * lineHeight;
+      return y + lines.length * lineHeightMm;
     };
 
-    // ===== PAGE 1: Title Page =====
-    // Background color
-    pdf.setFillColor(...colors.light);
+    // ===== PAGE 1: TITLE PAGE =====
+    // Full page warm background
+    pdf.setFillColor(...colors.paleGray);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-    // Decorative circle art at top
-    drawCircleArt(pdf, pageWidth / 2, 50, 1.2);
-
-    // Add cover image if provided
+    // Asymmetric layout - content shifted to bottom-left
     if (coverImage) {
       try {
-        // Detect image format from base64
         let imgFormat: 'JPEG' | 'PNG' | 'WEBP' = 'JPEG';
         if (coverImage.includes('data:image/png')) {
           imgFormat = 'PNG';
@@ -190,197 +141,200 @@ export const usePdfGenerator = () => {
           imgFormat = 'WEBP';
         }
         
-        // Add image centered below circle art
-        const imgWidth = contentWidth - 30;
-        const imgHeight = 80;
-        const imgX = (pageWidth - imgWidth) / 2;
-        const imgY = 75;
+        // Large image taking most of page
+        const imgSize = 120;
+        const imgX = (pageWidth - imgSize) / 2;
+        const imgY = 25;
         
-        pdf.addImage(coverImage, imgFormat, imgX, imgY, imgWidth, imgHeight, undefined, 'MEDIUM');
+        pdf.addImage(coverImage, imgFormat, imgX, imgY, imgSize, imgSize, undefined, 'MEDIUM');
         
-        // Title below image
-        let y = imgY + imgHeight + 20;
+        // Title below image with editorial typography
+        let y = imgY + imgSize + 15;
         
-        y = addText(summary.title, pageWidth / 2, y, {
-          fontSize: 22,
-          color: colors.primary,
+        y = addText(summary.title.toUpperCase(), pageWidth / 2, y, {
+          fontSize: 14,
+          color: colors.black,
           fontStyle: 'bold',
           align: 'center',
-          maxWidth: contentWidth - 20,
+          maxWidth: contentWidth - 10,
+          lineHeight: 1.3,
         });
 
-        y += 10;
-        drawFlourish(pdf, pageWidth / 2 - 30, y, 60);
-        y += 12;
+        y += 8;
         
-        addText('Eine persoenliche Reflexion', pageWidth / 2, y, {
-          fontSize: 12,
-          color: colors.muted,
-          fontStyle: 'italic',
-          align: 'center',
-        });
+        // Thin accent line
+        pdf.setDrawColor(...colors.accent);
+        pdf.setLineWidth(0.5);
+        pdf.line(pageWidth / 2 - 20, y, pageWidth / 2 + 20, y);
+        
+        y += 10;
 
-        // Date at bottom
+        // Date in elegant small caps style
         const dateText = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
-        addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 40, {
-          fontSize: 10,
-          color: colors.muted,
+        addText(sanitizeText(dateText), pageWidth / 2, y, {
+          fontSize: 9,
+          color: colors.mediumGray,
           align: 'center',
         });
       } catch (error) {
         console.error('Error adding cover image:', error);
-        // Fallback without image
-        let y = 100;
-        y = addText(summary.title, pageWidth / 2, y, {
-          fontSize: 24,
-          color: colors.primary,
-          fontStyle: 'bold',
-          align: 'center',
-          maxWidth: contentWidth,
-        });
-        y += 12;
-        addText('Eine persoenliche Reflexion', pageWidth / 2, y, {
-          fontSize: 13,
-          color: colors.muted,
-          fontStyle: 'italic',
-          align: 'center',
-        });
-        const dateText = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
-        addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 40, {
-          fontSize: 10,
-          color: colors.muted,
-          align: 'center',
-        });
+        renderTitleWithoutImage();
       }
     } else {
-      // Title page without image - elegant typography with circle art
-      let y = 100;
+      renderTitleWithoutImage();
+    }
+
+    function renderTitleWithoutImage() {
+      // Dramatic typography-focused layout
+      let y = pageHeight / 2 - 20;
       
-      y = addText(summary.title, pageWidth / 2, y, {
-        fontSize: 26,
-        color: colors.primary,
+      // Large editorial title
+      y = addText(summary.title.toUpperCase(), pageWidth / 2, y, {
+        fontSize: 18,
+        color: colors.black,
         fontStyle: 'bold',
         align: 'center',
         maxWidth: contentWidth - 20,
+        lineHeight: 1.2,
       });
 
-      y += 15;
-      drawFlourish(pdf, pageWidth / 2 - 35, y, 70);
       y += 15;
       
-      addText('Eine persoenliche Reflexion', pageWidth / 2, y, {
-        fontSize: 13,
-        color: colors.muted,
+      // Accent line
+      pdf.setDrawColor(...colors.accent);
+      pdf.setLineWidth(0.8);
+      pdf.line(pageWidth / 2 - 30, y, pageWidth / 2 + 30, y);
+      
+      y += 15;
+
+      addText('Reflexion', pageWidth / 2, y, {
+        fontSize: 11,
+        color: colors.mediumGray,
         fontStyle: 'italic',
         align: 'center',
       });
 
-      // Date
+      // Date at bottom
       const dateText = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
-      addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 40, {
-        fontSize: 10,
-        color: colors.muted,
+      addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 25, {
+        fontSize: 9,
+        color: colors.mediumGray,
         align: 'center',
       });
-
-      // Small decorative element at bottom
-      drawCircleArt(pdf, pageWidth / 2, pageHeight - 55, 0.4);
     }
 
-    // ===== PAGE 2: Summary & Patterns =====
+    // ===== PAGE 2: ZUSAMMENFASSUNG =====
     addPage();
-    pdf.setFillColor(...colors.light);
+    pdf.setFillColor(...colors.white);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-    // Small decorative circle in corner
-    drawCircleArt(pdf, pageWidth - 25, 25, 0.35);
+    // Left margin accent bar
+    pdf.setFillColor(...colors.accent);
+    pdf.rect(0, 0, 4, pageHeight, 'F');
 
-    let y = margin + 10;
+    let y = margin + 5;
 
-    // Section: Summary
+    // Page header - small label
+    addText('01', margin + 8, y, {
+      fontSize: 8,
+      color: colors.lightGray,
+      fontStyle: 'bold',
+    });
+
+    y += 15;
+
+    // Section title - editorial style
+    y = addText('ZUSAMMENFASSUNG', margin + 8, y, {
+      fontSize: 12,
+      color: colors.black,
+      fontStyle: 'bold',
+    });
+
+    y += 12;
+
+    // Summary text - generous leading
     if (summary.structured_summary?.summary_text) {
-      y = addText('Zusammenfassung', margin, y, {
-        fontSize: 16,
-        color: colors.primary,
-        fontStyle: 'bold',
+      y = addText(summary.structured_summary.summary_text, margin + 8, y, {
+        fontSize: 10,
+        color: colors.darkGray,
+        maxWidth: contentWidth - 16,
+        lineHeight: 1.7,
       });
-      y += 4;
-      drawLine(y, 50);
-      y += 12;
-
-      y = addText(summary.structured_summary.summary_text, margin, y, {
-        fontSize: 11,
-        color: colors.text,
-        maxWidth: contentWidth,
-      });
-      y += 18;
     }
 
-    // Section: Patterns
+    y += 20;
+
+    // Patterns section
     if (summary.structured_summary?.patterns?.length) {
-      y = addText('Erkannte Muster', margin, y, {
-        fontSize: 14,
-        color: colors.primary,
+      y = addText('MUSTER', margin + 8, y, {
+        fontSize: 10,
+        color: colors.black,
         fontStyle: 'bold',
       });
-      y += 4;
-      drawLine(y, 40);
-      y += 10;
+
+      y += 8;
 
       summary.structured_summary.patterns.forEach((pattern) => {
-        // Small dot as bullet
-        pdf.setFillColor(...colors.accent);
-        pdf.circle(margin + 2, y - 1.5, 1, 'F');
-        
-        y = addText(pattern, margin + 8, y, {
-          fontSize: 10,
-          color: colors.text,
-          maxWidth: contentWidth - 10,
+        // Em dash as bullet
+        y = addText(`— ${pattern}`, margin + 8, y, {
+          fontSize: 9,
+          color: colors.darkGray,
+          maxWidth: contentWidth - 20,
+          lineHeight: 1.6,
         });
-        y += 5;
+        y += 4;
       });
-      y += 10;
     }
 
-    // Section: Needs
+    y += 15;
+
+    // Needs section
     if (summary.structured_summary?.needs?.length) {
-      y = addText('Beruehrte Beduerfnisse', margin, y, {
-        fontSize: 14,
-        color: colors.primary,
+      y = addText('BEDUERFNISSE', margin + 8, y, {
+        fontSize: 10,
+        color: colors.black,
         fontStyle: 'bold',
       });
-      y += 4;
-      drawLine(y, 55);
-      y += 10;
 
-      const needsText = summary.structured_summary.needs.join('  |  ');
-      y = addText(needsText, margin, y, {
-        fontSize: 11,
-        color: colors.secondary,
+      y += 8;
+
+      const needsText = summary.structured_summary.needs.join('  ·  ');
+      addText(needsText, margin + 8, y, {
+        fontSize: 9,
+        color: colors.mediumGray,
         fontStyle: 'italic',
-        maxWidth: contentWidth,
+        maxWidth: contentWidth - 16,
       });
     }
 
-    // ===== PAGE 3: Inner Parts & Body Areas =====
+    // ===== PAGE 3: ERKENNTNISSE =====
     addPage();
-    pdf.setFillColor(...colors.light);
+    pdf.setFillColor(...colors.white);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-    // Small decorative circle
-    drawCircleArt(pdf, 30, pageHeight - 30, 0.35);
+    // Right margin accent bar (asymmetry)
+    pdf.setFillColor(...colors.accent);
+    pdf.rect(pageWidth - 4, 0, 4, pageHeight, 'F');
 
-    y = margin + 10;
+    y = margin + 5;
 
-    // Section: Parts
+    addText('02', pageWidth - margin - 8, y, {
+      fontSize: 8,
+      color: colors.lightGray,
+      fontStyle: 'bold',
+      align: 'right',
+    });
+
+    y += 15;
+
+    // Inner parts section
     if (summary.structured_summary?.parts?.length) {
-      y = addText('Innere Anteile', margin, y, {
-        fontSize: 16,
-        color: colors.primary,
+      y = addText('INNERE ANTEILE', margin, y, {
+        fontSize: 12,
+        color: colors.black,
         fontStyle: 'bold',
       });
-      y += 4;
-      drawLine(y, 40);
+
       y += 12;
 
       const partTypeLabels: Record<string, string> = {
@@ -393,161 +347,158 @@ export const usePdfGenerator = () => {
       summary.structured_summary.parts.forEach((part) => {
         const typeLabel = partTypeLabels[part.type] || part.type;
         
-        y = addText(part.name, margin, y, {
-          fontSize: 12,
+        y = addText(`${part.name}`, margin, y, {
+          fontSize: 10,
           color: colors.accent,
           fontStyle: 'bold',
         });
-        y += 1;
-        y = addText(`[${typeLabel}]`, margin, y, {
-          fontSize: 9,
-          color: colors.muted,
-          fontStyle: 'italic',
+        
+        y = addText(`[${typeLabel}]`, margin, y + 1, {
+          fontSize: 7,
+          color: colors.lightGray,
         });
-        y += 2;
-        y = addText(part.description, margin + 5, y, {
-          fontSize: 10,
-          color: colors.text,
-          maxWidth: contentWidth - 10,
+        
+        y += 5;
+        
+        y = addText(part.description, margin + 10, y, {
+          fontSize: 9,
+          color: colors.darkGray,
+          maxWidth: contentWidth - 20,
+          lineHeight: 1.5,
         });
         y += 10;
       });
-      y += 8;
     }
 
-    // Section: Body Areas
+    y += 10;
+
+    // Body areas section
     if (summary.structured_summary?.body_areas?.length) {
-      y = addText('Koerperbereiche', margin, y, {
-        fontSize: 16,
-        color: colors.primary,
+      y = addText('KOERPERBEREICHE', margin, y, {
+        fontSize: 12,
+        color: colors.black,
         fontStyle: 'bold',
       });
-      y += 4;
-      drawLine(y, 45);
-      y += 12;
+
+      y += 10;
 
       summary.structured_summary.body_areas.forEach((area) => {
-        // Small accent dot
-        pdf.setFillColor(...colors.sage);
-        pdf.circle(margin + 2, y - 1.5, 1, 'F');
-        
-        y = addText(`${area.area}:`, margin + 8, y, {
-          fontSize: 11,
-          color: colors.accent,
+        y = addText(`${area.area}`, margin, y, {
+          fontSize: 9,
+          color: colors.black,
           fontStyle: 'bold',
         });
         y += 1;
-        y = addText(area.significance, margin + 8, y, {
-          fontSize: 10,
-          color: colors.text,
-          maxWidth: contentWidth - 12,
+        y = addText(area.significance, margin + 10, y, {
+          fontSize: 9,
+          color: colors.darkGray,
+          maxWidth: contentWidth - 20,
+          lineHeight: 1.5,
         });
         y += 8;
       });
     }
 
-    // ===== PAGE 4: Insights & Recommendations =====
+    // ===== PAGE 4: EMPFEHLUNGEN =====
     addPage();
-    pdf.setFillColor(...colors.light);
+    pdf.setFillColor(...colors.paleGray);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-    // Decorative circle in top right
-    drawCircleArt(pdf, pageWidth - 30, 35, 0.4);
+    y = margin + 5;
 
-    y = margin + 10;
+    addText('03', margin, y, {
+      fontSize: 8,
+      color: colors.lightGray,
+      fontStyle: 'bold',
+    });
 
-    // Section: Insights
+    y += 15;
+
+    // Insights section
     if (summary.structured_summary?.insights?.length) {
-      y = addText('Zentrale Erkenntnisse', margin, y, {
-        fontSize: 16,
-        color: colors.primary,
+      y = addText('ERKENNTNISSE', margin, y, {
+        fontSize: 12,
+        color: colors.black,
         fontStyle: 'bold',
       });
-      y += 4;
-      drawLine(y, 55);
+
       y += 12;
 
       summary.structured_summary.insights.forEach((insight, index) => {
-        // Numbered with accent color
-        pdf.setFillColor(...colors.accent);
-        pdf.circle(margin + 3, y - 1.5, 3, 'F');
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(8);
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(String(index + 1), margin + 3, y - 0.5, { align: 'center' });
-        
-        y = addText(insight, margin + 12, y, {
-          fontSize: 11,
-          color: colors.text,
-          maxWidth: contentWidth - 15,
-        });
-        y += 8;
-      });
-      y += 12;
-    }
-
-    // Section: Recommendations
-    if (summary.structured_summary?.recommendations) {
-      y = addText('Empfehlungen fuer dich', margin, y, {
-        fontSize: 16,
-        color: colors.primary,
-        fontStyle: 'bold',
-      });
-      y += 4;
-      drawLine(y, 60);
-      y += 10;
-
-      // Draw a subtle background box
-      const boxStartY = y - 3;
-      let boxEndY = boxStartY;
-
-      const recommendations = [
-        { icon: 'Koerperuebung', text: summary.structured_summary.recommendations.body_exercise },
-        { icon: 'Mikro-Aktion', text: summary.structured_summary.recommendations.micro_action },
-        { icon: 'Zum Nachdenken', text: summary.structured_summary.recommendations.reflection_question },
-      ].filter(r => r.text);
-
-      recommendations.forEach((rec, idx) => {
-        const iconColor = idx === 0 ? colors.sage : idx === 1 ? colors.accent : colors.rose;
-        
-        // Small colored circle
-        pdf.setFillColor(...iconColor);
-        pdf.circle(margin + 3, y - 1, 2, 'F');
-        
-        y = addText(`${rec.icon}:`, margin + 10, y, {
-          fontSize: 10,
-          color: colors.secondary,
+        y = addText(`${index + 1}.`, margin, y, {
+          fontSize: 9,
+          color: colors.accent,
           fontStyle: 'bold',
         });
-        y += 1;
         
-        const text = rec.icon === 'Zum Nachdenken' ? `"${rec.text}"` : rec.text;
-        y = addText(text, margin + 10, y, {
-          fontSize: 10,
-          color: colors.text,
-          fontStyle: rec.icon === 'Zum Nachdenken' ? 'italic' : 'normal',
+        y = addText(insight, margin + 8, y - 3, {
+          fontSize: 9,
+          color: colors.darkGray,
           maxWidth: contentWidth - 15,
+          lineHeight: 1.6,
+        });
+        y += 6;
+      });
+    }
+
+    y += 15;
+
+    // Recommendations section
+    if (summary.structured_summary?.recommendations) {
+      y = addText('EMPFEHLUNGEN', margin, y, {
+        fontSize: 12,
+        color: colors.black,
+        fontStyle: 'bold',
+      });
+
+      y += 12;
+
+      // White card for recommendations
+      const cardY = y - 5;
+      const cardHeight = 55;
+      pdf.setFillColor(...colors.white);
+      pdf.rect(margin, cardY, contentWidth, cardHeight, 'F');
+
+      y += 5;
+
+      const recommendations = [
+        { label: 'KOERPERUEBUNG', text: summary.structured_summary.recommendations.body_exercise },
+        { label: 'MIKRO-AKTION', text: summary.structured_summary.recommendations.micro_action },
+        { label: 'ZUM NACHDENKEN', text: summary.structured_summary.recommendations.reflection_question },
+      ].filter(r => r.text);
+
+      recommendations.forEach((rec) => {
+        y = addText(rec.label, margin + 8, y, {
+          fontSize: 7,
+          color: colors.accent,
+          fontStyle: 'bold',
+        });
+        y += 3;
+        
+        const isQuestion = rec.label === 'ZUM NACHDENKEN';
+        y = addText(isQuestion ? `"${rec.text}"` : rec.text, margin + 8, y, {
+          fontSize: 9,
+          color: colors.darkGray,
+          fontStyle: isQuestion ? 'italic' : 'normal',
+          maxWidth: contentWidth - 20,
+          lineHeight: 1.5,
         });
         y += 8;
       });
-
-      boxEndY = y + 5;
-      
-      // Draw subtle border around recommendations
-      pdf.setDrawColor(...colors.divider);
-      pdf.setLineWidth(0.5);
-      pdf.roundedRect(margin - 5, boxStartY, contentWidth + 10, boxEndY - boxStartY, 3, 3, 'S');
     }
 
-    // Footer on last page with decorative element
-    drawFlourish(pdf, pageWidth / 2 - 25, pageHeight - 28, 50);
-    addText('Erstellt mit Oria Selfcare', pageWidth / 2, pageHeight - 18, {
-      fontSize: 8,
-      color: colors.muted,
+    // Footer
+    pdf.setDrawColor(...colors.accent);
+    pdf.setLineWidth(0.3);
+    pdf.line(margin, pageHeight - 20, pageWidth - margin, pageHeight - 20);
+    
+    addText('ORIA SELFCARE', pageWidth / 2, pageHeight - 12, {
+      fontSize: 7,
+      color: colors.mediumGray,
       align: 'center',
     });
 
-    // Download the PDF
+    // Download
     const fileName = `Reflexion_${format(new Date(summary.created_at), 'yyyy-MM-dd')}.pdf`;
     pdf.save(fileName);
   };
