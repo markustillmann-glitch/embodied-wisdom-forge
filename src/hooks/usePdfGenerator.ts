@@ -132,16 +132,17 @@ const addWrappedText = (
 
 export const usePdfGenerator = () => {
   const generatePdf = async (summary: SummaryData, coverImageData?: string | null): Promise<void> => {
-    // A4 format in mm
+    // Square format 210x210mm
+    const pageSize = 210;
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
-      format: 'a4',
+      format: [pageSize, pageSize],
     });
 
-    const pageWidth = 210;
-    const pageHeight = 297;
-    const margin = 25;
+    const pageWidth = pageSize;
+    const pageHeight = pageSize;
+    const margin = 20;
     const contentWidth = pageWidth - margin * 2;
 
     // Color palette - warm, elegant
@@ -158,11 +159,11 @@ export const usePdfGenerator = () => {
 
     // Helper function to add a new page with consistent styling
     const addStyledPage = () => {
-      doc.addPage();
+      doc.addPage([pageSize, pageSize]);
       // Subtle border line
       doc.setDrawColor(colors.accent);
       doc.setLineWidth(0.5);
-      doc.line(margin - 5, 20, margin - 5, pageHeight - 20);
+      doc.line(margin - 5, 15, margin - 5, pageHeight - 15);
     };
 
     // Helper to draw section header
@@ -179,53 +180,62 @@ export const usePdfGenerator = () => {
     };
 
     // ===== PAGE 1: COVER PAGE =====
-    // Background accent strip
-    doc.setFillColor(colors.accent);
-    doc.rect(0, 0, 8, pageHeight, 'F');
-
-    // Cover image or decorative element
+    // Cover image fills entire width at top
+    let contentStartY = 20;
+    
     if (coverImageData) {
       try {
-        // Add image as main visual element
-        const imgWidth = 120;
-        const imgHeight = 90;
-        const imgX = (pageWidth - imgWidth) / 2;
-        const imgY = 50;
+        // Full-width image at top of page
+        const imgWidth = pageWidth;
+        const imgHeight = pageWidth * 0.6; // 60% of width for aspect ratio
+        const imgX = 0;
+        const imgY = 0;
         
         doc.addImage(coverImageData, 'JPEG', imgX, imgY, imgWidth, imgHeight);
         
-        // Add subtle frame
-        doc.setDrawColor(colors.accent);
-        doc.setLineWidth(1);
-        doc.rect(imgX - 2, imgY - 2, imgWidth + 4, imgHeight + 4);
+        // Accent line at bottom of image
+        doc.setFillColor(colors.accent);
+        doc.rect(0, imgHeight - 2, pageWidth, 2, 'F');
+        
+        contentStartY = imgHeight + 10;
       } catch (error) {
         console.error('Error adding cover image:', error);
+        // Fallback decorative element
+        doc.setFillColor(colors.light);
+        doc.circle(pageWidth / 2, 60, 30, 'F');
+        doc.setDrawColor(colors.accent);
+        doc.setLineWidth(1);
+        doc.circle(pageWidth / 2, 60, 32);
+        contentStartY = 100;
       }
     } else {
       // Decorative geometric element when no image
+      doc.setFillColor(colors.accent);
+      doc.rect(0, 0, 8, pageHeight, 'F');
       doc.setFillColor(colors.light);
-      doc.circle(pageWidth / 2, 100, 40, 'F');
+      doc.circle(pageWidth / 2, 60, 30, 'F');
       doc.setDrawColor(colors.accent);
       doc.setLineWidth(1);
-      doc.circle(pageWidth / 2, 100, 42);
-      doc.circle(pageWidth / 2, 100, 35);
+      doc.circle(pageWidth / 2, 60, 32);
+      doc.circle(pageWidth / 2, 60, 25);
+      contentStartY = 100;
     }
 
-    // Title section
-    const titleY = coverImageData ? 165 : 170;
+    // Title section - positioned based on image presence
+    const titleY = contentStartY + 5;
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(24);
+    doc.setFontSize(20);
     doc.setTextColor(colors.primary);
     
-    const titleLineHeight = getLineHeight(24);
+    const titleLineHeight = getLineHeight(20);
     const titleLines = wrapText(summary.title, contentWidth, doc);
     titleLines.forEach((line, i) => {
       doc.text(line, pageWidth / 2, titleY + i * titleLineHeight, { align: 'center' });
     });
 
     // Reflection type badge
-    const typeY = titleY + titleLines.length * titleLineHeight + 15;
-    doc.setFontSize(10);
+    const typeY = titleY + titleLines.length * titleLineHeight + 8;
+    doc.setFontSize(9);
     doc.setTextColor(colors.accent);
     const typeLabel = summary.memory_type === 'impulse-reflection' ? 'Impuls-Reflexion' :
                       summary.memory_type === 'situation-reflection' ? 'Situations-Reflexion' :
@@ -233,15 +243,15 @@ export const usePdfGenerator = () => {
     doc.text(typeLabel.toUpperCase(), pageWidth / 2, typeY, { align: 'center' });
 
     // Date and location
-    const metaY = typeY + 15;
+    const metaY = typeY + 10;
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.setTextColor(colors.secondary);
     const dateStr = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
     doc.text(dateStr, pageWidth / 2, metaY, { align: 'center' });
     
     if (summary.location) {
-      doc.text(sanitizeText(summary.location), pageWidth / 2, metaY + 7, { align: 'center' });
+      doc.text(sanitizeText(summary.location), pageWidth / 2, metaY + 6, { align: 'center' });
     }
 
     // Footer decoration
