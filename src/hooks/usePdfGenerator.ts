@@ -27,15 +27,77 @@ interface SummaryMemory {
   memory_type: string;
 }
 
-// Warm color palette
+// App color palette - warm terracotta tones
 const colors = {
-  primary: [89, 68, 54] as [number, number, number], // Warm brown
+  primary: [89, 62, 48] as [number, number, number], // Terracotta/warm brown
   secondary: [128, 100, 82] as [number, number, number], // Soft brown
   accent: [205, 133, 63] as [number, number, number], // Gold/amber
   text: [51, 41, 33] as [number, number, number], // Dark warm brown
   muted: [140, 120, 105] as [number, number, number], // Muted brown
-  light: [250, 247, 243] as [number, number, number], // Warm off-white
-  divider: [220, 210, 200] as [number, number, number], // Light divider
+  light: [252, 250, 248] as [number, number, number], // Warm off-white (like app bg)
+  divider: [225, 215, 205] as [number, number, number], // Light divider
+  sage: [160, 180, 160] as [number, number, number], // Soft sage green for accents
+  rose: [200, 150, 150] as [number, number, number], // Soft rose for warmth
+  teal: [100, 150, 160] as [number, number, number], // Soft teal
+};
+
+// Helper to draw soft circular line art (like the reference image)
+const drawCircleArt = (pdf: jsPDF, centerX: number, centerY: number, size: number = 1) => {
+  const baseRadius = 12 * size;
+  
+  // Draw multiple overlapping soft circles with different colors
+  const circles = [
+    { radius: baseRadius, color: colors.sage, offset: { x: -2, y: -2 } },
+    { radius: baseRadius * 0.9, color: colors.rose, offset: { x: 2, y: 0 } },
+    { radius: baseRadius * 0.85, color: colors.teal, offset: { x: 0, y: 2 } },
+    { radius: baseRadius * 0.95, color: colors.accent, offset: { x: -1, y: 1 } },
+  ];
+  
+  pdf.setLineWidth(0.3);
+  
+  circles.forEach(circle => {
+    pdf.setDrawColor(...circle.color);
+    pdf.circle(
+      centerX + circle.offset.x * size, 
+      centerY + circle.offset.y * size, 
+      circle.radius, 
+      'S'
+    );
+  });
+};
+
+// Draw a small decorative flourish
+const drawFlourish = (pdf: jsPDF, x: number, y: number, width: number) => {
+  pdf.setDrawColor(...colors.sage);
+  pdf.setLineWidth(0.2);
+  
+  // Simple curved line
+  const midX = x + width / 2;
+  pdf.line(x, y, midX - 5, y);
+  pdf.circle(midX, y, 1.5, 'S');
+  pdf.line(midX + 5, y, x + width, y);
+};
+
+// Replace special characters for PDF compatibility
+const sanitizeText = (text: string): string => {
+  if (!text) return '';
+  
+  // Map German characters to alternatives
+  return text
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/Ä/g, 'Ae')
+    .replace(/Ö/g, 'Oe')
+    .replace(/Ü/g, 'Ue')
+    .replace(/ß/g, 'ss')
+    .replace(/„/g, '"')
+    .replace(/"/g, '"')
+    .replace(/–/g, '-')
+    .replace(/—/g, '-')
+    .replace(/'/g, "'")
+    .replace(/'/g, "'")
+    .replace(/…/g, '...');
 };
 
 export const usePdfGenerator = () => {
@@ -89,7 +151,9 @@ export const usePdfGenerator = () => {
       pdf.setTextColor(...color);
       pdf.setFont('helvetica', fontStyle);
 
-      const lines = pdf.splitTextToSize(text, maxWidth);
+      // Sanitize text for proper character display
+      const sanitized = sanitizeText(text);
+      const lines = pdf.splitTextToSize(sanitized, maxWidth);
       const lineHeight = fontSize * 0.45;
 
       lines.forEach((line: string, index: number) => {
@@ -110,31 +174,45 @@ export const usePdfGenerator = () => {
     pdf.setFillColor(...colors.light);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
+    // Decorative circle art at top
+    drawCircleArt(pdf, pageWidth / 2, 50, 1.2);
+
     // Add cover image if provided
     if (coverImage) {
       try {
-        // Add image centered, taking up top portion of page
-        const imgWidth = contentWidth - 20;
-        const imgHeight = 100;
-        const imgX = (pageWidth - imgWidth) / 2;
-        const imgY = 40;
+        // Detect image format from base64
+        let imgFormat: 'JPEG' | 'PNG' | 'WEBP' = 'JPEG';
+        if (coverImage.includes('data:image/png')) {
+          imgFormat = 'PNG';
+        } else if (coverImage.includes('data:image/webp')) {
+          imgFormat = 'WEBP';
+        }
         
-        pdf.addImage(coverImage, 'JPEG', imgX, imgY, imgWidth, imgHeight, undefined, 'MEDIUM');
+        // Add image centered below circle art
+        const imgWidth = contentWidth - 30;
+        const imgHeight = 80;
+        const imgX = (pageWidth - imgWidth) / 2;
+        const imgY = 75;
+        
+        pdf.addImage(coverImage, imgFormat, imgX, imgY, imgWidth, imgHeight, undefined, 'MEDIUM');
         
         // Title below image
-        let y = imgY + imgHeight + 25;
+        let y = imgY + imgHeight + 20;
         
         y = addText(summary.title, pageWidth / 2, y, {
-          fontSize: 24,
+          fontSize: 22,
           color: colors.primary,
           fontStyle: 'bold',
           align: 'center',
-          maxWidth: contentWidth,
+          maxWidth: contentWidth - 20,
         });
 
+        y += 10;
+        drawFlourish(pdf, pageWidth / 2 - 30, y, 60);
         y += 12;
-        addText('Eine persönliche Reflexion', pageWidth / 2, y, {
-          fontSize: 13,
+        
+        addText('Eine persoenliche Reflexion', pageWidth / 2, y, {
+          fontSize: 12,
           color: colors.muted,
           fontStyle: 'italic',
           align: 'center',
@@ -142,55 +220,54 @@ export const usePdfGenerator = () => {
 
         // Date at bottom
         const dateText = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
-        addText(dateText, pageWidth / 2, pageHeight - 40, {
-          fontSize: 11,
+        addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 40, {
+          fontSize: 10,
           color: colors.muted,
           align: 'center',
         });
       } catch (error) {
         console.error('Error adding cover image:', error);
-        // Fallback: title page without image
+        // Fallback without image
         let y = 100;
         y = addText(summary.title, pageWidth / 2, y, {
-          fontSize: 28,
+          fontSize: 24,
           color: colors.primary,
           fontStyle: 'bold',
           align: 'center',
           maxWidth: contentWidth,
         });
-        y += 15;
-        addText('Eine persönliche Reflexion', pageWidth / 2, y, {
-          fontSize: 14,
+        y += 12;
+        addText('Eine persoenliche Reflexion', pageWidth / 2, y, {
+          fontSize: 13,
           color: colors.muted,
           fontStyle: 'italic',
           align: 'center',
         });
         const dateText = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
-        addText(dateText, pageWidth / 2, pageHeight - 40, {
-          fontSize: 11,
+        addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 40, {
+          fontSize: 10,
           color: colors.muted,
           align: 'center',
         });
       }
     } else {
-      // Title page without image - elegant typography only
-      let y = 90;
-      
-      // Decorative element
-      pdf.setFillColor(...colors.accent);
-      pdf.circle(pageWidth / 2, y - 20, 2, 'F');
+      // Title page without image - elegant typography with circle art
+      let y = 100;
       
       y = addText(summary.title, pageWidth / 2, y, {
-        fontSize: 28,
+        fontSize: 26,
         color: colors.primary,
         fontStyle: 'bold',
         align: 'center',
-        maxWidth: contentWidth,
+        maxWidth: contentWidth - 20,
       });
 
       y += 15;
-      addText('Eine persönliche Reflexion', pageWidth / 2, y, {
-        fontSize: 14,
+      drawFlourish(pdf, pageWidth / 2 - 35, y, 70);
+      y += 15;
+      
+      addText('Eine persoenliche Reflexion', pageWidth / 2, y, {
+        fontSize: 13,
         color: colors.muted,
         fontStyle: 'italic',
         align: 'center',
@@ -198,21 +275,23 @@ export const usePdfGenerator = () => {
 
       // Date
       const dateText = format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de });
-      addText(dateText, pageWidth / 2, pageHeight - 40, {
-        fontSize: 11,
+      addText(sanitizeText(dateText), pageWidth / 2, pageHeight - 40, {
+        fontSize: 10,
         color: colors.muted,
         align: 'center',
       });
 
-      // Decorative element at bottom
-      pdf.setFillColor(...colors.accent);
-      pdf.circle(pageWidth / 2, pageHeight - 25, 2, 'F');
+      // Small decorative element at bottom
+      drawCircleArt(pdf, pageWidth / 2, pageHeight - 55, 0.4);
     }
 
     // ===== PAGE 2: Summary & Patterns =====
     addPage();
     pdf.setFillColor(...colors.light);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+    // Small decorative circle in corner
+    drawCircleArt(pdf, pageWidth - 25, 25, 0.35);
 
     let y = margin + 10;
 
@@ -223,8 +302,8 @@ export const usePdfGenerator = () => {
         color: colors.primary,
         fontStyle: 'bold',
       });
-      y += 5;
-      drawLine(y, 40);
+      y += 4;
+      drawLine(y, 50);
       y += 12;
 
       y = addText(summary.structured_summary.summary_text, margin, y, {
@@ -232,7 +311,7 @@ export const usePdfGenerator = () => {
         color: colors.text,
         maxWidth: contentWidth,
       });
-      y += 15;
+      y += 18;
     }
 
     // Section: Patterns
@@ -243,32 +322,36 @@ export const usePdfGenerator = () => {
         fontStyle: 'bold',
       });
       y += 4;
-      drawLine(y, 35);
+      drawLine(y, 40);
       y += 10;
 
       summary.structured_summary.patterns.forEach((pattern) => {
-        y = addText(`• ${pattern}`, margin + 3, y, {
+        // Small dot as bullet
+        pdf.setFillColor(...colors.accent);
+        pdf.circle(margin + 2, y - 1.5, 1, 'F');
+        
+        y = addText(pattern, margin + 8, y, {
           fontSize: 10,
           color: colors.text,
-          maxWidth: contentWidth - 6,
+          maxWidth: contentWidth - 10,
         });
-        y += 4;
+        y += 5;
       });
-      y += 8;
+      y += 10;
     }
 
     // Section: Needs
     if (summary.structured_summary?.needs?.length) {
-      y = addText('Berührte Bedürfnisse', margin, y, {
+      y = addText('Beruehrte Beduerfnisse', margin, y, {
         fontSize: 14,
         color: colors.primary,
         fontStyle: 'bold',
       });
       y += 4;
-      drawLine(y, 45);
+      drawLine(y, 55);
       y += 10;
 
-      const needsText = summary.structured_summary.needs.join(' • ');
+      const needsText = summary.structured_summary.needs.join('  |  ');
       y = addText(needsText, margin, y, {
         fontSize: 11,
         color: colors.secondary,
@@ -282,6 +365,9 @@ export const usePdfGenerator = () => {
     pdf.setFillColor(...colors.light);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
+    // Small decorative circle
+    drawCircleArt(pdf, 30, pageHeight - 30, 0.35);
+
     y = margin + 10;
 
     // Section: Parts
@@ -291,8 +377,8 @@ export const usePdfGenerator = () => {
         color: colors.primary,
         fontStyle: 'bold',
       });
-      y += 5;
-      drawLine(y, 35);
+      y += 4;
+      drawLine(y, 40);
       y += 12;
 
       const partTypeLabels: Record<string, string> = {
@@ -304,7 +390,8 @@ export const usePdfGenerator = () => {
 
       summary.structured_summary.parts.forEach((part) => {
         const typeLabel = partTypeLabels[part.type] || part.type;
-        y = addText(`${part.name}`, margin, y, {
+        
+        y = addText(part.name, margin, y, {
           fontSize: 12,
           color: colors.accent,
           fontStyle: 'bold',
@@ -316,40 +403,44 @@ export const usePdfGenerator = () => {
           fontStyle: 'italic',
         });
         y += 2;
-        y = addText(part.description, margin + 3, y, {
+        y = addText(part.description, margin + 5, y, {
           fontSize: 10,
           color: colors.text,
-          maxWidth: contentWidth - 6,
+          maxWidth: contentWidth - 10,
         });
-        y += 8;
+        y += 10;
       });
-      y += 5;
+      y += 8;
     }
 
     // Section: Body Areas
     if (summary.structured_summary?.body_areas?.length) {
-      y = addText('Körperbereiche', margin, y, {
+      y = addText('Koerperbereiche', margin, y, {
         fontSize: 16,
         color: colors.primary,
         fontStyle: 'bold',
       });
-      y += 5;
-      drawLine(y, 40);
+      y += 4;
+      drawLine(y, 45);
       y += 12;
 
       summary.structured_summary.body_areas.forEach((area) => {
-        y = addText(`${area.area}:`, margin, y, {
+        // Small accent dot
+        pdf.setFillColor(...colors.sage);
+        pdf.circle(margin + 2, y - 1.5, 1, 'F');
+        
+        y = addText(`${area.area}:`, margin + 8, y, {
           fontSize: 11,
           color: colors.accent,
           fontStyle: 'bold',
         });
         y += 1;
-        y = addText(area.significance, margin + 3, y, {
+        y = addText(area.significance, margin + 8, y, {
           fontSize: 10,
           color: colors.text,
-          maxWidth: contentWidth - 6,
+          maxWidth: contentWidth - 12,
         });
-        y += 6;
+        y += 8;
       });
     }
 
@@ -357,6 +448,9 @@ export const usePdfGenerator = () => {
     addPage();
     pdf.setFillColor(...colors.light);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+    // Decorative circle in top right
+    drawCircleArt(pdf, pageWidth - 30, 35, 0.4);
 
     y = margin + 10;
 
@@ -367,85 +461,85 @@ export const usePdfGenerator = () => {
         color: colors.primary,
         fontStyle: 'bold',
       });
-      y += 5;
-      drawLine(y, 50);
+      y += 4;
+      drawLine(y, 55);
       y += 12;
 
       summary.structured_summary.insights.forEach((insight, index) => {
-        y = addText(`${index + 1}. ${insight}`, margin, y, {
+        // Numbered with accent color
+        pdf.setFillColor(...colors.accent);
+        pdf.circle(margin + 3, y - 1.5, 3, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(8);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(String(index + 1), margin + 3, y - 0.5, { align: 'center' });
+        
+        y = addText(insight, margin + 12, y, {
           fontSize: 11,
           color: colors.text,
-          maxWidth: contentWidth,
+          maxWidth: contentWidth - 15,
         });
-        y += 6;
+        y += 8;
       });
-      y += 10;
+      y += 12;
     }
 
     // Section: Recommendations
     if (summary.structured_summary?.recommendations) {
-      y = addText('Empfehlungen für dich', margin, y, {
+      y = addText('Empfehlungen fuer dich', margin, y, {
         fontSize: 16,
         color: colors.primary,
         fontStyle: 'bold',
       });
-      y += 5;
-      drawLine(y, 55);
-      y += 12;
+      y += 4;
+      drawLine(y, 60);
+      y += 10;
 
       // Draw a subtle background box
-      const boxHeight = 70;
-      pdf.setFillColor(245, 240, 235);
-      pdf.roundedRect(margin - 5, y - 5, contentWidth + 10, boxHeight, 5, 5, 'F');
+      const boxStartY = y - 3;
+      let boxEndY = boxStartY;
 
-      if (summary.structured_summary.recommendations.body_exercise) {
-        y = addText('🧘 Körperübung:', margin, y, {
+      const recommendations = [
+        { icon: 'Koerperuebung', text: summary.structured_summary.recommendations.body_exercise },
+        { icon: 'Mikro-Aktion', text: summary.structured_summary.recommendations.micro_action },
+        { icon: 'Zum Nachdenken', text: summary.structured_summary.recommendations.reflection_question },
+      ].filter(r => r.text);
+
+      recommendations.forEach((rec, idx) => {
+        const iconColor = idx === 0 ? colors.sage : idx === 1 ? colors.accent : colors.rose;
+        
+        // Small colored circle
+        pdf.setFillColor(...iconColor);
+        pdf.circle(margin + 3, y - 1, 2, 'F');
+        
+        y = addText(`${rec.icon}:`, margin + 10, y, {
           fontSize: 10,
-          color: colors.accent,
+          color: colors.secondary,
           fontStyle: 'bold',
         });
         y += 1;
-        y = addText(summary.structured_summary.recommendations.body_exercise, margin + 3, y, {
+        
+        const text = rec.icon === 'Zum Nachdenken' ? `"${rec.text}"` : rec.text;
+        y = addText(text, margin + 10, y, {
           fontSize: 10,
           color: colors.text,
-          maxWidth: contentWidth - 6,
+          fontStyle: rec.icon === 'Zum Nachdenken' ? 'italic' : 'normal',
+          maxWidth: contentWidth - 15,
         });
-        y += 6;
-      }
+        y += 8;
+      });
 
-      if (summary.structured_summary.recommendations.micro_action) {
-        y = addText('✨ Mikro-Aktion:', margin, y, {
-          fontSize: 10,
-          color: colors.accent,
-          fontStyle: 'bold',
-        });
-        y += 1;
-        y = addText(summary.structured_summary.recommendations.micro_action, margin + 3, y, {
-          fontSize: 10,
-          color: colors.text,
-          maxWidth: contentWidth - 6,
-        });
-        y += 6;
-      }
-
-      if (summary.structured_summary.recommendations.reflection_question) {
-        y = addText('💭 Zum Nachdenken:', margin, y, {
-          fontSize: 10,
-          color: colors.accent,
-          fontStyle: 'bold',
-        });
-        y += 1;
-        y = addText(`„${summary.structured_summary.recommendations.reflection_question}"`, margin + 3, y, {
-          fontSize: 10,
-          color: colors.text,
-          fontStyle: 'italic',
-          maxWidth: contentWidth - 6,
-        });
-      }
+      boxEndY = y + 5;
+      
+      // Draw subtle border around recommendations
+      pdf.setDrawColor(...colors.divider);
+      pdf.setLineWidth(0.5);
+      pdf.roundedRect(margin - 5, boxStartY, contentWidth + 10, boxEndY - boxStartY, 3, 3, 'S');
     }
 
-    // Footer on last page
-    addText('Erstellt mit Oria Selfcare', pageWidth / 2, pageHeight - 20, {
+    // Footer on last page with decorative element
+    drawFlourish(pdf, pageWidth / 2 - 25, pageHeight - 28, 50);
+    addText('Erstellt mit Oria Selfcare', pageWidth / 2, pageHeight - 18, {
       fontSize: 8,
       color: colors.muted,
       align: 'center',

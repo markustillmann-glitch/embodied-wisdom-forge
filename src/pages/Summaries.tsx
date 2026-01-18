@@ -287,9 +287,10 @@ const Summaries = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      toast.error('Bitte wähle ein Bild aus');
+    // Validate file type - explicitly check for supported formats
+    const supportedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!supportedTypes.includes(file.type)) {
+      toast.error('Bitte wähle ein JPG, PNG oder WebP Bild aus');
       return;
     }
 
@@ -300,8 +301,16 @@ const Summaries = () => {
     }
 
     const reader = new FileReader();
+    reader.onerror = () => {
+      toast.error('Fehler beim Laden des Bildes');
+    };
     reader.onload = (e) => {
-      setCoverImage(e.target?.result as string);
+      const result = e.target?.result as string;
+      if (result && result.startsWith('data:image/')) {
+        setCoverImage(result);
+      } else {
+        toast.error('Ungültiges Bildformat');
+      }
     };
     reader.readAsDataURL(file);
   };
