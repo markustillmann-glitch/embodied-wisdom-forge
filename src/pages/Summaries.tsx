@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -104,6 +104,9 @@ const Summaries = () => {
   
   // PDF export state
   const [exportingSummaryId, setExportingSummaryId] = useState<string | null>(null);
+  
+  // AI image generation state
+  const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
 
   // Check if user has a vault password set
   useEffect(() => {
@@ -370,6 +373,43 @@ const Summaries = () => {
     } catch (error) {
       console.error('Error removing image:', error);
       toast.error('Fehler beim Entfernen');
+    }
+  };
+
+  // Generate AI image for summary
+  const generateAiImage = async (summary: SummaryMemory) => {
+    if (!user) return;
+    
+    setGeneratingImageId(summary.id);
+
+    try {
+      const response = await supabase.functions.invoke('generate-reflection-image', {
+        body: {
+          summaryId: summary.id,
+          title: summary.title,
+          summaryText: summary.structured_summary?.summary_text || '',
+          mood: summary.structured_summary?.needs?.[0] || null,
+        },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message || 'Fehler bei der Bildgenerierung');
+      }
+
+      const { imageUrl } = response.data;
+
+      if (imageUrl) {
+        // Update local state
+        setSummaries(prev => prev.map(s => 
+          s.id === summary.id ? { ...s, image_url: imageUrl } : s
+        ));
+        toast.success('AI-Bild erstellt');
+      }
+    } catch (error: any) {
+      console.error('Error generating AI image:', error);
+      toast.error(error.message || 'Fehler bei der Bildgenerierung');
+    } finally {
+      setGeneratingImageId(null);
     }
   };
 
@@ -728,23 +768,45 @@ const Summaries = () => {
                               </button>
                             </div>
                           ) : (
-                            <button
-                              onClick={() => {
-                                setUploadingSummaryId(summary.id);
-                                fileInputRef.current?.click();
-                              }}
-                              disabled={uploadingImage}
-                              className="w-full h-24 border-2 border-dashed border-muted-foreground/30 rounded-lg flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-muted/30 transition-colors"
-                            >
-                              {uploadingImage && uploadingSummaryId === summary.id ? (
-                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                              ) : (
-                                <>
-                                  <Camera className="w-5 h-5 text-muted-foreground" />
-                                  <span className="text-xs text-muted-foreground">Bild hinzufügen</span>
-                                </>
-                              )}
-                            </button>
+                            <div className="flex gap-2">
+                              {/* Upload image button */}
+                              <button
+                                onClick={() => {
+                                  setUploadingSummaryId(summary.id);
+                                  fileInputRef.current?.click();
+                                }}
+                                disabled={uploadingImage || generatingImageId === summary.id}
+                                className="flex-1 h-24 border-2 border-dashed border-muted-foreground/30 rounded-lg flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-muted/30 transition-colors"
+                              >
+                                {uploadingImage && uploadingSummaryId === summary.id ? (
+                                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                                ) : (
+                                  <>
+                                    <Camera className="w-5 h-5 text-muted-foreground" />
+                                    <span className="text-xs text-muted-foreground">Bild hochladen</span>
+                                  </>
+                                )}
+                              </button>
+                              
+                              {/* Generate AI image button */}
+                              <button
+                                onClick={() => generateAiImage(summary)}
+                                disabled={uploadingImage || generatingImageId === summary.id}
+                                className="flex-1 h-24 border-2 border-dashed border-primary/30 rounded-lg flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                              >
+                                {generatingImageId === summary.id ? (
+                                  <>
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                                    <span className="text-xs text-primary">Generiere...</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Wand2 className="w-5 h-5 text-primary" />
+                                    <span className="text-xs text-primary font-medium">AI-Bild erstellen</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
                           )}
                         </div>
 
