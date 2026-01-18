@@ -181,24 +181,51 @@ export const usePdfGenerator = () => {
     };
 
     // ===== PAGE 1: COVER PAGE =====
-    // Cover image fills entire width at top
+    // Cover image with preserved aspect ratio
     let contentStartY = 20;
     
     if (coverImageData) {
       try {
-        // Full-width image at top of page
-        const imgWidth = pageWidth;
-        const imgHeight = pageWidth * 0.6; // 60% of width for aspect ratio
-        const imgX = 0;
-        const imgY = 0;
+        // Create temporary image to get natural dimensions
+        const img = new Image();
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error('Failed to load image'));
+          img.src = coverImageData;
+        });
+        
+        const naturalWidth = img.naturalWidth;
+        const naturalHeight = img.naturalHeight;
+        const aspectRatio = naturalWidth / naturalHeight;
+        
+        // Calculate dimensions that fit within page while preserving aspect ratio
+        const maxImgWidth = pageWidth - 20; // Leave some margin
+        const maxImgHeight = pageHeight * 0.5; // Max 50% of page height
+        
+        let imgWidth: number;
+        let imgHeight: number;
+        
+        if (maxImgWidth / aspectRatio <= maxImgHeight) {
+          // Width is the limiting factor
+          imgWidth = maxImgWidth;
+          imgHeight = maxImgWidth / aspectRatio;
+        } else {
+          // Height is the limiting factor
+          imgHeight = maxImgHeight;
+          imgWidth = maxImgHeight * aspectRatio;
+        }
+        
+        // Center the image horizontally
+        const imgX = (pageWidth - imgWidth) / 2;
+        const imgY = 10;
         
         doc.addImage(coverImageData, 'JPEG', imgX, imgY, imgWidth, imgHeight);
         
         // Accent line at bottom of image
         doc.setFillColor(colors.accent);
-        doc.rect(0, imgHeight - 2, pageWidth, 2, 'F');
+        doc.rect(imgX, imgY + imgHeight + 2, imgWidth, 1.5, 'F');
         
-        contentStartY = imgHeight + 10;
+        contentStartY = imgY + imgHeight + 15;
       } catch (error) {
         console.error('Error adding cover image:', error);
         // Fallback decorative element
