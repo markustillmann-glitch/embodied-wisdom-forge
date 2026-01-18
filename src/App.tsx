@@ -9,7 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Auth from "./pages/Auth";
 import SelfcareReflection from "./pages/SelfcareReflection";
 import Summaries from "./pages/Summaries";
-import PdfExport from "./pages/PdfExport";
+
 import Modell from "./pages/Modell";
 import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
@@ -32,7 +32,7 @@ const App = () => (
               <Route path="/" element={<Navigate to="/selfcare" replace />} />
               <Route path="/selfcare" element={<SelfcareReflection />} />
               <Route path="/summaries" element={<Summaries />} />
-              <Route path="/pdf-export" element={<PdfExport />} />
+              
               <Route path="/modell" element={<Modell />} />
               <Route path="/help" element={<Help />} />
               <Route path="/auth" element={<Auth />} />
