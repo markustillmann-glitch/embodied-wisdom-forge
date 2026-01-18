@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
+import { usePdfGenerator } from '@/hooks/usePdfGenerator';
 import { toast } from 'sonner';
 import {
   Dialog,
@@ -51,6 +52,7 @@ interface SummaryMemory {
   created_at: string;
   memory_date: string | null;
   memory_type: string;
+  image_url: string | null;
 }
 
 const partTypeLabels: Record<string, { label: string; color: string }> = {
@@ -72,6 +74,9 @@ const hashPassword = async (password: string): Promise<string> => {
 const Summaries = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { generatePdf } = usePdfGenerator();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const [summaries, setSummaries] = useState<SummaryMemory[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -92,6 +97,13 @@ const Summaries = () => {
   // Delete confirmation
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  // Image upload state
+  const [uploadingSummaryId, setUploadingSummaryId] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  
+  // PDF export state
+  const [exportingSummaryId, setExportingSummaryId] = useState<string | null>(null);
 
   // Check if user has a vault password set
   useEffect(() => {
@@ -241,7 +253,7 @@ const Summaries = () => {
     try {
       const { data, error } = await supabase
         .from('memories')
-        .select('id, title, summary, structured_summary, location, created_at, memory_date, memory_type')
+        .select('id, title, summary, structured_summary, location, created_at, memory_date, memory_type, image_url')
         .eq('user_id', user.id)
         .in('memory_type', ['selfcare-reflection', 'impulse-reflection', 'situation-reflection'])
         .eq('summary_requested', true)
@@ -251,7 +263,8 @@ const Summaries = () => {
       
       const typedData = (data || []).map(item => ({
         ...item,
-        structured_summary: item.structured_summary as unknown as StructuredSummary | null
+        structured_summary: item.structured_summary as unknown as StructuredSummary | null,
+        image_url: item.image_url || null
       }));
       
       setSummaries(typedData);
@@ -266,6 +279,139 @@ const Summaries = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  // Handle image upload
+  const handleImageUpload = async (summaryId: string, file: File) => {
+    if (!user) return;
+    
+    // Validate file type and size
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      toast.error('Nur JPG, PNG oder WebP Bilder erlaubt');
+      return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Bild darf maximal 5MB groß sein');
+      return;
+    }
+
+    setUploadingImage(true);
+    setUploadingSummaryId(summaryId);
+
+    try {
+      // Upload to storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${summaryId}_${Date.now()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('reflection-images')
+        .upload(fileName, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('reflection-images')
+        .getPublicUrl(fileName);
+
+      const imageUrl = urlData.publicUrl;
+
+      // Update memory record
+      const { error: updateError } = await supabase
+        .from('memories')
+        .update({ image_url: imageUrl })
+        .eq('id', summaryId)
+        .eq('user_id', user.id);
+
+      if (updateError) throw updateError;
+
+      // Update local state
+      setSummaries(prev => prev.map(s => 
+        s.id === summaryId ? { ...s, image_url: imageUrl } : s
+      ));
+
+      toast.success('Bild hinzugefügt');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Fehler beim Hochladen');
+    } finally {
+      setUploadingImage(false);
+      setUploadingSummaryId(null);
+    }
+  };
+
+  // Remove image from summary
+  const removeImage = async (summaryId: string, imageUrl: string) => {
+    if (!user) return;
+
+    try {
+      // Extract file path from URL
+      const urlParts = imageUrl.split('/reflection-images/');
+      if (urlParts.length > 1) {
+        const filePath = urlParts[1];
+        await supabase.storage.from('reflection-images').remove([filePath]);
+      }
+
+      // Update memory record
+      const { error } = await supabase
+        .from('memories')
+        .update({ image_url: null })
+        .eq('id', summaryId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      // Update local state
+      setSummaries(prev => prev.map(s => 
+        s.id === summaryId ? { ...s, image_url: null } : s
+      ));
+
+      toast.success('Bild entfernt');
+    } catch (error) {
+      console.error('Error removing image:', error);
+      toast.error('Fehler beim Entfernen');
+    }
+  };
+
+  // Export to PDF
+  const exportToPdf = async (summary: SummaryMemory) => {
+    setExportingSummaryId(summary.id);
+
+    try {
+      let coverImageData: string | null = null;
+
+      // If summary has an image, load it as base64
+      if (summary.image_url) {
+        try {
+          const response = await fetch(summary.image_url);
+          const blob = await response.blob();
+          coverImageData = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+        } catch (error) {
+          console.error('Error loading cover image:', error);
+        }
+      }
+
+      await generatePdf({
+        title: summary.title,
+        created_at: summary.created_at,
+        location: summary.location,
+        memory_type: summary.memory_type,
+        structured_summary: summary.structured_summary,
+        image_url: summary.image_url,
+      }, coverImageData);
+
+      toast.success('PDF erstellt');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast.error('Fehler beim PDF-Export');
+    } finally {
+      setExportingSummaryId(null);
+    }
+  };
 
   const deleteSummary = async (id: string) => {
     if (!user) return;
@@ -564,6 +710,44 @@ const Summaries = () => {
                       className="overflow-hidden"
                     >
                       <div className="px-4 sm:px-5 pb-5 space-y-5 border-t border-border pt-5">
+                        {/* Cover Image Section */}
+                        <div className="space-y-3">
+                          {summary.image_url ? (
+                            <div className="relative group/image">
+                              <img 
+                                src={summary.image_url} 
+                                alt="Reflexionsbild" 
+                                className="w-full max-h-48 object-cover rounded-lg"
+                              />
+                              <button
+                                onClick={() => removeImage(summary.id, summary.image_url!)}
+                                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center opacity-0 group-hover/image:opacity-100 transition-opacity"
+                                title="Bild entfernen"
+                              >
+                                <X className="w-4 h-4 text-white" />
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setUploadingSummaryId(summary.id);
+                                fileInputRef.current?.click();
+                              }}
+                              disabled={uploadingImage}
+                              className="w-full h-24 border-2 border-dashed border-muted-foreground/30 rounded-lg flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-muted/30 transition-colors"
+                            >
+                              {uploadingImage && uploadingSummaryId === summary.id ? (
+                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                              ) : (
+                                <>
+                                  <Camera className="w-5 h-5 text-muted-foreground" />
+                                  <span className="text-xs text-muted-foreground">Bild hinzufügen</span>
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+
                         {/* Summary Text */}
                         <div>
                           <p className="text-foreground leading-relaxed">
@@ -697,6 +881,42 @@ const Summaries = () => {
                         {/* Action buttons in expanded view */}
                         <div className="pt-2 border-t border-border flex flex-wrap gap-2">
                           <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => exportToPdf(summary)}
+                            disabled={exportingSummaryId === summary.id}
+                            className="text-primary hover:text-primary"
+                          >
+                            {exportingSummaryId === summary.id ? (
+                              <>
+                                <div className="w-4 h-4 mr-2 animate-spin rounded-full border-b-2 border-primary"></div>
+                                Erstelle PDF...
+                              </>
+                            ) : (
+                              <>
+                                <Download className="w-4 h-4 mr-2" />
+                                Als PDF speichern
+                              </>
+                            )}
+                          </Button>
+                          
+                          {!summary.image_url && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                setUploadingSummaryId(summary.id);
+                                fileInputRef.current?.click();
+                              }}
+                              disabled={uploadingImage}
+                              className="text-muted-foreground"
+                            >
+                              <ImageIcon className="w-4 h-4 mr-2" />
+                              Bild hinzufügen
+                            </Button>
+                          )}
+                          
+                          <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setDeleteConfirmId(summary.id)}
@@ -808,6 +1028,21 @@ const Summaries = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Hidden file input for image upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept="image/jpeg,image/png,image/webp"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file && uploadingSummaryId) {
+            handleImageUpload(uploadingSummaryId, file);
+          }
+          e.target.value = '';
+        }}
+      />
 
     </div>
   );
