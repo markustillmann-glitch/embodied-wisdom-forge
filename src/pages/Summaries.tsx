@@ -75,7 +75,7 @@ const hashPassword = async (password: string): Promise<string> => {
 const Summaries = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { generatePdf } = usePdfGenerator();
+  const { generatePdf, generateConversationPdf } = usePdfGenerator();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [summaries, setSummaries] = useState<SummaryMemory[]>([]);
@@ -459,11 +459,36 @@ const Summaries = () => {
         memory_type: summary.memory_type,
         structured_summary: summary.structured_summary,
         image_url: summary.image_url,
+        content: summary.content,
       }, coverImageData);
 
       toast.success('PDF erstellt');
     } catch (error) {
       console.error('Error generating PDF:', error);
+      toast.error('Fehler beim PDF-Export');
+    } finally {
+      setExportingSummaryId(null);
+    }
+  };
+
+  // Export full conversation to PDF (A4 format)
+  const exportConversationToPdf = async (summary: SummaryMemory) => {
+    setExportingSummaryId(summary.id);
+
+    try {
+      await generateConversationPdf({
+        title: summary.title,
+        created_at: summary.created_at,
+        location: summary.location,
+        memory_type: summary.memory_type,
+        structured_summary: summary.structured_summary,
+        image_url: summary.image_url,
+        content: summary.content,
+      });
+
+      toast.success('Unterhaltungs-PDF erstellt');
+    } catch (error) {
+      console.error('Error generating conversation PDF:', error);
       toast.error('Fehler beim PDF-Export');
     } finally {
       setExportingSummaryId(null);
@@ -800,7 +825,7 @@ const Summaries = () => {
                               <img 
                                 src={summary.image_url} 
                                 alt="Reflexionsbild" 
-                                className="w-full max-h-48 object-cover rounded-lg"
+                                className="w-full max-h-64 object-contain rounded-lg bg-muted/20"
                               />
                               <button
                                 onClick={() => removeImage(summary.id, summary.image_url!)}
@@ -1053,10 +1078,21 @@ const Summaries = () => {
                               </>
                             ) : (
                               <>
-                                <Download className="w-4 h-4 mr-2" />
-                                Als PDF speichern
+                                <FileText className="w-4 h-4 mr-2" />
+                                Zusammenfassung PDF
                               </>
                             )}
+                          </Button>
+                          
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => exportConversationToPdf(summary)}
+                            disabled={exportingSummaryId === summary.id}
+                            className="text-muted-foreground hover:text-foreground"
+                          >
+                            <MessageSquare className="w-4 h-4 mr-2" />
+                            Unterhaltung PDF
                           </Button>
                           
                           {!summary.image_url && (
