@@ -23,6 +23,7 @@ interface SummaryData {
   memory_type: string;
   structured_summary: StructuredSummary | null;
   image_url?: string | null;
+  content?: string;
 }
 
 // Sanitize text for PDF (handle special characters)
@@ -551,5 +552,185 @@ export const usePdfGenerator = () => {
     doc.save(fileName);
   };
 
-  return { generatePdf };
+  const generateConversationPdf = async (summary: SummaryData): Promise<void> => {
+    // Standard A4 format
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
+
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const margin = 20;
+    const contentWidth = pageWidth - margin * 2;
+
+    // Color palette
+    const colors = {
+      primary: '#2D3436',
+      secondary: '#636E72',
+      accent: '#B8860B',
+      userBg: '#E3F2FD',
+      userText: '#1565C0',
+      botBg: '#F3E5F5',
+      botText: '#7B1FA2',
+      text: '#1A1A1A',
+      muted: '#6B7280',
+    };
+
+    const bodyFontSize = 10;
+    const lineHeight = getLineHeight(bodyFontSize);
+
+    // Helper function to add a new page
+    const addNewPage = () => {
+      doc.addPage();
+    };
+
+    // ===== COVER PAGE =====
+    // Title
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(colors.primary);
+    
+    const titleLines = wrapText(summary.title, contentWidth, doc);
+    let y = 40;
+    titleLines.forEach((line, i) => {
+      doc.text(line, pageWidth / 2, y + i * getLineHeight(20), { align: 'center' });
+    });
+
+    y = 40 + titleLines.length * getLineHeight(20) + 10;
+
+    // Subtitle
+    doc.setFontSize(12);
+    doc.setTextColor(colors.secondary);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Vollstaendige Unterhaltung', pageWidth / 2, y, { align: 'center' });
+    y += 15;
+
+    // Date and type
+    doc.setFontSize(10);
+    doc.setTextColor(colors.muted);
+    const dateStr = format(new Date(summary.created_at), 'dd. MMMM yyyy, HH:mm', { locale: de }) + ' Uhr';
+    doc.text(dateStr, pageWidth / 2, y, { align: 'center' });
+    y += 6;
+    
+    const typeLabel = summary.memory_type === 'impulse-reflection' ? 'Impuls-Reflexion' :
+                      summary.memory_type === 'situation-reflection' ? 'Situations-Reflexion' :
+                      'Selfcare-Reflexion';
+    doc.text(typeLabel, pageWidth / 2, y, { align: 'center' });
+    
+    if (summary.location) {
+      y += 6;
+      doc.text(sanitizeText(summary.location), pageWidth / 2, y, { align: 'center' });
+    }
+
+    // Decorative line
+    y += 15;
+    doc.setDrawColor(colors.accent);
+    doc.setLineWidth(0.5);
+    doc.line(margin + 40, y, pageWidth - margin - 40, y);
+
+    // Legend
+    y += 15;
+    doc.setFontSize(9);
+    doc.setTextColor(colors.muted);
+    doc.text('Legende:', margin, y);
+    y += 6;
+    
+    // User legend
+    doc.setFillColor(colors.userBg);
+    doc.roundedRect(margin, y - 3, 8, 5, 1, 1, 'F');
+    doc.setTextColor(colors.userText);
+    doc.text('Du (Nutzer)', margin + 12, y);
+    
+    // Bot legend
+    doc.setFillColor(colors.botBg);
+    doc.roundedRect(margin + 50, y - 3, 8, 5, 1, 1, 'F');
+    doc.setTextColor(colors.botText);
+    doc.text('Oria (Coach)', margin + 62, y);
+
+    // Start conversation on new page
+    doc.addPage();
+    y = margin;
+
+    // Parse and render conversation
+    const content = summary.content || '';
+    const blocks = content.split(/\n\n+/);
+
+    for (const block of blocks) {
+      const trimmedBlock = block.trim();
+      if (!trimmedBlock) continue;
+
+      const isOria = trimmedBlock.startsWith('Oria:');
+      const isUser = trimmedBlock.startsWith('Du:');
+      
+      let message = trimmedBlock;
+      let speaker = '';
+      let bgColor = '#FFFFFF';
+      let textColor = colors.text;
+      let labelColor = colors.muted;
+
+      if (isOria) {
+        message = trimmedBlock.replace(/^Oria:\s*/, '');
+        speaker = 'Oria (Coach)';
+        bgColor = colors.botBg;
+        labelColor = colors.botText;
+      } else if (isUser) {
+        message = trimmedBlock.replace(/^Du:\s*/, '');
+        speaker = 'Du';
+        bgColor = colors.userBg;
+        labelColor = colors.userText;
+      }
+
+      // Calculate message height
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(bodyFontSize);
+      const messageLines = wrapText(sanitizeText(message), contentWidth - 10, doc);
+      const messageHeight = messageLines.length * lineHeight + 12;
+
+      // Check if we need a new page
+      if (y + messageHeight + 10 > pageHeight - margin) {
+        addNewPage();
+        y = margin;
+      }
+
+      // Draw speaker label
+      if (speaker) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(labelColor);
+        doc.text(speaker, margin + 5, y + 4);
+        y += 8;
+      }
+
+      // Draw message background
+      doc.setFillColor(bgColor);
+      doc.roundedRect(margin, y, contentWidth, messageHeight, 3, 3, 'F');
+
+      // Draw message text
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(bodyFontSize);
+      doc.setTextColor(textColor);
+      
+      let textY = y + 6;
+      for (const line of messageLines) {
+        doc.text(line, margin + 5, textY);
+        textY += lineHeight;
+      }
+
+      y += messageHeight + 8;
+    }
+
+    // Footer on last page
+    doc.setFontSize(8);
+    doc.setTextColor(colors.muted);
+    doc.text('Reflexions-Tagebuch - Erstellt am ' + format(new Date(), 'dd.MM.yyyy', { locale: de }), 
+             pageWidth / 2, pageHeight - 15, { align: 'center' });
+
+    // Save PDF
+    const fileName = `${summary.title.replace(/[^a-z0-9äöüß]/gi, '_')}_Unterhaltung.pdf`;
+    doc.save(fileName);
+  };
+
+  return { generatePdf, generateConversationPdf };
 };
