@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Download, ImagePlus, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,8 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { toast } from 'sonner';
-import { usePdfGenerator } from '@/hooks/usePdfGenerator';
-import { PdfPreview } from '@/components/PdfPreview';
 import {
   Dialog,
   DialogContent,
@@ -74,7 +72,6 @@ const hashPassword = async (password: string): Promise<string> => {
 const Summaries = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { generatePdf } = usePdfGenerator();
   const [summaries, setSummaries] = useState<SummaryMemory[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -95,13 +92,6 @@ const Summaries = () => {
   // Delete confirmation
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
-
-  // PDF export state
-  const [showPdfDialog, setShowPdfDialog] = useState(false);
-  const [pdfSummary, setPdfSummary] = useState<SummaryMemory | null>(null);
-  const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [generatingPdf, setGeneratingPdf] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Check if user has a vault password set
   useEffect(() => {
@@ -276,61 +266,9 @@ const Summaries = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  // PDF export functions
-  const openPdfDialog = (summary: SummaryMemory) => {
-    setPdfSummary(summary);
-    setCoverImage(null);
-    setShowPdfDialog(true);
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // Validate file type - explicitly check for supported formats
-    const supportedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    if (!supportedTypes.includes(file.type)) {
-      toast.error('Bitte wähle ein JPG, PNG oder WebP Bild aus');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Das Bild darf maximal 5MB groß sein');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onerror = () => {
-      toast.error('Fehler beim Laden des Bildes');
-    };
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      if (result && result.startsWith('data:image/')) {
-        setCoverImage(result);
-      } else {
-        toast.error('Ungültiges Bildformat');
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleGeneratePdf = async () => {
-    if (!pdfSummary) return;
-    
-    setGeneratingPdf(true);
-    try {
-      await generatePdf(pdfSummary, coverImage);
-      toast.success('PDF wurde erstellt');
-      setShowPdfDialog(false);
-      setCoverImage(null);
-      setPdfSummary(null);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      toast.error('Fehler beim Erstellen des PDFs');
-    } finally {
-      setGeneratingPdf(false);
-    }
+  // Navigate to PDF export page
+  const openPdfExport = (summary: SummaryMemory) => {
+    navigate(`/pdf-export?id=${summary.id}`);
   };
 
   const deleteSummary = async (id: string) => {
@@ -765,7 +703,7 @@ const Summaries = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => openPdfDialog(summary)}
+                            onClick={() => openPdfExport(summary)}
                             className="text-primary hover:text-primary"
                           >
                             <Download className="w-4 h-4 mr-2" />
@@ -884,107 +822,6 @@ const Summaries = () => {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* PDF Export Dialog */}
-      <Dialog open={showPdfDialog} onOpenChange={(open) => {
-        setShowPdfDialog(open);
-        if (!open) {
-          setCoverImage(null);
-          setPdfSummary(null);
-        }
-      }}>
-        <DialogContent className="max-w-xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Download className="w-5 h-5 text-primary" />
-              Als PDF exportieren
-            </DialogTitle>
-            <DialogDescription>
-              Erstelle ein 4-seitiges PDF mit Titelseite, Zusammenfassung, Erkenntnissen und Empfehlungen.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-4 py-4">
-            {/* Cover image upload */}
-            <div>
-              <label className="text-sm font-medium text-foreground mb-2 block">
-                Titelbild (optional)
-              </label>
-              
-              {coverImage ? (
-                <div className="relative">
-                  <img
-                    src={coverImage}
-                    alt="Cover"
-                    className="w-full h-32 object-cover rounded-lg border border-border"
-                  />
-                  <button
-                    onClick={() => setCoverImage(null)}
-                    className="absolute top-2 right-2 w-8 h-8 rounded-full bg-background/90 hover:bg-background flex items-center justify-center shadow-md"
-                  >
-                    <X className="w-4 h-4 text-foreground" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full h-24 border-2 border-dashed border-border rounded-lg flex items-center justify-center gap-3 hover:border-primary/50 hover:bg-muted/30 transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                    <ImagePlus className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-medium text-foreground">Bild hochladen</p>
-                    <p className="text-xs text-muted-foreground">JPG, PNG oder WEBP, max. 5MB</p>
-                  </div>
-                </button>
-              )}
-              
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-            </div>
-
-            {/* PDF Preview */}
-            {pdfSummary && (
-              <div>
-                <label className="text-sm font-medium text-foreground mb-3 block">
-                  Vorschau
-                </label>
-                <PdfPreview summary={pdfSummary} coverImage={coverImage} />
-              </div>
-            )}
-          </div>
-
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowPdfDialog(false)}
-            >
-              Abbrechen
-            </Button>
-            <Button
-              onClick={handleGeneratePdf}
-              disabled={generatingPdf}
-            >
-              {generatingPdf ? (
-                <>
-                  <div className="w-4 h-4 mr-2 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                  Erstelle PDF...
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4 mr-2" />
-                  PDF erstellen
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
