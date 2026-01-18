@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Download } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -266,10 +266,6 @@ const Summaries = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  // Navigate to PDF export page
-  const openPdfExport = (summary: SummaryMemory) => {
-    navigate(`/pdf-export?id=${summary.id}`);
-  };
 
   const deleteSummary = async (id: string) => {
     if (!user) return;
@@ -700,15 +696,6 @@ const Summaries = () => {
 
                         {/* Action buttons in expanded view */}
                         <div className="pt-2 border-t border-border flex flex-wrap gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => openPdfExport(summary)}
-                            className="text-primary hover:text-primary"
-                          >
-                            <Download className="w-4 h-4 mr-2" />
-                            Als PDF speichern
-                          </Button>
                           <Button
                             variant="ghost"
                             size="sm"
