@@ -27,6 +27,7 @@ interface SummaryData {
 }
 
 // Sanitize text for PDF (handle special characters properly)
+// jsPDF does not support emojis - they must be removed completely
 const sanitizeText = (text: string): string => {
   if (!text) return '';
   
@@ -38,33 +39,71 @@ const sanitizeText = (text: string): string => {
   // Step 2: Handle tabs - convert to spaces
   result = result.replace(/\t/g, ' ');
   
-  // Step 3: Remove zero-width and invisible characters FIRST
+  // Step 3: CRITICAL - Remove ALL emojis and special Unicode symbols FIRST
+  // This prevents jsPDF from rendering corrupted characters
+  // Remove emoji unicode ranges:
+  result = result
+    // Emoticons
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    // Miscellaneous Symbols and Pictographs
+    .replace(/[\u{1F300}-\u{1F5FF}]/gu, '')
+    // Transport and Map Symbols
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    // Supplemental Symbols and Pictographs
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    // Symbols and Pictographs Extended-A
+    .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '')
+    // Symbols and Pictographs Extended-B
+    .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
+    // Dingbats
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    // Miscellaneous Symbols
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    // Additional symbols
+    .replace(/[\u{2300}-\u{23FF}]/gu, '')
+    // Enclosed Alphanumerics
+    .replace(/[\u{2460}-\u{24FF}]/gu, '')
+    // Box Drawing
+    .replace(/[\u{2500}-\u{257F}]/gu, '')
+    // Geometric Shapes
+    .replace(/[\u{25A0}-\u{25FF}]/gu, '')
+    // Regional Indicator Symbols (flags)
+    .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '')
+    // Skin tone modifiers
+    .replace(/[\u{1F3FB}-\u{1F3FF}]/gu, '')
+    // Variation selectors
+    .replace(/[\uFE00-\uFE0F]/g, '')
+    // Zero Width Joiner (used in emoji sequences)
+    .replace(/\u200D/g, '')
+    // Combining marks that might be left over
+    .replace(/[\u20D0-\u20FF]/g, '');
+  
+  // Step 4: Remove zero-width and invisible characters
   result = result
     .replace(/\u200B/g, '') // Zero-width space
     .replace(/\u200C/g, '') // Zero-width non-joiner
-    .replace(/\u200D/g, '') // Zero-width joiner
     .replace(/\uFEFF/g, '') // BOM
     .replace(/\u00AD/g, '') // Soft hyphen
     .replace(/\u2060/g, '') // Word joiner
     .replace(/\u180E/g, '') // Mongolian vowel separator
     .replace(/[\uFFF0-\uFFFF]/g, ''); // Specials block
   
-  // Step 4: Normalize quotes - use simple ASCII quotes
+  // Step 5: Normalize quotes - use simple ASCII quotes
   result = result
     .replace(/[\u2018\u2019\u201A\u201B\u0060\u00B4]/g, "'") // Single quotes
     .replace(/[\u201C\u201D\u201E\u201F\u00AB\u00BB]/g, '"'); // Double quotes
   
-  // Step 5: Normalize dashes and hyphens
+  // Step 6: Normalize dashes and hyphens
   result = result
     .replace(/[\u2013\u2014\u2015\u2212]/g, '-') // En dash, em dash, horizontal bar, minus
     .replace(/\u2010/g, '-') // Hyphen
     .replace(/\u2011/g, '-') // Non-breaking hyphen
     .replace(/\u2012/g, '-'); // Figure dash
   
-  // Step 6: Normalize ellipsis
+  // Step 7: Normalize ellipsis
   result = result.replace(/\u2026/g, '...');
   
-  // Step 7: Normalize spaces - convert all space types to regular space
+  // Step 8: Normalize spaces - convert all space types to regular space
   result = result
     .replace(/\u00A0/g, ' ') // Non-breaking space
     .replace(/\u2002/g, ' ') // En space
@@ -79,29 +118,33 @@ const sanitizeText = (text: string): string => {
     .replace(/\u202F/g, ' ') // Narrow no-break space
     .replace(/\u205F/g, ' '); // Medium mathematical space
   
-  // Step 8: Normalize bullet points
+  // Step 9: Normalize bullet points
   result = result.replace(/[\u2022\u2023\u2043\u25AA\u25AB\u25CF\u25CB]/g, '-');
   
-  // Step 9: Normalize arrows to simple text
+  // Step 10: Normalize arrows to simple text
   result = result.replace(/[\u2190-\u21FF]/g, '->');
   
-  // Step 10: Math symbols
+  // Step 11: Math symbols
   result = result
     .replace(/\u00D7/g, 'x') // multiplication
     .replace(/\u00F7/g, '/') // division
     .replace(/\u2264/g, '<=') // less than or equal
     .replace(/\u2265/g, '>='); // greater than or equal
   
-  // Step 11: Collapse multiple spaces into single space (but preserve newlines)
+  // Step 12: Remove any remaining non-printable or problematic characters
+  // Keep only basic Latin, extended Latin, and standard punctuation
+  result = result.replace(/[^\x20-\x7E\u00A1-\u00FF\u0100-\u017F\n]/g, '');
+  
+  // Step 13: Collapse multiple spaces into single space (but preserve newlines)
   result = result.replace(/[ ]{2,}/g, ' ');
   
-  // Step 12: Clean up each line - trim but preserve structure
+  // Step 14: Clean up each line - trim but preserve structure
   result = result
     .split('\n')
     .map(line => line.trim())
     .join('\n');
   
-  // Step 13: Remove excessive blank lines (max 2 consecutive)
+  // Step 15: Remove excessive blank lines (max 2 consecutive)
   result = result.replace(/\n{3,}/g, '\n\n');
   
   return result;
