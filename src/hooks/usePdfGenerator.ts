@@ -26,59 +26,102 @@ interface SummaryData {
   content?: string;
 }
 
-// Sanitize text for PDF (handle special characters)
+// Sanitize text for PDF (handle special characters properly)
 const sanitizeText = (text: string): string => {
   if (!text) return '';
-  return text
-    // Normalize whitespace first
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-    .replace(/\t/g, '    ')
-    // Replace multiple spaces with single space
-    .replace(/ {2,}/g, ' ')
-    // Curly quotes to straight quotes
-    .replace(/[\u2018\u2019\u201A\u201B]/g, "'")
-    .replace(/[\u201C\u201D\u201E\u201F]/g, '"')
-    // Ellipsis
-    .replace(/\u2026/g, '...')
-    // Dashes
-    .replace(/\u2013/g, '-')
-    .replace(/\u2014/g, '--')
-    .replace(/\u2015/g, '--')
-    // Non-breaking space
-    .replace(/\u00A0/g, ' ')
-    // Bullet points
-    .replace(/[\u2022\u2023\u2043]/g, '-')
-    // German special characters are fine, but handle other problematic ones
-    .replace(/\u00AD/g, '') // Soft hyphen
+  
+  let result = text;
+  
+  // Step 1: Normalize line endings first
+  result = result.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  
+  // Step 2: Handle tabs - convert to spaces
+  result = result.replace(/\t/g, ' ');
+  
+  // Step 3: Remove zero-width and invisible characters FIRST
+  result = result
     .replace(/\u200B/g, '') // Zero-width space
     .replace(/\u200C/g, '') // Zero-width non-joiner
     .replace(/\u200D/g, '') // Zero-width joiner
     .replace(/\uFEFF/g, '') // BOM
-    // Arrows
-    .replace(/[\u2190-\u2199]/g, '->')
-    // Math symbols that might cause issues
+    .replace(/\u00AD/g, '') // Soft hyphen
+    .replace(/\u2060/g, '') // Word joiner
+    .replace(/\u180E/g, '') // Mongolian vowel separator
+    .replace(/[\uFFF0-\uFFFF]/g, ''); // Specials block
+  
+  // Step 4: Normalize quotes - use simple ASCII quotes
+  result = result
+    .replace(/[\u2018\u2019\u201A\u201B\u0060\u00B4]/g, "'") // Single quotes
+    .replace(/[\u201C\u201D\u201E\u201F\u00AB\u00BB]/g, '"'); // Double quotes
+  
+  // Step 5: Normalize dashes and hyphens
+  result = result
+    .replace(/[\u2013\u2014\u2015\u2212]/g, '-') // En dash, em dash, horizontal bar, minus
+    .replace(/\u2010/g, '-') // Hyphen
+    .replace(/\u2011/g, '-') // Non-breaking hyphen
+    .replace(/\u2012/g, '-'); // Figure dash
+  
+  // Step 6: Normalize ellipsis
+  result = result.replace(/\u2026/g, '...');
+  
+  // Step 7: Normalize spaces - convert all space types to regular space
+  result = result
+    .replace(/\u00A0/g, ' ') // Non-breaking space
+    .replace(/\u2002/g, ' ') // En space
+    .replace(/\u2003/g, ' ') // Em space
+    .replace(/\u2004/g, ' ') // Three-per-em space
+    .replace(/\u2005/g, ' ') // Four-per-em space
+    .replace(/\u2006/g, ' ') // Six-per-em space
+    .replace(/\u2007/g, ' ') // Figure space
+    .replace(/\u2008/g, ' ') // Punctuation space
+    .replace(/\u2009/g, ' ') // Thin space
+    .replace(/\u200A/g, ' ') // Hair space
+    .replace(/\u202F/g, ' ') // Narrow no-break space
+    .replace(/\u205F/g, ' '); // Medium mathematical space
+  
+  // Step 8: Normalize bullet points
+  result = result.replace(/[\u2022\u2023\u2043\u25AA\u25AB\u25CF\u25CB]/g, '-');
+  
+  // Step 9: Normalize arrows to simple text
+  result = result.replace(/[\u2190-\u21FF]/g, '->');
+  
+  // Step 10: Math symbols
+  result = result
     .replace(/\u00D7/g, 'x') // multiplication
     .replace(/\u00F7/g, '/') // division
-    // Trim each line
+    .replace(/\u2264/g, '<=') // less than or equal
+    .replace(/\u2265/g, '>='); // greater than or equal
+  
+  // Step 11: Collapse multiple spaces into single space (but preserve newlines)
+  result = result.replace(/[ ]{2,}/g, ' ');
+  
+  // Step 12: Clean up each line - trim but preserve structure
+  result = result
     .split('\n')
     .map(line => line.trim())
-    .join('\n')
-    // Remove multiple consecutive newlines (max 2)
-    .replace(/\n{3,}/g, '\n\n');
+    .join('\n');
+  
+  // Step 13: Remove excessive blank lines (max 2 consecutive)
+  result = result.replace(/\n{3,}/g, '\n\n');
+  
+  return result;
 };
 
-// Calculate line height based on font size (typically 1.2-1.5x font size for good readability)
+// Calculate line height based on font size
 const getLineHeight = (fontSize: number): number => {
   // Convert font size from pt to mm and apply line height factor
-  // 1pt = 0.352778mm, line height factor of 1.5 for better readability
-  return (fontSize * 0.352778) * 1.5;
+  // 1pt = 0.352778mm, line height factor of 1.4 for compact but readable text
+  return (fontSize * 0.352778) * 1.4;
 };
 
 // Wrap text to fit within a specified width - uses current font settings of doc
+// IMPORTANT: Font must be set on doc BEFORE calling this function for accurate measurements
 const wrapText = (text: string, maxWidth: number, doc: jsPDF): string[] => {
   const sanitized = sanitizeText(text);
   if (!sanitized) return [];
+  
+  // Use a slightly smaller effective width to prevent edge cases
+  const effectiveMaxWidth = maxWidth * 0.98;
   
   // Handle explicit line breaks first
   const paragraphs = sanitized.split('\n');
@@ -90,44 +133,55 @@ const wrapText = (text: string, maxWidth: number, doc: jsPDF): string[] => {
       continue;
     }
     
-    // Split by spaces but preserve spacing
-    const words = paragraph.split(/\s+/).filter(w => w.length > 0);
+    // Split by single space only
+    const words = paragraph.split(' ').filter(w => w.length > 0);
     let currentLine = '';
 
     for (const word of words) {
-      // Handle very long words that might exceed maxWidth on their own
+      // Measure word width with current font
       const wordWidth = doc.getTextWidth(word);
-      if (wordWidth > maxWidth) {
+      
+      // Handle very long words that might exceed maxWidth on their own
+      if (wordWidth > effectiveMaxWidth) {
         // Push current line if exists
-        if (currentLine) {
+        if (currentLine.trim()) {
           allLines.push(currentLine.trim());
           currentLine = '';
         }
-        // Break the long word into smaller chunks
+        // Break the long word into smaller chunks character by character
         let remainingWord = word;
         while (remainingWord.length > 0) {
           let charCount = remainingWord.length;
-          while (charCount > 0 && doc.getTextWidth(remainingWord.substring(0, charCount)) > maxWidth) {
+          // Binary search for the right character count
+          while (charCount > 1 && doc.getTextWidth(remainingWord.substring(0, charCount)) > effectiveMaxWidth) {
+            charCount = Math.floor(charCount * 0.8); // Decrease by 20% each iteration
+          }
+          // Fine-tune
+          while (charCount > 1 && doc.getTextWidth(remainingWord.substring(0, charCount)) > effectiveMaxWidth) {
             charCount--;
           }
-          if (charCount === 0) charCount = 1; // At minimum, take one character
+          if (charCount === 0) charCount = 1;
           allLines.push(remainingWord.substring(0, charCount));
           remainingWord = remainingWord.substring(charCount);
         }
         continue;
       }
       
-      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      // Test if adding this word would exceed the width
+      const testLine = currentLine ? currentLine + ' ' + word : word;
       const testWidth = doc.getTextWidth(testLine);
 
-      if (testWidth > maxWidth && currentLine) {
+      if (testWidth > effectiveMaxWidth && currentLine.trim()) {
+        // Line would be too long, push current and start new line
         allLines.push(currentLine.trim());
         currentLine = word;
       } else {
+        // Word fits, add to current line
         currentLine = testLine;
       }
     }
 
+    // Don't forget the last line of the paragraph
     if (currentLine.trim()) {
       allLines.push(currentLine.trim());
     }
@@ -741,12 +795,20 @@ export const usePdfGenerator = () => {
         labelColor = colors.userText;
       }
 
-      // IMPORTANT: Set font size BEFORE calculating text width for proper line wrapping
+      // CRITICAL: Set consistent font BEFORE any text measurement or rendering
+      // This ensures wrapText uses the same font for width calculation as we use for rendering
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(bodyFontSize);
+      doc.setCharSpace(0); // Reset character spacing to prevent width issues
       
-      // Calculate message lines with correct font settings
-      const messageLines = wrapText(sanitizeText(message), contentWidth - 14, doc);
+      // Sanitize message text first
+      const cleanMessage = sanitizeText(message);
+      
+      // Calculate available width for message text (accounting for padding)
+      const textAreaWidth = contentWidth - 14;
+      
+      // Calculate message lines with correct font settings already applied
+      const messageLines = wrapText(cleanMessage, textAreaWidth, doc);
       const messageHeight = messageLines.length * lineHeight + 14;
 
       // Check if we need a new page (including speaker label height)
@@ -760,6 +822,7 @@ export const usePdfGenerator = () => {
       if (speaker) {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(9);
+        doc.setCharSpace(0);
         doc.setTextColor(labelColor);
         doc.text(speaker, margin + 5, y + 4);
         y += 10;
@@ -769,23 +832,30 @@ export const usePdfGenerator = () => {
       doc.setFillColor(bgColor);
       doc.roundedRect(margin, y, contentWidth, messageHeight, 3, 3, 'F');
 
-      // Draw message text - reset font to body size
+      // Draw message text - reset font consistently
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(bodyFontSize);
+      doc.setCharSpace(0); // Ensure consistent character spacing
       doc.setTextColor(textColor);
       
       let textY = y + 7;
-      for (const line of messageLines) {
+      for (let i = 0; i < messageLines.length; i++) {
+        const line = messageLines[i];
+        
         // Check if we need a page break mid-message
         if (textY > pageHeight - margin - 5) {
           addNewPage();
           y = margin;
           textY = y + 7;
           // Redraw background for continuation
-          const remainingLines = messageLines.slice(messageLines.indexOf(line));
+          const remainingLines = messageLines.slice(i);
           const remainingHeight = remainingLines.length * lineHeight + 10;
           doc.setFillColor(bgColor);
           doc.roundedRect(margin, y, contentWidth, remainingHeight, 3, 3, 'F');
+          // Reset font after potential state changes
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(bodyFontSize);
+          doc.setCharSpace(0);
           doc.setTextColor(textColor);
         }
         doc.text(line, margin + 7, textY);
