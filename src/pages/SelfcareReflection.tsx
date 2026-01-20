@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, HelpCircle, AlertCircle } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, HelpCircle, AlertCircle, MessageCircleQuestion } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -276,7 +276,7 @@ const SelfcareReflection = () => {
   const [showGamification, setShowGamification] = useState(false);
   
   // Reflection mode state
-  type ReflectionMode = 'impulse' | 'situation';
+  type ReflectionMode = 'impulse' | 'situation' | 'ask';
   const [reflectionMode, setReflectionMode] = useState<ReflectionMode>('impulse');
 
   // Impulse Manager for tracking impulse usage
@@ -749,6 +749,23 @@ const SelfcareReflection = () => {
     setConversationHistory([openingMessage]);
   };
 
+  // Start ask Oria mode - free questions without structured reflection
+  const startAskOria = () => {
+    setReflectionMode('ask');
+    setCurrentStatement({ text: 'Frag Oria', category: 'selfcare' });
+    setSessionStarted(true);
+    setHideStatementBanner(true);
+    
+    // Initial message from Oria for ask mode
+    const openingMessage: Message = {
+      role: "assistant",
+      content: "Hallo 💛 Was beschäftigt dich gerade? Du kannst mir alles fragen – zu Gefühlen, Bedürfnissen, inneren Teilen, Körperwahrnehmungen oder was dir sonst auf dem Herzen liegt."
+    };
+    
+    setMessages([openingMessage]);
+    setConversationHistory([openingMessage]);
+  };
+
   const resetSession = () => {
     if (conversationHistory.length > 1) {
       setShowSaveDialog(true);
@@ -1102,18 +1119,30 @@ const SelfcareReflection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={reflectionMode === 'impulse' ? startWithDisplayedImpulse : startSituationReflection}
+                onClick={
+                  reflectionMode === 'impulse' 
+                    ? startWithDisplayedImpulse 
+                    : reflectionMode === 'situation' 
+                      ? startSituationReflection 
+                      : startAskOria
+                }
               >
                 <div className="w-28 h-32 sm:w-32 sm:h-36 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl flex flex-col items-center justify-center gap-2 border border-white/50">
                   <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
                     {reflectionMode === 'impulse' ? (
                       <Sparkles className="w-6 h-6 text-accent" />
-                    ) : (
+                    ) : reflectionMode === 'situation' ? (
                       <MessageSquare className="w-6 h-6 text-accent" />
+                    ) : (
+                      <MessageCircleQuestion className="w-6 h-6 text-accent" />
                     )}
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">
-                    {reflectionMode === 'impulse' ? 'Impuls reflektieren' : 'Situation reflektieren'}
+                    {reflectionMode === 'impulse' 
+                      ? 'Impuls reflektieren' 
+                      : reflectionMode === 'situation' 
+                        ? 'Situation reflektieren' 
+                        : 'Frag Oria'}
                   </span>
                 </div>
               </motion.button>
@@ -1187,7 +1216,7 @@ const SelfcareReflection = () => {
               <div className="bg-white/50 backdrop-blur-sm rounded-full p-1 flex gap-1 border border-white/30">
                 <button
                   onClick={() => setReflectionMode('impulse')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
                     reflectionMode === 'impulse'
                       ? 'bg-white shadow-sm text-foreground'
                       : 'text-foreground/60 hover:text-foreground'
@@ -1195,12 +1224,12 @@ const SelfcareReflection = () => {
                 >
                   <span className="flex items-center gap-1.5">
                     <Sparkles className="w-4 h-4" />
-                    Impuls
+                    <span className="hidden sm:inline">Impuls</span>
                   </span>
                 </button>
                 <button
                   onClick={() => setReflectionMode('situation')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
                     reflectionMode === 'situation'
                       ? 'bg-white shadow-sm text-foreground'
                       : 'text-foreground/60 hover:text-foreground'
@@ -1208,7 +1237,20 @@ const SelfcareReflection = () => {
                 >
                   <span className="flex items-center gap-1.5">
                     <MessageSquare className="w-4 h-4" />
-                    Situation
+                    <span className="hidden sm:inline">Situation</span>
+                  </span>
+                </button>
+                <button
+                  onClick={() => setReflectionMode('ask')}
+                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
+                    reflectionMode === 'ask'
+                      ? 'bg-white shadow-sm text-foreground'
+                      : 'text-foreground/60 hover:text-foreground'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <MessageCircleQuestion className="w-4 h-4" />
+                    <span className="hidden sm:inline">Frag Oria</span>
                   </span>
                 </button>
               </div>
