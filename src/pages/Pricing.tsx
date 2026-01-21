@@ -102,7 +102,7 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[env(safe-area-inset-top)]">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[max(env(safe-area-inset-top),20px)]">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <motion.button
@@ -132,7 +132,7 @@ const Pricing = () => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8 pb-[calc(env(safe-area-inset-bottom)+96px)]">
+      <main className="max-w-6xl mx-auto px-4 py-8 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)]">
         {/* Intro Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
