@@ -23,6 +23,7 @@ import { format, differenceInDays, isToday, isYesterday, startOfDay } from 'date
 import { de } from 'date-fns/locale';
 import { GamificationDashboard } from '@/components/gamification';
 import { useImpulseManager, TIER_LIMITS } from '@/hooks/useImpulseManager';
+import { updateGamificationOnReflection } from '@/hooks/useGamification';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 const SUMMARY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`;
@@ -877,6 +878,10 @@ const SelfcareReflection = () => {
         await supabase.from('messages').delete().eq('conversation_id', currentConversationId);
         await supabase.from('conversations').delete().eq('id', currentConversationId);
       }
+
+      // Update gamification data (add plant to garden, update streak, etc.)
+      const reflectionTopic = currentStatement?.text || title || 'Reflexion';
+      await updateGamificationOnReflection(user.id, reflectionTopic);
 
       // Check for streak achievements
       const newStreak = streak + (reflectedToday ? 0 : 1);
