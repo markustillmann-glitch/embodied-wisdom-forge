@@ -127,7 +127,7 @@ const ImpulsePacks = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40 flex items-center justify-center p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+      <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40 flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Bitte melde dich an.</p>
           <button 
@@ -144,7 +144,7 @@ const ImpulsePacks = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[env(safe-area-inset-top)]">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[max(env(safe-area-inset-top),20px)]">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -160,7 +160,7 @@ const ImpulsePacks = () => {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-6 pb-[calc(env(safe-area-inset-bottom)+96px)]">
+      <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)]">
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
