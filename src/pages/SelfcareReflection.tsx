@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, HelpCircle, AlertCircle, MessageCircleQuestion } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, Lightbulb, AlertCircle, MessageCircleQuestion } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -1004,7 +1004,7 @@ const SelfcareReflection = () => {
             className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
             aria-label="Hilfe"
           >
-            <HelpCircle className="w-5 h-5 text-foreground/70" />
+            <Lightbulb className="w-5 h-5 text-foreground/70" />
           </motion.button>
           
           <motion.button
@@ -1176,7 +1176,7 @@ const SelfcareReflection = () => {
                 >
                   <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
                     <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <HelpCircle className="w-5 h-5 text-emerald-600" />
+                      <Lightbulb className="w-5 h-5 text-emerald-600" />
                     </div>
                     <span className="text-xs font-medium text-foreground/80 text-center px-2">Welche Situationen</span>
                   </div>
