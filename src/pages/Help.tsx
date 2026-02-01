@@ -396,9 +396,9 @@ const Help = () => {
         }}
       />
       
-      {/* Header */}
-      <div className="relative z-10 px-6 pt-[max(env(safe-area-inset-top,20px),20px)]">
-        <div className="flex items-center gap-4 mb-6">
+      {/* Header - Sticky */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
+        <div className="px-6 py-3 flex items-center gap-4">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate(-1)}
@@ -409,10 +409,10 @@ const Help = () => {
           </motion.button>
           <div className="flex items-center gap-2">
             <HelpCircle className="w-6 h-6 text-foreground/70" />
-            <h1 className="text-2xl font-semibold text-foreground">Hilfe & FAQ</h1>
+            <h1 className="text-xl font-semibold text-foreground">Hilfe & FAQ</h1>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* FAQ Content */}
       <div ref={scrollContainerRef} className="relative z-10 flex-1 overflow-y-auto px-6 pb-8">

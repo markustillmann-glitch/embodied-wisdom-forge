@@ -958,8 +958,9 @@ const SelfcareReflection = () => {
         }}
       />
       
-      {/* Top Navigation Icons */}
-      <div className="relative z-10 flex justify-between items-center px-6 pt-[max(env(safe-area-inset-top,20px),20px)]">
+      {/* Top Navigation Icons - Sticky Header */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
+        <div className="flex justify-between items-center px-6 py-3">
         <div className="flex gap-2">
           {/* Owl as Home Button */}
           <motion.button
@@ -1021,7 +1022,8 @@ const SelfcareReflection = () => {
             <Heart className="w-5 h-5 text-foreground/70" />
           </motion.button>
         </div>
-      </div>
+        </div>
+      </header>
 
       {!sessionStarted ? (
         /* Welcome Screen - Like Reference Image */

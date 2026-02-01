@@ -16,22 +16,24 @@ const Modell = () => {
         }}
       />
       
-      {/* Header */}
-      <div className="relative z-10 flex items-center justify-between px-6 pt-[max(env(safe-area-inset-top,20px),20px)] pb-4">
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate('/selfcare')}
-          className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
-        >
-          <ArrowLeft className="w-5 h-5 text-foreground/70" />
-        </motion.button>
-        
-        <div className="w-12 h-12 rounded-full bg-foreground shadow-lg flex items-center justify-center">
-          <img src={bbOwlLogo} alt="Oria" className="w-9 h-9 object-contain" />
+      {/* Header - Sticky */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
+        <div className="flex items-center justify-between px-6 py-3">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/selfcare')}
+            className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+          >
+            <ArrowLeft className="w-5 h-5 text-foreground/70" />
+          </motion.button>
+          
+          <div className="w-12 h-12 rounded-full bg-foreground shadow-lg flex items-center justify-center">
+            <img src={bbOwlLogo} alt="Oria" className="w-9 h-9 object-contain" />
+          </div>
+          
+          <div className="w-10" /> {/* Spacer for balance */}
         </div>
-        
-        <div className="w-10" /> {/* Spacer for balance */}
-      </div>
+      </header>
 
       {/* Content */}
       <div className="relative z-10 px-6 pb-[max(env(safe-area-inset-bottom,24px),24px)]">
