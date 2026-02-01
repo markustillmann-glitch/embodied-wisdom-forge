@@ -613,32 +613,38 @@ const Summaries = () => {
         }}
       />
       
-      {/* iOS-style Hero Section */}
-      <section className="pt-[calc(env(safe-area-inset-top,0px)+44px)] pb-6 sm:pt-24 sm:pb-10 relative z-10">
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
-          <motion.div
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <motion.button
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="mb-6 flex items-center justify-between"
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/selfcare')}
+            className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
           >
-            <button
-              onClick={() => navigate('/selfcare')}
-              className="ios-button-text flex items-center gap-0.5 -ml-2"
-            >
-              <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
-              <span className="ios-body">Zurück</span>
-            </button>
+            <ArrowLeft className="w-5 h-5 text-foreground/70" />
+          </motion.button>
 
-            {/* Settings button for password */}
-            <button
-              onClick={() => setShowSetPasswordDialog(true)}
-              className="w-9 h-9 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center transition-colors"
-              title="Tresor-Einstellungen"
-            >
-              <Settings className="w-4 h-4 text-muted-foreground" />
-            </button>
-          </motion.div>
+          <h1 className="text-xl font-serif font-semibold text-foreground">Mein Tresor</h1>
+
+          {/* Settings button for password */}
+          <motion.button
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowSetPasswordDialog(true)}
+            className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+            title="Tresor-Einstellungen"
+          >
+            <Settings className="w-4 h-4 text-foreground/70" />
+          </motion.button>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="pb-6 sm:pb-10 relative z-10">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-6">
 
           <div className="flex flex-col items-center text-center">
             <motion.div
