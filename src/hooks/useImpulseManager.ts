@@ -231,11 +231,8 @@ export function useImpulseManager() {
         return;
       }
 
-      // Create default subscription if none exists (fallback, should be created by trigger)
+      // Create default subscription if none exists - all users get permanent premium
       if (!sub) {
-        const trialEnd = new Date();
-        trialEnd.setDate(trialEnd.getDate() + 7);
-        
         const { data: newSub, error: insertError } = await supabase
           .from('user_subscriptions')
           .insert({
@@ -244,7 +241,7 @@ export function useImpulseManager() {
             active_packs: ['basis', 'musik', 'reisen', 'natur', 'beziehungen', 'kreativitaet'],
             impulses_used_this_period: 0,
             period_start_date: new Date().toISOString().split('T')[0],
-            trial_ends_at: trialEnd.toISOString(),
+            trial_ends_at: null, // No trial - permanent premium
           })
           .select()
           .single();
@@ -256,38 +253,9 @@ export function useImpulseManager() {
         sub = newSub;
       }
 
-      // Check if trial has expired and downgrade to free
-      let effectiveTier = sub.tier as SubscriptionTier;
-      let isTrialActive = false;
-      
-      if (sub.trial_ends_at) {
-        const trialEnd = new Date(sub.trial_ends_at);
-        const now = new Date();
-        
-        if (now < trialEnd) {
-          // Trial is still active
-          isTrialActive = true;
-        } else if (sub.tier === 'premium') {
-          // Trial expired, downgrade to free
-          effectiveTier = 'free';
-          
-          const { error: downgradeError } = await supabase
-            .from('user_subscriptions')
-            .update({
-              tier: 'free',
-              active_packs: [],
-              impulses_used_this_period: 0,
-              period_start_date: new Date().toISOString().split('T')[0],
-            })
-            .eq('user_id', user.id);
-
-          if (!downgradeError) {
-            sub.tier = 'free';
-            sub.active_packs = [];
-            sub.impulses_used_this_period = 0;
-          }
-        }
-      }
+      // All users are permanent premium - no trial/downgrade logic
+      const effectiveTier: SubscriptionTier = 'premium';
+      const isTrialActive = false;
 
       // Check if period has reset
       const tier = effectiveTier;
