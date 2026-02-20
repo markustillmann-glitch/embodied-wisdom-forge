@@ -1206,6 +1206,14 @@ const SelfcareReflection = () => {
                 <Flower2 className="w-4 h-4" />
                 <span className="text-sm font-medium">Impulspakete</span>
               </button>
+              <div className="w-px h-5 bg-foreground/20" />
+              <button
+                onClick={() => navigate('/trigger-cards')}
+                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+              >
+                <AlertCircle className="w-4 h-4" />
+                <span className="text-sm font-medium">Trigger-Karten</span>
+              </button>
             </motion.div>
           </div>
 
