@@ -1185,34 +1185,31 @@ const SelfcareReflection = () => {
             >
               <button
                 onClick={() => navigate('/summaries')}
-                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Mein Tresor"
               >
-                <Lock className="w-4 h-4" />
-                <span className="text-sm font-medium">Mein Tresor</span>
+                <Lock className="w-4.5 h-4.5" />
               </button>
-              <div className="w-px h-5 bg-foreground/20" />
               <button
                 onClick={() => navigate('/help')}
-                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Anleitung"
               >
-                <Lightbulb className="w-4 h-4" />
-                <span className="text-sm font-medium">Anleitung</span>
+                <Lightbulb className="w-4.5 h-4.5" />
               </button>
-              <div className="w-px h-5 bg-foreground/20" />
               <button
                 onClick={() => navigate('/impulse-packs')}
-                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Impulspakete"
               >
-                <Flower2 className="w-4 h-4" />
-                <span className="text-sm font-medium">Impulspakete</span>
+                <Flower2 className="w-4.5 h-4.5" />
               </button>
-              <div className="w-px h-5 bg-foreground/20" />
               <button
                 onClick={() => navigate('/trigger-cards')}
-                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Trigger-Karten"
               >
-                <AlertCircle className="w-4 h-4" />
-                <span className="text-sm font-medium">Trigger-Karten</span>
+                <AlertCircle className="w-4.5 h-4.5" />
               </button>
             </motion.div>
           </div>
