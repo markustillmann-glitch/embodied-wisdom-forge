@@ -392,6 +392,8 @@ export const translations = {
     help: {
       title: 'Hilfe & FAQ',
       subtitle: 'Häufige Fragen',
+      moreQuestions: 'Noch Fragen?',
+      contactText: 'Wenn du weitere Fragen hast oder Unterstützung benötigst, schreibe uns gerne eine Nachricht.',
     },
 
     // Modell page
@@ -884,6 +886,8 @@ export const translations = {
     help: {
       title: 'Help & FAQ',
       subtitle: 'Frequently Asked Questions',
+      moreQuestions: 'More questions?',
+      contactText: 'If you have more questions or need support, feel free to send us a message.',
     },
 
     // Modell page

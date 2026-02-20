@@ -2,9 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Brain, Heart, Sparkles, Target, Users, BookOpen, Lightbulb, Shield, Compass, Zap, PenTool, Eye } from 'lucide-react';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Modell = () => {
   const navigate = useNavigate();
+
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">

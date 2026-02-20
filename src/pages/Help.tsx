@@ -3,6 +3,7 @@ import { HelpCircle, ChevronDown, ArrowLeft } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface FAQItem {
   question: string;
@@ -711,6 +712,7 @@ Die Bilder werden im **Fantasy-Spielkarten-Stil** generiert – künstlerisch, s
 const Help = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -774,7 +776,7 @@ const Help = () => {
           </motion.button>
           <div className="flex items-center gap-2">
             <HelpCircle className="w-6 h-6 text-foreground/70" />
-            <h1 className="text-xl font-semibold text-foreground">Hilfe & FAQ</h1>
+            <h1 className="text-xl font-semibold text-foreground">{t('help.title')}</h1>
           </div>
         </div>
       </header>
@@ -840,10 +842,9 @@ const Help = () => {
           transition={{ delay: 0.4, duration: 0.4 }}
           className="mt-8 bg-white/30 backdrop-blur-sm rounded-2xl p-6 text-center"
         >
-          <h2 className="text-lg font-semibold text-foreground mb-2">Noch Fragen?</h2>
+          <h2 className="text-lg font-semibold text-foreground mb-2">{t('help.moreQuestions') || 'Noch Fragen?'}</h2>
           <p className="text-foreground/70 text-sm">
-            Wenn du weitere Fragen hast oder Unterstützung benötigst, 
-            schreibe uns gerne eine Nachricht.
+            {t('help.contactText') || 'Wenn du weitere Fragen hast oder Unterstützung benötigst, schreibe uns gerne eine Nachricht.'}
           </p>
         </motion.div>
       </div>
