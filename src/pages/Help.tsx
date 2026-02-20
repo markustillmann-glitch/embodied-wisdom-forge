@@ -340,6 +340,81 @@ Seminare sind oft intensiv, aber zeitlich begrenzt. Oria bleibt – als kontinui
 • **Keine "echte" Beziehung** – Oria ist ein Werkzeug, keine Person
 
 **Unser Tipp:** Probiere es einfach aus. Die meisten stellen fest, dass es sich natürlicher anfühlt als erwartet – wie ein kluges, geduldiges Gegenüber, das nur für dich da ist.`
+  },
+  {
+    question: "Was sind Trigger-Karten und wie helfen sie mir?",
+    answer: `Trigger-Karten sind dein persönliches Nachschlagewerk für emotionale Reaktionsmuster. Sie helfen dir zu verstehen, **warum** du in bestimmten Situationen so stark reagierst – und was du tun kannst.
+
+**Was jede Karte enthält:**
+• **Die Trigger-Situation** – Was passiert äußerlich?
+• **Was innerlich geschieht** – Welche Schutzmechanismen werden aktiv?
+• **Körpersignale** – Wie dein Körper reagiert (Anspannung, Herzrasen, etc.)
+• **Das dahinterliegende Bedürfnis** – Was du eigentlich brauchst
+• **Regulationstechniken** – Konkrete Übungen zur Beruhigung
+• **Reframing** – Ein neuer, heilsamer Blickwinkel
+• **Integrationsfrage** – Eine tiefe Frage zum Mitnehmen
+
+**200 Karten in 10 Lebensbereichen:**
+Beziehung, Leistung, Familie, Selbstwert, Sicherheit, Intimität, Status, Sinn, Körper und Zukunft.
+
+**Wie du sie nutzt:**
+1. Stöbere durch die Kategorien oder mache den Selbsttest
+2. Speichere Karten, die dich ansprechen
+3. Starte direkt eine Reflexion mit Oria zu einer Karte`
+  },
+  {
+    question: "Wie funktioniert der Trigger-Selbsttest?",
+    answer: `Der Trigger-Selbsttest hilft dir herauszufinden, welche Lebensbereiche bei dir besonders sensibel sind.
+
+**So funktioniert es:**
+• Du beantwortest Fragen zu verschiedenen Alltagssituationen
+• Der Test erkennt, in welchen Bereichen du besonders stark reagierst
+• Am Ende bekommst du eine Übersicht deiner Trigger-Sensibilität
+
+**Nach dem Test:**
+• Du siehst, welche Kategorien für dich am relevantesten sind
+• Du kannst direkt die passenden Trigger-Karten erkunden
+• Du bekommst ein besseres Bild deiner emotionalen Landkarte
+
+**Tipp:** Der Test ist keine Diagnose. Er ist ein Kompass, der dir zeigt, wo du genauer hinschauen könntest.`
+  },
+  {
+    question: "Was sind eigene Trigger-Karten und wie erstelle ich sie?",
+    answer: `Neben den 200 vorgefertigten Karten kannst du auch **eigene Trigger-Karten** erstellen – passgenau für deine persönlichen Situationen.
+
+**So funktioniert es:**
+Oria führt dich in einem kurzen Dialog durch 4-5 einfache Fragen:
+1. **Deine Trigger-Situation** – Was passiert genau?
+2. **Deine Gefühle & Körperreaktionen** – Was spürst du dabei?
+3. **Dein Reaktionsmuster** – Wie reagierst du automatisch?
+4. **Dein Bedürfnis** – Was brauchst du eigentlich?
+
+Aus deinen Antworten erstellt Oria eine vollständige, persönliche Trigger-Karte mit allen Elementen: Körpersignale, Regulationstechniken, Reframing und mehr.
+
+**Du kannst auch bestehende Karten personalisieren:**
+Wenn dich eine der 200 Karten anspricht, kannst du sie über den "Personalisieren"-Button in eine eigene Karte umwandeln. Dabei passt Oria die Inhalte an deine persönlichen Erfahrungen an.
+
+**Deine eigenen Karten:**
+• Werden in einem separaten Tab "Eigene" gespeichert
+• Können jederzeit gelöscht werden
+• Dienen wie alle Karten als Startpunkt für Reflexionen mit Oria`
+  },
+  {
+    question: "Wie nutze ich Trigger-Karten für eine Reflexion mit Oria?",
+    answer: `Jede Trigger-Karte hat einen **"Mit Oria reflektieren"**-Button. Damit startest du eine geführte Reflexion, die genau auf das Thema der Karte zugeschnitten ist.
+
+**Was passiert dabei:**
+• Oria kennt den Kontext der Karte (innere Geschichte, Bedürfnis, Körpersignale)
+• Das Gespräch beginnt nicht bei null, sondern dort, wo die Karte aufhört
+• Du kannst tiefer in dein persönliches Erleben eintauchen
+
+**Wann ist das besonders hilfreich?**
+• Wenn du eine Trigger-Situation gerade erlebt hast
+• Wenn du ein Muster verstanden hast und es vertiefen möchtest
+• Wenn du die Regulationstechniken üben willst
+• Wenn du spürst, dass hinter dem Trigger noch mehr steckt
+
+**Tipp:** Speichere Karten, die dich besonders ansprechen. So findest du sie schnell wieder, wenn du sie brauchst.`
   }
 ];
 
