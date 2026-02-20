@@ -413,18 +413,54 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, userId, statement, mode = 'impulse' } = await req.json();
+    const rawBody = await req.json();
+
+    // Input validation
+    if (!rawBody || typeof rawBody !== 'object') {
+      return new Response(JSON.stringify({ error: 'Invalid request body' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { messages: rawMessages, userId, statement, mode: rawMode } = rawBody;
+    const mode = ['impulse', 'situation', 'ask'].includes(rawMode) ? rawMode : 'impulse';
+
+    // Validate messages array
+    if (!Array.isArray(rawMessages) || rawMessages.length === 0 || rawMessages.length > 100) {
+      return new Response(JSON.stringify({ error: 'Invalid messages: must be an array with 1-100 items' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const messages = rawMessages.filter((m: any) =>
+      m && typeof m === 'object' &&
+      ['user', 'assistant', 'system'].includes(m.role) &&
+      typeof m.content === 'string' && m.content.length > 0 && m.content.length <= 10000
+    ).map((m: any) => ({ role: m.role, content: m.content }));
+
+    if (messages.length === 0) {
+      return new Response(JSON.stringify({ error: 'No valid messages provided' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate optional fields
+    const validatedUserId = typeof userId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId) ? userId : null;
+    const validatedStatement = typeof statement === 'string' ? statement.substring(0, 500) : null;
     
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
     
     let profileContext = "";
-    if (userId) {
+    if (validatedUserId) {
       const { data: profile } = await supabase
         .from('user_profiles')
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_id', validatedUserId)
         .maybeSingle();
       
       if (profile) {
@@ -444,8 +480,8 @@ serve(async (req) => {
     
     // Add statement context only for impulse mode
     let statementContext = "";
-    if (mode === 'impulse' && statement) {
-      statementContext = `\n\n## Aktueller Selfcare-Impuls\n"${statement}"\n\nDieser Impuls ist der Ausgangspunkt des Gesprächs. Beziehe dich darauf zurück, wenn es passt.`;
+    if (mode === 'impulse' && validatedStatement) {
+      statementContext = `\n\n## Aktueller Selfcare-Impuls\n"${validatedStatement}"\n\nDieser Impuls ist der Ausgangspunkt des Gesprächs. Beziehe dich darauf zurück, wenn es passt.`;
     }
     
     const fullPrompt = basePrompt + statementContext + profileContext;

@@ -12,7 +12,30 @@ serve(async (req) => {
   }
 
   try {
-    const { summaryId, title, summaryText, mood } = await req.json();
+    const rawBody = await req.json();
+
+    // Input validation
+    if (!rawBody || typeof rawBody !== 'object') {
+      return new Response(JSON.stringify({ error: 'Invalid request body' }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { summaryId, title, summaryText, mood } = rawBody;
+
+    // Validate summaryId as UUID
+    if (typeof summaryId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(summaryId)) {
+      return new Response(JSON.stringify({ error: 'Invalid summaryId: must be a valid UUID' }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Validate and sanitize string fields
+    const validatedTitle = typeof title === 'string' ? title.substring(0, 200) : 'Reflexion';
+    const validatedSummaryText = typeof summaryText === 'string' ? summaryText.substring(0, 1000) : '';
+    const validatedMood = typeof mood === 'string' ? mood.substring(0, 50) : '';
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
@@ -47,10 +70,10 @@ serve(async (req) => {
     // Create a poetic prompt for the image based on reflection content
     const imagePrompt = `Create a beautiful, artistic, and emotionally evocative image that represents a personal reflection moment. 
     
-The reflection is titled "${title}" and captures this essence: "${summaryText?.substring(0, 200) || 'A moment of deep personal insight and self-discovery'}".
+The reflection is titled "${validatedTitle}" and captures this essence: "${validatedSummaryText?.substring(0, 200) || 'A moment of deep personal insight and self-discovery'}".
 
 Style: Dreamy, soft watercolor or oil painting style with gentle, warm colors. Abstract and symbolic rather than literal. 
-Mood: Contemplative, peaceful, introspective${mood ? `, with a sense of ${mood}` : ''}.
+Mood: Contemplative, peaceful, introspective${validatedMood ? `, with a sense of ${validatedMood}` : ''}.
 Elements: Include subtle nature elements like soft light, gentle landscapes, or flowing organic shapes that evoke inner peace and growth.
 Avoid: Text, words, letters, human faces, photorealistic style.
 
