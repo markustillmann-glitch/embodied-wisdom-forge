@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.generate-reflection-image]
 verify_jwt = false
+
+[functions.generate-trigger-card]
+verify_jwt = false

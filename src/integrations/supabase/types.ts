@@ -110,6 +110,66 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_trigger_cards: {
+        Row: {
+          beduerfnis: string
+          category: string
+          created_at: string
+          icon: string
+          id: string
+          innere_trigger_geschichte: string
+          integrationsfrage: string
+          koerpersignale: string
+          manager_reaktion: string
+          reframing: string
+          regulation: string
+          self_check: Json
+          title: string
+          typischer_anteil: string
+          updated_at: string
+          user_id: string
+          was_passiert: string
+        }
+        Insert: {
+          beduerfnis?: string
+          category?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          innere_trigger_geschichte?: string
+          integrationsfrage?: string
+          koerpersignale?: string
+          manager_reaktion?: string
+          reframing?: string
+          regulation?: string
+          self_check?: Json
+          title: string
+          typischer_anteil?: string
+          updated_at?: string
+          user_id: string
+          was_passiert?: string
+        }
+        Update: {
+          beduerfnis?: string
+          category?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          innere_trigger_geschichte?: string
+          integrationsfrage?: string
+          koerpersignale?: string
+          manager_reaktion?: string
+          reframing?: string
+          regulation?: string
+          self_check?: Json
+          title?: string
+          typischer_anteil?: string
+          updated_at?: string
+          user_id?: string
+          was_passiert?: string
+        }
+        Relationships: []
+      }
       deepen_ideas: {
         Row: {
           completed_at: string | null

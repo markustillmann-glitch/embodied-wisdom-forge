@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare } from 'lucide-react';
+import { ArrowLeft, Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare, Plus, Trash2, Sparkles } from 'lucide-react';
 import { triggerCategories, triggerCards, TriggerCard } from '@/data/triggerCards';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import CreateTriggerCardDialog from '@/components/trigger/CreateTriggerCardDialog';
 
 const TriggerCardDetail: React.FC<{
   card: TriggerCard;
@@ -140,7 +141,42 @@ const LabelValue: React.FC<{ label: string; value: string }> = ({ label, value }
   </div>
 );
 
-type FilterMode = 'all' | 'saved';
+type FilterMode = 'all' | 'saved' | 'custom';
+
+interface CustomCard {
+  id: string;
+  icon: string;
+  title: string;
+  typischer_anteil: string;
+  manager_reaktion: string;
+  beduerfnis: string;
+  was_passiert: string;
+  koerpersignale: string;
+  innere_trigger_geschichte: string;
+  self_check: string[];
+  regulation: string;
+  reframing: string;
+  integrationsfrage: string;
+}
+
+function customToTriggerCard(c: CustomCard): TriggerCard {
+  return {
+    id: c.id,
+    category: 'eigene',
+    icon: c.icon,
+    title: c.title,
+    typischerAnteil: c.typischer_anteil,
+    managerReaktion: c.manager_reaktion,
+    beduerfnis: c.beduerfnis,
+    wasPassiert: c.was_passiert,
+    koerpersignale: c.koerpersignale,
+    innereTriggerGeschichte: c.innere_trigger_geschichte,
+    selfCheck: Array.isArray(c.self_check) ? c.self_check : [],
+    regulation: c.regulation,
+    reframing: c.reframing,
+    integrationsfrage: c.integrationsfrage,
+  };
+}
 
 const TriggerCardsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -149,6 +185,8 @@ const TriggerCardsPage: React.FC = () => {
   const [openCardId, setOpenCardId] = useState<string | null>(null);
   const [savedCardIds, setSavedCardIds] = useState<Set<string>>(new Set());
   const [filterMode, setFilterMode] = useState<FilterMode>('all');
+  const [customCards, setCustomCards] = useState<CustomCard[]>([]);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const loadSavedCards = useCallback(async () => {
     if (!user) return;
@@ -162,6 +200,25 @@ const TriggerCardsPage: React.FC = () => {
   }, [user]);
 
   useEffect(() => { loadSavedCards(); }, [loadSavedCards]);
+
+  const loadCustomCards = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('custom_trigger_cards' as any)
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+    if (data) setCustomCards(data as any[]);
+  }, [user]);
+
+  useEffect(() => { loadCustomCards(); }, [loadCustomCards]);
+
+  const deleteCustomCard = async (cardId: string) => {
+    if (!user) return;
+    await supabase.from('custom_trigger_cards' as any).delete().eq('id', cardId).eq('user_id', user.id);
+    setCustomCards(prev => prev.filter(c => c.id !== cardId));
+    toast.success('Karte gelöscht.');
+  };
 
   const toggleSaveCard = async (cardId: string) => {
     if (!user) {
@@ -192,10 +249,13 @@ const TriggerCardsPage: React.FC = () => {
     navigate(`/selfcare?triggerCard=${triggerContext}&autostart=true`);
   };
 
-  const filteredCards = triggerCards.filter(c => {
-    if (filterMode === 'saved') return savedCardIds.has(c.id);
-    return c.category === activeCategory;
-  });
+  const filteredCards: TriggerCard[] = filterMode === 'custom'
+    ? customCards.map(customToTriggerCard)
+    : filterMode === 'saved'
+      ? triggerCards.filter(c => savedCardIds.has(c.id))
+      : triggerCards.filter(c => c.category === activeCategory);
+
+  const isCustomCard = (id: string) => customCards.some(c => c.id === id);
 
   const activeCat = triggerCategories.find(c => c.id === activeCategory);
 
@@ -228,9 +288,9 @@ const TriggerCardsPage: React.FC = () => {
           </button>
         </motion.div>
 
-        {/* Filter tabs: All / Saved */}
-        {user && savedCardIds.size > 0 && (
-          <div className="flex justify-center gap-2">
+        {/* Filter tabs */}
+        {user && (
+          <div className="flex justify-center gap-2 flex-wrap">
             <button
               onClick={() => setFilterMode('all')}
               className={cn("px-4 py-2 rounded-full ios-footnote font-medium transition-colors",
@@ -239,14 +299,25 @@ const TriggerCardsPage: React.FC = () => {
             >
               Alle Karten
             </button>
+            {savedCardIds.size > 0 && (
+              <button
+                onClick={() => setFilterMode('saved')}
+                className={cn("px-4 py-2 rounded-full ios-footnote font-medium transition-colors flex items-center gap-1.5",
+                  filterMode === 'saved' ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground"
+                )}
+              >
+                <BookmarkCheck className="w-3.5 h-3.5" />
+                Gemerkt ({savedCardIds.size})
+              </button>
+            )}
             <button
-              onClick={() => setFilterMode('saved')}
+              onClick={() => setFilterMode('custom')}
               className={cn("px-4 py-2 rounded-full ios-footnote font-medium transition-colors flex items-center gap-1.5",
-                filterMode === 'saved' ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground"
+                filterMode === 'custom' ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground"
               )}
             >
-              <BookmarkCheck className="w-3.5 h-3.5" />
-              Meine Karten ({savedCardIds.size})
+              <Sparkles className="w-3.5 h-3.5" />
+              Eigene ({customCards.length})
             </button>
           </div>
         )}
@@ -288,6 +359,20 @@ const TriggerCardsPage: React.FC = () => {
           </div>
         )}
 
+        {filterMode === 'custom' && (
+          <div className="text-center pt-1 space-y-3">
+            <h2 className="ios-title-2 text-foreground">✨ Eigene Trigger-Karten</h2>
+            <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} Karten</p>
+            <button
+              onClick={() => setShowCreateDialog(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-accent-foreground font-semibold ios-body shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              Neue Karte erstellen
+            </button>
+          </div>
+        )}
+
         {/* Cards */}
         <div className="space-y-3 max-w-lg mx-auto">
           {filteredCards.length === 0 && filterMode === 'saved' && (
@@ -296,22 +381,44 @@ const TriggerCardsPage: React.FC = () => {
               <p className="ios-caption text-muted-foreground mt-1">Tippe auf das Lesezeichen-Symbol, um Karten zu speichern.</p>
             </div>
           )}
+          {filteredCards.length === 0 && filterMode === 'custom' && (
+            <div className="text-center py-8">
+              <p className="ios-callout text-muted-foreground">Noch keine eigenen Karten erstellt.</p>
+              <p className="ios-caption text-muted-foreground mt-1">Erstelle deine erste Trigger-Karte mit KI-Unterstützung.</p>
+            </div>
+          )}
           <AnimatePresence mode="wait">
             {filteredCards.map(card => (
-              <TriggerCardDetail
-                key={card.id}
-                card={card}
-                isOpen={openCardId === card.id}
-                onToggle={() => setOpenCardId(prev => prev === card.id ? null : card.id)}
-                isSaved={savedCardIds.has(card.id)}
-                onToggleSave={() => toggleSaveCard(card.id)}
-                onStartReflection={() => startReflection(card)}
-                isLoggedIn={!!user}
-              />
+              <div key={card.id} className="relative">
+                <TriggerCardDetail
+                  card={card}
+                  isOpen={openCardId === card.id}
+                  onToggle={() => setOpenCardId(prev => prev === card.id ? null : card.id)}
+                  isSaved={savedCardIds.has(card.id)}
+                  onToggleSave={() => toggleSaveCard(card.id)}
+                  onStartReflection={() => startReflection(card)}
+                  isLoggedIn={!!user}
+                />
+                {filterMode === 'custom' && isCustomCard(card.id) && openCardId === card.id && (
+                  <button
+                    onClick={() => deleteCustomCard(card.id)}
+                    className="absolute top-5 right-16 p-1.5 text-destructive/60 hover:text-destructive"
+                    aria-label="Karte löschen"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             ))}
           </AnimatePresence>
         </div>
       </div>
+
+      <CreateTriggerCardDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onCardCreated={loadCustomCards}
+      />
     </div>
   );
 };
