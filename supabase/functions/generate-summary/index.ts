@@ -68,7 +68,27 @@ serve(async (req) => {
   }
 
   try {
-    const { conversation, statement } = await req.json();
+    const rawBody = await req.json();
+
+    // Input validation
+    if (!rawBody || typeof rawBody !== 'object') {
+      return new Response(JSON.stringify({ error: 'Invalid request body' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { conversation: rawConversation, statement: rawStatement } = rawBody;
+
+    if (typeof rawConversation !== 'string' || rawConversation.length < 10) {
+      return new Response(JSON.stringify({ error: 'Invalid conversation: must be a string with at least 10 characters' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const conversation = rawConversation.substring(0, 50000);
+    const statement = typeof rawStatement === 'string' ? rawStatement.substring(0, 500) : '';
     
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
