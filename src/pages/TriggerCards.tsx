@@ -276,20 +276,25 @@ const TriggerCardsPage: React.FC = () => {
   const activeCat = triggerCategories.find(c => c.id === activeCategory);
 
   return (
-    <div className="ios-page ios-font">
-      {/* Nav */}
-      <div className="ios-nav-bar flex items-end px-4 pb-2 pt-[max(env(safe-area-inset-top),20px)]">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-accent ios-body">
-          <ArrowLeft className="w-5 h-5" />
-          <span>Zurück</span>
-        </button>
-        <div className="flex-1 text-center">
-          <span className="ios-headline text-foreground">Trigger-Karten</span>
+    <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
+      {/* Header - Sticky */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[max(env(safe-area-inset-top),20px)]">
+        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/selfcare')}
+            className="p-2 rounded-full bg-white/80 shadow-sm"
+          >
+            <ArrowLeft className="w-5 h-5 text-foreground/70" />
+          </motion.button>
+          <div>
+            <h1 className="text-xl font-serif font-semibold text-foreground">Trigger-Karten</h1>
+            <p className="text-sm text-muted-foreground">Erkenne & reguliere innere Muster</p>
+          </div>
         </div>
-        <div className="w-16" />
-      </div>
+      </header>
 
-      <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] space-y-5 mt-4 overflow-y-auto flex-1">
+      <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-5">
         {/* Intro */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-3">
           <h1 className="ios-title-1 text-foreground">Trigger-Karten</h1>
@@ -429,7 +434,7 @@ const TriggerCardsPage: React.FC = () => {
             ))}
           </AnimatePresence>
         </div>
-      </div>
+      </main>
 
       <CreateTriggerCardDialog
         isOpen={showCreateDialog}
