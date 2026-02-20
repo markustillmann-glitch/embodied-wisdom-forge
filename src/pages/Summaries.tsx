@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList } from 'lucide-react';
 import { IfsPartsSection } from '@/components/parts/IfsPartsSection';
+import { TriggerTestHistory } from '@/components/trigger/TriggerTestHistory';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -112,7 +113,7 @@ const Summaries = () => {
   
   // View mode state: 'summary' or 'conversation'
   const [viewModes, setViewModes] = useState<Record<string, 'summary' | 'conversation'>>({});
-  const [activeTab, setActiveTab] = useState<'reflections' | 'parts'>('reflections');
+  const [activeTab, setActiveTab] = useState<'reflections' | 'parts' | 'tests'>('reflections');
 
   const getViewMode = (id: string) => viewModes[id] || 'summary';
   const toggleViewMode = (id: string) => {
@@ -678,10 +679,10 @@ const Summaries = () => {
 
       {/* Tab Navigation */}
       <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 mb-6">
-        <div className="flex gap-2 bg-white/30 backdrop-blur-sm rounded-xl p-1.5">
+        <div className="flex gap-1.5 bg-white/30 backdrop-blur-sm rounded-xl p-1.5">
           <button
             onClick={() => setActiveTab('reflections')}
-            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               activeTab === 'reflections'
                 ? 'bg-white/80 text-foreground shadow-sm'
                 : 'text-foreground/60 hover:text-foreground/80'
@@ -692,14 +693,25 @@ const Summaries = () => {
           </button>
           <button
             onClick={() => setActiveTab('parts')}
-            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               activeTab === 'parts'
                 ? 'bg-white/80 text-foreground shadow-sm'
                 : 'text-foreground/60 hover:text-foreground/80'
             }`}
           >
             <Users className="w-4 h-4" />
-            Meine Anteile
+            Anteile
+          </button>
+          <button
+            onClick={() => setActiveTab('tests')}
+            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+              activeTab === 'tests'
+                ? 'bg-white/80 text-foreground shadow-sm'
+                : 'text-foreground/60 hover:text-foreground/80'
+            }`}
+          >
+            <ClipboardList className="w-4 h-4" />
+            Selbsttest
           </button>
         </div>
       </section>
@@ -708,6 +720,8 @@ const Summaries = () => {
       <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+24px),48px)]">
         {activeTab === 'parts' ? (
           <IfsPartsSection />
+        ) : activeTab === 'tests' ? (
+          <TriggerTestHistory />
         ) : loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
