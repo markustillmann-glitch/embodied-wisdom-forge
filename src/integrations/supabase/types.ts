@@ -214,6 +214,69 @@ export type Database = {
           },
         ]
       }
+      ifs_parts: {
+        Row: {
+          age: string | null
+          belief: string | null
+          body_location: string | null
+          core_emotion: string | null
+          counterpart: string | null
+          created_at: string
+          id: string
+          image_prompt: string | null
+          image_url: string | null
+          integration_status: string | null
+          name: string
+          need: string | null
+          protection_strategy: string | null
+          role: string
+          self_trust_level: number | null
+          trigger: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: string | null
+          belief?: string | null
+          body_location?: string | null
+          core_emotion?: string | null
+          counterpart?: string | null
+          created_at?: string
+          id?: string
+          image_prompt?: string | null
+          image_url?: string | null
+          integration_status?: string | null
+          name: string
+          need?: string | null
+          protection_strategy?: string | null
+          role?: string
+          self_trust_level?: number | null
+          trigger?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: string | null
+          belief?: string | null
+          body_location?: string | null
+          core_emotion?: string | null
+          counterpart?: string | null
+          created_at?: string
+          id?: string
+          image_prompt?: string | null
+          image_url?: string | null
+          integration_status?: string | null
+          name?: string
+          need?: string | null
+          protection_strategy?: string | null
+          role?: string
+          self_trust_level?: number | null
+          trigger?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       memories: {
         Row: {
           additional_thoughts: string | null
