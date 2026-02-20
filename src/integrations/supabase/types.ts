@@ -287,6 +287,27 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_trigger_cards: {
+        Row: {
+          card_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          card_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          card_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       seminar_inquiries: {
         Row: {
           created_at: string

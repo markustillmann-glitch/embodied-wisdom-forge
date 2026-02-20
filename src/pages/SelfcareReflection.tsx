@@ -522,6 +522,32 @@ const SelfcareReflection = () => {
     const startFromUrlImpulse = async () => {
       const impulse = searchParams.get('impulse');
       const autostart = searchParams.get('autostart');
+      const triggerCardParam = searchParams.get('triggerCard');
+      
+      // Handle trigger card context
+      if (triggerCardParam && autostart === 'true' && !sessionStarted) {
+        try {
+          const cardData = JSON.parse(decodeURIComponent(triggerCardParam));
+          const statement: StatementWithCategory = { text: cardData.title, category: 'selfcare' };
+          
+          setCurrentStatement(statement);
+          setSessionStarted(true);
+          setHideStatementBanner(true);
+          setReflectionMode('ask');
+          
+          const openingMessage: Message = {
+            role: 'assistant',
+            content: `🃏 **Trigger-Karte: ${cardData.title}**\n\n*„${cardData.innereTriggerGeschichte}"*\n\n${cardData.wasPassiert}\n\nIch möchte mit dir über diesen Trigger reflektieren. Hier sind einige Fragen, die dir helfen können:\n\n${cardData.selfCheck.map((q: string) => `• ${q}`).join('\n')}\n\nWelche dieser Fragen spricht dich gerade am meisten an? Oder möchtest du einfach erzählen, wie sich dieser Trigger in deinem Leben zeigt?`
+          };
+          setMessages([openingMessage]);
+          setConversationHistory([openingMessage]);
+          
+          navigate('/selfcare', { replace: true });
+          return;
+        } catch (e) {
+          console.error('Error parsing trigger card data:', e);
+        }
+      }
       
       if (impulse && autostart === 'true' && !sessionStarted && !impulseLoading) {
         // Mark impulse as used
