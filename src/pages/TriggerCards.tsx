@@ -278,7 +278,7 @@ const TriggerCardsPage: React.FC = () => {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-3">
           <h1 className="ios-title-1 text-foreground">Trigger-Karten</h1>
           <p className="ios-callout text-muted-foreground max-w-md mx-auto">
-            Erkenne deine inneren Muster und finde Wege zur Selbstregulation.
+            Erkenne anhand 200 typischer Trigger innere Muster und finde Wege zur Selbstregulation durch die Reflektion mit Oria. Speichere und bearbeite auf Dich zutreffende Triggerkarten oder erstelle persönliche Trigger-Karten um Dich besser zu verstehen und Wege zur Selbstregulation zu finden.
           </p>
           <button
             onClick={() => navigate('/trigger-test')}
