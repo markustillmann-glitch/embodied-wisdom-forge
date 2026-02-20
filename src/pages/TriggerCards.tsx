@@ -137,7 +137,7 @@ const TriggerCards: React.FC = () => {
         <div className="w-16" />
       </div>
 
-      <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] space-y-5 mt-4">
+      <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] space-y-5 mt-4 overflow-y-auto flex-1">
         {/* Intro */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-1">
           <h1 className="ios-title-1 text-foreground">Trigger-Karten</h1>
@@ -146,29 +146,31 @@ const TriggerCards: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Category pills */}
-        <div className="flex flex-wrap gap-2 justify-center">
+        {/* Category grid – mobile optimized */}
+        <div className="grid grid-cols-2 gap-2 max-w-md mx-auto">
           {triggerCategories.map(cat => (
             <button
               key={cat.id}
               onClick={() => { setActiveCategory(cat.id); setOpenCardId(null); }}
               className={cn(
-                "px-3.5 py-1.5 rounded-full ios-footnote transition-all duration-200",
+                "flex items-center gap-2.5 px-3 py-3 rounded-2xl text-left transition-all duration-200",
                 activeCategory === cat.id
-                  ? "bg-accent text-accent-foreground shadow-sm"
-                  : "bg-secondary text-secondary-foreground hover:bg-muted"
+                  ? "bg-accent text-accent-foreground shadow-md ring-1 ring-accent/30"
+                  : "bg-secondary/80 text-secondary-foreground hover:bg-muted border border-border/40"
               )}
             >
-              {cat.icon} {cat.label}
+              <span className="text-xl leading-none">{cat.icon}</span>
+              <span className="text-[13px] font-medium leading-tight">{cat.label}</span>
             </button>
           ))}
         </div>
 
         {/* Active category title */}
-        <div className="text-center">
+        <div className="text-center pt-1">
           <h2 className="ios-title-2 text-foreground">
             {activeCat?.icon} {activeCat?.label}
           </h2>
+          <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} Karten</p>
         </div>
 
         {/* Cards */}
