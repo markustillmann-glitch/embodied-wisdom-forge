@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { triggerCategories } from '@/data/triggerCards';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,21 +25,22 @@ type SavedTest = { id: string; created_at: string; results: ResultEntry[] };
 
 const getCategoryInfo = (id: string) => triggerCategories.find(c => c.id === id);
 
-const formatDate = (iso: string) => {
+const formatDate = (iso: string, lang: string) => {
   const d = new Date(iso);
-  return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 };
 
-const getRelevanceLabel = (percent: number) => {
-  if (percent >= 75) return { label: 'Sehr hoch', color: 'bg-destructive/20 text-destructive' };
-  if (percent >= 50) return { label: 'Hoch', color: 'bg-orange-500/20 text-orange-600 dark:text-orange-400' };
-  if (percent >= 25) return { label: 'Mittel', color: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' };
-  return { label: 'Gering', color: 'bg-muted text-muted-foreground' };
+const getRelevanceLabel = (percent: number, t: (key: string) => string) => {
+  if (percent >= 75) return { label: t('triggerTest.veryHigh'), color: 'bg-destructive/20 text-destructive' };
+  if (percent >= 50) return { label: t('triggerTest.high'), color: 'bg-orange-500/20 text-orange-600 dark:text-orange-400' };
+  if (percent >= 25) return { label: t('triggerTest.medium'), color: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' };
+  return { label: t('triggerTest.low'), color: 'bg-muted text-muted-foreground' };
 };
 
 export const TriggerTestHistory: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
   const [savedTests, setSavedTests] = useState<SavedTest[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -76,7 +78,7 @@ export const TriggerTestHistory: React.FC = () => {
     setSavedTests(prev => prev.filter(t => t.id !== deleteId));
     setCompareIds(prev => prev.filter(c => c !== deleteId));
     setDeleteId(null);
-    toast.success('Testergebnis gelöscht');
+    toast.success(t('triggerTest.deleteSuccess'));
   };
 
   const toggleCompare = (id: string) => {
@@ -101,19 +103,18 @@ export const TriggerTestHistory: React.FC = () => {
     return (
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-foreground">Vergleich</h3>
+          <h3 className="text-lg font-semibold text-foreground">{t('triggerTest.comparison')}</h3>
           <Button variant="outline" size="sm" onClick={() => { setCompareMode(false); setCompareIds([]); }}>
-            Zurück
+            {t('nav.back')}
           </Button>
         </div>
 
-        {/* Legend */}
         <div className="flex flex-wrap gap-2 justify-center mb-4">
-          {testsToCompare.map((t, i) => (
-            <span key={t.id} className={cn("text-xs font-semibold px-2.5 py-1 rounded-full",
+          {testsToCompare.map((test, i) => (
+            <span key={test.id} className={cn("text-xs font-semibold px-2.5 py-1 rounded-full",
               i === 0 ? "bg-accent/20 text-accent" : i === 1 ? "bg-primary/20 text-primary" : "bg-destructive/20 text-destructive"
             )}>
-              {formatDate(t.created_at)}
+              {formatDate(test.created_at, language)}
             </span>
           ))}
         </div>
@@ -146,13 +147,13 @@ export const TriggerTestHistory: React.FC = () => {
                   )}
                 </div>
                 <div className="space-y-1">
-                  {testsToCompare.map((t, i) => {
-                    const r = t.results.find(r => r.category === catId);
+                  {testsToCompare.map((test, i) => {
+                    const r = test.results.find(r => r.category === catId);
                     const pct = r?.percent ?? 0;
                     return (
-                      <div key={t.id} className="flex items-center gap-2">
+                      <div key={test.id} className="flex items-center gap-2">
                         <span className="text-[10px] text-muted-foreground w-10 shrink-0">
-                          {formatDate(t.created_at).split(',')[0]}
+                          {formatDate(test.created_at, language).split(',')[0]}
                         </span>
                         <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                           <motion.div
@@ -179,16 +180,15 @@ export const TriggerTestHistory: React.FC = () => {
 
   return (
     <div>
-      {/* Action buttons */}
       <div className="flex justify-center gap-3 mb-6">
         <Button onClick={() => navigate('/trigger-test')} className="gap-2">
           <ClipboardList className="w-4 h-4" />
-          Neuen Test starten
+          {language === 'de' ? 'Neuen Test starten' : 'Start new test'}
         </Button>
         {savedTests.length >= 2 && (
           <Button variant="outline" onClick={() => setCompareMode(true)} className="gap-2">
             <BarChart3 className="w-4 h-4" />
-            Vergleichen
+            {language === 'de' ? 'Vergleichen' : 'Compare'}
           </Button>
         )}
       </div>
@@ -196,21 +196,19 @@ export const TriggerTestHistory: React.FC = () => {
       {savedTests.length === 0 ? (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-12">
           <ClipboardList className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-          <p className="text-muted-foreground">Noch keine Testergebnisse gespeichert.</p>
+          <p className="text-muted-foreground">{t('triggerTest.noSavedTests')}</p>
           <p className="text-sm text-muted-foreground/70 mt-2">
-            Mache den Trigger-Selbsttest und speichere dein Ergebnis.
+            {language === 'de' ? 'Mache den Trigger-Selbsttest und speichere dein Ergebnis.' : 'Take the trigger self-test and save your result.'}
           </p>
         </motion.div>
       ) : (
         <div className="space-y-4">
           {compareMode && (
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">Wähle 2–3 Tests zum Vergleichen</p>
+              <p className="text-sm text-muted-foreground mb-2">{t('triggerTest.selectToCompare')}</p>
               {compareIds.length >= 2 && (
-                <Button onClick={() => {}} className="mb-3" size="sm"
-                  // This button is handled by the compare mode check above
-                >
-                  {compareIds.length} Tests vergleichen
+                <Button onClick={() => {}} className="mb-3" size="sm">
+                  {compareIds.length} {t('triggerTest.compareTests')}
                 </Button>
               )}
             </div>
@@ -246,7 +244,7 @@ export const TriggerTestHistory: React.FC = () => {
                         </button>
                       )}
                       <div>
-                        <p className="text-sm font-medium text-foreground">{formatDate(test.created_at)}</p>
+                        <p className="text-sm font-medium text-foreground">{formatDate(test.created_at, language)}</p>
                         <p className="text-xs text-muted-foreground">
                           Top: {getCategoryInfo(top3[0]?.category)?.icon} {getCategoryInfo(top3[0]?.category)?.label} ({top3[0]?.percent}%)
                         </p>
@@ -268,7 +266,6 @@ export const TriggerTestHistory: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Mini preview bars */}
                   {!isExpanded && (
                     <div className="flex gap-1 items-end h-6">
                       {sortedResults.map(r => (
@@ -284,7 +281,6 @@ export const TriggerTestHistory: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Expanded detail view */}
                   {isExpanded && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
@@ -294,7 +290,7 @@ export const TriggerTestHistory: React.FC = () => {
                     >
                       {sortedResults.map(r => {
                         const cat = getCategoryInfo(r.category);
-                        const relevance = getRelevanceLabel(r.percent);
+                        const relevance = getRelevanceLabel(r.percent, t);
                         return (
                           <div key={r.category} className="flex items-center gap-2">
                             <span className="text-base w-6 text-center">{cat?.icon}</span>
@@ -325,12 +321,12 @@ export const TriggerTestHistory: React.FC = () => {
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Testergebnis löschen?</AlertDialogTitle>
-            <AlertDialogDescription>Diese Aktion kann nicht rückgängig gemacht werden.</AlertDialogDescription>
+            <AlertDialogTitle>{language === 'de' ? 'Testergebnis löschen?' : 'Delete test result?'}</AlertDialogTitle>
+            <AlertDialogDescription>{language === 'de' ? 'Diese Aktion kann nicht rückgängig gemacht werden.' : 'This action cannot be undone.'}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Löschen</AlertDialogAction>
+            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>{t('common.delete')}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

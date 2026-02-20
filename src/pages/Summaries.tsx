@@ -7,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
-import { de } from 'date-fns/locale';
+import { de, enUS } from 'date-fns/locale';
 import { usePdfGenerator } from '@/hooks/usePdfGenerator';
 import { toast } from 'sonner';
 import {
@@ -58,11 +59,11 @@ interface SummaryMemory {
   content: string;
 }
 
-const partTypeLabels: Record<string, { label: string; color: string }> = {
-  manager: { label: 'Manager', color: 'bg-blue-500/20 text-blue-700' },
-  firefighter: { label: 'Feuerwehr', color: 'bg-orange-500/20 text-orange-700' },
-  exile: { label: 'Exilant', color: 'bg-purple-500/20 text-purple-700' },
-  self: { label: 'Selbst', color: 'bg-green-500/20 text-green-700' },
+const partTypeLabels: Record<string, { label: { de: string; en: string }; color: string }> = {
+  manager: { label: { de: 'Manager', en: 'Manager' }, color: 'bg-blue-500/20 text-blue-700' },
+  firefighter: { label: { de: 'Feuerwehr', en: 'Firefighter' }, color: 'bg-orange-500/20 text-orange-700' },
+  exile: { label: { de: 'Exilant', en: 'Exile' }, color: 'bg-purple-500/20 text-purple-700' },
+  self: { label: { de: 'Selbst', en: 'Self' }, color: 'bg-green-500/20 text-green-700' },
 };
 
 // Simple hash function for password (client-side, for UX purposes)
@@ -77,6 +78,7 @@ const hashPassword = async (password: string): Promise<string> => {
 const Summaries = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
   const { generatePdf, generateConversationPdf } = usePdfGenerator();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -122,6 +124,8 @@ const Summaries = () => {
       [id]: prev[id] === 'conversation' ? 'summary' : 'conversation'
     }));
   };
+
+  const dateLocale = language === 'de' ? de : enUS;
 
   // Check if user has a vault password set
   useEffect(() => {
@@ -180,14 +184,14 @@ const Summaries = () => {
         setIsUnlocked(true);
         setPasswordInput('');
         loadSummaries();
-        toast.success('Tresor entsperrt');
+        toast.success(t('vault.unlocked'));
       } else {
-        toast.error('Falsches Passwort');
+        toast.error(t('vault.wrongPassword'));
         setPasswordInput('');
       }
     } catch (error) {
       console.error('Error unlocking vault:', error);
-      toast.error('Fehler beim Entsperren');
+      toast.error(t('vault.errorUnlocking'));
     }
   };
 
@@ -195,12 +199,12 @@ const Summaries = () => {
     if (!user) return;
     
     if (newPassword.length < 4) {
-      toast.error('Passwort muss mindestens 4 Zeichen haben');
+      toast.error(t('vault.passwordMinError'));
       return;
     }
     
     if (newPassword !== confirmPassword) {
-      toast.error('Passwörter stimmen nicht überein');
+      toast.error(t('vault.passwordMismatch'));
       return;
     }
 
@@ -238,10 +242,10 @@ const Summaries = () => {
       setShowSetPasswordDialog(false);
       setNewPassword('');
       setConfirmPassword('');
-      toast.success('Tresor-Passwort gesetzt');
+      toast.success(t('vault.passwordSet'));
     } catch (error) {
       console.error('Error setting vault password:', error);
-      toast.error('Fehler beim Setzen des Passworts');
+      toast.error(t('vault.errorSettingPassword'));
     }
   };
 
@@ -258,10 +262,10 @@ const Summaries = () => {
 
       setHasPassword(false);
       setShowSetPasswordDialog(false);
-      toast.success('Passwortschutz entfernt');
+      toast.success(t('vault.passwordRemoved'));
     } catch (error) {
       console.error('Error removing vault password:', error);
-      toast.error('Fehler beim Entfernen des Passworts');
+      toast.error(t('vault.errorRemovingPassword'));
     }
   };
 
@@ -305,12 +309,12 @@ const Summaries = () => {
     // Validate file type and size
     const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!validTypes.includes(file.type)) {
-      toast.error('Nur JPG, PNG oder WebP Bilder erlaubt');
+      toast.error(t('vault.imageTypeError'));
       return;
     }
     
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Bild darf maximal 5MB groß sein');
+      toast.error(t('vault.imageSizeError'));
       return;
     }
 
@@ -353,10 +357,10 @@ const Summaries = () => {
         s.id === summaryId ? { ...s, image_url: imageUrl } : s
       ));
 
-      toast.success('Bild hinzugefügt');
+      toast.success(t('vault.imageAdded'));
     } catch (error) {
       console.error('Error uploading image:', error);
-      toast.error('Fehler beim Hochladen');
+      toast.error(t('vault.errorUpload'));
     } finally {
       setUploadingImage(false);
       setUploadingSummaryId(null);
@@ -389,10 +393,10 @@ const Summaries = () => {
         s.id === summaryId ? { ...s, image_url: null } : s
       ));
 
-      toast.success('Bild entfernt');
+      toast.success(t('vault.imageRemoved'));
     } catch (error) {
       console.error('Error removing image:', error);
-      toast.error('Fehler beim Entfernen');
+      toast.error(t('vault.errorRemovingImage'));
     }
   };
 
@@ -413,7 +417,7 @@ const Summaries = () => {
       });
 
       if (response.error) {
-        throw new Error(response.error.message || 'Fehler bei der Bildgenerierung');
+        throw new Error(response.error.message || t('vault.errorImageGen'));
       }
 
       const { imageUrl } = response.data;
@@ -423,11 +427,11 @@ const Summaries = () => {
         setSummaries(prev => prev.map(s => 
           s.id === summary.id ? { ...s, image_url: imageUrl } : s
         ));
-        toast.success('AI-Bild erstellt');
+        toast.success(t('vault.aiImageCreated'));
       }
     } catch (error: any) {
       console.error('Error generating AI image:', error);
-      toast.error(error.message || 'Fehler bei der Bildgenerierung');
+      toast.error(error.message || t('vault.errorImageGen'));
     } finally {
       setGeneratingImageId(null);
     }
@@ -465,10 +469,10 @@ const Summaries = () => {
         content: summary.content,
       }, coverImageData);
 
-      toast.success('PDF erstellt');
+      toast.success(t('vault.pdfCreated'));
     } catch (error) {
       console.error('Error generating PDF:', error);
-      toast.error('Fehler beim PDF-Export');
+      toast.error(t('vault.errorPdfExport'));
     } finally {
       setExportingSummaryId(null);
     }
@@ -489,10 +493,10 @@ const Summaries = () => {
         content: summary.content,
       });
 
-      toast.success('Unterhaltungs-PDF erstellt');
+      toast.success(t('vault.conversationPdfCreated'));
     } catch (error) {
       console.error('Error generating conversation PDF:', error);
-      toast.error('Fehler beim PDF-Export');
+      toast.error(t('vault.errorPdfExport'));
     } finally {
       setExportingSummaryId(null);
     }
@@ -513,10 +517,10 @@ const Summaries = () => {
 
       setSummaries(prev => prev.filter(s => s.id !== id));
       setDeleteConfirmId(null);
-      toast.success('Reflexion gelöscht');
+      toast.success(t('vault.deleted'));
     } catch (error) {
       console.error('Error deleting summary:', error);
-      toast.error('Fehler beim Löschen');
+      toast.error(t('vault.errorDeleting'));
     } finally {
       setDeleting(false);
     }
@@ -526,8 +530,8 @@ const Summaries = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
         <div className="text-center">
-          <p className="text-muted-foreground mb-4">Bitte melde dich an, um deinen Tresor zu öffnen.</p>
-          <Button onClick={() => navigate('/auth')}>Anmelden</Button>
+          <p className="text-muted-foreground mb-4">{t('vault.pleaseSignIn')}</p>
+          <Button onClick={() => navigate('/auth')}>{t('vault.signIn')}</Button>
         </div>
       </div>
     );
@@ -564,17 +568,15 @@ const Summaries = () => {
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Lock className="w-8 h-8 text-primary" />
                 </div>
-                <h1 className="text-xl font-semibold text-foreground">Tresor entsperren</h1>
-                <p className="text-sm text-muted-foreground mt-1 text-center">
-                  Gib dein Tresor-Passwort ein
-                </p>
+                <h1 className="text-xl font-semibold text-foreground">{t('vault.unlock')}</h1>
+                <p className="text-sm text-muted-foreground mt-1 text-center">{t('vault.enterPassword')}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="relative">
                   <Input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Passwort"
+                    placeholder={t('vault.password')}
                     value={passwordInput}
                     onChange={(e) => setPasswordInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && unlockVault()}
@@ -591,12 +593,12 @@ const Summaries = () => {
 
                 <Button onClick={unlockVault} className="w-full" disabled={!passwordInput}>
                   <Lock className="w-4 h-4 mr-2" />
-                  Entsperren
+                  {t('vault.unlockBtn')}
                 </Button>
 
                 <Button variant="ghost" onClick={() => navigate('/selfcare')} className="w-full">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Zurück
+                  {t('nav.back')}
                 </Button>
               </div>
             </div>
@@ -629,7 +631,7 @@ const Summaries = () => {
             <ArrowLeft className="w-5 h-5 text-foreground/70" />
           </motion.button>
 
-          <h1 className="text-xl font-serif font-semibold text-foreground">Mein Tresor</h1>
+          <h1 className="text-xl font-serif font-semibold text-foreground">{t('vault.title')}</h1>
 
           {/* Settings button for password */}
           <motion.button
@@ -638,7 +640,7 @@ const Summaries = () => {
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowSetPasswordDialog(true)}
             className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
-            title="Tresor-Einstellungen"
+            title={t('vault.vaultSettings')}
           >
             <Settings className="w-4 h-4 text-foreground/70" />
           </motion.button>
@@ -660,7 +662,7 @@ const Summaries = () => {
                 <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               </div>
               <h1 className="ios-title-1 sm:ios-large-title text-foreground">
-                Mein Tresor
+                {t('vault.title')}
               </h1>
             </motion.div>
 
@@ -670,7 +672,7 @@ const Summaries = () => {
               transition={{ delay: 0.2, duration: 0.4 }}
               className="ios-subhead text-muted-foreground max-w-xl mt-3"
             >
-              {summaries.length} {summaries.length === 1 ? 'Reflexion' : 'Reflexionen'} sicher aufbewahrt
+              {summaries.length} {summaries.length === 1 ? t('vault.reflectionSingular') : t('vault.reflectionPlural')} {t('vault.reflectionsStored')}
               {hasPassword && <span className="ml-2">🔒</span>}
             </motion.p>
           </div>
@@ -689,7 +691,7 @@ const Summaries = () => {
             }`}
           >
             <Sparkles className="w-4 h-4" />
-            Reflexionen
+            {t('vault.tabs.reflections')}
           </button>
           <button
             onClick={() => setActiveTab('parts')}
@@ -700,7 +702,7 @@ const Summaries = () => {
             }`}
           >
             <Users className="w-4 h-4" />
-            Anteile
+            {t('vault.tabs.parts')}
           </button>
           <button
             onClick={() => setActiveTab('tests')}
@@ -711,7 +713,7 @@ const Summaries = () => {
             }`}
           >
             <ClipboardList className="w-4 h-4" />
-            Selbsttest
+            {t('vault.tabs.selftest')}
           </button>
         </div>
       </section>
@@ -734,16 +736,16 @@ const Summaries = () => {
           >
             <Sparkles className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
             <p className="text-muted-foreground">
-              Dein Tresor ist noch leer.
+              {t('vault.emptyVault')}
             </p>
             <p className="text-sm text-muted-foreground/70 mt-2">
-              Speichere eine Reflexion, um sie hier zu sehen.
+              {t('vault.emptyVaultHint')}
             </p>
             <Button 
               className="mt-6"
               onClick={() => navigate('/selfcare')}
             >
-              Reflexion starten
+              {t('vault.startReflection')}
             </Button>
           </motion.div>
         ) : (
@@ -778,21 +780,21 @@ const Summaries = () => {
                                 : 'bg-purple-500/20 text-purple-700'
                           }`}>
                             {summary.memory_type === 'impulse-reflection' ? (
-                              <><Sparkles className="w-3 h-3" /> Impuls</>
+                              <><Sparkles className="w-3 h-3" /> {t('vault.impulse')}</>
                             ) : summary.memory_type === 'situation-reflection' ? (
-                              <><Brain className="w-3 h-3" /> Situation</>
+                              <><Brain className="w-3 h-3" /> {t('vault.situation')}</>
                             ) : (
-                              <><Heart className="w-3 h-3" /> Reflexion</>
+                              <><Heart className="w-3 h-3" /> {t('vault.reflection')}</>
                             )}
                           </span>
                           
                           <span className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Calendar className="w-3 h-3" />
-                            {format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: de })}
+                            {format(new Date(summary.created_at), 'dd. MMMM yyyy', { locale: dateLocale })}
                           </span>
                           <span className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Clock className="w-3 h-3" />
-                            {format(new Date(summary.created_at), 'HH:mm', { locale: de })} Uhr
+                            {format(new Date(summary.created_at), 'HH:mm', { locale: dateLocale })} {t('vault.oclock')}
                           </span>
                           {summary.location && (
                             <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -827,7 +829,7 @@ const Summaries = () => {
                       setDeleteConfirmId(summary.id);
                     }}
                     className="absolute top-4 right-12 w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Löschen"
+                    title={t('common.delete')}
                   >
                     <Trash2 className="w-4 h-4 text-red-600" />
                   </button>
@@ -855,7 +857,7 @@ const Summaries = () => {
                             }`}
                           >
                             <FileText className="w-4 h-4" />
-                            Zusammenfassung
+                            {t('vault.summary')}
                           </button>
                           <button
                             onClick={() => setViewModes(prev => ({ ...prev, [summary.id]: 'conversation' }))}
@@ -866,7 +868,7 @@ const Summaries = () => {
                             }`}
                           >
                             <MessageSquare className="w-4 h-4" />
-                            Original-Unterhaltung
+                            {t('vault.originalConversation')}
                           </button>
                         </div>
 
@@ -876,13 +878,13 @@ const Summaries = () => {
                             <div className="relative group/image">
                               <img 
                                 src={summary.image_url} 
-                                alt="Reflexionsbild" 
+                                alt={t('vault.reflectionImage')}
                                 className="w-full max-h-64 object-contain rounded-lg bg-muted/20"
                               />
                               <button
                                 onClick={() => removeImage(summary.id, summary.image_url!)}
                                 className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center opacity-0 group-hover/image:opacity-100 transition-opacity"
-                                title="Bild entfernen"
+                                title={t('vault.removeImage')}
                               >
                                 <X className="w-4 h-4 text-white" />
                               </button>
@@ -903,7 +905,7 @@ const Summaries = () => {
                                 ) : (
                                   <>
                                     <Camera className="w-5 h-5 text-muted-foreground" />
-                                    <span className="text-xs text-muted-foreground">Bild hochladen</span>
+                                    <span className="text-xs text-muted-foreground">{t('vault.uploadImage')}</span>
                                   </>
                                 )}
                               </button>
@@ -917,12 +919,12 @@ const Summaries = () => {
                                 {generatingImageId === summary.id ? (
                                   <>
                                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                                    <span className="text-xs text-primary">Generiere...</span>
+                                    <span className="text-xs text-primary">{t('vault.generating')}</span>
                                   </>
                                 ) : (
                                   <>
                                     <Wand2 className="w-5 h-5 text-primary" />
-                                    <span className="text-xs text-primary font-medium">AI-Bild erstellen</span>
+                                    <span className="text-xs text-primary font-medium">{t('vault.createAiImage')}</span>
                                   </>
                                 )}
                               </button>
@@ -936,7 +938,7 @@ const Summaries = () => {
                           <div className="space-y-4">
                             <h4 className="flex items-center gap-2 text-sm font-medium text-foreground">
                               <MessageSquare className="w-4 h-4 text-primary" />
-                              Original-Unterhaltung
+                              {t('vault.originalConversation')}
                             </h4>
                             <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
                               {summary.content.split(/\n\n+/).map((block, index) => {
@@ -994,7 +996,7 @@ const Summaries = () => {
                               <div>
                                 <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
                                   <Target className="w-4 h-4 text-primary" />
-                                  Erkannte Muster
+                                  {t('vault.recognizedPatterns')}
                                 </h4>
                                 <ul className="space-y-1">
                                   {summary.structured_summary.patterns.map((pattern, i) => (
@@ -1011,7 +1013,7 @@ const Summaries = () => {
                               <div>
                                 <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
                                   <Heart className="w-4 h-4 text-pink-500" />
-                                  Berührte Bedürfnisse
+                                  {t('vault.touchedNeeds')}
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
                                   {summary.structured_summary.needs.map((need, i) => (
@@ -1031,13 +1033,13 @@ const Summaries = () => {
                               <div>
                                 <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
                                   <Brain className="w-4 h-4 text-violet-500" />
-                                  Beteiligte innere Teile
+                                  {t('vault.involvedParts')}
                                 </h4>
                                 <div className="space-y-2">
                                   {summary.structured_summary.parts.map((part, i) => (
                                     <div key={i} className="flex items-start gap-2">
                                       <span className={`px-2 py-0.5 text-xs rounded-full shrink-0 ${partTypeLabels[part.type]?.color || 'bg-gray-500/20 text-gray-700'}`}>
-                                        {partTypeLabels[part.type]?.label || part.type}
+                                        {partTypeLabels[part.type]?.label[language] || part.type}
                                       </span>
                                       <div className="text-sm">
                                         <span className="font-medium text-foreground">{part.name}:</span>{' '}
@@ -1054,7 +1056,7 @@ const Summaries = () => {
                               <div>
                                 <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
                                   <Activity className="w-4 h-4 text-emerald-500" />
-                                  Körperbereiche
+                                  {t('vault.bodyAreas')}
                                 </h4>
                                 <div className="space-y-2">
                                   {summary.structured_summary.body_areas.map((area, i) => (
@@ -1072,7 +1074,7 @@ const Summaries = () => {
                               <div>
                                 <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
                                   <Sparkles className="w-4 h-4 text-amber-500" />
-                                  Zentrale Erkenntnisse
+                                  {t('vault.centralInsights')}
                                 </h4>
                                 <ul className="space-y-1">
                                   {summary.structured_summary.insights.map((insight, i) => (
@@ -1087,25 +1089,25 @@ const Summaries = () => {
                             {/* Recommendations */}
                             {summary.structured_summary.recommendations && (
                               <div className="bg-muted/30 rounded-lg p-4 space-y-3">
-                                <h4 className="text-sm font-medium text-foreground">Empfehlungen für dich</h4>
+                                <h4 className="text-sm font-medium text-foreground">{t('vault.recommendations')}</h4>
                                 
                                 {summary.structured_summary.recommendations.body_exercise && (
                                   <div className="text-sm">
-                                    <span className="text-primary font-medium">🧘 Körperübung:</span>{' '}
+                                    <span className="text-primary font-medium">{t('vault.bodyExercise')}</span>{' '}
                                     <span className="text-muted-foreground">{summary.structured_summary.recommendations.body_exercise}</span>
                                   </div>
                                 )}
                                 
                                 {summary.structured_summary.recommendations.micro_action && (
                                   <div className="text-sm">
-                                    <span className="text-primary font-medium">✨ Mikro-Aktion:</span>{' '}
+                                    <span className="text-primary font-medium">{t('vault.microAction')}</span>{' '}
                                     <span className="text-muted-foreground">{summary.structured_summary.recommendations.micro_action}</span>
                                   </div>
                                 )}
                                 
                                 {summary.structured_summary.recommendations.reflection_question && (
                                   <div className="text-sm">
-                                    <span className="text-primary font-medium">💭 Zum Nachdenken:</span>{' '}
+                                    <span className="text-primary font-medium">{t('vault.forReflection')}</span>{' '}
                                     <span className="text-muted-foreground italic">"{summary.structured_summary.recommendations.reflection_question}"</span>
                                   </div>
                                 )}
@@ -1126,12 +1128,12 @@ const Summaries = () => {
                             {exportingSummaryId === summary.id ? (
                               <>
                                 <div className="w-4 h-4 mr-2 animate-spin rounded-full border-b-2 border-primary"></div>
-                                Erstelle PDF...
+                                {t('vault.creatingPdf')}
                               </>
                             ) : (
                               <>
                                 <FileText className="w-4 h-4 mr-2" />
-                                Zusammenfassung PDF
+                                {t('vault.summaryPdf')}
                               </>
                             )}
                           </Button>
@@ -1144,7 +1146,7 @@ const Summaries = () => {
                             className="text-muted-foreground hover:text-foreground"
                           >
                             <MessageSquare className="w-4 h-4 mr-2" />
-                            Unterhaltung PDF
+                            {t('vault.conversationPdf')}
                           </Button>
                           
                           {!summary.image_url && (
@@ -1159,7 +1161,7 @@ const Summaries = () => {
                               className="text-muted-foreground"
                             >
                               <ImageIcon className="w-4 h-4 mr-2" />
-                              Bild hinzufügen
+                              {t('vault.addImage')}
                             </Button>
                           )}
                           
@@ -1170,7 +1172,7 @@ const Summaries = () => {
                             className="text-red-600 hover:text-red-700 hover:bg-red-50"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Löschen
+                            {t('vault.delete')}
                           </Button>
                         </div>
                       </div>
@@ -1189,22 +1191,22 @@ const Summaries = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <KeyRound className="w-5 h-5 text-primary" />
-              Tresor-Passwort
+              {t('vault.vaultPassword')}
             </DialogTitle>
             <DialogDescription>
               {hasPassword 
-                ? 'Ändere oder entferne dein Tresor-Passwort' 
-                : 'Schütze deinen Tresor mit einem Passwort'}
+                ? t('vault.changeOrRemovePassword') 
+                : t('vault.protectVault')}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-2">
             <div>
-              <label className="text-sm font-medium text-foreground">Neues Passwort</label>
+              <label className="text-sm font-medium text-foreground">{t('vault.newPassword')}</label>
               <div className="relative mt-1">
                 <Input
                   type={showNewPassword ? 'text' : 'password'}
-                  placeholder="Mindestens 4 Zeichen"
+                  placeholder={t('vault.minChars')}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   className="pr-10"
@@ -1220,10 +1222,10 @@ const Summaries = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-foreground">Passwort bestätigen</label>
+              <label className="text-sm font-medium text-foreground">{t('vault.confirmPassword')}</label>
               <Input
                 type="password"
-                placeholder="Passwort wiederholen"
+                placeholder={t('vault.repeatPassword')}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="mt-1"
@@ -1234,7 +1236,7 @@ const Summaries = () => {
           <DialogFooter className="flex-col sm:flex-row gap-2">
             {hasPassword && (
               <Button variant="ghost" onClick={removeVaultPassword} className="text-red-600 hover:text-red-700">
-                Passwort entfernen
+                {t('vault.removePassword')}
               </Button>
             )}
             <div className="flex gap-2 flex-1 justify-end">
@@ -1243,11 +1245,11 @@ const Summaries = () => {
                 setNewPassword('');
                 setConfirmPassword('');
               }}>
-                Abbrechen
+                {t('vault.cancel')}
               </Button>
               <Button onClick={setVaultPassword} disabled={!newPassword || !confirmPassword}>
                 <Lock className="w-4 h-4 mr-2" />
-                Speichern
+                {t('common.save')}
               </Button>
             </div>
           </DialogFooter>
@@ -1258,19 +1260,17 @@ const Summaries = () => {
       <AlertDialog open={!!deleteConfirmId} onOpenChange={() => setDeleteConfirmId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Reflexion löschen?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Diese Aktion kann nicht rückgängig gemacht werden. Die Reflexion wird dauerhaft aus deinem Tresor entfernt.
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t('vault.deleteReflection')}</AlertDialogTitle>
+            <AlertDialogDescription>{t('vault.deleteReflectionDesc')}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            <AlertDialogCancel>{t('vault.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deleteConfirmId && deleteSummary(deleteConfirmId)}
               disabled={deleting}
               className="bg-red-600 hover:bg-red-700"
             >
-              {deleting ? 'Wird gelöscht...' : 'Löschen'}
+              {deleting ? t('vault.deleting') : t('vault.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
