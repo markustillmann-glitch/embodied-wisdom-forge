@@ -1216,13 +1216,7 @@ const SelfcareReflection = () => {
               >
                 <Lock className="w-4.5 h-4.5" />
               </button>
-              <button
-                onClick={() => navigate('/help')}
-                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
-                aria-label="Anleitung"
-              >
-                <Lightbulb className="w-4.5 h-4.5" />
-              </button>
+              
               <button
                 onClick={() => navigate('/impulse-packs')}
                 className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
