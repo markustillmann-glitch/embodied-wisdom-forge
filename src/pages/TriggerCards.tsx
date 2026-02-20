@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare, Plus, Trash2, Sparkles } from 'lucide-react';
+import { ArrowLeft, Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare, Plus, Trash2, Sparkles, ArrowRightLeft } from 'lucide-react';
 import { triggerCategories, triggerCards, TriggerCard } from '@/data/triggerCards';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
@@ -16,8 +16,9 @@ const TriggerCardDetail: React.FC<{
   isSaved: boolean;
   onToggleSave: () => void;
   onStartReflection: () => void;
+  onConvert: () => void;
   isLoggedIn: boolean;
-}> = ({ card, isOpen, onToggle, isSaved, onToggleSave, onStartReflection, isLoggedIn }) => {
+}> = ({ card, isOpen, onToggle, isSaved, onToggleSave, onStartReflection, onConvert, isLoggedIn }) => {
   return (
     <motion.div
       layout
@@ -108,14 +109,28 @@ const TriggerCardDetail: React.FC<{
                 </div>
               </Section>
 
-              {/* Reflection CTA */}
-              <button
-                onClick={onStartReflection}
-                className="w-full py-3 rounded-2xl bg-accent text-accent-foreground font-semibold ios-body flex items-center justify-center gap-2 mt-2"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Mit Oria reflektieren
-              </button>
+              {/* Action buttons */}
+              <div className="flex gap-2">
+                {isLoggedIn && (
+                  <button
+                    onClick={onConvert}
+                    className="flex-1 py-3 rounded-2xl bg-secondary text-foreground font-semibold ios-body flex items-center justify-center gap-2 mt-2 border border-border/60"
+                  >
+                    <ArrowRightLeft className="w-4 h-4" />
+                    Personalisieren
+                  </button>
+                )}
+                <button
+                  onClick={onStartReflection}
+                  className={cn(
+                    "py-3 rounded-2xl bg-accent text-accent-foreground font-semibold ios-body flex items-center justify-center gap-2 mt-2",
+                    isLoggedIn ? "flex-1" : "w-full"
+                  )}
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  Mit Oria reflektieren
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
@@ -187,6 +202,7 @@ const TriggerCardsPage: React.FC = () => {
   const [filterMode, setFilterMode] = useState<FilterMode>('all');
   const [customCards, setCustomCards] = useState<CustomCard[]>([]);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [convertCard, setConvertCard] = useState<TriggerCard | undefined>(undefined);
 
   const loadSavedCards = useCallback(async () => {
     if (!user) return;
@@ -397,6 +413,7 @@ const TriggerCardsPage: React.FC = () => {
                   isSaved={savedCardIds.has(card.id)}
                   onToggleSave={() => toggleSaveCard(card.id)}
                   onStartReflection={() => startReflection(card)}
+                  onConvert={() => { setConvertCard(card); setShowCreateDialog(true); }}
                   isLoggedIn={!!user}
                 />
                 {filterMode === 'custom' && isCustomCard(card.id) && openCardId === card.id && (
@@ -416,8 +433,9 @@ const TriggerCardsPage: React.FC = () => {
 
       <CreateTriggerCardDialog
         isOpen={showCreateDialog}
-        onClose={() => setShowCreateDialog(false)}
+        onClose={() => { setShowCreateDialog(false); setConvertCard(undefined); }}
         onCardCreated={loadCustomCards}
+        initialCard={convertCard}
       />
     </div>
   );
