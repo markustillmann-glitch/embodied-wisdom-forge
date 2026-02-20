@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { PolygonalBackground, ConnectionLines } from "@/components/PolygonalBackground";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const NotFound = () => {
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
@@ -16,7 +18,6 @@ const NotFound = () => {
     <div className="flex min-h-screen items-center justify-center bg-background relative overflow-hidden pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
       <PolygonalBackground variant="hero" />
       
-      {/* Decorative elements */}
       <ConnectionLines className="absolute top-20 left-10 w-24 h-24 opacity-40 hidden md:block" />
       <ConnectionLines className="absolute bottom-20 right-10 w-32 h-32 opacity-30 hidden md:block" />
       
@@ -32,7 +33,7 @@ const NotFound = () => {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-sm font-sans tracking-[0.3em] text-muted-foreground uppercase mb-4"
         >
-          Seite nicht gefunden
+          {t('notFound.title')}
         </motion.p>
         
         <h1 className="mb-4 text-7xl md:text-8xl font-serif font-medium text-foreground">
@@ -40,14 +41,14 @@ const NotFound = () => {
         </h1>
         
         <p className="mb-8 text-lg text-muted-foreground max-w-md mx-auto">
-          Die angeforderte Seite existiert nicht oder wurde verschoben.
+          {t('notFound.description')}
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild>
             <Link to="/selfcare" className="inline-flex items-center gap-2">
               <Home className="w-4 h-4" />
-              Zur Selfcare App
+              {t('notFound.goToApp')}
             </Link>
           </Button>
         </div>
