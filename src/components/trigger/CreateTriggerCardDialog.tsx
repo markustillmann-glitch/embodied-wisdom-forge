@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Loader2, CheckCircle2, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 import ReactMarkdown from 'react-markdown';
 import { TriggerCard } from '@/data/triggerCards';
@@ -30,6 +31,7 @@ function tryParseCard(text: string) {
 
 const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpen, onClose, onCardCreated, initialCard }) => {
   const { user } = useAuth();
+  const { language } = useLanguage();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +83,7 @@ const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpe
           'Content-Type': 'application/json',
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify(bodyPayload),
+        body: JSON.stringify({ ...bodyPayload, language }),
       });
       if (!resp.ok || !resp.body) throw new Error('Stream failed');
 
@@ -136,7 +138,7 @@ const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpe
           'Content-Type': 'application/json',
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: newMessages, language }),
       });
       if (!resp.ok || !resp.body) throw new Error('Stream failed');
 

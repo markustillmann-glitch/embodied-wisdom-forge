@@ -26,6 +26,7 @@ import { de } from 'date-fns/locale';
 import { GamificationDashboard } from '@/components/gamification';
 import { useImpulseManager, TIER_LIMITS } from '@/hooks/useImpulseManager';
 import { updateGamificationOnReflection } from '@/hooks/useGamification';
+import { BASE_IMPULSES_BILINGUAL, PACK_IMPULSES_BILINGUAL, type BilingualImpulse } from '@/data/impulses';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/selfcare-chat`;
 const SUMMARY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-summary`;
@@ -34,132 +35,16 @@ type StatementCategory = 'selfcare' | 'gfk';
 
 interface StatementWithCategory {
   text: string;
+  textEn?: string;
   category: StatementCategory;
 }
 
-const SELFCARE_STATEMENTS: StatementWithCategory[] = [
-  // Originale Statements (Selfcare)
-  { text: "Manchmal gewinnt man, manchmal lernt man", category: "selfcare" },
-  { text: "Wachse und gedeihe", category: "selfcare" },
-  { text: "Umgib dich mit Menschen, die dich wachsen sehen wollen", category: "selfcare" },
-  { text: "Betrachte die Welt, als würdest du sie zum ersten Mal sehen", category: "selfcare" },
-  { text: "Je stiller du bist, desto mehr wirst du hören", category: "selfcare" },
-  { text: "Scheue dich nie, um die Hilfe zu bitten, die du brauchst", category: "selfcare" },
-  { text: "Begrenze nicht die Herausforderungen, fordere die Grenzen heraus", category: "selfcare" },
-  { text: "Vergleichen macht unglücklich", category: "selfcare" },
-  { text: "Weniger scrollen, mehr leben", category: "selfcare" },
-  { text: "Lass ab von dem, was war, und vertraue dem, was kommt", category: "selfcare" },
-  { text: "Eine Umarmung macht alles besser", category: "selfcare" },
-  { text: "Finde heraus, was du brauchst, scheue dich nicht, darum zu bitten", category: "selfcare" },
-  { text: "Du kontrollierst deine Finanzen, nicht sie dich", category: "selfcare" },
-  { text: "Aus kleinen Samen wachsen mächtige Bäume", category: "selfcare" },
-  { text: "Nimm jeden Tag, wie er kommt", category: "selfcare" },
-  { text: "Ein Duft kann tausend Erinnerungen zurückbringen", category: "selfcare" },
-  { text: "Es sind die kleinen Dinge, die den größten Unterschied machen", category: "selfcare" },
-  { text: "Die Welt gehört jenen, die lesen", category: "selfcare" },
-  { text: "Kreativität ist eine unendliche Ressource: je mehr du sie nutzt, desto mehr hast du", category: "selfcare" },
-  { text: "Das Leben ist ein Song: Singe!", category: "selfcare" },
-  { text: "To do: Lebe den Moment", category: "selfcare" },
-  { text: "Aufgeräumtes Haus, aufgeräumte Seele", category: "selfcare" },
-  { text: "Wenn nicht jetzt, wann dann?", category: "selfcare" },
-  { text: "Manchmal ist Entspannung das Produktivste, was man tun kann", category: "selfcare" },
-  { text: "Verwandle Angst in Energie", category: "selfcare" },
-  { text: "Achte auf dich von innen heraus", category: "selfcare" },
-  { text: "Entwickle gesunde Gewohnheiten, nicht Einschränkungen", category: "selfcare" },
-  { text: "Kleine Schritte führen zu großen Veränderungen", category: "selfcare" },
-  { text: "Entspannen, erfrischen, erholen", category: "selfcare" },
-  { text: "Kreiere deine eigene Stille", category: "selfcare" },
-  { text: "Lehre dich die Kunst des Ausruhens", category: "selfcare" },
-  { text: "Dein Heim ist ein Zufluchtsort: erfülle es mit Frieden", category: "selfcare" },
-  { text: "Tanke neue Kraft, erneuere deinen Geist", category: "selfcare" },
-  { text: "Verliebe dich in deine Selbstpflege", category: "selfcare" },
-  { text: "Nimm dir Zeit für Dinge, die deine Seele glücklich machen", category: "selfcare" },
-  { text: "In der Selbstfreundlichkeit liegt die Kraft", category: "selfcare" },
-  { text: "Verbringe Quality Time mit dir selbst", category: "selfcare" },
-  { text: "Lass dich von der Natur beleben", category: "selfcare" },
-  { text: "Auf Regen folgt immer Sonnenschein", category: "selfcare" },
-  { text: "Folge keinem Weg – gehe deinen eigenen", category: "selfcare" },
-  { text: "Beruhige deinen Geist, befreie deinen Körper", category: "selfcare" },
-  { text: "Dein größter Reichtum ist deine Gesundheit", category: "selfcare" },
-  { text: "Nähre dich, um zu gedeihen", category: "selfcare" },
-  { text: "Beginne jeden Tag mit einem positiven Gedanken und sieh, wohin er dich führt", category: "selfcare" },
-  { text: "Wie du mit dir selbst sprichst, macht viel aus", category: "selfcare" },
-  { text: "Das Leben ist schöner, wenn man es mit einem Freund teilt", category: "selfcare" },
-  { text: "Sei freundlich zu dir selbst – du gibst dein Bestes", category: "selfcare" },
-  { text: "Es gibt immer etwas, für das man dankbar sein kann", category: "selfcare" },
-  { text: "Sei kämpferisch, nicht grüblerisch", category: "selfcare" },
-  { text: "So, wie du bist, bist du genug", category: "selfcare" },
-  { text: "Das Leben ist schöner, wenn man lacht", category: "selfcare" },
-  { text: "In der Einfachheit liegt so viel Schönheit", category: "selfcare" },
-  { text: "Du darfst langsam sein", category: "selfcare" },
-  { text: "Ruhe ist kein Stillstand, sondern Regeneration", category: "selfcare" },
-  { text: "Höre auf deinen Körper – er spricht mit dir", category: "selfcare" },
-  { text: "Selbstfürsorge ist kein Luxus, sondern eine Grundlage", category: "selfcare" },
-  { text: "Du musst nicht alles heute schaffen", category: "selfcare" },
-  { text: "Deine Bedürfnisse sind wichtig", category: "selfcare" },
-  { text: "Atme ein – lass los", category: "selfcare" },
-  { text: "Grenzen setzen ist ein Akt der Selbstachtung", category: "selfcare" },
-  { text: "Nicht jeder Tag muss produktiv sein", category: "selfcare" },
-  { text: "Du darfst Pausen machen, ohne sie zu rechtfertigen", category: "selfcare" },
-  { text: "Sanftheit ist auch eine Stärke", category: "selfcare" },
-  { text: "Dein Wert hängt nicht von deiner Leistung ab", category: "selfcare" },
-  { text: "Manchmal ist genug wirklich genug", category: "selfcare" },
-  { text: "Erholung ist Teil des Weges, nicht die Abweichung", category: "selfcare" },
-  { text: "Sei geduldig mit deinem Prozess", category: "selfcare" },
-  
-  // GfK-inspirierte Statements
-  { text: "Ich wünsche mir, gehört zu werden, ohne mich rechtfertigen zu müssen", category: "gfk" },
-  { text: "Mir ist wichtig, dass mein Beitrag ernst genommen wird", category: "gfk" },
-  { text: "Ich brauche Raum, um mich in meinem Tempo zu entwickeln", category: "gfk" },
-  { text: "Ich sehne mich nach Klarheit darüber, was von mir erwartet wird", category: "gfk" },
-  { text: "Ich möchte mich sicher fühlen, wenn ich meine Meinung äußere", category: "gfk" },
-  { text: "Mir tut es gut, wenn meine Anstrengungen gesehen werden", category: "gfk" },
-  { text: "Ich brauche Verlässlichkeit, um entspannen zu können", category: "gfk" },
-  { text: "Ich wünsche mir Verbindung, ohne mich verbiegen zu müssen", category: "gfk" },
-  { text: "Mir ist wichtig, selbst entscheiden zu dürfen", category: "gfk" },
-  { text: "Ich brauche Pausen, um meine Kraft zu bewahren", category: "gfk" },
-  { text: "Ich möchte verstehen, was hinter dem Verhalten anderer steht", category: "gfk" },
-  { text: "Mir gibt es Ruhe, wenn Absprachen eingehalten werden", category: "gfk" },
-  { text: "Ich wünsche mir Wertschätzung – auch für kleine Schritte", category: "gfk" },
-  { text: "Ich brauche Orientierung, um mich sicher zu fühlen", category: "gfk" },
-  { text: "Ich möchte dazugehören, ohne mich anpassen zu müssen", category: "gfk" },
-  { text: "Mir ist Fairness wichtig, auch wenn Meinungen unterschiedlich sind", category: "gfk" },
-  { text: "Ich brauche Zeit, um Vertrauen aufzubauen", category: "gfk" },
-  { text: "Ich wünsche mir Offenheit für meine Perspektive", category: "gfk" },
-  { text: "Mir ist Ehrlichkeit wichtig, auch wenn sie unbequem ist", category: "gfk" },
-  { text: "Ich brauche Unterstützung, ohne dafür schwach zu sein", category: "gfk" },
-  { text: "Ich möchte mich wirksam erleben in dem, was ich tue", category: "gfk" },
-  { text: "Mir ist es wichtig, respektvoll behandelt zu werden", category: "gfk" },
-  { text: "Ich brauche Verständnis für meine Grenzen", category: "gfk" },
-  { text: "Ich wünsche mir Leichtigkeit neben all der Verantwortung", category: "gfk" },
-  { text: "Mir gibt es Kraft, wenn ich mich verbunden fühle", category: "gfk" },
-  { text: "Ich brauche Stabilität, um mutig sein zu können", category: "gfk" },
-  { text: "Ich möchte lernen dürfen, ohne bewertet zu werden", category: "gfk" },
-  { text: "Mir ist Transparenz wichtig, um Vertrauen zu entwickeln", category: "gfk" },
-  { text: "Ich brauche Anerkennung für das, was mir wichtig ist", category: "gfk" },
-  { text: "Ich wünsche mir Gleichwertigkeit im Miteinander", category: "gfk" },
-  { text: "Ich möchte mich zeigen dürfen, so wie ich bin", category: "gfk" },
-  { text: "Mir ist wichtig, dass meine Bedürfnisse Platz haben", category: "gfk" },
-  { text: "Ich brauche Ruhe, um meine Gedanken zu sortieren", category: "gfk" },
-  { text: "Ich wünsche mir Kooperation statt Konkurrenz", category: "gfk" },
-  { text: "Mir gibt es Sicherheit, wenn Konflikte offen angesprochen werden", category: "gfk" },
-  { text: "Ich brauche Sinn in dem, was ich tue", category: "gfk" },
-  { text: "Ich möchte mich respektiert fühlen – auch bei Unterschiedlichkeit", category: "gfk" },
-  { text: "Mir ist es wichtig, lernen und wachsen zu dürfen", category: "gfk" },
-  { text: "Ich brauche Verbundenheit, besonders in schwierigen Momenten", category: "gfk" },
-  { text: "Ich wünsche mir Vertrauen in meine Fähigkeiten", category: "gfk" },
-  { text: "Ich möchte Entscheidungen mittragen können, die mich betreffen", category: "gfk" },
-  { text: "Mir ist wichtig, dass Gefühle ernst genommen werden", category: "gfk" },
-  { text: "Ich brauche Erholung, um langfristig präsent zu sein", category: "gfk" },
-  { text: "Ich wünsche mir Mitgefühl – auch für mich selbst", category: "gfk" },
-  { text: "Mir gibt es Halt, wenn ich nicht alleine bin", category: "gfk" },
-  { text: "Ich brauche Freiheit innerhalb klarer Strukturen", category: "gfk" },
-  { text: "Ich möchte beitragen, auf eine Weise, die stimmig für mich ist", category: "gfk" },
-  { text: "Mir ist wichtig, gesehen zu werden – nicht nur meine Leistung", category: "gfk" },
-  { text: "Ich brauche Hoffnung, um dranzubleiben", category: "gfk" },
-  { text: "Ich wünsche mir ein Miteinander, das nährt statt erschöpft", category: "gfk" },
-  
-];
+// Build bilingual statements from the impulses data
+const SELFCARE_STATEMENTS: StatementWithCategory[] = BASE_IMPULSES_BILINGUAL.map((imp, i) => ({
+  text: imp.de,
+  textEn: imp.en,
+  category: i < 67 ? 'selfcare' as StatementCategory : 'gfk' as StatementCategory,
+}));
 
 const categoryLabels: Record<StatementCategory, { label: string; color: string; bg: string }> = {
   selfcare: { label: "Selfcare", color: "text-pink-600", bg: "bg-pink-500/15" },
@@ -269,6 +154,11 @@ const SelfcareReflection = () => {
     const randomIndex = Math.floor(Math.random() * SELFCARE_STATEMENTS.length);
     return SELFCARE_STATEMENTS[randomIndex];
   });
+  
+  // Helper to get impulse text in current language
+  const getImpulseDisplayText = (stmt: StatementWithCategory) => {
+    return language === 'en' && stmt.textEn ? stmt.textEn : stmt.text;
+  };
   
   // Ongoing conversations state
   const [ongoingConversations, setOngoingConversations] = useState<OngoingConversation[]>([]);
@@ -573,7 +463,7 @@ const SelfcareReflection = () => {
         // Start with an opening question about the impulse
         const openingMessage: Message = {
           role: 'assistant',
-          content: `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
+          content: language === 'en' ? `"${impulse}"\n\nThis impulse accompanies you today. What comes to mind when you read it? Is there something in your life right now that connects with it?` : `„${impulse}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
         };
         setMessages([openingMessage]);
         setConversationHistory([openingMessage]);
@@ -606,10 +496,10 @@ const SelfcareReflection = () => {
     setSessionStarted(true);
     setHideStatementBanner(true);
     
-    // Start with an opening question about the impulse
+    const impulseText = getImpulseDisplayText(displayedImpulse);
     const openingMessage: Message = {
       role: 'assistant',
-      content: `„${displayedImpulse.text}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
+      content: language === 'en' ? `"${impulseText}"\n\nThis impulse accompanies you today. What comes to mind when you read it? Is there something in your life right now that connects with it?` : `„${impulseText}"\n\nDieser Impuls begleitet dich heute. Was geht dir durch den Kopf, wenn du ihn liest? Gibt es etwas in deinem Leben gerade, das damit in Verbindung steht?`
     };
     setMessages([openingMessage]);
     setConversationHistory([openingMessage]);
@@ -633,7 +523,8 @@ const SelfcareReflection = () => {
           messages: allMessages,
           userId: user?.id,
           statement: statement,
-          mode: mode
+          mode: mode,
+          language: language
         }),
       });
 
@@ -703,7 +594,7 @@ const SelfcareReflection = () => {
       setConversationHistory(finalHistory);
       
       // Check if user wants to save - detect save intent in user message
-      const saveKeywords = ['speichern', 'tresor', 'aufbewahren', 'sichern', 'abspeichern', 'save'];
+      const saveKeywords = ['speichern', 'tresor', 'aufbewahren', 'sichern', 'abspeichern', 'save', 'vault', 'store'];
       const userWantsToSave = saveKeywords.some(keyword => 
         userMessage.toLowerCase().includes(keyword)
       );
@@ -772,7 +663,7 @@ const SelfcareReflection = () => {
     // Initial message from Oria for situation mode
     const openingMessage: Message = {
       role: "assistant",
-      content: "Hallo 💛 Schön, dass du da bist. Erzähl mir von der Situation, die dich gerade beschäftigt – was ist passiert?"
+      content: language === 'en' ? "Hello 💛 Glad you're here. Tell me about the situation that's on your mind – what happened?" : "Hallo 💛 Schön, dass du da bist. Erzähl mir von der Situation, die dich gerade beschäftigt – was ist passiert?"
     };
     
     setMessages([openingMessage]);
@@ -789,7 +680,7 @@ const SelfcareReflection = () => {
     // Initial message from Oria for ask mode
     const openingMessage: Message = {
       role: "assistant",
-      content: "Hallo 💛 Was beschäftigt dich gerade? Du kannst mir alles fragen – zu Gefühlen, Bedürfnissen, inneren Teilen, Körperwahrnehmungen oder was dir sonst auf dem Herzen liegt."
+      content: language === 'en' ? "Hello 💛 What's on your mind? You can ask me anything – about feelings, needs, inner parts, body sensations, or whatever is on your heart." : "Hallo 💛 Was beschäftigt dich gerade? Du kannst mir alles fragen – zu Gefühlen, Bedürfnissen, inneren Teilen, Körperwahrnehmungen oder was dir sonst auf dem Herzen liegt."
     };
     
     setMessages([openingMessage]);
@@ -822,7 +713,8 @@ const SelfcareReflection = () => {
         },
         body: JSON.stringify({
           conversation,
-          statement: currentStatement?.text || ''
+          statement: currentStatement?.text || '',
+          language: language
         }),
       });
 
@@ -866,9 +758,10 @@ const SelfcareReflection = () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({
+        body: JSON.stringify({
             conversation: content,
-            statement: currentStatement?.text || ''
+            statement: currentStatement?.text || '',
+            language: language
           }),
         });
 
@@ -1092,7 +985,7 @@ const SelfcareReflection = () => {
             >
               <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/30">
                 <p className="text-center text-lg text-foreground/80 font-serif italic">
-                  „{displayedImpulse.text}"
+                  „{getImpulseDisplayText(displayedImpulse)}"
                 </p>
               </div>
             </motion.div>
