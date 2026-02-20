@@ -438,8 +438,9 @@ Wenn dich eine der 200 Karten anspricht, kannst du sie über den "Personalisiere
    • Oria nutzt das Oria-Modell (IFS, GfK), um dir zu helfen, deine tieferen Bedürfnisse zu verstehen
 
 5. **Integration & nächster Schritt**
-   • Was bedeutet das konkret für deinen Alltag?
-   • Oria bietet dir eine kleine Übung, einen Mikro-Schritt oder eine Frage zum Mitnehmen an
+   • Oria fragt: Wo und wie wurde dieses Bedürfnis in den letzten Wochen und Monaten erfüllt?
+   • Du spürst nach, wie sich das angefühlt hat
+   • Daraus entsteht ein kleiner, liebevoller nächster Schritt
 
 6. **Abschluss**
    • Du entscheidest: Möchtest du das Thema vertiefen oder die Reflexion im Tresor speichern?
