@@ -1104,91 +1104,55 @@ const SelfcareReflection = () => {
           {/* Action Cards - Horizontal scroll layout at bottom */}
           <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
             <div className="flex gap-3 justify-center overflow-x-auto scrollbar-hide pb-2">
-              {/* Card - Tresor */}
+              {/* Card - Frag Oria */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/summaries')}
+                onClick={startAskOria}
               >
                 <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Lock className="w-5 h-5 text-primary" />
+                    <MessageCircleQuestion className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Mein Tresor</span>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Frag Oria</span>
                 </div>
               </motion.button>
 
-              {/* Main Action Card - changes based on mode */}
+              {/* Main Action Card - Impuls reflektieren */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={
-                  reflectionMode === 'impulse' 
-                    ? startWithDisplayedImpulse 
-                    : reflectionMode === 'situation' 
-                      ? startSituationReflection 
-                      : startAskOria
-                }
+                onClick={startWithDisplayedImpulse}
               >
                 <div className="w-28 h-32 sm:w-32 sm:h-36 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl flex flex-col items-center justify-center gap-2 border border-white/50">
                   <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                    {reflectionMode === 'impulse' ? (
-                      <Sparkles className="w-6 h-6 text-accent" />
-                    ) : reflectionMode === 'situation' ? (
-                      <MessageSquare className="w-6 h-6 text-accent" />
-                    ) : (
-                      <MessageCircleQuestion className="w-6 h-6 text-accent" />
-                    )}
+                    <Sparkles className="w-6 h-6 text-accent" />
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">
-                    {reflectionMode === 'impulse' 
-                      ? 'Impuls reflektieren' 
-                      : reflectionMode === 'situation' 
-                        ? 'Situation reflektieren' 
-                        : 'Frag Oria'}
+                    Impuls reflektieren
                   </span>
                 </div>
               </motion.button>
 
-              {/* Card - Impulspakete (only in impulse mode) */}
-              {reflectionMode === 'impulse' && (
-                <motion.button
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => navigate('/impulse-packs')}
-                >
-                  <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
-                      <Flower2 className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Impulspakete</span>
+              {/* Card - Situation reflektieren */}
+              <motion.button
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.5 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={startSituationReflection}
+              >
+                <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-emerald-600" />
                   </div>
-                </motion.button>
-              )}
-
-              {/* Card - Welche Situationen (only in situation mode) */}
-              {reflectionMode === 'situation' && (
-                <motion.button
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => navigate('/help?faq=wann-kann-ich-oria-nutzen')}
-                >
-                  <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <Lightbulb className="w-5 h-5 text-emerald-600" />
-                    </div>
-                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Welche Situationen</span>
-                  </div>
-                </motion.button>
-              )}
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Situation reflektieren</span>
+                </div>
+              </motion.button>
 
               {/* Card - Laufende Unterhaltungen */}
               {ongoingConversations.length > 0 && (
@@ -1204,7 +1168,6 @@ const SelfcareReflection = () => {
                       <Play className="w-5 h-5 text-blue-600" />
                     </div>
                     <span className="text-xs font-medium text-foreground/80 text-center px-2">Fortsetzen</span>
-                    {/* Badge */}
                     <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
                       <span className="text-xs font-bold text-white">{ongoingConversations.length}</span>
                     </div>
@@ -1213,54 +1176,36 @@ const SelfcareReflection = () => {
               )}
             </div>
 
-            {/* Mode Toggle - at bottom */}
+            {/* Visual Links - Mein Tresor, Anleitung, Impulspakete */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="flex justify-center mt-4"
+              className="flex justify-center gap-6 mt-4"
             >
-              <div className="bg-white/50 backdrop-blur-sm rounded-full p-1 flex gap-1 border border-white/30">
-                <button
-                  onClick={() => setReflectionMode('impulse')}
-                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                    reflectionMode === 'impulse'
-                      ? 'bg-white shadow-sm text-foreground'
-                      : 'text-foreground/60 hover:text-foreground'
-                  }`}
-                >
-                  <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4" />
-                    <span className="hidden sm:inline">Impuls</span>
-                  </span>
-                </button>
-                <button
-                  onClick={() => setReflectionMode('situation')}
-                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                    reflectionMode === 'situation'
-                      ? 'bg-white shadow-sm text-foreground'
-                      : 'text-foreground/60 hover:text-foreground'
-                  }`}
-                >
-                  <span className="flex items-center gap-1.5">
-                    <MessageSquare className="w-4 h-4" />
-                    <span className="hidden sm:inline">Situation</span>
-                  </span>
-                </button>
-                <button
-                  onClick={() => setReflectionMode('ask')}
-                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                    reflectionMode === 'ask'
-                      ? 'bg-white shadow-sm text-foreground'
-                      : 'text-foreground/60 hover:text-foreground'
-                  }`}
-                >
-                  <span className="flex items-center gap-1.5">
-                    <MessageCircleQuestion className="w-4 h-4" />
-                    <span className="hidden sm:inline">Frag Oria</span>
-                  </span>
-                </button>
-              </div>
+              <button
+                onClick={() => navigate('/summaries')}
+                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+              >
+                <Lock className="w-4 h-4" />
+                <span className="text-sm font-medium">Mein Tresor</span>
+              </button>
+              <div className="w-px h-5 bg-foreground/20" />
+              <button
+                onClick={() => navigate('/help')}
+                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+              >
+                <Lightbulb className="w-4 h-4" />
+                <span className="text-sm font-medium">Anleitung</span>
+              </button>
+              <div className="w-px h-5 bg-foreground/20" />
+              <button
+                onClick={() => navigate('/impulse-packs')}
+                className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors"
+              >
+                <Flower2 className="w-4 h-4" />
+                <span className="text-sm font-medium">Impulspakete</span>
+              </button>
             </motion.div>
           </div>
 
