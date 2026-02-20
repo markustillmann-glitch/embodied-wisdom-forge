@@ -342,6 +342,132 @@ Seminare sind oft intensiv, aber zeitlich begrenzt. Oria bleibt – als kontinui
 **Unser Tipp:** Probiere es einfach aus. Die meisten stellen fest, dass es sich natürlicher anfühlt als erwartet – wie ein kluges, geduldiges Gegenüber, das nur für dich da ist.`
   },
   {
+    question: "Wie nutze ich 'Frag Oria'?",
+    answer: `**"Frag Oria"** ist der freie Gesprächsmodus – hier kannst du Oria alles fragen, was dich bewegt, ohne einem festen Ablauf zu folgen.
+
+**So startest du:**
+1. Öffne die Startseite und tippe auf **"Frag Oria"**
+2. Stelle deine Frage oder beschreibe, was dich gerade beschäftigt
+3. Oria antwortet warmherzig und stellt bei Bedarf Nachfragen
+
+**Wofür eignet sich dieser Modus?**
+• Fragen zu Gefühlen, Bedürfnissen oder inneren Anteilen
+• Erklärungen zu Konzepten wie IFS, GfK oder dem Oria-Modell
+• Wenn du unsicher bist, welchen Modus du nutzen sollst
+• Wenn du einfach "reden" möchtest, ohne ein bestimmtes Ziel
+• Wenn du wissen willst, was ein bestimmter Körpersignal bedeuten könnte
+
+**Gut zu wissen:**
+• Es gibt keinen strukturierten Ablauf – das Gespräch folgt dir
+• Du kannst jederzeit die Reflexion im Tresor speichern
+• Oria nutzt dasselbe fundierte Wissen (IFS, GfK, Somatik) wie in den anderen Modi`
+  },
+  {
+    question: "Wie nutze ich die Impuls-Reflexion?",
+    answer: `Die **Impuls-Reflexion** ist der Herzstück-Modus von Oria – hier wirst du Schritt für Schritt durch eine geführte Reflexion begleitet.
+
+**So startest du:**
+1. Öffne die Startseite und tippe auf **"Impuls reflektieren"**
+2. Du erhältst einen zufälligen Selfcare-Impuls (z.B. "Was brauchst du gerade wirklich?")
+3. Oria begleitet dich durch einen sanften 6-stufigen Prozess
+
+**Der Ablauf (ca. 5–7 Minuten):**
+1. **Erste Resonanz** – Wie wirkt der Impuls auf dich?
+2. **Gefühle erkunden** – Welches Gefühl entsteht? Wo spürst du es?
+3. **Bedürfnisse entdecken** – Was brauchst du eigentlich gerade?
+4. **Positive Referenz** – Wo wurde dieses Bedürfnis zuletzt erfüllt?
+5. **Integration** – Was bedeutet das für deinen Alltag?
+6. **Abschluss** – Speichern oder vertiefen
+
+**Wann ist das besonders hilfreich?**
+• Als tägliches Ritual für Selbstfürsorge
+• Wenn du nicht weißt, wo du anfangen sollst
+• Wenn du einen sanften Einstieg in die Reflexion suchst
+• Wenn du regelmäßig dranbleiben möchtest
+
+**Tipp:** Du kannst den Impuls überspringen und einen neuen ziehen, wenn er gerade nicht passt.`
+  },
+  {
+    question: "Wie nutze ich die Situations-Reflexion?",
+    answer: `Die **Situations-Reflexion** ist ideal, wenn dich etwas Konkretes beschäftigt – eine Situation, ein Gespräch, ein Erlebnis.
+
+**So startest du:**
+1. Öffne die Startseite und tippe auf **"Situation reflektieren"**
+2. Beschreibe die Situation, die dich bewegt
+3. Oria begleitet dich durch eine geführte Erkundung
+
+**Der Ablauf:**
+1. **Situation beschreiben** – Was ist passiert? Was hat dich berührt oder getriggert?
+2. **Gefühle & Körper erkunden** – Welches Gefühl taucht auf? Wo spürst du es?
+3. **Bedürfnisse & Teile** – Was brauchtest du eigentlich? Welcher innere Anteil hat reagiert?
+4. **Positive Referenz** – Wo wurde dieses Bedürfnis in letzter Zeit erfüllt?
+5. **Integration** – Was wäre ein kleiner, liebevoller nächster Schritt?
+6. **Abschluss** – Speichern, vertiefen oder einen passenden Impuls erhalten
+
+**Wann ist das besonders hilfreich?**
+• Nach einem Konflikt oder Streit
+• Wenn eine Situation emotional "hängen bleibt"
+• Wenn du ein wiederkehrendes Muster erkannt hast
+• Wenn du verstehen willst, warum du so stark reagiert hast
+
+**Besonderheit:** Am Ende kannst du dir einen personalisierten Selfcare-Impuls generieren lassen, der genau zu deiner Situation passt.`
+  },
+  {
+    question: "Was ist der Tresor und wie nutze ich ihn?",
+    answer: `Der **Tresor** ist dein persönliches Archiv – hier werden alle deine Reflexionen sicher aufbewahrt.
+
+**Was findest du im Tresor?**
+• **Reflexionen** – Alle gespeicherten Gespräche mit Oria, inklusive strukturierter Zusammenfassungen
+• **Meine Anteile** – Dein Sammelalbum für innere Anteile (IFS-Anteilskarten)
+
+**So nutzt du den Tresor:**
+1. Öffne den Tresor über das Menü oder die Startseite
+2. Du siehst alle gespeicherten Reflexionen, sortiert nach Datum
+3. Tippe auf eine Reflexion, um die Zusammenfassung zu sehen
+4. Wechsle zwischen **Zusammenfassung** und **Original-Gespräch**
+
+**Was eine Zusammenfassung enthält:**
+• Erkannte Muster und Themen
+• Berührte Bedürfnisse (GfK)
+• Beteiligte innere Anteile (IFS)
+• Relevante Körperbereiche
+• Zentrale Erkenntnisse
+• Empfehlungen: Körperübung, Mikro-Aktion und Reflexionsfrage
+
+**Weitere Funktionen:**
+• 📸 **Fotos hinzufügen** – Verknüpfe Erinnerungsbilder mit deinen Reflexionen
+• 🎨 **KI-Bild generieren** – Lass ein stimmungsvolles Bild zu deiner Reflexion erstellen
+• 📄 **PDF-Export** – Lade Reflexionen als PDF herunter (Zusammenfassung oder vollständiges Gespräch)
+
+**Tipp:** Schau regelmäßig in deinen Tresor zurück. Das Wiederlesen alter Reflexionen macht Fortschritte sichtbar und vertieft Erkenntnisse.`
+  },
+  {
+    question: "Was zeigt mir 'Dein Fortschritt'?",
+    answer: `**"Dein Fortschritt"** ist dein persönliches Dashboard, das deine Reflexionsreise sichtbar macht.
+
+**Was du dort findest:**
+
+• **🌱 Reflexionslevel** – Dein aktuelles Level steigt mit der Anzahl und Tiefe deiner Reflexionen. Es zeigt, wie weit du auf deinem Weg bist.
+
+• **🔥 Streak** – Wie viele Tage in Folge du reflektiert hast. Regelmäßigkeit ist der Schlüssel zu nachhaltigem Wachstum.
+
+• **🌿 Wachstumsgarten** – Eine visuelle Darstellung deiner Reflexionsreise als wachsender Garten. Jede Reflexion lässt deinen Garten ein Stück wachsen.
+
+• **🎯 Bedürfnissammlung** – Welche Bedürfnisse in deinen Reflexionen aufgetaucht sind. So erkennst du Muster und häufige Themen.
+
+• **🏅 Meilensteine & Badges** – Auszeichnungen für besondere Erfolge, z.B. erste Reflexion, 7-Tage-Streak oder tiefe Erkenntnisse.
+
+• **📊 Wochenübersicht** – Wie viele Reflexionen du diese Woche gemacht hast und welche Themen du erkundet hast.
+
+**Wofür ist das gut?**
+• Motivation durch sichtbaren Fortschritt
+• Erkennung von Mustern über die Zeit
+• Feier kleiner Erfolge auf deinem Weg
+• Erinnerung an regelmäßige Selbstfürsorge
+
+**Tipp:** Der Fortschritt ist kein Wettbewerb. Es geht nicht darum, möglichst viel zu reflektieren, sondern darum, regelmäßig und ehrlich hinzuschauen.`
+  },
+  {
     question: "Was sind Trigger-Karten und wie helfen sie mir?",
     answer: `Trigger-Karten sind dein persönliches Nachschlagewerk für emotionale Reaktionsmuster. Sie helfen dir zu verstehen, **warum** du in bestimmten Situationen so stark reagierst – und was du tun kannst.
 
