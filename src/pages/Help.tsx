@@ -345,11 +345,19 @@ Seminare sind oft intensiv, aber zeitlich begrenzt. Oria bleibt – als kontinui
     question: "Was sind Trigger-Karten und wie helfen sie mir?",
     answer: `Trigger-Karten sind dein persönliches Nachschlagewerk für emotionale Reaktionsmuster. Sie helfen dir zu verstehen, **warum** du in bestimmten Situationen so stark reagierst – und was du tun kannst.
 
+**Für wen sind Trigger-Karten besonders geeignet?**
+Trigger-Karten eignen sich besonders gut für Menschen, die bereits **erste Erfahrungen mit IFS (Internal Family Systems) und/oder GfK (Gewaltfreie Kommunikation)** gesammelt haben. Die Karten verwenden Konzepte wie:
+• **Innere Anteile** (Manager, Feuerwehr, Exilanten) aus dem IFS-Modell
+• **Bedürfnisse** (Sicherheit, Zugehörigkeit, Autonomie) aus der GfK
+• **Körpersignale** als Brücke zur somatischen Intelligenz
+
+Wenn dir diese Begriffe vertraut sind, wirst du die Karten intuitiv verstehen und sofort mit der Arbeit beginnen können. Aber auch ohne Vorkenntnisse sind die Karten nutzbar – sie erklären sich in ihrem Kontext und können ein **Einstieg** in diese Denkweisen sein.
+
 **Was jede Karte enthält:**
 • **Die Trigger-Situation** – Was passiert äußerlich?
-• **Was innerlich geschieht** – Welche Schutzmechanismen werden aktiv?
+• **Was innerlich geschieht** – Welche Schutzmechanismen werden aktiv? (IFS-Perspektive: Welcher Anteil übernimmt?)
 • **Körpersignale** – Wie dein Körper reagiert (Anspannung, Herzrasen, etc.)
-• **Das dahinterliegende Bedürfnis** – Was du eigentlich brauchst
+• **Das dahinterliegende Bedürfnis** – Was du eigentlich brauchst (GfK-Perspektive)
 • **Regulationstechniken** – Konkrete Übungen zur Beruhigung
 • **Reframing** – Ein neuer, heilsamer Blickwinkel
 • **Integrationsfrage** – Eine tiefe Frage zum Mitnehmen
@@ -360,7 +368,9 @@ Beziehung, Leistung, Familie, Selbstwert, Sicherheit, Intimität, Status, Sinn, 
 **Wie du sie nutzt:**
 1. Stöbere durch die Kategorien oder mache den Selbsttest
 2. Speichere Karten, die dich ansprechen
-3. Starte direkt eine Reflexion mit Oria zu einer Karte`
+3. Starte direkt eine Reflexion mit Oria zu einer Karte
+
+**Tipp:** Wenn du neu bei IFS und GfK bist, nutze den Modus **"Frag Oria"** – dort kannst du Oria jederzeit fragen, was Begriffe wie "Manager-Anteil" oder "Bedürfnis nach Autonomie" bedeuten.`
   },
   {
     question: "Wie funktioniert der Trigger-Selbsttest?",
