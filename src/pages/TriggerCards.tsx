@@ -139,11 +139,17 @@ const TriggerCards: React.FC = () => {
 
       <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] space-y-5 mt-4 overflow-y-auto flex-1">
         {/* Intro */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-1">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-3">
           <h1 className="ios-title-1 text-foreground">Trigger-Karten</h1>
           <p className="ios-callout text-muted-foreground max-w-md mx-auto">
             Erkenne deine inneren Muster und finde Wege zur Selbstregulation.
           </p>
+          <button
+            onClick={() => navigate('/trigger-test')}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-accent-foreground font-semibold ios-body shadow-sm"
+          >
+            🧪 Selbsttest starten
+          </button>
         </motion.div>
 
         {/* Category grid – mobile optimized */}
