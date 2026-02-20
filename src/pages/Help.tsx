@@ -461,19 +461,77 @@ Wenn dich eine der 200 Karten anspricht, kannst du sie über den "Personalisiere
 • Die visuelle Darstellung als Karte macht abstrakte innere Erfahrungen greifbarer
 • Du stärkst die Beziehung zu deinen Anteilen, indem du sie bewusst wahrnimmst und festhältst
 
-**Was wird auf jeder Anteilskarte erfasst?**
-• **Name & Bild** – Wie heißt dieser Anteil? Wie sieht er/sie aus?
-• **Rolle** – z.B. Manager, Feuerwehr, Exilant, Beschützer, Kritiker
-• **Alter** – Wie alt fühlt sich dieser Anteil an?
-• **Körperort** – Wo spürst du diesen Anteil im Körper?
-• **Kernemotion** – Welches Gefühl trägt dieser Anteil?
-• **Trigger** – Was aktiviert diesen Anteil?
-• **Glaubenssatz** – Welche Überzeugung vertritt dieser Anteil?
-• **Bedürfnis** – Was braucht dieser Anteil wirklich?
-• **Schutzstrategie** – Wie versucht dieser Anteil dich zu schützen?
-• **Gegenspieler** – Welcher andere Anteil steht in Beziehung?
-• **Vertrauen in Self (0–10)** – Wie viel Vertrauen hat dieser Anteil in dein Self?
-• **Integrationsstand** – Wo stehst du aktuell in der Arbeit mit diesem Anteil?`
+**Die 10 Dimensionen der Anteilserfassung:**
+
+Jeder Anteil kann entlang von 10 therapeutisch fundierten Dimensionen erfasst werden, die direkt aus dem IFS-Modell (Internal Family Systems) nach Richard C. Schwartz abgeleitet sind:
+
+**1. 🛡️ Rolle im System**
+Im IFS gibt es drei Hauptrollen:
+• **Exil** – Trägt den ursprünglichen Schmerz (Verletzung, Scham, Einsamkeit). Exilanten wurden oft in der Kindheit "weggesperrt", weil ihre Gefühle zu überwältigend waren.
+• **Manager** – Kontrolliert präventiv, um zu verhindern, dass Exile aktiviert werden. Typische Manager: der Perfektionist, der Planer, der Kritiker.
+• **Feuerwehr** – Reagiert impulsiv, wenn ein Exil trotzdem durchbricht. Typische Strategien: Essen, Ablenkung, Wut, Rückzug, Substanzen.
+• **Mischform** – Manche Anteile erfüllen mehrere Rollen je nach Kontext.
+Die zentrale Frage: *Wovor schützt dieser Anteil das System?*
+
+**2. 🔥 Auslöser (Trigger)**
+Ohne Triggeranalyse bleibt die Arbeit unscharf. Erfasst wird:
+• *Wann* wird der Anteil aktiv? (Situationen, Tageszeiten)
+• *Bei welchen Personen?* (Partner, Eltern, Autoritäten, Fremde)
+• *In welchen Kontexten?* (Arbeit, Beziehung, Alleinsein, Gruppen)
+• *Körperliche Zustände?* (Müdigkeit, Hunger, Überstimulation)
+
+**3. 💔 Kernemotion**
+Jeder Anteil trägt ein primäres Gefühl:
+• Angst, Scham, Wut, Trauer, Einsamkeit, Ohnmacht
+**Wichtig:** Manager zeigen oft *sekundäre* Emotionen – z.B. Ärger statt der darunterliegenden Angst. Die wahre Kernemotion liegt häufig eine Schicht tiefer.
+
+**4. 🌱 Dahinterliegendes Bedürfnis (GFK-Brücke)**
+Hinter jeder Schutzstrategie steht ein unerfülltes Bedürfnis. Die App nutzt hier die Brücke zur Gewaltfreien Kommunikation (GFK):
+• Sicherheit, Zugehörigkeit, Autonomie, Wertschätzung, Kontrolle, Orientierung, Bedeutung
+Hier entsteht die eigentliche **Integrationsarbeit**: Wenn das Bedürfnis erkannt wird, kann Self es auf neue Weise erfüllen.
+
+**5. 💭 Glaubenssatz / Innere Logik**
+Jeder Anteil hat eine tief verankerte Überzeugung, die seine Schutzstrategie begründet:
+• *„Wenn ich nicht perfekt bin, werde ich abgelehnt."*
+• *„Nähe ist gefährlich."*
+• *„Ich muss stark sein, sonst bricht alles zusammen."*
+Diese Glaubenssätze sind die innere Logik des Anteils – sie waren einmal sinnvoll und schützend.
+
+**6. 👶 Alter / Entwicklungszeit**
+Viele Anteile (besonders Exile) sind in einem bestimmten Lebensalter "eingefroren":
+• 4–6 Jahre → häufig Scham, Verlassenheit
+• 8–10 Jahre → Vergleich, Leistungsdruck
+• Pubertät → Autonomiekonflikte, Identität
+Die Frage lautet: *Wie alt fühlt sich dieser Anteil an?* – nicht wie alt du warst, sondern wie alt der Anteil *jetzt noch* wirkt.
+
+**7. 🫁 Körperort**
+Anteile manifestieren sich oft an bestimmten Stellen im Körper:
+• **Brust** = Bindung, Sehnsucht
+• **Bauch** = Angst, Unsicherheit
+• **Hals** = Unterdrückte Stimme, nicht Gesagtes
+• **Schultern** = Verantwortung, Last
+Das Spüren des Körperorts hilft bei der Regulation und beim Zugang zum Anteil in Meditationen.
+
+**8. 🔗 Beziehung zu anderen Anteilen**
+IFS ist Systemarbeit, keine Einzelarbeit. Wichtige Fragen:
+• Wer bekämpft wen?
+• Wer schützt wen?
+• Wer dominiert im System?
+• Wer wird unterdrückt oder ignoriert?
+
+**9. ⚖️ Grad der Polarisierung**
+Viele Anteile stehen in einem Spannungsverhältnis zueinander:
+• Antreiber vs. Erschöpfter Anteil
+• Nähebedürfnis vs. Autonomiebedürfnis
+• Kontrolleur vs. Rebell
+Polarisierung ist oft **zentraler als das Trauma selbst** – zwei Anteile halten sich gegenseitig in Schach und blockieren Veränderung.
+
+**10. 🤝 Vertrauen in Self**
+Die zentrale Frage in IFS: Hat dieser Anteil Vertrauen in dein Self (dein wahres, mitfühlendes Kern-Selbst)?
+• Misstraut er dir? Glaubt er, er muss selbst die Führung übernehmen?
+• Hat er Self je wirklich erlebt?
+• Auf einer Skala von 0–10: Wie viel Vertrauen besteht aktuell?
+Das Ziel der IFS-Arbeit ist, dass alle Anteile Self vertrauen und ihre extremen Rollen loslassen können.`
   },
   {
     question: "Brauche ich IFS-Erfahrung für die Anteilserfassung?",
