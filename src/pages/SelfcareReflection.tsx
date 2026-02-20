@@ -1209,13 +1209,6 @@ const SelfcareReflection = () => {
               transition={{ duration: 0.4, delay: 0.7 }}
               className="flex justify-center gap-6 mt-4"
             >
-              <button
-                onClick={() => navigate('/summaries')}
-                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
-                aria-label="Mein Tresor"
-              >
-                <Lock className="w-4.5 h-4.5" />
-              </button>
               
               <button
                 onClick={() => navigate('/impulse-packs')}
