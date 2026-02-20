@@ -6,6 +6,7 @@ import { triggerCategories, triggerCards, TriggerCard } from '@/data/triggerCard
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 import CreateTriggerCardDialog from '@/components/trigger/CreateTriggerCardDialog';
 
@@ -19,6 +20,7 @@ const TriggerCardDetail: React.FC<{
   onConvert: () => void;
   isLoggedIn: boolean;
 }> = ({ card, isOpen, onToggle, isSaved, onToggleSave, onStartReflection, onConvert, isLoggedIn }) => {
+  const { t } = useLanguage();
   return (
     <motion.div
       layout
@@ -117,7 +119,7 @@ const TriggerCardDetail: React.FC<{
                     className="flex-1 py-3 rounded-2xl bg-secondary text-foreground font-semibold ios-body flex items-center justify-center gap-2 mt-2 border border-border/60"
                   >
                     <ArrowRightLeft className="w-4 h-4" />
-                    Personalisieren
+                    {t('trigger.personalize')}
                   </button>
                 )}
                 <button
@@ -128,7 +130,7 @@ const TriggerCardDetail: React.FC<{
                   )}
                 >
                   <MessageSquare className="w-4 h-4" />
-                  Mit Oria reflektieren
+                  {t('trigger.reflectWithOria')}
                 </button>
               </div>
             </div>
@@ -196,6 +198,7 @@ function customToTriggerCard(c: CustomCard): TriggerCard {
 const TriggerCardsPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState(triggerCategories[0].id);
   const [openCardId, setOpenCardId] = useState<string | null>(null);
   const [savedCardIds, setSavedCardIds] = useState<Set<string>>(new Set());
@@ -233,12 +236,12 @@ const TriggerCardsPage: React.FC = () => {
     if (!user) return;
     await supabase.from('custom_trigger_cards' as any).delete().eq('id', cardId).eq('user_id', user.id);
     setCustomCards(prev => prev.filter(c => c.id !== cardId));
-    toast.success('Karte gelöscht.');
+    toast.success(t('trigger.cardDeleted'));
   };
 
   const toggleSaveCard = async (cardId: string) => {
     if (!user) {
-      toast.error('Bitte melde dich an, um Karten zu speichern.');
+      toast.error(t('trigger.pleaseSignIn'));
       return;
     }
     if (savedCardIds.has(cardId)) {
@@ -288,8 +291,8 @@ const TriggerCardsPage: React.FC = () => {
             <ArrowLeft className="w-5 h-5 text-foreground/70" />
           </motion.button>
           <div>
-            <h1 className="text-xl font-serif font-semibold text-foreground">Trigger-Karten</h1>
-            <p className="text-sm text-muted-foreground">Erkenne & reguliere innere Muster</p>
+            <h1 className="text-xl font-serif font-semibold text-foreground">{t('trigger.title')}</h1>
+            <p className="text-sm text-muted-foreground">{t('trigger.subtitle')}</p>
           </div>
         </div>
       </header>
@@ -297,15 +300,15 @@ const TriggerCardsPage: React.FC = () => {
       <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-5">
         {/* Intro */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-3">
-          <h1 className="ios-title-1 text-foreground">Trigger-Karten</h1>
+          <h1 className="ios-title-1 text-foreground">{t('trigger.title')}</h1>
           <p className="ios-callout text-muted-foreground max-w-md mx-auto">
-            Erkenne anhand 200 typischer Trigger innere Muster und finde Wege zur Selbstregulation durch die Reflektion mit Oria. Speichere und bearbeite auf Dich zutreffende Triggerkarten oder erstelle persönliche Trigger-Karten um Dich besser zu verstehen und Wege zur Selbstregulation zu finden.
+            {t('trigger.description')}
           </p>
           <button
             onClick={() => navigate('/trigger-test')}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-accent-foreground font-semibold ios-body shadow-sm"
           >
-            🧪 Selbsttest starten
+            {t('trigger.startSelftest')}
           </button>
         </motion.div>
 
@@ -318,7 +321,7 @@ const TriggerCardsPage: React.FC = () => {
                 filterMode === 'all' ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground"
               )}
             >
-              Alle Karten
+              {t('trigger.allCards')}
             </button>
             {savedCardIds.size > 0 && (
               <button
@@ -328,7 +331,7 @@ const TriggerCardsPage: React.FC = () => {
                 )}
               >
                 <BookmarkCheck className="w-3.5 h-3.5" />
-                Gemerkt ({savedCardIds.size})
+                {t('trigger.saved')} ({savedCardIds.size})
               </button>
             )}
             <button
@@ -338,7 +341,7 @@ const TriggerCardsPage: React.FC = () => {
               )}
             >
               <Sparkles className="w-3.5 h-3.5" />
-              Eigene ({customCards.length})
+              {t('trigger.custom')} ({customCards.length})
             </button>
           </div>
         )}
@@ -368,28 +371,28 @@ const TriggerCardsPage: React.FC = () => {
               <h2 className="ios-title-2 text-foreground">
                 {activeCat?.icon} {activeCat?.label}
               </h2>
-              <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} Karten</p>
+              <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} {t('trigger.cards')}</p>
             </div>
           </>
         )}
 
         {filterMode === 'saved' && (
           <div className="text-center pt-1">
-            <h2 className="ios-title-2 text-foreground">📌 Meine gespeicherten Karten</h2>
-            <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} Karten</p>
+            <h2 className="ios-title-2 text-foreground">{t('trigger.savedCards')}</h2>
+            <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} {t('trigger.cards')}</p>
           </div>
         )}
 
         {filterMode === 'custom' && (
           <div className="text-center pt-1 space-y-3">
-            <h2 className="ios-title-2 text-foreground">✨ Eigene Trigger-Karten</h2>
-            <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} Karten</p>
+            <h2 className="ios-title-2 text-foreground">{t('trigger.customCards')}</h2>
+            <p className="ios-caption text-muted-foreground mt-0.5">{filteredCards.length} {t('trigger.cards')}</p>
             <button
               onClick={() => setShowCreateDialog(true)}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-accent-foreground font-semibold ios-body shadow-sm"
             >
               <Plus className="w-4 h-4" />
-              Neue Karte erstellen
+              {t('trigger.createNew')}
             </button>
           </div>
         )}
@@ -398,14 +401,14 @@ const TriggerCardsPage: React.FC = () => {
         <div className="space-y-3 max-w-lg mx-auto">
           {filteredCards.length === 0 && filterMode === 'saved' && (
             <div className="text-center py-8">
-              <p className="ios-callout text-muted-foreground">Noch keine Karten gespeichert.</p>
-              <p className="ios-caption text-muted-foreground mt-1">Tippe auf das Lesezeichen-Symbol, um Karten zu speichern.</p>
+              <p className="ios-callout text-muted-foreground">{t('trigger.noSavedCards')}</p>
+              <p className="ios-caption text-muted-foreground mt-1">{t('trigger.noSavedCardsHint')}</p>
             </div>
           )}
           {filteredCards.length === 0 && filterMode === 'custom' && (
             <div className="text-center py-8">
-              <p className="ios-callout text-muted-foreground">Noch keine eigenen Karten erstellt.</p>
-              <p className="ios-caption text-muted-foreground mt-1">Erstelle deine erste Trigger-Karte mit KI-Unterstützung.</p>
+              <p className="ios-callout text-muted-foreground">{t('trigger.noCustomCards')}</p>
+              <p className="ios-caption text-muted-foreground mt-1">{t('trigger.noCustomCardsHint')}</p>
             </div>
           )}
           <AnimatePresence mode="wait">
