@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, Lightbulb, MessageCircleQuestion } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -235,6 +237,7 @@ const getBadges = (totalReflections: number, streak: number) => {
 
 const SelfcareReflection = () => {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [currentStatement, setCurrentStatement] = useState<StatementWithCategory | null>(null);
@@ -1047,6 +1050,8 @@ const SelfcareReflection = () => {
           >
             <Heart className="w-5 h-5 text-foreground/70" />
           </motion.button>
+          
+          <LanguageToggle />
         </div>
         </div>
       </header>
@@ -1068,13 +1073,13 @@ const SelfcareReflection = () => {
               className="text-center mb-8"
             >
               <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                Hallo, du,
+                {t('selfcare.greeting')}
               </h1>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mt-2">
-                hier ist dein Impuls
+                {t('selfcare.impulseIntro')}
               </h2>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                des Tages.
+                {t('selfcare.ofTheDay')}
               </h2>
             </motion.div>
             
@@ -1113,12 +1118,12 @@ const SelfcareReflection = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5 text-foreground/60">
                       <Flame className={`w-4 h-4 ${streak > 0 ? 'text-orange-600' : ''}`} />
-                      <span className="text-sm font-medium">{streak} Tage</span>
+                      <span className="text-sm font-medium">{streak} {t('selfcare.days')}</span>
                     </div>
                     <div className="w-px h-4 bg-foreground/20" />
                     <div className="flex items-center gap-1.5 text-foreground/60">
                       <Star className="w-4 h-4" />
-                      <span className="text-sm font-medium">{pastReflections.length} Reflexionen</span>
+                      <span className="text-sm font-medium">{pastReflections.length} {t('selfcare.reflections')}</span>
                     </div>
                   </div>
                 )}
@@ -1142,7 +1147,7 @@ const SelfcareReflection = () => {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-primary"><rect x="3" y="2" width="14" height="20" rx="2" /><path d="M7 7h6" /><path d="M7 11h4" /><circle cx="19" cy="5" r="2.5" fill="currentColor" strokeWidth="0" /></svg>
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Trigger verstehen</span>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">{t('selfcare.triggerUnderstand')}</span>
                 </div>
               </motion.button>
 
@@ -1159,7 +1164,7 @@ const SelfcareReflection = () => {
                     <Sparkles className="w-6 h-6 text-accent" />
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">
-                    Impuls reflektieren
+                    {t('selfcare.reflectImpulse')}
                   </span>
                 </div>
               </motion.button>
@@ -1176,7 +1181,7 @@ const SelfcareReflection = () => {
                   <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
                     <MessageSquare className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Situation reflektieren</span>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">{t('selfcare.reflectSituation')}</span>
                 </div>
               </motion.button>
 
@@ -1193,7 +1198,7 @@ const SelfcareReflection = () => {
                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                       <Play className="w-5 h-5 text-blue-600" />
                     </div>
-                    <span className="text-xs font-medium text-foreground/80 text-center px-2">Fortsetzen</span>
+                    <span className="text-xs font-medium text-foreground/80 text-center px-2">{t('selfcare.continueConversation')}</span>
                     <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
                       <span className="text-xs font-bold text-white">{ongoingConversations.length}</span>
                     </div>
@@ -1244,7 +1249,7 @@ const SelfcareReflection = () => {
                   <Flower2 className="w-4 h-4 text-accent" />
                 </div>
                 <div>
-                  <p className="text-xs text-foreground/60 mb-1">Dein Impuls</p>
+                  <p className="text-xs text-foreground/60 mb-1">{t('selfcare.yourImpulse')}</p>
                   <p className="font-serif text-foreground leading-relaxed">
                     {currentStatement?.text}
                   </p>
@@ -1282,7 +1287,7 @@ const SelfcareReflection = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Teile deine Gedanken..."
+                placeholder={t('selfcare.shareThoughts')}
                 className="h-[100px] min-h-[100px] max-h-[100px] resize-none w-full rounded-2xl border-white/50 bg-white/60 backdrop-blur-sm overflow-y-auto text-base"
                 disabled={isLoading}
                 rows={3}
@@ -1296,7 +1301,7 @@ const SelfcareReflection = () => {
                 className="w-full flex items-center justify-center gap-2.5 py-3.5 px-6 bg-foreground text-white font-semibold rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
-                <span className="text-base">Nachricht senden</span>
+                <span className="text-base">{t('selfcare.sendMessage')}</span>
               </motion.button>
               
               <div className="flex flex-wrap gap-3 justify-center">
@@ -1305,25 +1310,25 @@ const SelfcareReflection = () => {
                   className="text-foreground/70 text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/40 hover:bg-white/60 transition-colors"
                 >
                   <Save className="w-3.5 h-3.5" />
-                  Im Tresor speichern
+                  {t('selfcare.saveToVault')}
                 </button>
                 <button 
                   onClick={async () => {
                     await saveConversationToDb(messages, currentStatement?.text || '', currentConversationId || undefined);
-                    toast.success('Unterhaltung gespeichert');
+                    toast.success(t('selfcare.conversationSaved'));
                     navigate('/');
                   }}
                   className="text-foreground/70 text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/40 hover:bg-white/60 transition-colors"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
-                  Später fortsetzen
+                  {t('selfcare.continueLater')}
                 </button>
                 <button 
                   onClick={() => navigate('/')}
                   className="text-foreground/70 text-sm flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/40 hover:bg-white/60 transition-colors"
                 >
                   <X className="w-3.5 h-3.5" />
-                  Zurück
+                  {t('selfcare.back')}
                 </button>
               </div>
             </div>
@@ -1335,15 +1340,15 @@ const SelfcareReflection = () => {
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
         <DialogContent className="sm:max-w-md max-h-[85vh] flex flex-col">
           <DialogHeader className="flex-shrink-0">
-            <DialogTitle>Reflexion speichern?</DialogTitle>
+            <DialogTitle>{t('selfcare.saveReflection')}</DialogTitle>
             <DialogDescription>
-              Möchtest du diese Selfcare-Reflexion in deinem Tresor speichern?
+              {t('selfcare.saveReflectionDesc')}
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-4 overflow-y-auto flex-1 pr-2">
             <Input
-              placeholder="Titel (optional)"
+              placeholder={t('selfcare.titleOptional')}
               value={saveTitle}
               onChange={(e) => setSaveTitle(e.target.value)}
             />
@@ -1351,7 +1356,7 @@ const SelfcareReflection = () => {
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Ort (optional)"
+                placeholder={t('selfcare.locationOptional')}
                 value={saveLocation}
                 onChange={(e) => setSaveLocation(e.target.value)}
                 className="flex-1"
@@ -1378,9 +1383,9 @@ const SelfcareReflection = () => {
                   {wantsSummary && <span className="text-xs">✓</span>}
                 </button>
                 <div className="flex-1">
-                  <p className="font-medium text-sm text-foreground">Zusammenfassung erstellen</p>
+                  <p className="font-medium text-sm text-foreground">{t('selfcare.createSummary')}</p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Oria analysiert dein Gespräch nach dem Oria-Modell: Muster, Bedürfnisse, innere Teile und Körperbereiche.
+                    {t('selfcare.summaryDesc')}
                   </p>
                 </div>
               </div>
@@ -1388,7 +1393,7 @@ const SelfcareReflection = () => {
               {wantsSummary && isGeneratingSummary && (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 rounded p-3">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-accent"></div>
-                  <span>Zusammenfassung wird erstellt...</span>
+                  <span>{t('selfcare.generatingSummary')}</span>
                 </div>
               )}
 
@@ -1405,7 +1410,7 @@ const SelfcareReflection = () => {
                     onClick={() => setSummaryExpanded(!summaryExpanded)}
                     className="text-xs text-accent hover:text-accent/80 mt-1 flex items-center gap-1"
                   >
-                    {summaryExpanded ? 'Weniger anzeigen' : 'Mehr anzeigen'}
+                    {summaryExpanded ? t('selfcare.showLess') : t('selfcare.showMore')}
                   </button>
                   {summaryExpanded && (
                     <div className="flex flex-wrap gap-1 mt-2">
@@ -1430,14 +1435,14 @@ const SelfcareReflection = () => {
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Lock className="w-4 h-4" />
-                <span>Zum Tresor</span>
+                <span>{t('selfcare.goToVault')}</span>
               </button>
             )}
           </div>
 
           <DialogFooter className="gap-2 sm:gap-0 flex-shrink-0 pt-4 border-t">
             <Button variant="outline" onClick={skipSave}>
-              Verwerfen
+              {t('selfcare.discard')}
             </Button>
             <Button 
               onClick={saveToVault} 
@@ -1447,12 +1452,12 @@ const SelfcareReflection = () => {
               {isSaving ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-1"></div>
-                  Speichern...
+                  {t('selfcare.saving')}
                 </>
               ) : (
                 <>
                   <Save className="w-4 h-4 mr-1" />
-                  Speichern
+                  {t('selfcare.save')}
                 </>
               )}
             </Button>
@@ -1466,10 +1471,10 @@ const SelfcareReflection = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <MessageSquare className="w-5 h-5 text-blue-500" />
-              Laufende Unterhaltungen
+              {t('selfcare.ongoingConversations')}
             </DialogTitle>
             <DialogDescription>
-              Setze eine frühere Unterhaltung fort
+              {t('selfcare.continueConversationDesc')}
             </DialogDescription>
           </DialogHeader>
           
@@ -1481,7 +1486,7 @@ const SelfcareReflection = () => {
             ) : ongoingConversations.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
                 <MessageSquare className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                <p>Keine laufenden Unterhaltungen</p>
+                <p>{t('selfcare.noConversations')}</p>
               </div>
             ) : (
               <div className="space-y-2 py-2">
@@ -1510,7 +1515,7 @@ const SelfcareReflection = () => {
                           <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground">
                             <span>{format(new Date(conv.updated_at), 'dd.MM.yyyy', { locale: de })}</span>
                             <span>·</span>
-                            <span>{conv.messageCount} Nachrichten</span>
+                            <span>{conv.messageCount} {t('selfcare.messages')}</span>
                           </div>
                         </div>
                       </div>
@@ -1531,7 +1536,7 @@ const SelfcareReflection = () => {
 
           <DialogFooter className="mt-4">
             <Button variant="outline" onClick={() => setShowOngoingConversations(false)}>
-              Schließen
+              {t('selfcare.close')}
             </Button>
           </DialogFooter>
         </DialogContent>
