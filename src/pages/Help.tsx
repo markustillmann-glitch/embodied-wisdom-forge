@@ -415,6 +415,39 @@ Wenn dich eine der 200 Karten anspricht, kannst du sie über den "Personalisiere
 • Wenn du spürst, dass hinter dem Trigger noch mehr steckt
 
 **Tipp:** Speichere Karten, die dich besonders ansprechen. So findest du sie schnell wieder, wenn du sie brauchst.`
+  },
+  {
+    question: "Wie läuft eine Reflexion mit Oria ab?",
+    answer: `Der Reflexionsprozess mit Oria folgt einem sanften, strukturierten Ablauf – du wirst Schritt für Schritt begleitet.
+
+**So läuft es ab:**
+
+1. **Impuls oder Situation wählen**
+   • Du bekommst einen zufälligen Selfcare-Impuls oder beschreibst eine Situation, die dich beschäftigt
+
+2. **Erste Resonanz teilen**
+   • Oria fragt dich, was der Impuls oder die Situation in dir auslöst
+   • Du teilst deine ersten Gedanken und Gefühle
+
+3. **Gefühle & Körper erkunden**
+   • Welches Gefühl entsteht? Wo spürst du es im Körper?
+   • Oria hilft dir, die Verbindung zwischen Emotion und Körper zu erkennen
+
+4. **Bedürfnisse entdecken**
+   • Was brauchst du eigentlich gerade?
+   • Oria nutzt das Oria-Modell (IFS, GfK), um dir zu helfen, deine tieferen Bedürfnisse zu verstehen
+
+5. **Integration & nächster Schritt**
+   • Was bedeutet das konkret für deinen Alltag?
+   • Oria bietet dir eine kleine Übung, einen Mikro-Schritt oder eine Frage zum Mitnehmen an
+
+6. **Abschluss**
+   • Du entscheidest: Möchtest du das Thema vertiefen oder die Reflexion im Tresor speichern?
+
+**Gut zu wissen:**
+• Das Gespräch dauert ca. **5–7 Minuten**
+• Oria passt sich deinem Tempo an – knappe oder ausführliche Antworten sind gleichermaßen willkommen
+• Du kannst jederzeit abbrechen oder das Thema wechseln`
   }
 ];
 
