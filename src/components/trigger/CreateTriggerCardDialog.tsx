@@ -5,11 +5,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import ReactMarkdown from 'react-markdown';
+import { TriggerCard } from '@/data/triggerCards';
 
 interface CreateTriggerCardDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onCardCreated: () => void;
+  initialCard?: TriggerCard;
 }
 
 type Msg = { role: 'user' | 'assistant'; content: string };
@@ -26,7 +28,7 @@ function tryParseCard(text: string) {
   return null;
 }
 
-const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpen, onClose, onCardCreated }) => {
+const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpen, onClose, onCardCreated, initialCard }) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
@@ -49,7 +51,28 @@ const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpe
   const startConversation = async () => {
     setIsLoading(true);
     let assistantSoFar = '';
-    const initMsg: Msg[] = [{ role: 'user', content: 'Starte den Dialog zum Erstellen einer Trigger-Karte.' }];
+    const initMsg: Msg[] = initialCard
+      ? [{ role: 'user', content: `Ich möchte diese Trigger-Karte personalisieren: "${initialCard.title}" – ${initialCard.beduerfnis}` }]
+      : [{ role: 'user', content: 'Starte den Dialog zum Erstellen einer Trigger-Karte.' }];
+
+    const bodyPayload: any = { messages: initMsg };
+    if (initialCard) {
+      bodyPayload.mode = 'convert';
+      bodyPayload.cardContext = {
+        title: initialCard.title,
+        icon: initialCard.icon,
+        typischerAnteil: initialCard.typischerAnteil,
+        managerReaktion: initialCard.managerReaktion,
+        beduerfnis: initialCard.beduerfnis,
+        wasPassiert: initialCard.wasPassiert,
+        koerpersignale: initialCard.koerpersignale,
+        innereTriggerGeschichte: initialCard.innereTriggerGeschichte,
+        selfCheck: initialCard.selfCheck,
+        regulation: initialCard.regulation,
+        reframing: initialCard.reframing,
+        integrationsfrage: initialCard.integrationsfrage,
+      };
+    }
 
     try {
       const resp = await fetch(CHAT_URL, {
@@ -58,7 +81,7 @@ const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpe
           'Content-Type': 'application/json',
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: initMsg }),
+        body: JSON.stringify(bodyPayload),
       });
       if (!resp.ok || !resp.body) throw new Error('Stream failed');
 
@@ -213,7 +236,9 @@ const CreateTriggerCardDialog: React.FC<CreateTriggerCardDialogProps> = ({ isOpe
       <div className="flex items-center justify-between px-4 py-3 border-b border-border">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-accent" />
-          <span className="ios-headline text-foreground">Trigger-Karte erstellen</span>
+          <span className="ios-headline text-foreground">
+            {initialCard ? 'Karte personalisieren' : 'Trigger-Karte erstellen'}
+          </span>
         </div>
         <button onClick={handleClose} className="p-2 text-muted-foreground">
           <X className="w-5 h-5" />
