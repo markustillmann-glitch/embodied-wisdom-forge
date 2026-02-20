@@ -449,6 +449,68 @@ Wenn dich eine der 200 Karten anspricht, kannst du sie über den "Personalisiere
 • Das Gespräch dauert ca. **5–7 Minuten**
 • Oria passt sich deinem Tempo an – knappe oder ausführliche Antworten sind gleichermaßen willkommen
 • Du kannst jederzeit abbrechen oder das Thema wechseln`
+  },
+  {
+    question: "Was ist der Bereich 'Meine Anteile' im Tresor?",
+    answer: `Der Bereich **"Meine Anteile"** ist ein persönliches Sammelalbum für innere Anteile (Parts), die du in IFS-Meditationen kennengelernt hast. Jeder Anteil wird als Spielkarte dargestellt – mit einem KI-generierten Bild und allen wichtigen Informationen.
+
+**Wofür ist das gut?**
+• Du dokumentierst deine inneren Anteile an einem sicheren Ort
+• Du behältst den Überblick über dein inneres System
+• Du kannst Veränderungen und Fortschritte im Integrationsprozess festhalten
+• Die visuelle Darstellung als Karte macht abstrakte innere Erfahrungen greifbarer
+• Du stärkst die Beziehung zu deinen Anteilen, indem du sie bewusst wahrnimmst und festhältst
+
+**Was wird auf jeder Anteilskarte erfasst?**
+• **Name & Bild** – Wie heißt dieser Anteil? Wie sieht er/sie aus?
+• **Rolle** – z.B. Manager, Feuerwehr, Exilant, Beschützer, Kritiker
+• **Alter** – Wie alt fühlt sich dieser Anteil an?
+• **Körperort** – Wo spürst du diesen Anteil im Körper?
+• **Kernemotion** – Welches Gefühl trägt dieser Anteil?
+• **Trigger** – Was aktiviert diesen Anteil?
+• **Glaubenssatz** – Welche Überzeugung vertritt dieser Anteil?
+• **Bedürfnis** – Was braucht dieser Anteil wirklich?
+• **Schutzstrategie** – Wie versucht dieser Anteil dich zu schützen?
+• **Gegenspieler** – Welcher andere Anteil steht in Beziehung?
+• **Vertrauen in Self (0–10)** – Wie viel Vertrauen hat dieser Anteil in dein Self?
+• **Integrationsstand** – Wo stehst du aktuell in der Arbeit mit diesem Anteil?`
+  },
+  {
+    question: "Brauche ich IFS-Erfahrung für die Anteilserfassung?",
+    answer: `**Ja, IFS-Meditationserfahrung ist sehr empfehlenswert.**
+
+Die Anteilserfassung ist kein Selbstlernwerkzeug für IFS, sondern ein **Begleitwerkzeug für Menschen, die bereits mit IFS arbeiten** – sei es in Therapie, Coaching oder eigenständiger Meditationspraxis.
+
+**Warum ist IFS-Erfahrung wichtig?**
+• Die Begriffe wie "Manager", "Feuerwehr", "Exilant" und "Self" stammen aus dem IFS-Modell (Internal Family Systems) und haben spezifische Bedeutungen
+• Anteile zeigen sich in der Regel erst durch achtsame, angeleitete Innenschau – nicht durch bloßes Nachdenken
+• Ohne Meditationserfahrung besteht die Gefahr, Anteile intellektuell zu "konstruieren" statt sie wirklich zu erleben
+• Der Kontakt mit Exilanten (verletzten inneren Kindern) erfordert einen sicheren Rahmen und Self-Energie
+
+**Wann ist der richtige Zeitpunkt?**
+• Du hast bereits in einer IFS-Meditation einen Anteil kennengelernt
+• Du konntest Kontakt zu diesem Anteil aufnehmen und ihn wahrnehmen
+• Du möchtest das Erlebte festhalten, um es nicht zu vergessen
+
+**Tipp:** Nutze die Anteilskarten als **Reflexionstagebuch** nach deinen Meditationen. So baust du nach und nach eine Landkarte deines inneren Systems auf.`
+  },
+  {
+    question: "Wie funktioniert die KI-Bildgenerierung für Anteile?",
+    answer: `Jede Anteilskarte kann ein **KI-generiertes Bild** enthalten, das deinen inneren Anteil visuell darstellt.
+
+**So gehst du vor:**
+1. Erstelle oder bearbeite einen Anteil im Tresor
+2. Fülle das Feld **"Bildbeschreibung für AI-Generierung"** aus
+3. Beschreibe, wie du dir diesen Anteil vorstellst – z.B. Alter, Aussehen, Umgebung, Stimmung
+4. Speichere den Anteil
+5. Tippe auf den **Zauberstab (🪄)** auf der Karte, um das Bild zu generieren
+
+**Tipps für gute Beschreibungen:**
+• "Ein kleines Mädchen, ca. 5 Jahre, sitzt allein in einem dunklen Raum und hält ein Licht"
+• "Ein starker Ritter in goldener Rüstung, der vor einer Mauer steht und alles beschützt"
+• "Eine weise, alte Frau in einem Garten voller Blumen, die ruhig lächelt"
+
+Die Bilder werden im **Fantasy-Spielkarten-Stil** generiert – künstlerisch, symbolisch und emotional. Du kannst das Bild jederzeit neu generieren, indem du die Beschreibung änderst und erneut auf den Zauberstab tippst.`
   }
 ];
 
