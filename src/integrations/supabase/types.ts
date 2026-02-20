@@ -389,6 +389,27 @@ export type Database = {
         }
         Relationships: []
       }
+      trigger_test_results: {
+        Row: {
+          created_at: string
+          id: string
+          results: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          results: Json
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          results?: Json
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_gamification: {
         Row: {
           collected_needs: Json
