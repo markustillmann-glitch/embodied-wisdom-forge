@@ -11,7 +11,7 @@ const TriggerCardDetail: React.FC<{ card: TriggerCard; isOpen: boolean; onToggle
       layout
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="ios-card overflow-hidden"
+      className="ios-card overflow-hidden bg-secondary/80 border border-border/60"
     >
       <button
         onClick={onToggle}
