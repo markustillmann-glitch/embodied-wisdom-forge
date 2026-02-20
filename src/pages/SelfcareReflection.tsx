@@ -1130,19 +1130,19 @@ const SelfcareReflection = () => {
           {/* Action Cards - Horizontal scroll layout at bottom */}
           <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
             <div className="flex gap-3 justify-center overflow-x-auto scrollbar-hide pb-2">
-              {/* Card - Frag Oria */}
+              {/* Card - Trigger verstehen */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={startAskOria}
+                onClick={() => navigate('/trigger-cards')}
               >
                 <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <MessageCircleQuestion className="w-5 h-5 text-primary" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-primary"><rect x="3" y="2" width="14" height="20" rx="2" /><path d="M7 7h6" /><path d="M7 11h4" /><circle cx="19" cy="5" r="2.5" fill="currentColor" strokeWidth="0" /></svg>
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Frag Oria</span>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Trigger verstehen</span>
                 </div>
               </motion.button>
 
@@ -1229,6 +1229,13 @@ const SelfcareReflection = () => {
                 aria-label="Impulspakete"
               >
                 <Flower2 className="w-4.5 h-4.5" />
+              </button>
+              <button
+                onClick={startAskOria}
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Frag Oria"
+              >
+                <MessageCircleQuestion className="w-4.5 h-4.5" />
               </button>
               <button
                 onClick={() => navigate('/trigger-cards')}
