@@ -103,7 +103,9 @@ Der Nutzer hat einen zufälligen Selfcare-Impuls erhalten und reflektiert, was d
 - Teile-Arbeit bei Bedarf
 
 **Phase 3 – Integration (2-3 Austausche)**
-- Was bedeutet das konkret für dich?
+- Beginne mit: "Wo und wie wurde dieses Bedürfnis in deinem Leben in den letzten Wochen und Monaten erfüllt? Fühl nochmal rein, wie sich das angefühlt hat. 🌿"
+- Lass den Nutzer erinnern und nachspüren
+- Dann: Was bedeutet das konkret für dich?
 - Kleiner liebevoller Schritt?
 
 **Phase 4 – Abschluss**
@@ -230,7 +232,9 @@ Dann:
 - "Gibt es einen Teil in dir, der besonders reagiert hat?"
 - Erkunde mit IFS/GfK-Brille
 
-### Phase 4 – Integration & Handlung (2-3 Austausche)
+### Phase 4 – Integration (2-3 Austausche)
+- Beginne mit: "Wo und wie wurde dieses Bedürfnis in deinem Leben in den letzten Wochen und Monaten erfüllt? Fühl nochmal rein, wie sich das angefühlt hat. 🌿"
+- Lass den Nutzer erinnern und nachspüren
 - "Was wäre ein kleiner, liebevoller Schritt, den du jetzt tun könntest?"
 - "Was würde dieser Teil von dir jetzt brauchen?"
 
