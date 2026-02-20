@@ -126,7 +126,7 @@ const TriggerCards: React.FC = () => {
   return (
     <div className="ios-page ios-font">
       {/* Nav */}
-      <div className="ios-nav-bar flex items-end px-4 pb-2">
+      <div className="ios-nav-bar flex items-end px-4 pb-2 pt-[max(env(safe-area-inset-top),20px)]">
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-accent ios-body">
           <ArrowLeft className="w-5 h-5" />
           <span>Zurück</span>
@@ -137,7 +137,7 @@ const TriggerCards: React.FC = () => {
         <div className="w-16" />
       </div>
 
-      <div className="px-4 pb-8 space-y-5 mt-4">
+      <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] space-y-5 mt-4">
         {/* Intro */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-1">
           <h1 className="ios-title-1 text-foreground">Trigger-Karten</h1>

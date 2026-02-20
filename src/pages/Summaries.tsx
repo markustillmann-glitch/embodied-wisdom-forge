@@ -521,7 +521,7 @@ const Summaries = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Bitte melde dich an, um deinen Tresor zu öffnen.</p>
           <Button onClick={() => navigate('/auth')}>Anmelden</Button>
@@ -533,7 +533,7 @@ const Summaries = () => {
   // Password entry screen
   if (checkingPassword) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
