@@ -19,7 +19,7 @@ import MyAccount from "./pages/MyAccount";
 import TriggerCards from "./pages/TriggerCards";
 import TriggerIntro from "./pages/TriggerIntro";
 import TriggerTest from "./pages/TriggerTest";
-import TextExport from "./pages/TextExport";
+
 
 const queryClient = new QueryClient();
 
@@ -46,7 +46,7 @@ const App = () => (
               <Route path="/trigger-intro" element={<TriggerIntro />} />
               <Route path="/trigger-cards" element={<TriggerCards />} />
               <Route path="/trigger-test" element={<TriggerTest />} />
-              <Route path="/text-export" element={<TextExport />} />
+              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
