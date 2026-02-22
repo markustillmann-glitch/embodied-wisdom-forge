@@ -305,7 +305,14 @@ const TriggerCardsPage: React.FC = () => {
             {t('trigger.description')}
           </p>
           <button
-            onClick={() => navigate('/trigger-test')}
+            onClick={() => {
+              if (!user) {
+                toast.error(t('trigger.pleaseSignIn'));
+                navigate('/auth');
+                return;
+              }
+              navigate('/summaries?tab=tests');
+            }}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-accent-foreground font-semibold ios-body shadow-sm"
           >
             {t('trigger.startSelftest')}
