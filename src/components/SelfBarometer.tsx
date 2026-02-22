@@ -97,15 +97,11 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
   );
   const [weiteAnswers, setWeiteAnswers] = useState<(boolean | null)[]>([null, null, null]);
 
-  const reset = () => {
+  const handleClose = () => {
     setStep('ali');
     setAliStep(0);
     setQualities(Object.fromEntries(QUALITIES.map(q => [q.key, 5])));
     setWeiteAnswers([null, null, null]);
-  };
-
-  const handleClose = () => {
-    reset();
     onClose();
   };
 
@@ -132,7 +128,21 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
     },
   ];
 
+  const [showIntro, setShowIntro] = useState(true);
+
   const l = (obj: { de: string; en: string }) => language === 'en' ? obj.en : obj.de;
+
+  const introText = language === 'en'
+    ? 'Use the Self-Barometer whenever you want to check in with yourself — for example before or after a difficult conversation, during or after reflecting on a situation or trigger, or while capturing a memory. It helps you gauge how much "Self" is present right now.'
+    : 'Nutze das Self-Barometer immer dann, wenn du bei dir einchecken möchtest – zum Beispiel vor oder nach einer schwierigen Situation, während oder nach einer Reflexion über eine Situation oder einen Trigger, oder beim Erfassen einer Erinnerung. Es hilft dir einzuschätzen, wie viel „Selbst" gerade präsent ist.';
+
+  const reset = () => {
+    setStep('ali');
+    setAliStep(0);
+    setQualities(Object.fromEntries(QUALITIES.map(q => [q.key, 5])));
+    setWeiteAnswers([null, null, null]);
+    setShowIntro(true);
+  };
 
   return (
     <AnimatePresence>
@@ -164,7 +174,7 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
                 <h2 className="font-serif text-lg font-semibold text-foreground">Self-Barometer</h2>
               </div>
               <div className="flex items-center gap-2">
-                {step !== 'ali' && (
+                {step !== 'ali' && !showIntro && (
                   <button onClick={reset} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                     <RotateCcw className="w-4 h-4 text-muted-foreground" />
                   </button>
@@ -176,20 +186,73 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Progress */}
-            <div className="flex gap-1 px-5 pt-3">
-              {['ali', 'qualities', 'weite', 'result'].map((s, i) => (
-                <div key={s} className={cn(
-                  "h-1 flex-1 rounded-full transition-colors",
-                  ['ali', 'qualities', 'weite', 'result'].indexOf(step) >= i ? 'bg-accent' : 'bg-muted'
-                )} />
-              ))}
-            </div>
+            {!showIntro && (
+              <div className="flex gap-1 px-5 pt-3">
+                {['ali', 'qualities', 'weite', 'result'].map((s, i) => (
+                  <div key={s} className={cn(
+                    "h-1 flex-1 rounded-full transition-colors",
+                    ['ali', 'qualities', 'weite', 'result'].indexOf(step) >= i ? 'bg-accent' : 'bg-muted'
+                  )} />
+                ))}
+              </div>
+            )}
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto px-5 py-4">
               <AnimatePresence mode="wait">
+                {/* Intro */}
+                {showIntro && step === 'ali' && (
+                  <motion.div
+                    key="intro"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="space-y-5"
+                  >
+                    <div className="text-center space-y-2">
+                      <span className="text-4xl">🌡️</span>
+                      <h3 className="font-serif text-xl font-semibold text-foreground">
+                        {language === 'en' ? 'When to use this?' : 'Wann nutze ich das?'}
+                      </h3>
+                    </div>
+
+                    <p className="text-sm text-muted-foreground leading-relaxed text-center">
+                      {introText}
+                    </p>
+
+                    <div className="space-y-2">
+                      {(language === 'en' ? [
+                        { emoji: '⚡', text: 'Before a difficult situation – as preparation' },
+                        { emoji: '🔥', text: 'Right after a difficult situation – to check in' },
+                        { emoji: '🔍', text: 'During or after reflecting on a trigger' },
+                        { emoji: '💭', text: 'While capturing or revisiting a memory' },
+                      ] : [
+                        { emoji: '⚡', text: 'Vor einer schwierigen Situation – als Vorbereitung' },
+                        { emoji: '🔥', text: 'Direkt nach einer schwierigen Situation – zum Einchecken' },
+                        { emoji: '🔍', text: 'Während oder nach einer Reflexion über einen Trigger' },
+                        { emoji: '💭', text: 'Beim Erfassen oder Wiederbesuchen einer Erinnerung' },
+                      ]).map((item, i) => (
+                        <div key={i} className="flex items-start gap-3 bg-card rounded-xl p-3 border border-border/50">
+                          <span className="text-lg">{item.emoji}</span>
+                          <span className="text-sm text-foreground">{item.text}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-center pt-2">
+                      <button
+                        onClick={() => setShowIntro(false)}
+                        className="flex items-center gap-1 text-sm font-medium text-accent bg-accent/10 px-5 py-2.5 rounded-xl"
+                      >
+                        {language === 'en' ? 'Start' : 'Starten'}
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
                 {/* Step ALI */}
-                {step === 'ali' && (
+                {step === 'ali' && !showIntro && (
                   <motion.div
                     key="ali"
                     initial={{ opacity: 0, x: 20 }}
