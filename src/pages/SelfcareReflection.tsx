@@ -933,15 +933,7 @@ const SelfcareReflection = () => {
               </div>
             </motion.div>
 
-            {/* App description */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-center text-xs sm:text-sm text-muted-foreground max-w-sm sm:max-w-md leading-relaxed px-2 mt-3"
-            >
-              Oria ist dein Raum für Reflexion und persönliches Wachstum. Der AI-Coach hilft dir, schwierige Situationen und Trigger zu verstehen und neue Handlungsoptionen zu entwickeln. So wirst du empathischer, souveräner und zufriedener – und bist mehr du selbst.
-            </motion.p>
+
 
             {/* Stats - Small and subtle */}
             {user && (
@@ -1052,6 +1044,16 @@ const SelfcareReflection = () => {
                 </motion.button>
               )}
             </div>
+
+            {/* App description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="text-center text-xs sm:text-sm text-muted-foreground max-w-xs sm:max-w-sm mx-auto leading-relaxed px-2 mt-3"
+            >
+              Oria ist dein Raum für Reflexion und persönliches Wachstum. Der AI-Coach hilft dir, schwierige Situationen und Trigger zu verstehen und neue Handlungsoptionen zu entwickeln. So wirst du empathischer, souveräner und zufriedener – und bist mehr du selbst.
+            </motion.p>
 
             {/* Visual Links - Mein Tresor, Anleitung, Impulspakete */}
             <motion.div
