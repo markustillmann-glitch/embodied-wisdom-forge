@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { User, CreditCard, MapPin, Package, Settings, LogOut, ChevronRight, Edit2, Save, X } from 'lucide-react';
+import { User, CreditCard, MapPin, Package, Settings, LogOut, ChevronRight, Edit2, Save, X, FileText } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -324,6 +324,15 @@ const MyAccount = () => {
               </div>
             )}
           </div>
+        </motion.section>
+
+        {/* Text Export */}
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
+          <button onClick={() => navigate('/text-export')}
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-card border border-border/50 text-foreground hover:bg-muted transition-colors font-medium">
+            <FileText className="w-5 h-5" />
+            {t('account.textExport') || 'Textexport für ChatGPT'}
+          </button>
         </motion.section>
 
         {/* Sign Out */}
