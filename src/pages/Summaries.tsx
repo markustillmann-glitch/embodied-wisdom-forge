@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList, Pencil, Check } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
 import { IfsPartsSection } from '@/components/parts/IfsPartsSection';
 import { TriggerTestHistory } from '@/components/trigger/TriggerTestHistory';
@@ -113,7 +113,16 @@ const Summaries = () => {
   
   // AI image generation state
   const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
-  
+
+  // Inline editing state
+  const [editingTitleId, setEditingTitleId] = useState<string | null>(null);
+  const [editingTitleValue, setEditingTitleValue] = useState('');
+  const [editingSummaryId, setEditingSummaryId] = useState<string | null>(null);
+  const [editingSummaryValue, setEditingSummaryValue] = useState('');
+  const [editingConversationId, setEditingConversationId] = useState<string | null>(null);
+  const [editingConversationValue, setEditingConversationValue] = useState('');
+  const [savingEdit, setSavingEdit] = useState(false);
+
   // View mode state: 'summary' or 'conversation'
   const [viewModes, setViewModes] = useState<Record<string, 'summary' | 'conversation'>>({});
   const [searchParams] = useSearchParams();
@@ -540,6 +549,75 @@ const Summaries = () => {
     }
   };
 
+  // Save edited title
+  const saveTitle = async (id: string) => {
+    if (!user || !editingTitleValue.trim()) return;
+    setSavingEdit(true);
+    try {
+      const { error } = await supabase
+        .from('memories')
+        .update({ title: editingTitleValue.trim() })
+        .eq('id', id)
+        .eq('user_id', user.id);
+      if (error) throw error;
+      setSummaries(prev => prev.map(s => s.id === id ? { ...s, title: editingTitleValue.trim() } : s));
+      setEditingTitleId(null);
+      toast.success(language === 'de' ? 'Titel gespeichert' : 'Title saved');
+    } catch (error) {
+      console.error('Error saving title:', error);
+      toast.error(language === 'de' ? 'Fehler beim Speichern' : 'Error saving');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
+  // Save edited summary text
+  const saveSummaryText = async (id: string) => {
+    if (!user || !editingSummaryValue.trim()) return;
+    setSavingEdit(true);
+    try {
+      const summary = summaries.find(s => s.id === id);
+      if (!summary?.structured_summary) return;
+      const updatedSummary = { ...summary.structured_summary, summary_text: editingSummaryValue.trim() };
+      const { error } = await supabase
+        .from('memories')
+        .update({ structured_summary: updatedSummary as any })
+        .eq('id', id)
+        .eq('user_id', user.id);
+      if (error) throw error;
+      setSummaries(prev => prev.map(s => s.id === id ? { ...s, structured_summary: updatedSummary } : s));
+      setEditingSummaryId(null);
+      toast.success(language === 'de' ? 'Zusammenfassung gespeichert' : 'Summary saved');
+    } catch (error) {
+      console.error('Error saving summary:', error);
+      toast.error(language === 'de' ? 'Fehler beim Speichern' : 'Error saving');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
+  // Save edited conversation content
+  const saveConversation = async (id: string) => {
+    if (!user || !editingConversationValue.trim()) return;
+    setSavingEdit(true);
+    try {
+      const { error } = await supabase
+        .from('memories')
+        .update({ content: editingConversationValue.trim() })
+        .eq('id', id)
+        .eq('user_id', user.id);
+      if (error) throw error;
+      setSummaries(prev => prev.map(s => s.id === id ? { ...s, content: editingConversationValue.trim() } : s));
+      setEditingConversationId(null);
+      toast.success(language === 'de' ? 'Gespräch gespeichert' : 'Conversation saved');
+    } catch (error) {
+      console.error('Error saving conversation:', error);
+      toast.error(language === 'de' ? 'Fehler beim Speichern' : 'Error saving');
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
@@ -754,9 +832,47 @@ const Summaries = () => {
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-foreground truncate pr-8">
-                          {summary.title}
-                        </h3>
+                        {editingTitleId === summary.id ? (
+                          <div className="flex items-center gap-2 pr-8" onClick={(e) => e.stopPropagation()}>
+                            <input
+                              type="text"
+                              value={editingTitleValue}
+                              onChange={(e) => setEditingTitleValue(e.target.value)}
+                              onKeyDown={(e) => { if (e.key === 'Enter') saveTitle(summary.id); if (e.key === 'Escape') setEditingTitleId(null); }}
+                              className="flex-1 font-medium text-foreground bg-transparent border-b-2 border-primary outline-none"
+                              autoFocus
+                            />
+                            <button
+                              onClick={() => saveTitle(summary.id)}
+                              disabled={savingEdit}
+                              className="shrink-0 w-7 h-7 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center"
+                            >
+                              <Check className="w-4 h-4 text-primary" />
+                            </button>
+                            <button
+                              onClick={() => setEditingTitleId(null)}
+                              className="shrink-0 w-7 h-7 rounded-full bg-muted hover:bg-muted/80 flex items-center justify-center"
+                            >
+                              <X className="w-4 h-4 text-muted-foreground" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 pr-8 group/title">
+                            <h3 className="font-medium text-foreground truncate">
+                              {summary.title}
+                            </h3>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingTitleId(summary.id);
+                                setEditingTitleValue(summary.title);
+                              }}
+                              className="shrink-0 w-6 h-6 rounded-full hover:bg-muted flex items-center justify-center opacity-0 group-hover/title:opacity-100 transition-opacity"
+                            >
+                              <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                            </button>
+                          </div>
+                        )}
                         
                         <div className="flex flex-wrap items-center gap-2 mt-2">
                           {/* Reflection Type Badge */}
@@ -924,16 +1040,45 @@ const Summaries = () => {
                         {getViewMode(summary.id) === 'conversation' ? (
                           /* Original Conversation View */
                           <div className="space-y-4">
-                            <h4 className="flex items-center gap-2 text-sm font-medium text-foreground">
-                              <MessageSquare className="w-4 h-4 text-primary" />
-                              {t('vault.originalConversation')}
-                            </h4>
+                            <div className="flex items-center justify-between">
+                              <h4 className="flex items-center gap-2 text-sm font-medium text-foreground">
+                                <MessageSquare className="w-4 h-4 text-primary" />
+                                {t('vault.originalConversation')}
+                              </h4>
+                              {editingConversationId === summary.id ? (
+                                <div className="flex gap-2">
+                                  <button onClick={() => setEditingConversationId(null)} className="px-3 py-1 text-xs rounded-lg bg-muted hover:bg-muted/80 text-muted-foreground">
+                                    {language === 'de' ? 'Abbrechen' : 'Cancel'}
+                                  </button>
+                                  <button onClick={() => saveConversation(summary.id)} disabled={savingEdit} className="px-3 py-1 text-xs rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-medium">
+                                    {language === 'de' ? 'Speichern' : 'Save'}
+                                  </button>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    setEditingConversationId(summary.id);
+                                    setEditingConversationValue(summary.content);
+                                  }}
+                                  className="w-7 h-7 rounded-full hover:bg-muted flex items-center justify-center"
+                                >
+                                  <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                                </button>
+                              )}
+                            </div>
+                            {editingConversationId === summary.id ? (
+                              <textarea
+                                value={editingConversationValue}
+                                onChange={(e) => setEditingConversationValue(e.target.value)}
+                                className="w-full text-sm text-foreground bg-transparent border border-primary/30 rounded-lg p-3 outline-none focus:border-primary resize-none min-h-[300px] font-mono"
+                                autoFocus
+                              />
+                            ) : (
                             <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
                               {summary.content.split(/\n\n+/).map((block, index) => {
                                 const trimmedBlock = block.trim();
                                 if (!trimmedBlock) return null;
                                 
-                                // Check if it's an Oria message or user message
                                 const isOria = trimmedBlock.startsWith('Oria:');
                                 const isUser = trimmedBlock.startsWith('Du:');
                                 
@@ -959,7 +1104,6 @@ const Summaries = () => {
                                     </div>
                                   );
                                 } else {
-                                  // Other content (like system messages)
                                   return (
                                     <div key={index} className="text-sm text-muted-foreground text-center py-2">
                                       {trimmedBlock}
@@ -968,15 +1112,46 @@ const Summaries = () => {
                                 }
                               })}
                             </div>
+                            )}
                           </div>
                         ) : (
                           /* Summary View */
                           <>
                             {/* Summary Text */}
-                            <div>
-                              <p className="text-foreground leading-relaxed">
-                                {summary.structured_summary.summary_text}
-                              </p>
+                            <div className="group/summary">
+                              {editingSummaryId === summary.id ? (
+                                <div className="space-y-2">
+                                  <textarea
+                                    value={editingSummaryValue}
+                                    onChange={(e) => setEditingSummaryValue(e.target.value)}
+                                    className="w-full text-foreground leading-relaxed bg-transparent border border-primary/30 rounded-lg p-3 outline-none focus:border-primary resize-none min-h-[120px]"
+                                    autoFocus
+                                  />
+                                  <div className="flex gap-2 justify-end">
+                                    <button onClick={() => setEditingSummaryId(null)} className="px-3 py-1.5 text-sm rounded-lg bg-muted hover:bg-muted/80 text-muted-foreground">
+                                      {language === 'de' ? 'Abbrechen' : 'Cancel'}
+                                    </button>
+                                    <button onClick={() => saveSummaryText(summary.id)} disabled={savingEdit} className="px-3 py-1.5 text-sm rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-medium">
+                                      {language === 'de' ? 'Speichern' : 'Save'}
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="relative">
+                                  <p className="text-foreground leading-relaxed pr-8">
+                                    {summary.structured_summary.summary_text}
+                                  </p>
+                                  <button
+                                    onClick={() => {
+                                      setEditingSummaryId(summary.id);
+                                      setEditingSummaryValue(summary.structured_summary?.summary_text || '');
+                                    }}
+                                    className="absolute top-0 right-0 w-7 h-7 rounded-full hover:bg-muted flex items-center justify-center opacity-0 group-hover/summary:opacity-100 transition-opacity"
+                                  >
+                                    <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                                  </button>
+                                </div>
+                              )}
                             </div>
 
                             {/* Patterns */}
