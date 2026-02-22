@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { User, CreditCard, MapPin, Package, Settings, LogOut, ChevronRight, Edit2, Save, X, FileText } from 'lucide-react';
+import { User, CreditCard, MapPin, Package, LogOut, Edit2, Save, X, FileText, Lightbulb, MessageCircleQuestion } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -118,8 +118,14 @@ const MyAccount = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40 flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
-        <div className="text-center">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+          }}
+        />
+        <div className="relative z-10 text-center">
           <p className="text-muted-foreground mb-4">{t('account.pleaseSignIn')}</p>
           <Button onClick={() => navigate('/auth')}>{t('auth.signIn')}</Button>
         </div>
@@ -128,8 +134,15 @@ const MyAccount = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
-      <AppHeader />
+    <div className="min-h-screen relative overflow-hidden">
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+        }}
+      />
+      <div className="relative z-10">
+        <AppHeader />
 
       <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-6">
         {/* Profile Section */}
@@ -343,7 +356,30 @@ const MyAccount = () => {
             {t('account.signOut')}
           </button>
         </motion.section>
+
+        {/* Footer Links */}
+        <footer className="py-4 text-center">
+          <div className="flex items-center justify-center gap-4 mb-2">
+            <button onClick={() => navigate('/help')} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
+              <Lightbulb className="w-3.5 h-3.5" />
+              FAQ
+            </button>
+            <span className="text-muted-foreground/30">·</span>
+            <button onClick={() => navigate('/modell')} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
+              <MessageCircleQuestion className="w-3.5 h-3.5" />
+              {t('account.model') || 'Das Modell'}
+            </button>
+            <span className="text-muted-foreground/30">·</span>
+            <button onClick={() => navigate('/pricing')} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Pricing
+            </button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            © 2025 Oria · Selfcare Impulse
+          </p>
+        </footer>
       </main>
+      </div>
     </div>
   );
 };
