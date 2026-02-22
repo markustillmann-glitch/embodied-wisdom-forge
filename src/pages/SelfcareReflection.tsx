@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, Lightbulb, MessageCircleQuestion } from 'lucide-react';
+import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, Lightbulb, MessageCircleQuestion, Users } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageToggle from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
@@ -1062,19 +1062,19 @@ const SelfcareReflection = () => {
                 </div>
               </motion.button>
 
-              {/* Card - Situation reflektieren */}
+              {/* Card - Mit Anteilen arbeiten */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.5 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={startSituationReflection}
+                onClick={() => navigate('/summaries?tab=parts')}
               >
                 <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <MessageSquare className="w-5 h-5 text-emerald-600" />
+                  <div className="w-10 h-10 rounded-full bg-violet-100 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-violet-600" />
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">{t('selfcare.reflectSituation')}</span>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Mit Anteilen arbeiten</span>
                 </div>
               </motion.button>
 
@@ -1121,6 +1121,13 @@ const SelfcareReflection = () => {
                 aria-label="Frag Oria"
               >
                 <MessageCircleQuestion className="w-4.5 h-4.5" />
+              </button>
+              <button
+                onClick={startSituationReflection}
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Situation reflektieren"
+              >
+                <MessageSquare className="w-4.5 h-4.5" />
               </button>
             </motion.div>
           </div>
