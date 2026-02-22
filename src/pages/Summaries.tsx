@@ -759,57 +759,57 @@ const Summaries = () => {
       </section>
 
       {/* Tab Navigation */}
-      <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 mb-6">
-        <div className="flex gap-1.5 bg-white/30 backdrop-blur-sm rounded-xl p-1.5">
+      <section className="relative z-10 max-w-3xl mx-auto px-2 sm:px-6 mb-4 sm:mb-6">
+        <div className="flex gap-1 sm:gap-1.5 bg-white/30 backdrop-blur-sm rounded-xl p-1 sm:p-1.5 overflow-x-auto">
           <button
             onClick={() => setActiveTab('reflections')}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+            className={`flex-1 min-w-0 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-1.5 sm:px-3 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium transition-all ${
               activeTab === 'reflections'
                 ? 'bg-white/80 text-foreground shadow-sm'
                 : 'text-foreground/60 hover:text-foreground/80'
             }`}
           >
-            <Sparkles className="w-4 h-4" />
-            {t('vault.tabs.reflections')}
+            <Sparkles className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t('vault.tabs.reflections')}</span>
           </button>
           <button
             onClick={() => setActiveTab('parts')}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+            className={`flex-1 min-w-0 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-1.5 sm:px-3 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium transition-all ${
               activeTab === 'parts'
                 ? 'bg-white/80 text-foreground shadow-sm'
                 : 'text-foreground/60 hover:text-foreground/80'
             }`}
           >
-            <Users className="w-4 h-4" />
-            {t('vault.tabs.parts')}
+            <Users className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t('vault.tabs.parts')}</span>
           </button>
           <button
             onClick={() => setActiveTab('tests')}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+            className={`flex-1 min-w-0 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-1.5 sm:px-3 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium transition-all ${
               activeTab === 'tests'
                 ? 'bg-white/80 text-foreground shadow-sm'
                 : 'text-foreground/60 hover:text-foreground/80'
             }`}
           >
-            <ClipboardList className="w-4 h-4" />
-            {t('vault.tabs.selftest')}
+            <ClipboardList className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t('vault.tabs.selftest')}</span>
           </button>
           <button
             onClick={() => setActiveTab('memories')}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+            className={`flex-1 min-w-0 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-1.5 sm:px-3 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-sm font-medium transition-all ${
               activeTab === 'memories'
                 ? 'bg-white/80 text-foreground shadow-sm'
                 : 'text-foreground/60 hover:text-foreground/80'
             }`}
           >
-            <Heart className="w-4 h-4" />
-            {language === 'de' ? 'Erinnerungen' : 'Memories'}
+            <Heart className="w-4 h-4 shrink-0" />
+            <span className="truncate">{language === 'de' ? 'Erinnerungen' : 'Memories'}</span>
           </button>
         </div>
       </section>
 
       {/* Content based on active tab */}
-      <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+24px),48px)]">
+      <section className="relative z-10 max-w-3xl mx-auto px-2 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+24px),48px)]">
         {activeTab === 'memories' ? (
           <MemoriesSection onStartBarometer={startBarometer} />
         ) : activeTab === 'parts' ? (
@@ -852,10 +852,10 @@ const Summaries = () => {
               >
                 {/* Preview Header */}
                 <div className="relative">
-                  <button
-                    onClick={() => toggleExpand(summary.id)}
-                    className="w-full p-4 sm:p-5 text-left hover:bg-muted/30 transition-colors"
-                  >
+                    <button
+                      onClick={() => toggleExpand(summary.id)}
+                      className="w-full p-3 sm:p-5 text-left hover:bg-muted/30 active:bg-muted/40 transition-colors"
+                    >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         {editingTitleId === summary.id ? (
@@ -893,7 +893,7 @@ const Summaries = () => {
                                 setEditingTitleId(summary.id);
                                 setEditingTitleValue(summary.title);
                               }}
-                              className="shrink-0 w-6 h-6 rounded-full hover:bg-muted flex items-center justify-center opacity-0 group-hover/title:opacity-100 transition-opacity"
+                              className="shrink-0 w-6 h-6 rounded-full hover:bg-muted flex items-center justify-center sm:opacity-0 sm:group-hover/title:opacity-100 transition-opacity"
                             >
                               <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
                             </button>
@@ -953,12 +953,12 @@ const Summaries = () => {
                   </button>
 
                   {/* Delete button */}
-                  <button
+                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setDeleteConfirmId(summary.id);
                     }}
-                    className="absolute top-4 right-12 w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-4 right-12 w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                     title={t('common.delete')}
                   >
                     <Trash2 className="w-4 h-4 text-red-600" />
@@ -975,7 +975,7 @@ const Summaries = () => {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-4 sm:px-5 pb-5 space-y-5 border-t border-border pt-5">
+                      <div className="px-3 sm:px-5 pb-4 sm:pb-5 space-y-4 sm:space-y-5 border-t border-border pt-4 sm:pt-5">
                         {/* View Mode Toggle */}
                         <div className="flex gap-2 p-1 bg-muted/50 rounded-lg">
                           <button
@@ -1167,12 +1167,12 @@ const Summaries = () => {
                                   <p className="text-foreground leading-relaxed pr-8">
                                     {summary.structured_summary.summary_text}
                                   </p>
-                                  <button
-                                    onClick={() => {
-                                      setEditingSummaryId(summary.id);
-                                      setEditingSummaryValue(summary.structured_summary?.summary_text || '');
-                                    }}
-                                    className="absolute top-0 right-0 w-7 h-7 rounded-full hover:bg-muted flex items-center justify-center opacity-0 group-hover/summary:opacity-100 transition-opacity"
+                                 <button
+                              onClick={() => {
+                                setEditingSummaryId(summary.id);
+                                setEditingSummaryValue(summary.structured_summary?.summary_text || '');
+                              }}
+                                    className="absolute top-0 right-0 w-7 h-7 rounded-full hover:bg-muted flex items-center justify-center sm:opacity-0 sm:group-hover/summary:opacity-100 transition-opacity"
                                   >
                                     <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
                                   </button>
@@ -1306,85 +1306,87 @@ const Summaries = () => {
                         )}
 
                         {/* Action buttons in expanded view */}
-                        <div className="pt-2 border-t border-border flex flex-wrap gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => exportToPdf(summary)}
-                            disabled={exportingSummaryId === summary.id}
-                            className="text-primary hover:text-primary"
-                          >
-                            {exportingSummaryId === summary.id ? (
-                              <>
-                                <div className="w-4 h-4 mr-2 animate-spin rounded-full border-b-2 border-primary"></div>
-                                {t('vault.creatingPdf')}
-                              </>
-                            ) : (
-                              <>
-                                <FileText className="w-4 h-4 mr-2" />
-                                {t('vault.summaryPdf')}
-                              </>
+                        <div className="pt-3 border-t border-border">
+                          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => exportToPdf(summary)}
+                              disabled={exportingSummaryId === summary.id}
+                              className="text-primary hover:text-primary text-xs sm:text-sm"
+                            >
+                              {exportingSummaryId === summary.id ? (
+                                <>
+                                  <div className="w-4 h-4 mr-1.5 animate-spin rounded-full border-b-2 border-primary"></div>
+                                  <span className="truncate">{t('vault.creatingPdf')}</span>
+                                </>
+                              ) : (
+                                <>
+                                  <FileText className="w-4 h-4 mr-1.5 shrink-0" />
+                                  <span className="truncate">{t('vault.summaryPdf')}</span>
+                                </>
+                              )}
+                            </Button>
+                            
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => exportConversationToPdf(summary)}
+                              disabled={exportingSummaryId === summary.id}
+                              className="text-muted-foreground hover:text-foreground text-xs sm:text-sm"
+                            >
+                              <MessageSquare className="w-4 h-4 mr-1.5 shrink-0" />
+                              <span className="truncate">{t('vault.conversationPdf')}</span>
+                            </Button>
+                            
+                            {!summary.image_url && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setUploadingSummaryId(summary.id);
+                                  fileInputRef.current?.click();
+                                }}
+                                disabled={uploadingImage}
+                                className="text-muted-foreground text-xs sm:text-sm"
+                              >
+                                <ImageIcon className="w-4 h-4 mr-1.5 shrink-0" />
+                                <span className="truncate">{t('vault.addImage')}</span>
+                              </Button>
                             )}
-                          </Button>
-                          
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => exportConversationToPdf(summary)}
-                            disabled={exportingSummaryId === summary.id}
-                            className="text-muted-foreground hover:text-foreground"
-                          >
-                            <MessageSquare className="w-4 h-4 mr-2" />
-                            {t('vault.conversationPdf')}
-                          </Button>
-                          
-                          {!summary.image_url && (
+                            
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => {
-                                setUploadingSummaryId(summary.id);
-                                fileInputRef.current?.click();
+                                setActiveTab('memories');
                               }}
-                              disabled={uploadingImage}
-                              className="text-muted-foreground"
+                              className="text-muted-foreground text-xs sm:text-sm"
                             >
-                              <ImageIcon className="w-4 h-4 mr-2" />
-                              {t('vault.addImage')}
+                              <Heart className="w-4 h-4 mr-1.5 shrink-0" />
+                              <span className="truncate">{language === 'de' ? 'Erinnerung' : 'Memory'}</span>
                             </Button>
-                          )}
-                          
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => {
-                              setActiveTab('memories');
-                            }}
-                            className="text-muted-foreground"
-                          >
-                            <Heart className="w-4 h-4 mr-2" />
-                            {language === 'de' ? 'Erinnerung erstellen' : 'Create memory'}
-                          </Button>
 
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => startBarometer(summary.title)}
-                            className="text-muted-foreground"
-                          >
-                            <Thermometer className="w-4 h-4 mr-2" />
-                            {language === 'de' ? 'Self-Barometer' : 'Self-Barometer'}
-                          </Button>
-                          
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setDeleteConfirmId(summary.id)}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            {t('vault.delete')}
-                          </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => startBarometer(summary.title)}
+                              className="text-muted-foreground text-xs sm:text-sm"
+                            >
+                              <Thermometer className="w-4 h-4 mr-1.5 shrink-0" />
+                              <span className="truncate">Barometer</span>
+                            </Button>
+                            
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setDeleteConfirmId(summary.id)}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50 text-xs sm:text-sm"
+                            >
+                              <Trash2 className="w-4 h-4 mr-1.5 shrink-0" />
+                              <span className="truncate">{t('vault.delete')}</span>
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
