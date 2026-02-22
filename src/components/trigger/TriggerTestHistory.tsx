@@ -31,6 +31,7 @@ type BarometerResult = {
   weite_score: number;
   combined_avg: number;
   zone: number;
+  context: string | null;
 };
 
 const ZONE_INFO: Record<number, { label: { de: string; en: string }; emoji: string; color: string; bgColor: string }> = {
@@ -425,6 +426,9 @@ export const TriggerTestHistory: React.FC = () => {
                             <p className={cn("text-xs font-medium", zoneInfo.color)}>
                               Zone {result.zone} – {language === 'en' ? zoneInfo.label.en : zoneInfo.label.de}
                             </p>
+                            {result.context && (
+                              <p className="text-xs text-muted-foreground truncate max-w-[200px]">📌 {result.context}</p>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center gap-1">
