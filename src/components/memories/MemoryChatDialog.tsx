@@ -143,15 +143,18 @@ export const MemoryChatDialog: React.FC<MemoryChatDialogProps> = ({
         }
       }
 
-      // Check if memory data was extracted
-      const memoryMatch = assistantContent.match(/\[SAVE_MEMORY\]\s*(\{[\s\S]*?\})\s*\[\/SAVE_MEMORY\]/);
+      // Check if memory data was extracted - use greedy match to capture full JSON
+      const memoryMatch = assistantContent.match(/\[SAVE_MEMORY\]\s*(\{[\s\S]*\})\s*\[\/SAVE_MEMORY\]/);
       if (memoryMatch) {
         try {
-          const memoryData = JSON.parse(memoryMatch[1]);
+          const memoryData = JSON.parse(memoryMatch[1].trim());
+          console.log('Memory data extracted:', memoryData);
           await saveMemory(memoryData, updatedMessages, assistantContent);
         } catch (e) {
           console.error('Failed to parse memory data:', e);
         }
+      } else {
+        console.log('No SAVE_MEMORY block found in response. Content ends with:', assistantContent.slice(-200));
       }
     } catch (error) {
       console.error('Chat error:', error);
