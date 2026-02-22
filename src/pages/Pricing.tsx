@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, Check, X, Gift, Sparkles, Star, Ticket, User } from 'lucide-react';
+import { Check, X, Gift, Sparkles, Star, Ticket, User } from 'lucide-react';
+import AppHeader from '@/components/AppHeader';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -107,25 +108,7 @@ const Pricing = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[max(env(safe-area-inset-top),20px)]">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => navigate(-1)} className="p-2 rounded-full bg-white/80 shadow-sm">
-              <ArrowLeft className="w-5 h-5 text-foreground/70" />
-            </motion.button>
-            <div>
-              <h1 className="text-xl font-serif font-semibold text-foreground">{t('pricing.title')}</h1>
-              <p className="text-sm text-muted-foreground">{t('pricing.subtitle')}</p>
-            </div>
-          </div>
-          {user && (
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => navigate('/my-account')} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 shadow-sm hover:bg-white transition-colors">
-              <User className="w-4 h-4 text-foreground/70" />
-              <span className="text-sm font-medium text-foreground/80">{t('pricing.myAccount')}</span>
-            </motion.button>
-          )}
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="max-w-6xl mx-auto px-4 py-8 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)]">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">

@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Brain, Heart, Sparkles, Target, Users, BookOpen, Lightbulb, Shield, Compass, Zap, PenTool, Eye } from 'lucide-react';
-import bbOwlLogo from '@/assets/bb-owl-new.png';
+import { Brain, Heart, Sparkles, Target, Users, BookOpen, Lightbulb, Shield, Compass, Zap, PenTool, Eye } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import AppHeader from '@/components/AppHeader';
+import bbOwlLogo from '@/assets/bb-owl-new.png';
 
 const Modell = () => {
   const navigate = useNavigate();
@@ -19,24 +20,8 @@ const Modell = () => {
         }}
       />
       
-      {/* Header - Sticky */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
-        <div className="flex items-center justify-between px-6 py-3">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/selfcare')}
-            className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground/70" />
-          </motion.button>
-          
-          <div className="w-12 h-12 rounded-full bg-foreground shadow-lg flex items-center justify-center">
-            <img src={bbOwlLogo} alt="Oria" className="w-9 h-9 object-contain" />
-          </div>
-          
-          <div className="w-10" /> {/* Spacer for balance */}
-        </div>
-      </header>
+      {/* Header */}
+      <AppHeader />
 
       {/* Content */}
       <div className="relative z-10 px-6 pb-[max(env(safe-area-inset-bottom,24px),24px)]">

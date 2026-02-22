@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { HelpCircle, ChevronDown, ArrowLeft } from 'lucide-react';
+import { HelpCircle, ChevronDown } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import AppHeader from '@/components/AppHeader';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -763,23 +764,8 @@ const Help = () => {
         }}
       />
       
-      {/* Header - Sticky */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
-        <div className="px-6 py-3 flex items-center gap-4">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
-            aria-label="Zurück"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground/70" />
-          </motion.button>
-          <div className="flex items-center gap-2">
-            <HelpCircle className="w-6 h-6 text-foreground/70" />
-            <h1 className="text-xl font-semibold text-foreground">{t('help.title')}</h1>
-          </div>
-        </div>
-      </header>
+      {/* Header */}
+      <AppHeader />
 
       {/* FAQ Content */}
       <div ref={scrollContainerRef} className="relative z-10 flex-1 overflow-y-auto px-6 pb-[max(env(safe-area-inset-bottom,24px),24px)]">

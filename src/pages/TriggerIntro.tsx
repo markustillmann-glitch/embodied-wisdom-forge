@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Brain, Heart, Shield, Flame, Wind, Eye, Activity, RefreshCw, Lightbulb, Sparkles } from 'lucide-react';
+import { ArrowRight, Brain, Heart, Shield, Flame, Wind, Eye, Activity, RefreshCw, Lightbulb, Sparkles } from 'lucide-react';
+import AppHeader from '@/components/AppHeader';
 
 const fadeIn = {
   initial: { opacity: 0, y: 16 },
@@ -44,21 +45,7 @@ const TriggerIntroPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[max(env(safe-area-inset-top),20px)]">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/selfcare')}
-            className="p-2 rounded-full bg-white/80 shadow-sm"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground/70" />
-          </motion.button>
-          <div>
-            <h1 className="text-xl font-serif font-semibold text-foreground">Trigger verstehen</h1>
-            <p className="text-sm text-muted-foreground">Warum innere Reaktionen mehr verraten als äußere Situationen</p>
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-8">
         {/* Hero */}

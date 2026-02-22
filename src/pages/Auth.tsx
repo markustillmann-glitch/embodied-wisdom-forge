@@ -8,8 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Loader2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
+import AppHeader from '@/components/AppHeader';
 import { z } from 'zod';
 
 const Auth = () => {
@@ -203,13 +203,8 @@ const Auth = () => {
   // Password reset form (after clicking email link)
   if (showResetPassword && user) {
     return (
-      <div className="min-h-screen bg-background flex flex-col pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
-        <header className="px-6 py-4">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            {t('nav.toHome')}
-          </Link>
-        </header>
+      <div className="min-h-screen bg-background flex flex-col pb-[max(env(safe-area-inset-bottom),24px)]">
+        <AppHeader />
 
         <main className="flex-1 flex items-center justify-center px-4 py-12">
           <Card className="w-full max-w-md">
@@ -254,13 +249,8 @@ const Auth = () => {
   // Forgot password form
   if (showForgotPassword) {
     return (
-      <div className="min-h-screen bg-background flex flex-col pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
-        <header className="px-6 py-4">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            {t('nav.toHome')}
-          </Link>
-        </header>
+      <div className="min-h-screen bg-background flex flex-col pb-[max(env(safe-area-inset-bottom),24px)]">
+        <AppHeader />
 
         <main className="flex-1 flex items-center justify-center px-4 py-12">
           <Card className="w-full max-w-md">
@@ -302,13 +292,8 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
-      <header className="px-6 py-4 pt-[max(env(safe-area-inset-top),20px)]">
-        <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          {t('nav.toHome')}
-        </Link>
-      </header>
+    <div className="min-h-screen bg-background flex flex-col pb-[max(env(safe-area-inset-bottom),24px)]">
+      <AppHeader />
 
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <Card className="w-full max-w-md">

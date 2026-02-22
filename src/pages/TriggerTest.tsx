@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, RotateCcw, ChevronRight, Save, History, Trash2, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import AppHeader from '@/components/AppHeader';
 import { triggerCategories } from '@/data/triggerCards';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
@@ -353,17 +354,7 @@ const TriggerTest: React.FC = () => {
 
     return (
       <div className="ios-page ios-font">
-        <div className="ios-nav-bar flex items-end px-4 pb-2 pt-[max(env(safe-area-inset-top),20px)]">
-          <button onClick={() => navigate('/trigger-cards')} className="flex items-center gap-1 text-accent ios-body">
-            <ArrowLeft className="w-5 h-5" /> {t('nav.cards')}
-          </button>
-          <div className="flex-1 text-center">
-            <span className="ios-headline text-foreground">{t('triggerTest.result')}</span>
-          </div>
-          <button onClick={handleReset} className="text-accent ios-body flex items-center gap-1">
-            <RotateCcw className="w-4 h-4" /> {t('triggerTest.newTest')}
-          </button>
-        </div>
+        <AppHeader />
 
         <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),120px)] mt-4 space-y-6 overflow-y-auto flex-1">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-2">
@@ -425,22 +416,7 @@ const TriggerTest: React.FC = () => {
   // --- QUESTIONNAIRE VIEW ---
   return (
     <div className="ios-page ios-font flex flex-col">
-      <div className="ios-nav-bar flex items-end px-4 pb-2 pt-[max(env(safe-area-inset-top),20px)]">
-        <button onClick={() => navigate('/trigger-cards')} className="flex items-center gap-1 text-accent ios-body">
-          <ArrowLeft className="w-5 h-5" /> {t('nav.back')}
-        </button>
-        <div className="flex-1 text-center">
-          <span className="ios-headline text-foreground">{language === 'de' ? 'Selbsttest' : 'Self-Test'}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {user && savedTests.length > 0 && (
-            <button onClick={() => setView('history')} className="text-accent">
-              <History className="w-5 h-5" />
-            </button>
-          )}
-          <span className="ios-caption text-muted-foreground w-12 text-right">{currentIndex + 1}/{questions.length}</span>
-        </div>
-      </div>
+      <AppHeader />
 
       <div className="px-4 pt-2">
         <div className="h-1.5 bg-muted rounded-full overflow-hidden">
