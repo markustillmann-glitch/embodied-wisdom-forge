@@ -6,6 +6,7 @@ import { Sparkles, Save, Loader2, Download, FileText } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { usePdfGenerator } from '@/hooks/usePdfGenerator';
 import { toast } from 'sonner';
 import ReactMarkdown from 'react-markdown';
 import type { IfsPart } from './IfsPartCard';
@@ -25,9 +26,11 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
 }) => {
   const { user } = useAuth();
   const { language } = useLanguage();
+  const { generatePartAnalysisPdf } = usePdfGenerator();
   const [analysis, setAnalysis] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
 
   const handleAnalyze = async () => {
@@ -77,24 +80,19 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
     }
   };
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (!analysis || !part) return;
+    setExporting(true);
 
-    const header = `# Oria-Analyse: ${part.name}\n\n`;
-    const meta = `**Rolle:** ${part.role || '–'}  \n**Kernemotion:** ${part.core_emotion || '–'}  \n**Trigger:** ${part.trigger || '–'}  \n\n---\n\n`;
-    const content = header + meta + analysis;
-
-    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `oria-analyse-${part.name.toLowerCase().replace(/\s+/g, '-')}.md`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    toast.success(language === 'en' ? 'Analysis exported!' : 'Analyse exportiert!');
+    try {
+      await generatePartAnalysisPdf(part, analysis);
+      toast.success(language === 'en' ? 'PDF exported!' : 'PDF exportiert!');
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      toast.error(language === 'en' ? 'Export failed' : 'Export fehlgeschlagen');
+    } finally {
+      setExporting(false);
+    }
   };
 
   // Load existing analysis when dialog opens
@@ -181,9 +179,9 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
         <DialogFooter className="px-6 pb-6 pt-2 gap-2 flex-wrap">
           {hasAnalyzed && (
             <>
-              <Button variant="outline" onClick={handleExport} className="gap-2">
-                <Download className="w-3.5 h-3.5" />
-                {language === 'en' ? 'Export' : 'Exportieren'}
+              <Button variant="outline" onClick={handleExport} disabled={exporting} className="gap-2">
+                {exporting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                {language === 'en' ? 'PDF Export' : 'PDF Export'}
               </Button>
               <Button variant="outline" onClick={handleAnalyze} disabled={loading} className="gap-2">
                 <Sparkles className="w-3.5 h-3.5" />
