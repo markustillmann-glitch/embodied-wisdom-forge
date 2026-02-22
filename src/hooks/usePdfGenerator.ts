@@ -919,5 +919,281 @@ export const usePdfGenerator = () => {
     doc.save(fileName);
   };
 
-  return { generatePdf, generateConversationPdf };
+  const generatePartAnalysisPdf = async (part: {
+    name: string;
+    role: string;
+    age?: string | null;
+    body_location?: string | null;
+    core_emotion?: string | null;
+    trigger?: string | null;
+    belief?: string | null;
+    need?: string | null;
+    protection_strategy?: string | null;
+    counterpart?: string | null;
+    self_trust_level?: number | null;
+    integration_status?: string | null;
+    image_url?: string | null;
+  }, analysis: string): Promise<void> => {
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
+
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const margin = 20;
+    const contentWidth = pageWidth - margin * 2;
+
+    const colors = {
+      primary: '#2D3436',
+      secondary: '#636E72',
+      accent: '#B8860B',
+      light: '#F5F5DC',
+      text: '#1A1A1A',
+      muted: '#6B7280',
+    };
+
+    const bodyFontSize = 10;
+    const bodyLineHeight = getLineHeight(bodyFontSize);
+
+    const addNewPage = () => { doc.addPage(); };
+
+    const drawSectionHeader = (title: string, y: number): number => {
+      doc.setFontSize(11);
+      doc.setTextColor(colors.accent);
+      doc.setFont('helvetica', 'bold');
+      doc.text(sanitizeText(title), margin, y);
+      doc.setDrawColor(colors.accent);
+      doc.setLineWidth(0.3);
+      doc.line(margin, y + 2, margin + 40, y + 2);
+      return y + getLineHeight(11) + 4;
+    };
+
+    // ===== PAGE 1: COVER WITH IMAGE + PART INFO =====
+    let y = 20;
+
+    // Part image
+    if (part.image_url) {
+      try {
+        const response = await fetch(part.image_url);
+        const blob = await response.blob();
+        const imageData = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+
+        const img = new Image();
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject();
+          img.src = imageData;
+        });
+
+        const aspectRatio = img.naturalWidth / img.naturalHeight;
+        const maxImgWidth = contentWidth;
+        const maxImgHeight = 100;
+        let imgWidth: number, imgHeight: number;
+
+        if (maxImgWidth / aspectRatio <= maxImgHeight) {
+          imgWidth = maxImgWidth;
+          imgHeight = maxImgWidth / aspectRatio;
+        } else {
+          imgHeight = maxImgHeight;
+          imgWidth = maxImgHeight * aspectRatio;
+        }
+
+        const imgX = (pageWidth - imgWidth) / 2;
+        doc.addImage(imageData, 'JPEG', imgX, y, imgWidth, imgHeight);
+        doc.setFillColor(colors.accent);
+        doc.rect(imgX, y + imgHeight + 2, imgWidth, 1.5, 'F');
+        y += imgHeight + 12;
+      } catch {
+        // Skip image on error
+      }
+    }
+
+    // Title
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(colors.primary);
+    const titleLines = wrapText(part.name, contentWidth, doc);
+    titleLines.forEach((line, i) => {
+      doc.text(line, pageWidth / 2, y + i * getLineHeight(22), { align: 'center' });
+    });
+    y += titleLines.length * getLineHeight(22) + 4;
+
+    // Role badge
+    if (part.role) {
+      doc.setFontSize(10);
+      doc.setTextColor(colors.accent);
+      doc.text(sanitizeText(part.role).toUpperCase(), pageWidth / 2, y, { align: 'center' });
+      y += 10;
+    }
+
+    // Subtitle
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(colors.muted);
+    doc.text('Oria-Anteils-Analyse', pageWidth / 2, y, { align: 'center' });
+    y += 4;
+    doc.text(format(new Date(), 'dd. MMMM yyyy', { locale: de }), pageWidth / 2, y + 6, { align: 'center' });
+    y += 20;
+
+    // Decorative line
+    doc.setDrawColor(colors.accent);
+    doc.setLineWidth(0.5);
+    doc.line(margin + 40, y, pageWidth - margin - 40, y);
+    y += 12;
+
+    // Part details table
+    const details: [string, string][] = [];
+    if (part.age) details.push(['Alter', part.age]);
+    if (part.body_location) details.push(['Koerperort', part.body_location]);
+    if (part.core_emotion) details.push(['Kernemotion', part.core_emotion]);
+    if (part.trigger) details.push(['Trigger', part.trigger]);
+    if (part.belief) details.push(['Glaubenssatz', part.belief]);
+    if (part.need) details.push(['Beduerfnis', part.need]);
+    if (part.protection_strategy) details.push(['Schutzstrategie', part.protection_strategy]);
+    if (part.counterpart) details.push(['Gegenspieler', part.counterpart]);
+    if (part.self_trust_level != null) details.push(['Vertrauen in Self', `${part.self_trust_level}/10`]);
+    if (part.integration_status) details.push(['Integrationsstand', part.integration_status]);
+
+    if (details.length > 0) {
+      y = drawSectionHeader('Anteil-Profil', y);
+      doc.setFontSize(bodyFontSize);
+
+      for (const [label, value] of details) {
+        if (y > pageHeight - 25) { addNewPage(); y = margin; }
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(colors.secondary);
+        const labelText = sanitizeText(label) + ':';
+        doc.text(labelText, margin, y);
+        const labelW = doc.getTextWidth(labelText) + 3;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(colors.text);
+        const valLines = wrapText(value, contentWidth - labelW - 5, doc);
+        valLines.forEach((line, i) => {
+          if (i === 0) {
+            doc.text(line, margin + labelW, y);
+          } else {
+            y += bodyLineHeight;
+            doc.text(line, margin + labelW, y);
+          }
+        });
+        y += bodyLineHeight + 2;
+      }
+      y += 8;
+    }
+
+    // ===== ANALYSIS PAGES =====
+    if (y > pageHeight - 80) { addNewPage(); y = margin; }
+    y = drawSectionHeader('Oria-Analyse', y);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(bodyFontSize);
+    doc.setTextColor(colors.text);
+
+    // Parse markdown-like analysis into lines
+    const analysisLines = sanitizeText(analysis).split('\n');
+    for (const rawLine of analysisLines) {
+      const line = rawLine.trim();
+
+      if (!line) {
+        y += bodyLineHeight * 0.5;
+        continue;
+      }
+
+      if (y > pageHeight - 25) { addNewPage(); y = margin; }
+
+      // Handle markdown headers
+      if (line.startsWith('### ')) {
+        y += 4;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(colors.accent);
+        const headerLines = wrapText(line.replace(/^###\s*/, ''), contentWidth, doc);
+        headerLines.forEach(hl => {
+          if (y > pageHeight - 25) { addNewPage(); y = margin; }
+          doc.text(hl, margin, y);
+          y += bodyLineHeight;
+        });
+        doc.setDrawColor(colors.accent);
+        doc.setLineWidth(0.2);
+        doc.line(margin, y - 1, margin + 30, y - 1);
+        y += 3;
+        continue;
+      }
+
+      if (line.startsWith('## ')) {
+        y += 6;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(colors.primary);
+        const headerLines = wrapText(line.replace(/^##\s*/, ''), contentWidth, doc);
+        headerLines.forEach(hl => {
+          if (y > pageHeight - 25) { addNewPage(); y = margin; }
+          doc.text(hl, margin, y);
+          y += getLineHeight(11);
+        });
+        y += 3;
+        continue;
+      }
+
+      if (line.startsWith('# ')) {
+        y += 8;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.setTextColor(colors.primary);
+        const headerLines = wrapText(line.replace(/^#\s*/, ''), contentWidth, doc);
+        headerLines.forEach(hl => {
+          if (y > pageHeight - 25) { addNewPage(); y = margin; }
+          doc.text(hl, margin, y);
+          y += getLineHeight(13);
+        });
+        y += 4;
+        continue;
+      }
+
+      // Bold text (simple **text** handling)
+      const isBold = line.startsWith('**') && line.endsWith('**');
+      const cleanLine = line.replace(/\*\*/g, '');
+
+      doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+      doc.setFontSize(bodyFontSize);
+      doc.setTextColor(colors.text);
+
+      // Bullet points
+      const isBullet = cleanLine.startsWith('- ') || cleanLine.startsWith('* ');
+      const text = isBullet ? cleanLine.substring(2) : cleanLine;
+      const indent = isBullet ? 5 : 0;
+
+      const wrapped = wrapText(text, contentWidth - indent, doc);
+      wrapped.forEach((wl, i) => {
+        if (y > pageHeight - 25) { addNewPage(); y = margin; }
+        if (i === 0 && isBullet) {
+          doc.text('-', margin, y);
+        }
+        doc.text(wl, margin + indent, y);
+        y += bodyLineHeight;
+      });
+    }
+
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(colors.muted);
+    doc.text(
+      'Oria-Anteils-Analyse - ' + format(new Date(), 'dd.MM.yyyy', { locale: de }),
+      pageWidth / 2,
+      pageHeight - 15,
+      { align: 'center' }
+    );
+
+    const fileName = `Oria_Analyse_${part.name.replace(/[^a-z0-9äöüß]/gi, '_')}.pdf`;
+    doc.save(fileName);
+  };
+
+  return { generatePdf, generateConversationPdf, generatePartAnalysisPdf };
 };
