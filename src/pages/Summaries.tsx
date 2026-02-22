@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brai
 import AppHeader from '@/components/AppHeader';
 import { IfsPartsSection } from '@/components/parts/IfsPartsSection';
 import { TriggerTestHistory } from '@/components/trigger/TriggerTestHistory';
+import { MemoriesSection } from '@/components/memories/MemoriesSection';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -126,10 +127,11 @@ const Summaries = () => {
   // View mode state: 'summary' or 'conversation'
   const [viewModes, setViewModes] = useState<Record<string, 'summary' | 'conversation'>>({});
   const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<'reflections' | 'parts' | 'tests'>(() => {
+  const [activeTab, setActiveTab] = useState<'reflections' | 'parts' | 'tests' | 'memories'>(() => {
     const tabParam = searchParams.get('tab');
     if (tabParam === 'parts') return 'parts';
     if (tabParam === 'tests') return 'tests';
+    if (tabParam === 'memories') return 'memories';
     return 'reflections';
   });
 
@@ -138,6 +140,7 @@ const Summaries = () => {
     const tabParam = searchParams.get('tab');
     if (tabParam === 'parts') setActiveTab('parts');
     else if (tabParam === 'tests') setActiveTab('tests');
+    else if (tabParam === 'memories') setActiveTab('memories');
   }, [searchParams]);
 
   const getViewMode = (id: string) => viewModes[id] || 'summary';
@@ -781,12 +784,25 @@ const Summaries = () => {
             <ClipboardList className="w-4 h-4" />
             {t('vault.tabs.selftest')}
           </button>
+          <button
+            onClick={() => setActiveTab('memories')}
+            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+              activeTab === 'memories'
+                ? 'bg-white/80 text-foreground shadow-sm'
+                : 'text-foreground/60 hover:text-foreground/80'
+            }`}
+          >
+            <Heart className="w-4 h-4" />
+            {language === 'de' ? 'Erinnerungen' : 'Memories'}
+          </button>
         </div>
       </section>
 
       {/* Content based on active tab */}
       <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+24px),48px)]">
-        {activeTab === 'parts' ? (
+        {activeTab === 'memories' ? (
+          <MemoriesSection />
+        ) : activeTab === 'parts' ? (
           <IfsPartsSection />
         ) : activeTab === 'tests' ? (
           <TriggerTestHistory />
@@ -1327,6 +1343,18 @@ const Summaries = () => {
                               {t('vault.addImage')}
                             </Button>
                           )}
+                          
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setActiveTab('memories');
+                            }}
+                            className="text-muted-foreground"
+                          >
+                            <Heart className="w-4 h-4 mr-2" />
+                            {language === 'de' ? 'Erinnerung erstellen' : 'Create memory'}
+                          </Button>
                           
                           <Button
                             variant="ghost"

@@ -644,6 +644,72 @@ export type Database = {
         }
         Relationships: []
       }
+      user_memories: {
+        Row: {
+          chat_content: string | null
+          created_at: string
+          description: string | null
+          emotion: string | null
+          id: string
+          linked_part_id: string | null
+          linked_reflection_id: string | null
+          location: string | null
+          media: Json | null
+          memory_date: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chat_content?: string | null
+          created_at?: string
+          description?: string | null
+          emotion?: string | null
+          id?: string
+          linked_part_id?: string | null
+          linked_reflection_id?: string | null
+          location?: string | null
+          media?: Json | null
+          memory_date?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chat_content?: string | null
+          created_at?: string
+          description?: string | null
+          emotion?: string | null
+          id?: string
+          linked_part_id?: string | null
+          linked_reflection_id?: string | null
+          location?: string | null
+          media?: Json | null
+          memory_date?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_memories_linked_part_id_fkey"
+            columns: ["linked_part_id"]
+            isOneToOne: false
+            referencedRelation: "ifs_parts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_memories_linked_reflection_id_fkey"
+            columns: ["linked_reflection_id"]
+            isOneToOne: false
+            referencedRelation: "memories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           belonging_through: string[] | null
