@@ -123,6 +123,13 @@ const Summaries = () => {
     return 'reflections';
   });
 
+  // Sync active tab when URL params change (e.g. navigating from another page)
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam === 'parts') setActiveTab('parts');
+    else if (tabParam === 'tests') setActiveTab('tests');
+  }, [searchParams]);
+
   const getViewMode = (id: string) => viewModes[id] || 'summary';
   const toggleViewMode = (id: string) => {
     setViewModes(prev => ({
