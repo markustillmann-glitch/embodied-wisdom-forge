@@ -50,6 +50,7 @@ export type Database = {
       barometer_results: {
         Row: {
           combined_avg: number
+          context: string | null
           created_at: string
           id: string
           qualities: Json
@@ -61,6 +62,7 @@ export type Database = {
         }
         Insert: {
           combined_avg?: number
+          context?: string | null
           created_at?: string
           id?: string
           qualities?: Json
@@ -72,6 +74,7 @@ export type Database = {
         }
         Update: {
           combined_avg?: number
+          context?: string | null
           created_at?: string
           id?: string
           qualities?: Json

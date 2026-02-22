@@ -1,0 +1,1 @@
+ALTER TABLE public.barometer_results ADD COLUMN context text;

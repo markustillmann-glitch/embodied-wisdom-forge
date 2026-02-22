@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 interface SelfBarometerProps {
   isOpen: boolean;
   onClose: () => void;
+  initialContext?: string;
 }
 
 type Step = 'ali' | 'qualities' | 'weite' | 'result';
@@ -91,17 +92,23 @@ const getZone = (avg: number): Zone => {
   return ZONES[4];
 };
 
-const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
+const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose, initialContext }) => {
   const { language } = useLanguage();
   const { user } = useAuth();
   const [step, setStep] = useState<Step>('ali');
   const [aliStep, setAliStep] = useState(0);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [context, setContext] = useState(initialContext || '');
   const [qualities, setQualities] = useState<Record<string, number>>(
     Object.fromEntries(QUALITIES.map(q => [q.key, 5]))
   );
   const [weiteAnswers, setWeiteAnswers] = useState<(boolean | null)[]>([null, null, null]);
+
+  // Sync initialContext when it changes
+  React.useEffect(() => {
+    if (initialContext) setContext(initialContext);
+  }, [initialContext]);
 
   const handleClose = () => {
     setStep('ali');
@@ -126,6 +133,7 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
           weite_score: weiteScore,
           combined_avg: combinedAvg,
           zone: zone.zone,
+          context: context.trim() || null,
         });
       if (error) throw error;
       setSaved(true);
@@ -176,6 +184,7 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
     setWeiteAnswers([null, null, null]);
     setShowIntro(true);
     setSaved(false);
+    setContext(initialContext || '');
   };
 
   return (
@@ -271,6 +280,25 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
                           <span className="text-sm text-foreground">{item.text}</span>
                         </div>
                       ))}
+                    </div>
+
+                    {/* Context input */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">
+                        {language === 'en' ? 'What situation or trigger does this relate to?' : 'Auf welche Situation oder welchen Trigger bezieht sich dieser Test?'}
+                      </label>
+                      <textarea
+                        value={context}
+                        onChange={(e) => setContext(e.target.value)}
+                        placeholder={language === 'en' ? 'Briefly describe the situation or trigger...' : 'Beschreibe kurz die Situation oder den Trigger...'}
+                        className="w-full rounded-xl border border-border/50 bg-card p-3 text-sm text-foreground placeholder:text-muted-foreground/50 resize-none focus:outline-none focus:ring-1 focus:ring-accent"
+                        rows={2}
+                      />
+                      {initialContext && (
+                        <p className="text-xs text-muted-foreground/70">
+                          {language === 'en' ? '✨ Pre-filled from your current context' : '✨ Automatisch aus deinem aktuellen Kontext übernommen'}
+                        </p>
+                      )}
                     </div>
 
                     <div className="flex justify-center pt-2">
@@ -496,6 +524,14 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
                     exit={{ opacity: 0 }}
                     className="space-y-5"
                   >
+                    {/* Context display */}
+                    {context.trim() && (
+                      <div className="bg-card rounded-xl p-3 border border-border/50">
+                        <p className="text-xs text-muted-foreground mb-1">{language === 'en' ? 'Context' : 'Bezug'}</p>
+                        <p className="text-sm text-foreground">{context.trim()}</p>
+                      </div>
+                    )}
+
                     {/* Zone Display */}
                     <div className={cn("rounded-2xl p-5 border text-center space-y-3", zone.bgColor, zone.borderColor)}>
                       <span className="text-4xl">{zone.emoji}</span>
