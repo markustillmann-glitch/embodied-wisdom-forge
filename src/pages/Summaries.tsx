@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList, Pencil, Check } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList, Pencil, Check, Thermometer } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
 import { IfsPartsSection } from '@/components/parts/IfsPartsSection';
 import { TriggerTestHistory } from '@/components/trigger/TriggerTestHistory';
 import { MemoriesSection } from '@/components/memories/MemoriesSection';
+import SelfBarometer from '@/components/SelfBarometer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -123,6 +124,10 @@ const Summaries = () => {
   const [editingConversationId, setEditingConversationId] = useState<string | null>(null);
   const [editingConversationValue, setEditingConversationValue] = useState('');
   const [savingEdit, setSavingEdit] = useState(false);
+
+  // Barometer state
+  const [showBarometer, setShowBarometer] = useState(false);
+  const [barometerContext, setBarometerContext] = useState('');
 
   // View mode state: 'summary' or 'conversation'
   const [viewModes, setViewModes] = useState<Record<string, 'summary' | 'conversation'>>({});
@@ -528,6 +533,11 @@ const Summaries = () => {
     }
   };
 
+  const startBarometer = (ctx: string) => {
+    setBarometerContext(ctx);
+    setShowBarometer(true);
+  };
+
   const deleteSummary = async (id: string) => {
     if (!user) return;
     setDeleting(true);
@@ -801,9 +811,9 @@ const Summaries = () => {
       {/* Content based on active tab */}
       <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+24px),48px)]">
         {activeTab === 'memories' ? (
-          <MemoriesSection />
+          <MemoriesSection onStartBarometer={startBarometer} />
         ) : activeTab === 'parts' ? (
-          <IfsPartsSection />
+          <IfsPartsSection onStartBarometer={startBarometer} />
         ) : activeTab === 'tests' ? (
           <TriggerTestHistory />
         ) : loading ? (
@@ -1355,6 +1365,16 @@ const Summaries = () => {
                             <Heart className="w-4 h-4 mr-2" />
                             {language === 'de' ? 'Erinnerung erstellen' : 'Create memory'}
                           </Button>
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => startBarometer(summary.title)}
+                            className="text-muted-foreground"
+                          >
+                            <Thermometer className="w-4 h-4 mr-2" />
+                            {language === 'de' ? 'Self-Barometer' : 'Self-Barometer'}
+                          </Button>
                           
                           <Button
                             variant="ghost"
@@ -1480,6 +1500,12 @@ const Summaries = () => {
           }
           e.target.value = '';
         }}
+      />
+
+      <SelfBarometer
+        isOpen={showBarometer}
+        onClose={() => setShowBarometer(false)}
+        initialContext={barometerContext}
       />
 
     </div>

@@ -42,12 +42,14 @@ interface MemoriesSectionProps {
   initialReflectionId?: string | null;
   initialPartId?: string | null;
   initialContext?: string | null;
+  onStartBarometer?: (context: string) => void;
 }
 
 export const MemoriesSection: React.FC<MemoriesSectionProps> = ({
   initialReflectionId,
   initialPartId,
   initialContext,
+  onStartBarometer,
 }) => {
   const { user } = useAuth();
   const { language } = useLanguage();
@@ -253,6 +255,7 @@ export const MemoriesSection: React.FC<MemoriesSectionProps> = ({
           onOpenChange={(open) => !open && setDetailMemory(null)}
           onDelete={(id) => { setDetailMemory(null); setDeleteId(id); }}
           onUpdated={handleMemoryUpdated}
+          onStartBarometer={onStartBarometer}
         />
       )}
 
