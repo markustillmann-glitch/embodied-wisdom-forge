@@ -217,6 +217,7 @@ export type Database = {
       ifs_parts: {
         Row: {
           age: string | null
+          ai_analysis: Json | null
           belief: string | null
           body_location: string | null
           core_emotion: string | null
@@ -237,6 +238,7 @@ export type Database = {
         }
         Insert: {
           age?: string | null
+          ai_analysis?: Json | null
           belief?: string | null
           body_location?: string | null
           core_emotion?: string | null
@@ -257,6 +259,7 @@ export type Database = {
         }
         Update: {
           age?: string | null
+          ai_analysis?: Json | null
           belief?: string | null
           body_location?: string | null
           core_emotion?: string | null

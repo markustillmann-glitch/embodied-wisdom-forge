@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Wand2, Pencil, Trash2, User, Shield, Heart, Flame, Brain, MapPin, Sparkles } from 'lucide-react';
+import { Wand2, Pencil, Trash2, User, Shield, Heart, Flame, Brain, MapPin, Sparkles, MessageCircleQuestion } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
@@ -28,6 +28,7 @@ interface IfsPartCardProps {
   onEdit: (part: IfsPart) => void;
   onDelete: (id: string) => void;
   onGenerateImage: (part: IfsPart) => void;
+  onAnalyze: (part: IfsPart) => void;
   isGeneratingImage: boolean;
 }
 
@@ -56,7 +57,7 @@ const DetailRow = ({ icon: Icon, label, value }: { icon: React.ElementType; labe
   );
 };
 
-export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete, onGenerateImage, isGeneratingImage }) => {
+export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete, onGenerateImage, onAnalyze, isGeneratingImage }) => {
   const gradient = getRoleGradient(part.role);
 
   return (
@@ -123,6 +124,22 @@ export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete
             <p className="text-xs text-muted-foreground">Integrationsstand</p>
             <p className="text-sm text-foreground mt-0.5">{part.integration_status}</p>
           </div>
+        )}
+
+        {/* Analyze button */}
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full gap-2 text-primary hover:text-primary"
+          onClick={() => onAnalyze(part)}
+        >
+          <MessageCircleQuestion className="w-3.5 h-3.5" />
+          Oria fragen
+        </Button>
+
+        {/* Saved analysis indicator */}
+        {(part as any).ai_analysis?.text && (
+          <p className="text-xs text-muted-foreground text-center">✨ Analyse gespeichert</p>
         )}
 
         {/* Actions */}
