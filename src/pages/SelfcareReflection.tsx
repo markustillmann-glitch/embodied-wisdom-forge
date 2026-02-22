@@ -982,7 +982,7 @@ const SelfcareReflection = () => {
                 onClick={() => navigate('/trigger-intro')}
                 className="group"
               >
-                <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-white/60 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 px-3 border border-white/40 transition-shadow">
+                <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-foreground/10 hover:bg-foreground/20 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center gap-2 px-3 transition-colors">
                   <div className="w-11 h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-amber-800/70"><rect x="3" y="2" width="14" height="20" rx="2" /><path d="M7 7h6" /><path d="M7 11h4" /><circle cx="19" cy="5" r="2.5" fill="currentColor" strokeWidth="0" /></svg>
                   </div>
@@ -999,7 +999,7 @@ const SelfcareReflection = () => {
                 onClick={startSituationReflection}
                 className="group"
               >
-                <div className="w-[7rem] h-[8rem] sm:w-[8rem] sm:h-[9rem] bg-white/75 backdrop-blur-md rounded-2xl shadow-md hover:shadow-lg flex flex-col items-center justify-center gap-2.5 px-3 border border-white/50 transition-shadow">
+                <div className="w-[7rem] h-[8rem] sm:w-[8rem] sm:h-[9rem] bg-foreground/10 hover:bg-foreground/20 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center gap-2.5 px-3 transition-colors">
                   <div className="w-12 h-12 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <MessageSquare className="w-7 h-7 text-amber-800/70" />
                   </div>
@@ -1018,7 +1018,7 @@ const SelfcareReflection = () => {
                 onClick={startAskOria}
                 className="group"
               >
-                <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-white/60 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 px-3 border border-white/40 transition-shadow">
+                <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-foreground/10 hover:bg-foreground/20 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center gap-2 px-3 transition-colors">
                   <div className="w-11 h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <MessageCircleQuestion className="w-6 h-6 text-amber-800/70" />
                   </div>
@@ -1036,7 +1036,7 @@ const SelfcareReflection = () => {
                   onClick={() => setShowOngoingConversations(true)}
                   className="group"
                 >
-                  <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-white/55 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 px-3 border border-white/40 transition-shadow relative">
+                  <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-foreground/10 hover:bg-foreground/20 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center gap-2 px-3 transition-colors relative">
                     <div className="w-11 h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
                       <Play className="w-6 h-6 text-amber-800/70" />
                     </div>
