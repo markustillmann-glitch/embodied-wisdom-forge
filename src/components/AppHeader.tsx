@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Lock, Gamepad2, Lightbulb, Compass } from 'lucide-react';
+import { Lock, Gamepad2, Lightbulb, Compass, User, LogIn } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import LanguageToggle from '@/components/LanguageToggle';
@@ -79,6 +79,19 @@ const AppHeader: React.FC<AppHeaderProps> = ({ onOwlClick, onGamificationClick }
             aria-label="Über das Modell"
           >
             <Compass className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-foreground/70" />
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate(user ? '/my-account' : '/auth')}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center"
+            aria-label={user ? 'Mein Bereich' : 'Anmelden'}
+          >
+            {user ? (
+              <User className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-foreground/70" />
+            ) : (
+              <LogIn className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-foreground/70" />
+            )}
           </motion.button>
 
           <LanguageToggle />
