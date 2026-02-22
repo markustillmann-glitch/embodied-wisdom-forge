@@ -1069,19 +1069,19 @@ const SelfcareReflection = () => {
                 </div>
               </motion.button>
 
-              {/* Card - Mit Anteilen arbeiten */}
+              {/* Card - Frag Oria */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.5 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/summaries?tab=parts')}
+                onClick={startAskOria}
               >
                 <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
-                  <div className="w-10 h-10 rounded-full bg-violet-100 flex items-center justify-center">
-                    <Users className="w-5 h-5 text-violet-600" />
+                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                    <MessageCircleQuestion className="w-5 h-5 text-amber-600" />
                   </div>
-                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Mit Anteilen arbeiten</span>
+                  <span className="text-xs font-medium text-foreground/80 text-center px-2">Frag Oria</span>
                 </div>
               </motion.button>
 
@@ -1123,11 +1123,11 @@ const SelfcareReflection = () => {
                 <Flower2 className="w-4.5 h-4.5" />
               </button>
               <button
-                onClick={startAskOria}
+                onClick={() => navigate('/summaries?tab=parts')}
                 className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
-                aria-label="Frag Oria"
+                aria-label="Mit Anteilen arbeiten"
               >
-                <MessageCircleQuestion className="w-4.5 h-4.5" />
+                <Users className="w-4.5 h-4.5" />
               </button>
             </motion.div>
           </div>
