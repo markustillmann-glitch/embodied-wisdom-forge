@@ -154,6 +154,7 @@ export const IfsPartDialog: React.FC<IfsPartDialogProps> = ({ open, onOpenChange
                 onChange={e => set('integration_status', e.target.value)}
                 placeholder="Wie ist der aktuelle Stand der Arbeit mit diesem Anteil?"
                 rows={2}
+                className="min-h-[80px] sm:min-h-[60px]"
               />
             </div>
 
@@ -164,6 +165,7 @@ export const IfsPartDialog: React.FC<IfsPartDialogProps> = ({ open, onOpenChange
                 onChange={e => set('image_prompt', e.target.value)}
                 placeholder="Beschreibe, wie du dir diesen Anteil visuell vorstellst... z.B. 'Ein kleiner Junge in einem dunklen Wald, der ein Licht in der Hand hält'"
                 rows={3}
+                className="min-h-[100px] sm:min-h-[80px]"
               />
               <p className="text-xs text-muted-foreground">Das Bild kann nach dem Speichern über den Zauberstab generiert werden.</p>
             </div>
