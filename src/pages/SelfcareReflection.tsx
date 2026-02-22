@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Send, RotateCcw, Save, Sparkles, Heart, Flower2, Calendar, ChevronDown, ChevronUp, Flame, Star, MapPin, Lock, MessageSquare, Play, Trash2, X, Gamepad2, Lightbulb, MessageCircleQuestion, Users } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
@@ -1412,26 +1413,7 @@ const SelfcareReflection = () => {
       />
 
       {/* Footer - Hidden on mobile when session started to not interfere with fixed input */}
-      <footer className={`py-4 pb-[max(env(safe-area-inset-bottom,16px),16px)] px-4 border-t border-border/30 text-center shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`}>
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <button onClick={() => navigate('/help')} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-            <Lightbulb className="w-3.5 h-3.5" />
-            FAQ
-          </button>
-          <span className="text-muted-foreground/30">·</span>
-          <button onClick={() => navigate('/modell')} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-            <MessageCircleQuestion className="w-3.5 h-3.5" />
-            {language === 'de' ? 'Das Modell' : 'The Model'}
-          </button>
-          <span className="text-muted-foreground/30">·</span>
-          <button onClick={() => navigate('/pricing')} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-            Pricing
-          </button>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          © 2025 Oria · Selfcare Impulse
-        </p>
-      </footer>
+      <AppFooter className={`border-t border-border/30 shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`} />
     </div>
   );
 };

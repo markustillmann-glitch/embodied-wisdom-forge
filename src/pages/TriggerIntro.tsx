@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Brain, Heart, Shield, Flame, Wind, Eye, Activity, RefreshCw, Lightbulb, Sparkles } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 
 const fadeIn = {
   initial: { opacity: 0, y: 16 },
@@ -377,6 +378,7 @@ const TriggerIntroPage: React.FC = () => {
           </div>
         </Section>
       </main>
+      <AppFooter />
     </div>
   );
 };

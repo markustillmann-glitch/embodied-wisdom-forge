@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Brain, Heart, Sparkles, Target, Users, BookOpen, Lightbulb, Shield, Compass, Zap, PenTool, Eye } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 import bbOwlLogo from '@/assets/bb-owl-new.png';
 import { modellContent as c } from '@/data/modellContent';
 
@@ -298,6 +299,7 @@ const Modell = () => {
           </motion.div>
         </motion.div>
       </div>
+      <AppFooter />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList, Pencil, Check, Thermometer } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 import { IfsPartsSection } from '@/components/parts/IfsPartsSection';
 import { TriggerTestHistory } from '@/components/trigger/TriggerTestHistory';
 import { MemoriesSection } from '@/components/memories/MemoriesSection';
@@ -1512,6 +1513,7 @@ const Summaries = () => {
         initialContext={barometerContext}
       />
 
+      <AppFooter />
     </div>
   );
 };
