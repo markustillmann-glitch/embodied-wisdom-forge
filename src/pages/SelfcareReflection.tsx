@@ -24,6 +24,7 @@ import ChatMessage from '@/components/ChatMessage';
 import { format, differenceInDays, isToday, isYesterday, startOfDay } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { GamificationDashboard } from '@/components/gamification';
+import SelfBarometer from '@/components/SelfBarometer';
 import { useImpulseManager, TIER_LIMITS } from '@/hooks/useImpulseManager';
 import { updateGamificationOnReflection } from '@/hooks/useGamification';
 import { BASE_IMPULSES_BILINGUAL, PACK_IMPULSES_BILINGUAL, type BilingualImpulse } from '@/data/impulses';
@@ -166,8 +167,8 @@ const SelfcareReflection = () => {
   const [loadingConversations, setLoadingConversations] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   
-  // Gamification state
   const [showGamification, setShowGamification] = useState(false);
+  const [showBarometer, setShowBarometer] = useState(false);
   
   // Reflection mode state
   type ReflectionMode = 'impulse' | 'situation' | 'ask';
@@ -1078,6 +1079,13 @@ const SelfcareReflection = () => {
               >
                 <Users className="w-4.5 h-4.5" />
               </button>
+              <button
+                onClick={() => setShowBarometer(true)}
+                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
+                aria-label="Self-Barometer"
+              >
+                <span className="text-base">🌡️</span>
+              </button>
             </motion.div>
           </div>
 
@@ -1395,6 +1403,12 @@ const SelfcareReflection = () => {
       <GamificationDashboard 
         isOpen={showGamification} 
         onClose={() => setShowGamification(false)} 
+      />
+
+      {/* Self Barometer */}
+      <SelfBarometer
+        isOpen={showBarometer}
+        onClose={() => setShowBarometer(false)}
       />
 
       {/* Footer - Hidden on mobile when session started to not interfere with fixed input */}
