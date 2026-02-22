@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sparkles, Save, Loader2 } from 'lucide-react';
+import { Sparkles, Save, Loader2, Download, FileText } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -77,6 +77,26 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
     }
   };
 
+  const handleExport = () => {
+    if (!analysis || !part) return;
+
+    const header = `# Oria-Analyse: ${part.name}\n\n`;
+    const meta = `**Rolle:** ${part.role || '–'}  \n**Kernemotion:** ${part.core_emotion || '–'}  \n**Trigger:** ${part.trigger || '–'}  \n\n---\n\n`;
+    const content = header + meta + analysis;
+
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `oria-analyse-${part.name.toLowerCase().replace(/\s+/g, '-')}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast.success(language === 'en' ? 'Analysis exported!' : 'Analyse exportiert!');
+  };
+
   // Load existing analysis when dialog opens
   React.useEffect(() => {
     if (open && part) {
@@ -91,13 +111,15 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
     }
   }, [open, part]);
 
+  const savedAt = (part as any)?.ai_analysis?.created_at;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg max-h-[90vh] p-0">
         <DialogHeader className="px-6 pt-6 pb-2">
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
-            {language === 'en' ? 'Oria Analysis' : 'Oria-Analyse'}
+            {language === 'en' ? 'Oria Part Analysis' : 'Oria-Anteils-Analyse'}
             {part && `: ${part.name}`}
           </DialogTitle>
           <DialogDescription>
@@ -119,7 +141,7 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
                 </p>
                 <Button onClick={handleAnalyze} className="gap-2">
                   <Sparkles className="w-4 h-4" />
-                  {language === 'en' ? 'Start Analysis' : 'Analyse starten'}
+                  {language === 'en' ? 'Start Analysis' : 'Oria-Anteils-Analyse starten'}
                 </Button>
               </div>
             )}
@@ -134,16 +156,35 @@ export const IfsPartAnalysisDialog: React.FC<IfsPartAnalysisDialogProps> = ({
             )}
 
             {hasAnalyzed && analysis && (
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown>{analysis}</ReactMarkdown>
-              </div>
+              <>
+                {savedAt && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3 px-1">
+                    <FileText className="w-3.5 h-3.5" />
+                    {language === 'en' ? 'Saved:' : 'Gespeichert:'}{' '}
+                    {new Date(savedAt).toLocaleDateString(language === 'en' ? 'en-US' : 'de-DE', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </div>
+                )}
+                <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <ReactMarkdown>{analysis}</ReactMarkdown>
+                </div>
+              </>
             )}
           </div>
         </ScrollArea>
 
-        <DialogFooter className="px-6 pb-6 pt-2 gap-2">
+        <DialogFooter className="px-6 pb-6 pt-2 gap-2 flex-wrap">
           {hasAnalyzed && (
             <>
+              <Button variant="outline" onClick={handleExport} className="gap-2">
+                <Download className="w-3.5 h-3.5" />
+                {language === 'en' ? 'Export' : 'Exportieren'}
+              </Button>
               <Button variant="outline" onClick={handleAnalyze} disabled={loading} className="gap-2">
                 <Sparkles className="w-3.5 h-3.5" />
                 {language === 'en' ? 'Re-analyze' : 'Neu analysieren'}

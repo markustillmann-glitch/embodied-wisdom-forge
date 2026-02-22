@@ -134,7 +134,7 @@ export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete
           onClick={() => onAnalyze(part)}
         >
           <MessageCircleQuestion className="w-3.5 h-3.5" />
-          Oria fragen
+          {(part as any).ai_analysis?.text ? 'Analyse anzeigen' : 'Oria-Anteils-Analyse starten'}
         </Button>
 
         {/* Saved analysis indicator */}
