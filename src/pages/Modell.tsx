@@ -24,7 +24,7 @@ const Modell = () => {
       <AppHeader />
 
       {/* Content */}
-      <div className="relative z-10 px-6 pb-[max(env(safe-area-inset-bottom,24px),24px)]">
+      <div className="relative z-10 px-4 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

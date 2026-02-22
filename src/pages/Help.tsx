@@ -768,7 +768,7 @@ const Help = () => {
       <AppHeader />
 
       {/* FAQ Content */}
-      <div ref={scrollContainerRef} className="relative z-10 flex-1 overflow-y-auto px-6 pb-[max(env(safe-area-inset-bottom,24px),24px)]">
+      <div ref={scrollContainerRef} className="relative z-10 flex-1 overflow-y-auto px-4 sm:px-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

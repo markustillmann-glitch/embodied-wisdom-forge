@@ -905,20 +905,20 @@ const SelfcareReflection = () => {
           className="relative z-10 flex-1 flex flex-col"
         >
           {/* Centered Greeting */}
-          <div className="flex-1 flex flex-col items-center justify-center px-8 min-h-0">
+          <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 min-h-0">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center mb-8"
+              className="text-center mb-4 sm:mb-8"
             >
-              <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
+              <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-foreground leading-tight">
                 {t('selfcare.greeting')}
               </h1>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight mt-2">
+              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl text-foreground leading-tight mt-1 sm:mt-2">
                 {t('selfcare.impulseIntro')}
               </h2>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
+              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl text-foreground leading-tight">
                 {t('selfcare.ofTheDay')}
               </h2>
             </motion.div>
@@ -928,10 +928,10 @@ const SelfcareReflection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="w-full max-w-md"
+              className="w-full max-w-sm sm:max-w-md"
             >
-              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/30">
-                <p className="text-center text-lg text-foreground/80 font-serif italic">
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-3 sm:py-4 border border-white/30">
+                <p className="text-center text-base sm:text-lg text-foreground/80 font-serif italic">
                   „{getImpulseDisplayText(displayedImpulse)}"
                 </p>
                 <button
@@ -950,7 +950,7 @@ const SelfcareReflection = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="flex flex-col items-center gap-3 mt-8"
+                className="flex flex-col items-center gap-2 sm:gap-3 mt-4 sm:mt-8"
               >
                 {/* Trial Banner */}
                 {subscription?.isTrialActive && subscription?.trialEndsAt && (
@@ -980,8 +980,8 @@ const SelfcareReflection = () => {
 
 
           {/* Action Cards - Horizontal scroll layout at bottom */}
-          <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
-            <div className="flex gap-3 justify-center overflow-x-auto scrollbar-hide pb-2">
+          <div className="px-3 sm:px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
+            <div className="flex gap-2 sm:gap-3 justify-center overflow-x-auto scrollbar-hide pb-2">
               {/* Card - Trigger verstehen */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
@@ -1059,7 +1059,7 @@ const SelfcareReflection = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="flex justify-center gap-6 mt-4"
+              className="flex justify-center gap-4 sm:gap-6 mt-3 sm:mt-4"
             >
               
               <button
