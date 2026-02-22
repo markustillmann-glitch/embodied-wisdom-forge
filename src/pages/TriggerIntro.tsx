@@ -49,17 +49,28 @@ const TriggerIntroPage: React.FC = () => {
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-6 sm:space-y-8">
         {/* Hero */}
-        <motion.div {...fadeIn} className="text-center space-y-4 py-4">
+        <motion.div {...fadeIn} className="text-center space-y-5 py-4">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-200 to-orange-300 flex items-center justify-center shadow-lg">
             <Sparkles className="w-10 h-10 text-amber-800" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-foreground leading-tight">
-            Trigger sind keine Schwächen –<br />sondern Signale
+            Kennst du das? Du reagierst<br />stärker, als die Situation es verdient.
           </h1>
-          <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
-            Im Modell von Richard Schwartz sind Trigger Signale aktivierter innerer Anteile.
-            Nicht das Ereignis ist der Trigger – sondern die innere Reaktion, die entsteht, wenn ein Anteil sich bedroht, beschämt, übergangen oder verletzt fühlt.
-          </p>
+          <div className="text-muted-foreground max-w-lg mx-auto leading-relaxed space-y-3">
+            <p>
+              Jemand sagt etwas Beiläufiges – und in dir zieht sich alles zusammen. 
+              Dein Herz schlägt schneller, dein Kopf rattert, du willst dich verteidigen oder am liebsten verschwinden.
+            </p>
+            <p>
+              Das sind <strong className="text-foreground">Trigger</strong> – und sie sind kein Zeichen von Schwäche. 
+              Sie zeigen dir, dass etwas in dir berührt wurde. Ein altes Gefühl, eine vergessene Erfahrung, 
+              ein Teil von dir, der gehört werden möchte.
+            </p>
+            <p>
+              Wer seine Trigger versteht, reagiert nicht mehr automatisch – sondern gewinnt die Freiheit, 
+              bewusst zu antworten. Genau darum geht es hier.
+            </p>
+          </div>
         </motion.div>
 
         {/* 1. Was ist ein Trigger */}
