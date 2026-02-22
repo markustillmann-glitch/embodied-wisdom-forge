@@ -1041,7 +1041,7 @@ const SelfcareReflection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/trigger-cards')}
+                onClick={() => navigate('/trigger-intro')}
               >
                 <div className="w-24 h-28 sm:w-28 sm:h-32 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 border border-white/50">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
