@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare, Plus, Trash2, Sparkles, ArrowRightLeft } from 'lucide-react';
+import { Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare, Plus, Trash2, Sparkles, ArrowRightLeft } from 'lucide-react';
+import AppHeader from '@/components/AppHeader';
 import { triggerCategories, triggerCards, TriggerCard } from '@/data/triggerCards';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
@@ -280,22 +281,8 @@ const TriggerCardsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
-      {/* Header - Sticky */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-amber-100/50 pt-[max(env(safe-area-inset-top),20px)]">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/selfcare')}
-            className="p-2 rounded-full bg-white/80 shadow-sm"
-          >
-            <ArrowLeft className="w-5 h-5 text-foreground/70" />
-          </motion.button>
-          <div>
-            <h1 className="text-xl font-serif font-semibold text-foreground">{t('trigger.title')}</h1>
-            <p className="text-sm text-muted-foreground">{t('trigger.subtitle')}</p>
-          </div>
-        </div>
-      </header>
+      {/* Header */}
+      <AppHeader />
 
       <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-5">
         {/* Intro */}
