@@ -121,7 +121,7 @@ export const translations = {
       tabs: {
         reflections: 'Reflexionen',
         parts: 'Anteile',
-        selftest: 'Selbsttest',
+        selftest: 'Selbsttests',
       },
       emptyVault: 'Dein Tresor ist noch leer.',
       emptyVaultHint: 'Speichere eine Reflexion, um sie hier zu sehen.',
