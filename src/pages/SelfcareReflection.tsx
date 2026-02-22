@@ -1014,10 +1014,10 @@ const SelfcareReflection = () => {
                       <span className="text-sm font-medium">{streak} {t('selfcare.days')}</span>
                     </div>
                     <div className="w-px h-4 bg-foreground/20" />
-                    <div className="flex items-center gap-1.5 text-foreground/60">
+                    <button onClick={() => navigate('/summaries')} className="flex items-center gap-1.5 text-foreground/60 hover:text-foreground/90 transition-colors">
                       <Star className="w-4 h-4" />
-                      <span className="text-sm font-medium">{pastReflections.length} {t('selfcare.reflections')}</span>
-                    </div>
+                      <span className="text-sm font-medium underline underline-offset-2">{pastReflections.length} {t('selfcare.reflections')}</span>
+                    </button>
                   </div>
                 )}
               </motion.div>
