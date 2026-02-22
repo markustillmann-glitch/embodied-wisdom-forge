@@ -1064,7 +1064,7 @@ const SelfcareReflection = () => {
                     <MessageSquare className="w-6 h-6 text-emerald-600" />
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">
-                    Persönliche Erfahrungen reflektieren
+                    Erfahrungen reflektieren
                   </span>
                 </div>
               </motion.button>
