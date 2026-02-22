@@ -47,7 +47,7 @@ const TriggerIntroPage: React.FC = () => {
       {/* Header */}
       <AppHeader />
 
-      <main className="max-w-2xl mx-auto px-4 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-8">
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-6 sm:space-y-8">
         {/* Hero */}
         <motion.div {...fadeIn} className="text-center space-y-4 py-4">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-200 to-orange-300 flex items-center justify-center shadow-lg">
