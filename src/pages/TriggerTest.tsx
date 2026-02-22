@@ -193,7 +193,7 @@ const TriggerTest: React.FC = () => {
     const categories = triggerCategories.map(c => c.id);
 
     return (
-      <div className="ios-page ios-font flex flex-col">
+      <div className="ios-page ios-font flex flex-col bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
         <div className="ios-nav-bar flex items-end px-4 pb-2 pt-[max(env(safe-area-inset-top),20px)]">
           <button onClick={() => setView('history')} className="flex items-center gap-1 text-accent ios-body">
             <ArrowLeft className="w-5 h-5" /> {t('nav.back')}
@@ -267,7 +267,7 @@ const TriggerTest: React.FC = () => {
   // --- HISTORY VIEW ---
   if (view === 'history') {
     return (
-      <div className="ios-page ios-font flex flex-col">
+      <div className="ios-page ios-font flex flex-col bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
         <div className="ios-nav-bar flex items-end px-4 pb-2 pt-[max(env(safe-area-inset-top),20px)]">
           <button onClick={() => setView(results.length ? 'results' : 'test')} className="flex items-center gap-1 text-accent ios-body">
             <ArrowLeft className="w-5 h-5" /> {t('nav.back')}
@@ -353,7 +353,7 @@ const TriggerTest: React.FC = () => {
     const topCat = getCategoryInfo(topCategory.category);
 
     return (
-      <div className="ios-page ios-font">
+      <div className="ios-page ios-font bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
         <AppHeader />
 
         <div className="px-4 pb-[max(env(safe-area-inset-bottom,24px),120px)] mt-4 space-y-6 overflow-y-auto flex-1">
@@ -415,7 +415,7 @@ const TriggerTest: React.FC = () => {
 
   // --- QUESTIONNAIRE VIEW ---
   return (
-    <div className="ios-page ios-font flex flex-col">
+    <div className="ios-page ios-font flex flex-col bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
       <AppHeader />
 
       <div className="px-4 pt-2">
