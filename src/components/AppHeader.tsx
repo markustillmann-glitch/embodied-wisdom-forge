@@ -29,7 +29,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ onOwlClick, onGamificationClick }
   };
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/30 pt-[max(env(safe-area-inset-top),20px)]">
+    <header className="sticky top-0 z-40 pt-[max(env(safe-area-inset-top),20px)]">
       <div className="flex justify-between items-center px-3 sm:px-6 py-2 sm:py-3">
         <div className="flex gap-1.5 sm:gap-2">
           <motion.button
