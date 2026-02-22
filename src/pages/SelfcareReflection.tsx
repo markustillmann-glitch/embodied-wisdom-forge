@@ -906,44 +906,33 @@ const SelfcareReflection = () => {
         >
           {/* Centered Greeting */}
           <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 min-h-0">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center mb-2 sm:mb-4"
-            >
-              <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                {t('selfcare.greeting')}
-              </h1>
-              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl text-foreground leading-tight mt-1 sm:mt-2">
-                {t('selfcare.impulseIntro')}
-              </h2>
-              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl text-foreground leading-tight">
-                {t('selfcare.ofTheDay')}
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-3 sm:mt-4 max-w-xs sm:max-w-sm mx-auto leading-relaxed">
-                Dein Raum für Reflexion und persönliches Wachstum. Verstehe schwierige Situationen und Trigger – und entwickle neue Handlungsoptionen.
-              </p>
-            </motion.div>
-            
-            {/* Current Impulse - directly below greeting with spacing */}
+            {/* Current Impulse with integrated greeting */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.3 }}
               className="w-full max-w-sm sm:max-w-md"
             >
-              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-4 sm:px-6 py-3 sm:py-4 border border-white/30">
-                <p className="text-center text-base sm:text-lg text-foreground/80 font-serif italic">
-                  „{getImpulseDisplayText(displayedImpulse)}"
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-5 sm:px-6 py-5 sm:py-6 border border-white/30 text-center space-y-3">
+                <h1 className="font-serif text-xl sm:text-2xl text-foreground leading-tight">
+                  {t('selfcare.greeting')}<br />
+                  {t('selfcare.impulseIntro')} {t('selfcare.ofTheDay')}
+                </h1>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  Dein Raum für Reflexion und persönliches Wachstum. Verstehe schwierige Situationen und Trigger – und entwickle neue Handlungsoptionen.
                 </p>
-                <button
-                  onClick={startWithDisplayedImpulse}
-                  className="mt-3 mx-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/15 hover:bg-accent/25 text-accent font-medium text-sm transition-colors"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Jetzt reflektieren
-                </button>
+                <div className="border-t border-border/20 pt-3">
+                  <p className="text-base sm:text-lg text-foreground/80 font-serif italic">
+                    „{getImpulseDisplayText(displayedImpulse)}"
+                  </p>
+                  <button
+                    onClick={startWithDisplayedImpulse}
+                    className="mt-3 mx-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/15 hover:bg-accent/25 text-accent font-medium text-sm transition-colors"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Jetzt reflektieren
+                  </button>
+                </div>
               </div>
             </motion.div>
 
