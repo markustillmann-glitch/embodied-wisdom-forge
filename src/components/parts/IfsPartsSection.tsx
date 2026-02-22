@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { IfsPartCard, type IfsPart } from './IfsPartCard';
 import { IfsPartDialog } from './IfsPartDialog';
+import { IfsPartAnalysisDialog } from './IfsPartAnalysisDialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,6 +27,7 @@ export const IfsPartsSection: React.FC = () => {
   const [editingPart, setEditingPart] = useState<IfsPart | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
+  const [analyzingPart, setAnalyzingPart] = useState<IfsPart | null>(null);
 
   useEffect(() => {
     if (user) loadParts();
@@ -164,6 +166,7 @@ export const IfsPartsSection: React.FC = () => {
               onEdit={(p) => { setEditingPart(p); setDialogOpen(true); }}
               onDelete={setDeleteId}
               onGenerateImage={handleGenerateImage}
+              onAnalyze={setAnalyzingPart}
               isGeneratingImage={generatingImageId === part.id}
             />
           ))}
@@ -189,6 +192,15 @@ export const IfsPartsSection: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <IfsPartAnalysisDialog
+        open={!!analyzingPart}
+        onOpenChange={(open) => { if (!open) setAnalyzingPart(null); }}
+        part={analyzingPart}
+        onAnalysisSaved={(partId, analysis) => {
+          setParts(prev => prev.map(p => p.id === partId ? { ...p, ai_analysis: { text: analysis, created_at: new Date().toISOString() } } as any : p));
+        }}
+      />
     </div>
   );
 };
