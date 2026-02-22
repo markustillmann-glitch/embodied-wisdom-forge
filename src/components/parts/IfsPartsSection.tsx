@@ -19,7 +19,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export const IfsPartsSection: React.FC = () => {
+interface IfsPartsSectionProps {
+  onStartBarometer?: (context: string) => void;
+}
+
+export const IfsPartsSection: React.FC<IfsPartsSectionProps> = ({ onStartBarometer }) => {
   const { user } = useAuth();
   const [parts, setParts] = useState<IfsPart[]>([]);
   const [loading, setLoading] = useState(true);
@@ -167,6 +171,7 @@ export const IfsPartsSection: React.FC = () => {
               onDelete={setDeleteId}
               onGenerateImage={handleGenerateImage}
               onAnalyze={setAnalyzingPart}
+              onStartBarometer={onStartBarometer}
               isGeneratingImage={generatingImageId === part.id}
             />
           ))}

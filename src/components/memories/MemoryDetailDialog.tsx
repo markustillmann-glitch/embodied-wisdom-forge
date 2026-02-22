@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { MapPin, Calendar, Heart, Camera, Link, Trash2, Pencil, Check, X, Video, Plus, ExternalLink, Loader2 } from 'lucide-react';
+import { MapPin, Calendar, Heart, Camera, Link, Trash2, Pencil, Check, X, Video, Plus, ExternalLink, Loader2, Thermometer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,6 +22,7 @@ interface MemoryDetailDialogProps {
   onOpenChange: (open: boolean) => void;
   onDelete: (id: string) => void;
   onUpdated: (memory: UserMemory) => void;
+  onStartBarometer?: (context: string) => void;
 }
 
 export const MemoryDetailDialog: React.FC<MemoryDetailDialogProps> = ({
@@ -30,6 +31,7 @@ export const MemoryDetailDialog: React.FC<MemoryDetailDialogProps> = ({
   onOpenChange,
   onDelete,
   onUpdated,
+  onStartBarometer,
 }) => {
   const { user } = useAuth();
   const { language } = useLanguage();
@@ -300,7 +302,7 @@ export const MemoryDetailDialog: React.FC<MemoryDetailDialogProps> = ({
           </div>
 
           {/* Delete */}
-          <div className="pt-2 border-t border-border">
+          <div className="pt-2 border-t border-border flex flex-wrap gap-2">
             <Button
               variant="ghost"
               size="sm"
@@ -310,6 +312,20 @@ export const MemoryDetailDialog: React.FC<MemoryDetailDialogProps> = ({
               <Trash2 className="w-4 h-4" />
               {language === 'de' ? 'Erinnerung löschen' : 'Delete memory'}
             </Button>
+            {onStartBarometer && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => {
+                  onStartBarometer(`Erinnerung: ${memory.title}`);
+                  onOpenChange(false);
+                }}
+              >
+                <Thermometer className="w-4 h-4" />
+                Self-Barometer
+              </Button>
+            )}
           </div>
         </div>
 

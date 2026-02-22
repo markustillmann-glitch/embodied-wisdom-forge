@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Wand2, Pencil, Trash2, User, Shield, Heart, Flame, Brain, MapPin, Sparkles, MessageCircleQuestion } from 'lucide-react';
+import { Wand2, Pencil, Trash2, User, Shield, Heart, Flame, Brain, MapPin, Sparkles, MessageCircleQuestion, Thermometer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
@@ -29,6 +29,7 @@ interface IfsPartCardProps {
   onDelete: (id: string) => void;
   onGenerateImage: (part: IfsPart) => void;
   onAnalyze: (part: IfsPart) => void;
+  onStartBarometer?: (context: string) => void;
   isGeneratingImage: boolean;
 }
 
@@ -57,7 +58,7 @@ const DetailRow = ({ icon: Icon, label, value }: { icon: React.ElementType; labe
   );
 };
 
-export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete, onGenerateImage, onAnalyze, isGeneratingImage }) => {
+export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete, onGenerateImage, onAnalyze, onStartBarometer, isGeneratingImage }) => {
   const gradient = getRoleGradient(part.role);
 
   return (
@@ -147,6 +148,11 @@ export const IfsPartCard: React.FC<IfsPartCardProps> = ({ part, onEdit, onDelete
           <Button variant="outline" size="sm" className="flex-1" onClick={() => onEdit(part)}>
             <Pencil className="w-3.5 h-3.5 mr-1.5" /> Bearbeiten
           </Button>
+          {onStartBarometer && (
+            <Button variant="outline" size="sm" onClick={() => onStartBarometer(`Anteil: ${part.name} (${part.role})`)}>
+              <Thermometer className="w-3.5 h-3.5" />
+            </Button>
+          )}
           <Button variant="outline" size="sm" className="text-destructive hover:text-destructive" onClick={() => onDelete(part.id)}>
             <Trash2 className="w-3.5 h-3.5" />
           </Button>
