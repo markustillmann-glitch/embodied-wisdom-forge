@@ -65,6 +65,12 @@ const TriggerIntroPage: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-foreground leading-tight">
             Kennst du das? Du reagierst<br />stärker, als die Situation es verdient.
           </h1>
+          <button
+            onClick={() => navigate('/trigger-cards')}
+            className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors font-medium"
+          >
+            Direkt zu den Trigger-Karten <ArrowRight className="w-4 h-4" />
+          </button>
           <div className="text-muted-foreground max-w-lg mx-auto leading-relaxed space-y-3">
             <p>
               Jemand sagt etwas Beiläufiges – und in dir zieht sich alles zusammen. 
