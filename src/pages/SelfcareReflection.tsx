@@ -905,7 +905,7 @@ const SelfcareReflection = () => {
           className="relative z-10 flex-1 flex flex-col"
         >
           {/* Centered Greeting */}
-          <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 min-h-0">
+           <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 min-h-0 pt-2 sm:pt-4">
             {/* Impulse box with greeting */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -913,18 +913,18 @@ const SelfcareReflection = () => {
               transition={{ delay: 0.3 }}
               className="w-full max-w-sm sm:max-w-md"
             >
-              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-5 sm:px-6 py-5 sm:py-6 border border-white/30 text-center space-y-3">
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-5 sm:px-6 py-4 sm:py-5 border border-white/30 text-center space-y-2.5">
                 <h1 className="font-serif text-xl sm:text-2xl text-foreground leading-tight">
                   {t('selfcare.greeting')}<br />
                   {t('selfcare.impulseIntro')} {t('selfcare.ofTheDay')}
                 </h1>
-                <div className="border-t border-border/20 pt-3">
+                <div className="border-t border-border/20 pt-2.5">
                   <p className="text-base sm:text-lg text-foreground/80 font-serif italic">
                     „{getImpulseDisplayText(displayedImpulse)}"
                   </p>
                   <button
                     onClick={startWithDisplayedImpulse}
-                    className="mt-3 mx-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/15 hover:bg-accent/25 text-accent font-medium text-sm transition-colors"
+                    className="mt-2.5 mx-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/15 hover:bg-accent/25 text-accent font-medium text-sm transition-colors"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     Jetzt reflektieren
@@ -933,15 +933,13 @@ const SelfcareReflection = () => {
               </div>
             </motion.div>
 
-
-
             {/* Stats - Small and subtle */}
             {user && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="flex flex-col items-center gap-2 sm:gap-3 mt-4 sm:mt-8"
+                className="flex flex-col items-center gap-2 mt-3 sm:mt-4"
               >
                 {/* Trial Banner */}
                 {subscription?.isTrialActive && subscription?.trialEndsAt && (
@@ -969,10 +967,9 @@ const SelfcareReflection = () => {
             )}
           </div>
 
-
           {/* Action Cards - Horizontal scroll layout at bottom */}
-          <div className="px-3 sm:px-4 pb-[max(env(safe-area-inset-bottom,24px),24px)] mt-auto">
-            <div className="flex gap-3 sm:gap-4 justify-center overflow-x-auto scrollbar-hide pb-2">
+          <div className="px-3 sm:px-4 pb-[max(env(safe-area-inset-bottom,16px),16px)] mt-auto">
+            <div className="flex gap-2.5 sm:gap-3 justify-center overflow-x-auto scrollbar-hide">
               {/* Card - Trigger verstehen */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
@@ -1054,7 +1051,7 @@ const SelfcareReflection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="text-center text-xs sm:text-sm text-muted-foreground max-w-xs sm:max-w-sm mx-auto leading-relaxed px-2 mt-3"
+              className="text-center text-xs sm:text-sm text-muted-foreground max-w-xs sm:max-w-sm mx-auto leading-relaxed px-2 mt-2.5"
             >
               Oria ist dein Raum für Reflexion und persönliches Wachstum. Der AI-Coach hilft dir, schwierige Situationen und Trigger zu verstehen und neue Handlungsoptionen zu entwickeln. So wirst du empathischer, souveräner und zufriedener – und bist mehr du selbst.
             </motion.p>
@@ -1064,7 +1061,7 @@ const SelfcareReflection = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="flex justify-center gap-4 sm:gap-6 mt-3 sm:mt-4"
+              className="flex justify-center gap-4 sm:gap-6 mt-2.5 sm:mt-3"
             >
               
               <button
