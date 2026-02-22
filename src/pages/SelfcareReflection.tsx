@@ -983,8 +983,8 @@ const SelfcareReflection = () => {
                 className="group"
               >
                 <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-white/60 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 px-3 border border-white/40 transition-shadow">
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-rose-100 to-orange-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-rose-500"><rect x="3" y="2" width="14" height="20" rx="2" /><path d="M7 7h6" /><path d="M7 11h4" /><circle cx="19" cy="5" r="2.5" fill="currentColor" strokeWidth="0" /></svg>
+                  <div className="w-11 h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-amber-800/70"><rect x="3" y="2" width="14" height="20" rx="2" /><path d="M7 7h6" /><path d="M7 11h4" /><circle cx="19" cy="5" r="2.5" fill="currentColor" strokeWidth="0" /></svg>
                   </div>
                   <span className="text-xs font-medium text-foreground/70 text-center leading-tight">{t('selfcare.triggerUnderstand')}</span>
                 </div>
@@ -1000,8 +1000,8 @@ const SelfcareReflection = () => {
                 className="group"
               >
                 <div className="w-[7rem] h-[8rem] sm:w-[8rem] sm:h-[9rem] bg-white/75 backdrop-blur-md rounded-2xl shadow-md hover:shadow-lg flex flex-col items-center justify-center gap-2.5 px-3 border border-white/50 transition-shadow">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <MessageSquare className="w-5.5 h-5.5 text-emerald-600" />
+                  <div className="w-12 h-12 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <MessageSquare className="w-7 h-7 text-amber-800/70" />
                   </div>
                   <span className="text-xs sm:text-sm font-semibold text-foreground/80 text-center leading-tight">
                     Erfahrungen reflektieren
@@ -1019,8 +1019,8 @@ const SelfcareReflection = () => {
                 className="group"
               >
                 <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-white/60 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 px-3 border border-white/40 transition-shadow">
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <MessageCircleQuestion className="w-5 h-5 text-amber-600" />
+                  <div className="w-11 h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <MessageCircleQuestion className="w-6 h-6 text-amber-800/70" />
                   </div>
                   <span className="text-xs font-medium text-foreground/70 text-center leading-tight">Frag Oria</span>
                 </div>
@@ -1036,12 +1036,12 @@ const SelfcareReflection = () => {
                   onClick={() => setShowOngoingConversations(true)}
                   className="group"
                 >
-                  <div className="w-[6.5rem] sm:w-[7.5rem] bg-white/55 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center gap-2.5 py-4 px-3 border border-white/40 transition-shadow relative">
-                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-100 to-blue-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <Play className="w-5 h-5 text-sky-600" />
+                  <div className="w-[6rem] h-[7rem] sm:w-[7rem] sm:h-[8rem] bg-white/55 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 px-3 border border-white/40 transition-shadow relative">
+                    <div className="w-11 h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <Play className="w-6 h-6 text-amber-800/70" />
                     </div>
                     <span className="text-xs font-medium text-foreground/70 text-center leading-tight">{t('selfcare.continueConversation')}</span>
-                    <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-sky-500 rounded-full flex items-center justify-center shadow-sm">
+                    <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-amber-700 rounded-full flex items-center justify-center shadow-sm">
                       <span className="text-[10px] font-bold text-white">{ongoingConversations.length}</span>
                     </div>
                   </div>
