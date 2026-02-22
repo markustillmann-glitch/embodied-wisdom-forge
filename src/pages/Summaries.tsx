@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, ChevronUp, Calendar, MapPin, Clock, Heart, Brain, Sparkles, Target, Activity, Lock, Trash2, Eye, EyeOff, Settings, KeyRound, Camera, Download, X, Image as ImageIcon, Wand2, MessageSquare, FileText, Users, ClipboardList } from 'lucide-react';
 import { IfsPartsSection } from '@/components/parts/IfsPartsSection';
 import { TriggerTestHistory } from '@/components/trigger/TriggerTestHistory';
@@ -115,7 +115,13 @@ const Summaries = () => {
   
   // View mode state: 'summary' or 'conversation'
   const [viewModes, setViewModes] = useState<Record<string, 'summary' | 'conversation'>>({});
-  const [activeTab, setActiveTab] = useState<'reflections' | 'parts' | 'tests'>('reflections');
+  const [searchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState<'reflections' | 'parts' | 'tests'>(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam === 'parts') return 'parts';
+    if (tabParam === 'tests') return 'tests';
+    return 'reflections';
+  });
 
   const getViewMode = (id: string) => viewModes[id] || 'summary';
   const toggleViewMode = (id: string) => {
