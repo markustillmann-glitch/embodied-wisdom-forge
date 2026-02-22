@@ -117,14 +117,14 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
       desc: { de: '3–5 ruhige Atemzüge. Spüre, wie die Luft ein- und ausströmt.', en: '3–5 calm breaths. Feel the air flowing in and out.' },
     },
     {
-      letter: 'L', de: 'Lächeln', en: 'Smile',
+      letter: 'F', de: 'Fühlen', en: 'Feel',
       icon: <Smile className="w-8 h-8" />,
-      desc: { de: 'Ein sanftes inneres Lächeln:\n„Ah, ein Teil ist aktiv."', en: 'A gentle inner smile:\n"Ah, a part is active."' },
+      desc: { de: 'Fühle dich in die Situation hinein oder antizipiere sie.\nWas spürst du im Körper? Welche Emotionen tauchen auf?', en: 'Feel into the situation or anticipate it.\nWhat do you notice in your body? What emotions arise?' },
     },
     {
-      letter: 'I', de: 'Innehalten', en: 'Pause',
+      letter: 'S', de: 'Spontan & Fokussiert', en: 'Spontaneous & Focused',
       icon: <Pause className="w-8 h-8" />,
-      desc: { de: 'Nicht reagieren. Beobachten.\nErst dann einschätzen.', en: 'Don\'t react. Observe.\nThen assess.' },
+      desc: { de: 'Bewerte jetzt spontan und fokussiert auf die Situation.\nNicht nachdenken – spüren.', en: 'Now rate spontaneously and focused on the situation.\nDon\'t think – feel.' },
     },
   ];
 
