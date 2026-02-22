@@ -922,6 +922,16 @@ const SelfcareReflection = () => {
                 {t('selfcare.ofTheDay')}
               </h2>
             </motion.div>
+
+            {/* App description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-center text-sm sm:text-base text-muted-foreground max-w-sm sm:max-w-md leading-relaxed px-2"
+            >
+              Oria ist dein Raum für Reflexion und persönliches Wachstum. Der AI-Coach hilft dir, schwierige Situationen und Trigger zu verstehen und neue Handlungsoptionen zu entwickeln. So wirst du empathischer, souveräner und zufriedener – und bist mehr du selbst.
+            </motion.p>
             
             {/* Current Impulse - directly below greeting with spacing */}
             <motion.div
