@@ -46,7 +46,7 @@ export const translations = {
 
     // Main / Selfcare page
     selfcare: {
-      greeting: 'Hallo, du,',
+      greeting: 'Hallo du,',
       impulseIntro: 'hier ist dein Impuls',
       ofTheDay: 'des Tages.',
       yourImpulse: 'Dein Impuls',
