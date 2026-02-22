@@ -987,6 +987,13 @@ const SelfcareReflection = () => {
                 <p className="text-center text-lg text-foreground/80 font-serif italic">
                   „{getImpulseDisplayText(displayedImpulse)}"
                 </p>
+                <button
+                  onClick={startWithDisplayedImpulse}
+                  className="mt-3 mx-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/15 hover:bg-accent/25 text-accent font-medium text-sm transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Jetzt reflektieren
+                </button>
               </div>
             </motion.div>
 
@@ -1044,20 +1051,20 @@ const SelfcareReflection = () => {
                 </div>
               </motion.button>
 
-              {/* Main Action Card - Impuls reflektieren */}
+              {/* Main Action Card - Persönliche Erfahrungen reflektieren */}
               <motion.button
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={startWithDisplayedImpulse}
+                onClick={startSituationReflection}
               >
                 <div className="w-28 h-32 sm:w-32 sm:h-36 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl flex flex-col items-center justify-center gap-2 border border-white/50">
-                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-accent" />
+                  <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center">
+                    <MessageSquare className="w-6 h-6 text-emerald-600" />
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-foreground text-center px-2">
-                    {t('selfcare.reflectImpulse')}
+                    Persönliche Erfahrungen reflektieren
                   </span>
                 </div>
               </motion.button>
@@ -1121,13 +1128,6 @@ const SelfcareReflection = () => {
                 aria-label="Frag Oria"
               >
                 <MessageCircleQuestion className="w-4.5 h-4.5" />
-              </button>
-              <button
-                onClick={startSituationReflection}
-                className="w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground/90 transition-colors"
-                aria-label="Situation reflektieren"
-              >
-                <MessageSquare className="w-4.5 h-4.5" />
               </button>
             </motion.div>
           </div>
