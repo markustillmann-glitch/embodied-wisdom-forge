@@ -73,6 +73,22 @@ const TriggerIntroPage: React.FC = () => {
           </div>
         </motion.div>
 
+        {/* IFS Einordnung */}
+        <Section>
+          <div className="bg-secondary/80 rounded-2xl p-5 border border-border/40 space-y-3">
+            <p className="font-semibold text-foreground flex items-center gap-2">
+              <Brain className="w-5 h-5 text-accent" /> Kurz erklärt: Was ist IFS?
+            </p>
+            <p className="text-foreground/85 leading-relaxed">
+              IFS (<em>Internal Family Systems</em>) ist ein wissenschaftlich fundierter Therapieansatz, 
+              der davon ausgeht, dass wir alle verschiedene innere Anteile in uns tragen – z.B. einen 
+              inneren Kritiker, ein verletztes Kind oder einen Beschützer. Trigger aktivieren genau 
+              diese Anteile. Wenn du verstehst, <strong>welcher Teil</strong> von dir gerade reagiert, 
+              kannst du mitfühlender mit dir umgehen – und bewusster handeln.
+            </p>
+          </div>
+        </Section>
+
         {/* 1. Was ist ein Trigger */}
         <Section>
           <SectionTitle icon={<Brain className="w-5 h-5 text-accent" />} number="1." title="Was ist ein Trigger im IFS?" />
