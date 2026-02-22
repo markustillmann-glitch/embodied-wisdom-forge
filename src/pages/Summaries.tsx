@@ -79,7 +79,7 @@ const hashPassword = async (password: string): Promise<string> => {
 };
 
 const Summaries = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { t, language } = useLanguage();
   const { generatePdf, generateConversationPdf } = usePdfGenerator();
@@ -631,6 +631,14 @@ const Summaries = () => {
     }
   };
 
+  if (authLoading || checkingPassword) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
@@ -642,14 +650,8 @@ const Summaries = () => {
     );
   }
 
-  // Password entry screen
-  if (checkingPassword) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),24px)]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
+
+
 
   if (hasPassword && !isUnlocked) {
     return (
