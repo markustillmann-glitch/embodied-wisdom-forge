@@ -872,7 +872,7 @@ const SelfcareReflection = () => {
   const displayName = user?.user_metadata?.display_name || user?.email?.split('@')[0] || 'du';
 
   return (
-    <div className="min-h-[100dvh] flex flex-col ios-font relative overflow-hidden">
+    <div className="min-h-[100dvh] flex flex-col ios-font relative overflow-x-hidden">
       
       {/* Warm Gradient Background - Like the reference */}
       <div 
@@ -904,10 +904,10 @@ const SelfcareReflection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 flex-1 flex flex-col"
+          className="relative z-10 flex flex-col"
         >
           {/* Centered Greeting */}
-           <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 min-h-0 pt-2 sm:pt-4">
+           <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 pt-2 sm:pt-4">
             {/* Impulse box with greeting */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1090,6 +1090,7 @@ const SelfcareReflection = () => {
             </motion.div>
           </div>
 
+          <AppFooter />
         </motion.div>
       ) : (
         /* Chat Session */
@@ -1412,8 +1413,6 @@ const SelfcareReflection = () => {
         onClose={() => setShowBarometer(false)}
       />
 
-      {/* Footer - Hidden on mobile when session started to not interfere with fixed input */}
-      <AppFooter className={`border-t border-border/30 shrink-0 ${sessionStarted ? 'hidden md:block' : ''}`} />
     </div>
   );
 };
