@@ -47,6 +47,42 @@ export type Database = {
         }
         Relationships: []
       }
+      barometer_results: {
+        Row: {
+          combined_avg: number
+          created_at: string
+          id: string
+          qualities: Json
+          qualities_avg: number
+          user_id: string
+          weite_answers: Json
+          weite_score: number
+          zone: number
+        }
+        Insert: {
+          combined_avg?: number
+          created_at?: string
+          id?: string
+          qualities?: Json
+          qualities_avg?: number
+          user_id: string
+          weite_answers?: Json
+          weite_score?: number
+          zone?: number
+        }
+        Update: {
+          combined_avg?: number
+          created_at?: string
+          id?: string
+          qualities?: Json
+          qualities_avg?: number
+          user_id?: string
+          weite_answers?: Json
+          weite_score?: number
+          zone?: number
+        }
+        Relationships: []
+      }
       coach_insights: {
         Row: {
           confidence_level: string | null
