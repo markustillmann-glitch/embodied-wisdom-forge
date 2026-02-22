@@ -17,6 +17,7 @@ import Pricing from "./pages/Pricing";
 import ImpulsePacks from "./pages/ImpulsePacks";
 import MyAccount from "./pages/MyAccount";
 import TriggerCards from "./pages/TriggerCards";
+import TriggerIntro from "./pages/TriggerIntro";
 import TriggerTest from "./pages/TriggerTest";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/impulse-packs" element={<ImpulsePacks />} />
               <Route path="/my-account" element={<MyAccount />} />
+              <Route path="/trigger-intro" element={<TriggerIntro />} />
               <Route path="/trigger-cards" element={<TriggerCards />} />
               <Route path="/trigger-test" element={<TriggerTest />} />
               <Route path="*" element={<NotFound />} />
