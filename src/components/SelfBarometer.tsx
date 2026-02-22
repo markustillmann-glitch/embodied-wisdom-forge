@@ -229,7 +229,7 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
                       ] : [
                         { emoji: '⚡', text: 'Vor einer schwierigen Situation – als Vorbereitung' },
                         { emoji: '🔥', text: 'Direkt nach einer schwierigen Situation – zum Einchecken' },
-                        { emoji: '🔍', text: 'Während oder nach einer Reflexion über einen Trigger' },
+                        { emoji: '🔍', text: 'Während oder nach einer Reflexion über einen Trigger oder eine spezifische Situation' },
                         { emoji: '💭', text: 'Beim Erfassen oder Wiederbesuchen einer Erinnerung' },
                       ]).map((item, i) => (
                         <div key={i} className="flex items-start gap-3 bg-card rounded-xl p-3 border border-border/50">
