@@ -43,11 +43,19 @@ const TriggerIntroPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50/80 via-orange-50/60 to-rose-50/40">
+    <div className="min-h-screen relative overflow-hidden">
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(180deg, hsl(150 30% 85%) 0%, hsl(35 60% 75%) 50%, hsl(25 50% 80%) 100%)'
+        }}
+      />
       {/* Header */}
-      <AppHeader />
+      <div className="relative z-10">
+        <AppHeader />
+      </div>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-6 sm:space-y-8">
+      <main className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 py-6 pb-[max(calc(env(safe-area-inset-bottom)+96px),120px)] space-y-6 sm:space-y-8">
         {/* Hero */}
         <motion.div {...fadeIn} className="text-center space-y-5 py-4">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-200 to-orange-300 flex items-center justify-center shadow-lg">
