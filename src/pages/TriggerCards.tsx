@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Brain, Eye, Wind, RefreshCw, Lightbulb, ChevronDown, ChevronUp, AlertTriangle, Activity, Bookmark, BookmarkCheck, MessageSquare, Plus, Trash2, Sparkles, ArrowRightLeft } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 import { triggerCategories, triggerCards, TriggerCard } from '@/data/triggerCards';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
@@ -439,6 +440,7 @@ const TriggerCardsPage: React.FC = () => {
         onCardCreated={loadCustomCards}
         initialCard={convertCard}
       />
+      <AppFooter />
     </div>
   );
 };

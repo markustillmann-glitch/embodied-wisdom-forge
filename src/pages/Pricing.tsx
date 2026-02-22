@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Check, X, Gift, Sparkles, Star, Ticket, User } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -230,6 +231,7 @@ const Pricing = () => {
           {t('pricing.footer')}
         </motion.p>
       </main>
+      <AppFooter />
     </div>
   );
 };

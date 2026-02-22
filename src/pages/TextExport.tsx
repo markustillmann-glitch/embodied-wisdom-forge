@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import AppFooter from '@/components/AppFooter';
 
 interface ExportData {
   reflections: any[];
@@ -330,6 +331,7 @@ const TextExport = () => {
           </motion.div>
         ) : null}
       </main>
+      <AppFooter />
     </div>
   );
 };

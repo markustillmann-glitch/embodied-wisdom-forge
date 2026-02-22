@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Package, Lock, Sparkles, Play, Check, AlertCircle } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
+import AppFooter from '@/components/AppFooter';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useImpulseManager, TIER_LIMITS, PACK_IMPULSES, BASE_IMPULSES } from '@/hooks/useImpulseManager';
@@ -240,6 +241,7 @@ const ImpulsePacks = () => {
           </>
         )}
       </main>
+      <AppFooter />
     </div>
   );
 };

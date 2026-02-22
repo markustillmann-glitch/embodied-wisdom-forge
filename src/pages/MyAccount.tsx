@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { User, CreditCard, MapPin, Package, LogOut, Edit2, Save, X, FileText, Lightbulb, MessageCircleQuestion } from 'lucide-react';
+import { User, CreditCard, MapPin, Package, LogOut, Edit2, Save, X, FileText } from 'lucide-react';
+import AppFooter from '@/components/AppFooter';
 import AppHeader from '@/components/AppHeader';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -358,26 +359,7 @@ const MyAccount = () => {
         </motion.section>
 
         {/* Footer Links */}
-        <footer className="py-4 text-center">
-          <div className="flex items-center justify-center gap-4 mb-2">
-            <button onClick={() => navigate('/help')} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-              <Lightbulb className="w-3.5 h-3.5" />
-              FAQ
-            </button>
-            <span className="text-muted-foreground/30">·</span>
-            <button onClick={() => navigate('/modell')} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-              <MessageCircleQuestion className="w-3.5 h-3.5" />
-              {t('account.model') || 'Das Modell'}
-            </button>
-            <span className="text-muted-foreground/30">·</span>
-            <button onClick={() => navigate('/pricing')} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Pricing
-            </button>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            © 2025 Oria · Selfcare Impulse
-          </p>
-        </footer>
+        <AppFooter />
       </main>
       </div>
     </div>
