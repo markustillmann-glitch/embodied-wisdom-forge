@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Wind, Smile, Pause, ChevronRight, ChevronLeft, RotateCcw } from 'lucide-react';
+import { X, Wind, Smile, Pause, ChevronRight, ChevronLeft, RotateCcw, Save } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Slider } from '@/components/ui/slider';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 interface SelfBarometerProps {
   isOpen: boolean;
@@ -90,8 +93,11 @@ const getZone = (avg: number): Zone => {
 
 const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
   const { language } = useLanguage();
+  const { user } = useAuth();
   const [step, setStep] = useState<Step>('ali');
-  const [aliStep, setAliStep] = useState(0); // 0=A, 1=L, 2=I
+  const [aliStep, setAliStep] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [qualities, setQualities] = useState<Record<string, number>>(
     Object.fromEntries(QUALITIES.map(q => [q.key, 5]))
   );
@@ -102,7 +108,34 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
     setAliStep(0);
     setQualities(Object.fromEntries(QUALITIES.map(q => [q.key, 5])));
     setWeiteAnswers([null, null, null]);
+    setSaved(false);
     onClose();
+  };
+
+  const saveResult = async () => {
+    if (!user || saving || saved) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('barometer_results' as any)
+        .insert({
+          user_id: user.id,
+          qualities,
+          weite_answers: weiteAnswers,
+          qualities_avg: avg,
+          weite_score: weiteScore,
+          combined_avg: combinedAvg,
+          zone: zone.zone,
+        });
+      if (error) throw error;
+      setSaved(true);
+      toast.success(language === 'en' ? 'Barometer result saved!' : 'Barometer-Ergebnis gespeichert!');
+    } catch (error) {
+      console.error('Error saving barometer result:', error);
+      toast.error(language === 'en' ? 'Error saving result' : 'Fehler beim Speichern');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const avg = Object.values(qualities).reduce((a, b) => a + b, 0) / QUALITIES.length;
@@ -142,6 +175,7 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
     setQualities(Object.fromEntries(QUALITIES.map(q => [q.key, 5])));
     setWeiteAnswers([null, null, null]);
     setShowIntro(true);
+    setSaved(false);
   };
 
   return (
@@ -540,11 +574,30 @@ const SelfBarometer: React.FC<SelfBarometerProps> = ({ isOpen, onClose }) => {
 
                     {/* Actions */}
                     <div className="flex gap-2 pt-2">
+                      {user && (
+                        <button
+                          onClick={saveResult}
+                          disabled={saving || saved}
+                          className={cn(
+                            "flex-1 py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-1.5",
+                            saved
+                              ? "bg-green-100 text-green-700 border border-green-200"
+                              : "bg-accent/15 text-accent hover:bg-accent/25"
+                          )}
+                        >
+                          <Save className="w-4 h-4" />
+                          {saved
+                            ? (language === 'en' ? 'Saved ✓' : 'Gespeichert ✓')
+                            : saving
+                              ? (language === 'en' ? 'Saving...' : 'Speichern...')
+                              : (language === 'en' ? 'Save' : 'Speichern')}
+                        </button>
+                      )}
                       <button
                         onClick={reset}
                         className="flex-1 py-3 rounded-xl bg-muted text-sm font-medium text-foreground hover:bg-muted/80 transition-colors"
                       >
-                        {language === 'en' ? 'Measure Again' : 'Erneut messen'}
+                        {language === 'en' ? 'Again' : 'Nochmal'}
                       </button>
                       <button
                         onClick={handleClose}
