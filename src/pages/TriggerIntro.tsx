@@ -63,12 +63,14 @@ const TriggerIntroPage: React.FC = () => {
             </p>
             <p>
               Das sind <strong className="text-foreground">Trigger</strong> – und sie sind kein Zeichen von Schwäche. 
-              Sie zeigen dir, dass etwas in dir berührt wurde. Ein altes Gefühl, eine vergessene Erfahrung, 
-              ein Teil von dir, der gehört werden möchte.
+              Der Ansatz der <strong className="text-foreground">Inneren Familiensysteme (IFS)</strong> zeigt: 
+              In solchen Momenten meldet sich ein innerer Anteil, der gehört werden möchte – 
+              ein altes Gefühl, eine vergessene Erfahrung, ein Schutzmechanismus.
             </p>
             <p>
               Wer seine Trigger versteht, reagiert nicht mehr automatisch – sondern gewinnt die Freiheit, 
-              bewusst zu antworten. Genau darum geht es hier.
+              bewusst zu antworten. Dafür braucht es keine Therapie: IFS ist ein Werkzeug für den Alltag, 
+              das dir hilft, dich selbst besser zu verstehen – ob in Beziehungen, im Job oder im Umgang mit dir selbst.
             </p>
           </div>
         </motion.div>
