@@ -970,7 +970,7 @@ const SelfcareReflection = () => {
           </div>
 
           {/* Action Cards - Horizontal scroll layout at bottom */}
-          <div className="px-3 sm:px-4 pb-[max(env(safe-area-inset-bottom,16px),16px)] mt-auto">
+          <div className="px-3 sm:px-4 pb-[max(env(safe-area-inset-bottom,16px),16px)] mt-auto pt-6 sm:pt-8">
             <div className="flex gap-2.5 sm:gap-3 justify-center overflow-x-auto scrollbar-hide">
               {/* Card - Trigger verstehen */}
               <motion.button
